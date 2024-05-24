@@ -1,0 +1,36 @@
+.wrapper {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    height: var(--default-layout-height-header);
+    background-color: #363232;
+}
+
+.container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 100em;
+    margin: 0 auto;
+}
+
+.logo {
+    max-width: 60px;
+}
+
+.logo-link {
+    height: 100%;
+    display: block;
+}
+
+.logo-img {
+    width: 60px;
+    height: 60px;
+}
+
+.login-signup {
+    max-width: 160px;
+}
