@@ -6,10 +6,25 @@ import { Link } from 'react-router-dom';
 
 const cx = classNames.bind(styles);
 
-function Button({ children, primary, rounded, disable, transparent, className, to, href, ...passProps }) {
+function Button({
+    children,
+    orange,
+    primary,
+    rounded,
+    small,
+    medium,
+    disable,
+    transparent,
+    className,
+    onClick,
+    to,
+    href,
+    ...passProps
+}) {
     let Comp = 'button';
 
     const props = {
+        onClick,
         ...passProps,
     };
 
@@ -23,8 +38,11 @@ function Button({ children, primary, rounded, disable, transparent, className, t
 
     const classes = cx('wrapper', {
         [className]: className,
+        orange,
         primary,
         rounded,
+        small,
+        medium,
         disable,
         transparent,
     });

@@ -34,3 +34,42 @@
 .login-signup {
     max-width: 160px;
 }
+
+.login-signup {
+    display: flex;
+    width: 156px;
+    height: 47px;
+    align-items: center;
+}
+
+.login-btn {
+    width: 72px;
+    height: 32px;
+    font-size: 1.2rem;
+    color: var(--white);
+    background-color: transparent;
+
+    span {
+        font-weight: 400;
+    }
+
+    &:hover {
+        cursor: pointer;
+        text-decoration: underline;
+    }
+}
+
+.signup-btn {
+    width: 72px;
+    height: 32px;
+    font-size: 1.2rem;
+    margin-left: 5px;
+    color: var(--white);
+    background-color: transparent;
+    border: 1px solid #60ad56;
+
+    &:hover {
+        cursor: pointer;
+        background-color: #60ad56;
+    }
+}

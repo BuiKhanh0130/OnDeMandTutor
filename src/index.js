@@ -1,7 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import App from '~/App';
 import reportWebVitals from './reportWebVitals';
+
+import App from '~/App';
+import { ModalProvider } from './component/ModalProvider';
 
 import GlobalStyles from '~/component/GlobalStyles';
 
@@ -9,7 +11,9 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
     <React.StrictMode>
         <GlobalStyles>
-            <App />
+            <ModalProvider>
+                <App />
+            </ModalProvider>
         </GlobalStyles>
     </React.StrictMode>,
 );

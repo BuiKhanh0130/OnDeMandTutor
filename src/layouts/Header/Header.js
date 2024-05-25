@@ -2,15 +2,20 @@ import classNames from 'classnames/bind';
 import { Link } from 'react-router-dom';
 import config from '~/config';
 
-import styles from './Header.module.scss';
-
 import Image from '~/component/Image';
 import Sidebar from '~/layouts/components/Sidebar';
 import images from '~/assets/images';
+import Button from '~/component/Button';
+import { ModalContext } from '~/component/ModalProvider';
+
+import styles from './Header.module.scss';
+import { useContext } from 'react';
 
 const cx = classNames.bind(styles);
 
 function Header() {
+    const formLogin = useContext(ModalContext);
+
     return (
         <div className={cx('wrapper')}>
             <div className={cx('container')}>
@@ -20,7 +25,12 @@ function Header() {
                     </Link>
                 </div>
                 <Sidebar />
-                <div className={cx('login-signup')}></div>
+                <div className={cx('login-signup')}>
+                    <Button onClick={formLogin.handleActive} className={cx('login-btn')}>
+                        LOG IN
+                    </Button>
+                    <Button className={cx('signup-btn')}>SIGN UP</Button>
+                </div>
             </div>
         </div>
     );
