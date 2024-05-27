@@ -1,0 +1,20 @@
+.UniversityPanel {
+    margin: 40px var(--default-viewport-weight);
+}
+
+.UniversityPanel-container {
+    background-color: var(--white);
+    text-align: center;
+}
+.UniversityPanel-title {
+    font-size: 5rem;
+    font-weight: 700;
+    margin-bottom: 4px;
+    padding: 40px 0;
+}
+.UniversityPanel-items {
+    display: flex;
+    justify-content: space-between;
+    margin: 0 36px;
+    padding-bottom: 40px;
+}

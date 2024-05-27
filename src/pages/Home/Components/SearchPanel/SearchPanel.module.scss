@@ -1,0 +1,83 @@
+.SearchPanel {
+    display: flex;
+    justify-content: space-between;
+    padding-top: 20px;
+}
+
+.SearchPanel_left {
+    width: 100%;
+}
+.SearchPanel_left-title {
+    font-size: 5rem;
+    color: var(--text-color);
+    width: 100%;
+    padding-top: 30px;
+    margin-bottom: 40px;
+    line-height: 5.4rem;
+
+    span {
+        margin: 0 4px;
+        background-color: #b1d15d;
+    }
+}
+
+.SearchPanel_left-search {
+    position: relative;
+    width: 92%;
+    margin: 60px 0 30px 0;
+}
+.SearchPanel_left-search-ip {
+    width: 100%;
+    min-height: 40px;
+    border-radius: 10px;
+
+    &:focus-within {
+        border: 1.5px solid rgba(22, 24, 35, 0.06);
+    }
+}
+
+.SearchPanel_left-search-ic {
+    position: absolute;
+    right: -1px;
+    height: 100%;
+    z-index: 1;
+}
+
+.SearchPanel_left-trending {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding-top: 20px;
+    width: 96%;
+}
+
+.SearchPanel_left-trending-label {
+    display: flex;
+    align-items: center;
+    span {
+        font-size: 1.2rem;
+        font-weight: 600;
+        margin-left: 2px;
+        color: var(--black);
+    }
+}
+.SearchPanel_left-trending-btn {
+    margin: 4px 0 4px 4px;
+    background-color: #eae1d9;
+    min-height: 20px;
+    border-radius: 10px;
+
+    &:hover {
+        cursor: pointer;
+        color: var(--white);
+        background-color: #ed6d20;
+    }
+}
+
+.SearchPanel_right {
+    img {
+        width: 450px;
+        height: 400px;
+        border-radius: 10px;
+    }
+}

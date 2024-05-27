@@ -1,0 +1,28 @@
+.ApplyTutor {
+    margin: 40px var(--default-viewport-weight);
+}
+
+.ApplyTutor-container {
+    text-align: center;
+}
+
+.ApplyTutor-title {
+    font-size: 5rem;
+    font-weight: 700;
+    margin-bottom: 4px;
+}
+.ApplyTutor-summary {
+    font-size: 1.4rem;
+    margin-bottom: 40px;
+}
+.ApplyTutor-btn {
+    color: var(--black);
+    width: 120px;
+    border-radius: 6px;
+
+    &:hover {
+        cursor: pointer;
+        background-color: #60ad56;
+        color: var(--white);
+    }
+}

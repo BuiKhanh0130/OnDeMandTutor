@@ -1,21 +1,21 @@
 import classNames from 'classnames/bind';
-import { Fragment } from 'react';
-import { useMemo, useEffect, useState, useRef } from 'react';
-import { ReactTyped } from 'react-typed';
 
-import { SearchIcon, TrendingIcon } from '~/component/Icons';
-import Button from '~/component/Button';
+import { useMemo } from 'react';
+
 import images from '~/assets/images';
-import Image from '~/component/Image';
+import SearchPanel from './Components/SearchPanel';
+import LessonPanel from './Components/LessonPanel';
+import SubjectPanel from './Components/SubjectPanel';
+import UniversityPanel from './Components/UniversityPanel';
+import RentPanel from './Components/RentPanel';
+import GreatPanel from './Components/GreatPanel';
+import ApplyTutor from './Components/ApplyTutor';
 
 import styles from './Home.module.scss';
 
 const cx = classNames.bind(styles);
 
 function Home() {
-    const nodeRef = useRef();
-    const nodeRef2 = useRef();
-
     const trends = useMemo(
         () => [
             'English',
@@ -183,227 +183,27 @@ function Home() {
         [],
     );
 
-    const applyTutor = useMemo(() => [
-        {
-            title: 'Looking to tutor with On Demand Tutor?',
-            summary: `We're always looking for talented tutors. Set your own rate, get paid and make a difference`,
-            button: 'Apply now',
-        },
-    ]);
-
-    useEffect(() => {
-        const currentScroll = '.' + nodeRef.current.className;
-        const GreatTutorPanel_animation = '.' + nodeRef2.current.className;
-
-        const scrollers = document.querySelectorAll(currentScroll);
-
-        if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-            addAnimation();
-        }
-
-        function addAnimation() {
-            scrollers.forEach((scroller) => {
-                scroller.setAttribute('data-animated', true);
-
-                const scrollerInner = scroller.querySelector(GreatTutorPanel_animation);
-                const scrollerContent = Array.from(scrollerInner.children);
-
-                scrollerContent.forEach((item) => {
-                    const duplicatedItem = item.cloneNode(true);
-                    duplicatedItem.setAttribute('aria-hidden', true);
-                    scrollerInner.appendChild(duplicatedItem);
-                });
-            });
-        }
-    }, []);
+    const applyTutor = useMemo(
+        () => [
+            {
+                title: 'Looking to tutor with On Demand Tutor?',
+                summary: `We're always looking for talented tutors. Set your own rate, get paid and make a difference`,
+                button: 'Apply now',
+            },
+        ],
+        [],
+    );
 
     return (
         <div className={cx('wrapper')}>
             <div className={cx('container')}>
-                <div className={cx('SearchPanel')}>
-                    <div className={cx('SearchPanel_left')}>
-                        <h1 className={cx('SearchPanel_left-title')}>
-                            Trust the nation's largest network for
-                            <span>
-                                <ReactTyped
-                                    strings={['Chemistry', 'Math', 'JavaScript', 'English', 'Writing']}
-                                    typeSpeed={150}
-                                    loop
-                                    backSpeed={50}
-                                    showCursor={true}
-                                />
-                            </span>
-                            tutors
-                        </h1>
-                        <div className={cx('SearchPanel_left-search')}>
-                            <input
-                                type="text"
-                                className={cx('SearchPanel_left-search-ip')}
-                                placeholder="What would you like to learn?"
-                            ></input>
-                            <Button orange small className={cx('SearchPanel_left-search-ic')}>
-                                <SearchIcon />
-                            </Button>
-                        </div>
-                        <div className={cx('SearchPanel_left-trending')}>
-                            <div className={cx('SearchPanel_left-trending-label')}>
-                                <TrendingIcon />
-                                <span>Trending:</span>
-                            </div>
-                            {trends.map((trending, index) => {
-                                return (
-                                    <Fragment key={index}>
-                                        <Button small className={cx('SearchPanel_left-trending-btn')}>
-                                            {trending}
-                                        </Button>
-                                    </Fragment>
-                                );
-                            })}
-                        </div>
-                    </div>
-                    <div className={cx('SearchPanel_right')}>
-                        <Image src={images.search} alt={'overview'}></Image>
-                    </div>
-                </div>
-                <div className={cx('LessonPanel')}>
-                    {judgments.map((judgment) => {
-                        return (
-                            <div className={cx('LessonPanel_items')}>
-                                <div className={cx('LessonPanel_items-number')}>{judgment.number}</div>
-                                <div className={cx('LessonPanel_items-title')}>{judgment.title}</div>
-                            </div>
-                        );
-                    })}
-                </div>
-                <div className={cx('SubjectPanel')}>
-                    {subjects.map((subjectChildren) => {
-                        return (
-                            <div className={cx('SubjectPanel-container')}>
-                                <div className={cx('SubjectPanel-title')}>{subjectChildren.title}</div>
-                                <div className={cx('SubjectPanel-items')}>
-                                    {subjectChildren.items.map((subject) => {
-                                        return (
-                                            <div className={cx('SubjectPanel-item')}>
-                                                <Image src={subject.icon} alt={subject.label} />
-                                                <span>{subject.label}</span>
-                                            </div>
-                                        );
-                                    })}
-                                </div>
-                            </div>
-                        );
-                    })}
-                </div>
-                <div className={cx('UniversityPanel')}>
-                    {universities.map((universityChildren) => {
-                        return (
-                            <div className={cx('UniversityPanel-container')}>
-                                <div className={cx('UniversityPanel-title')}>{universityChildren.title}</div>
-                                <div className={cx('UniversityPanel-items')}>
-                                    {universityChildren.images.map((image) => {
-                                        return <Image src={image} alt="#"></Image>;
-                                    })}
-                                </div>
-                            </div>
-                        );
-                    })}
-                </div>
-                <div className={cx('RentPanel')}>
-                    {rents.map((rentChildren) => {
-                        return (
-                            <div className={cx('RentPanel-container')}>
-                                <div className={cx('RentPanel-title')}>{rentChildren.title}</div>
-                                <div className={cx('RentPanel-items')}>
-                                    <div className={cx('RentPanel-items-left')}>
-                                        <Image src={rentChildren.image} alt={rentChildren.title}></Image>
-                                    </div>
-                                    <div className={cx('RentPanel-items-right')}>
-                                        {rentChildren.steps.map((items) => {
-                                            return (
-                                                <div className={cx('RentPanel-items-right-content')}>
-                                                    <p>{items.label}</p>
-                                                    <span>{items.content}</span>
-                                                </div>
-                                            );
-                                        })}
-                                    </div>
-                                </div>
-                            </div>
-                        );
-                    })}
-                </div>
-                <div className={cx('GreatTutorPanel')}>
-                    {greatTutors.map((greatTutorChildren, index) => {
-                        return (
-                            <div key={index} className={cx('GreatTutorPanel-container')}>
-                                <div className={cx('GreatTutorPanel-title')}>{greatTutorChildren.title}</div>
-                                <div className={cx('GreatTutorPanel-summary')}>{greatTutorChildren.summary}</div>
-
-                                <div className={cx('scroller')} ref={nodeRef} ata-direction={'left'}>
-                                    <div className={cx('GreatTutorPanel-animation')} ref={nodeRef2}>
-                                        {greatTutorChildren.subjects.map((subject, index) => {
-                                            return (
-                                                <div className={cx('GreatTutorPanel_subjects')}>
-                                                    <div className={cx('GreatTutorPanel_subjects-left')}>
-                                                        <Image src={subject.avatar} alt={'#'}></Image>
-                                                    </div>
-                                                    <div className={cx('GreatTutorPanel_subjects-right')}>
-                                                        <p className={cx('GreatTutorPanel_subjects-right-label')}>
-                                                            {subject.label}
-                                                        </p>
-                                                        <p className={cx('GreatTutorPanel_subjects-right-content')}>
-                                                            {subject.content}
-                                                        </p>
-                                                        <p className={cx('GreatTutorPanel_subjects-right-level')}>
-                                                            {subject.level}
-                                                        </p>
-                                                    </div>
-                                                </div>
-                                            );
-                                        })}
-                                    </div>
-                                </div>
-                                <div className={cx('scroller')} ref={nodeRef} data-direction={'right'}>
-                                    <div className={cx('GreatTutorPanel-animation')} ref={nodeRef2}>
-                                        {greatTutorChildren.subjects.map((subject, index) => {
-                                            return (
-                                                <div className={cx('GreatTutorPanel_subjects')}>
-                                                    <div className={cx('GreatTutorPanel_subjects-left')}>
-                                                        <Image src={subject.avatar} alt={'#'}></Image>
-                                                    </div>
-                                                    <div className={cx('GreatTutorPanel_subjects-right')}>
-                                                        <p className={cx('GreatTutorPanel_subjects-right-label')}>
-                                                            {subject.label}
-                                                        </p>
-                                                        <p className={cx('GreatTutorPanel_subjects-right-content')}>
-                                                            {subject.content}
-                                                        </p>
-                                                        <p className={cx('GreatTutorPanel_subjects-right-level')}>
-                                                            {subject.level}
-                                                        </p>
-                                                    </div>
-                                                </div>
-                                            );
-                                        })}
-                                    </div>
-                                </div>
-                            </div>
-                        );
-                    })}
-                </div>
-                <div className={cx('ApplyTutor')}>
-                    {applyTutor.map((apply) => {
-                        return (
-                            <div className={cx('ApplyTutor-container')}>
-                                <div className={cx('ApplyTutor-title')}>{apply.title}</div>
-                                <div className={cx('ApplyTutor-summary')}>{apply.summary}</div>
-                                <Button transparent className={cx('ApplyTutor-btn')}>
-                                    {apply.button}
-                                </Button>
-                            </div>
-                        );
-                    })}
-                </div>
+                <SearchPanel trends={trends} />
+                <LessonPanel judgments={judgments} />
+                <SubjectPanel subjects={subjects} />
+                <UniversityPanel universities={universities} />
+                <RentPanel rents={rents} />
+                <GreatPanel greatTutors={greatTutors} />
+                <ApplyTutor applyTutor={applyTutor} />
             </div>
         </div>
     );

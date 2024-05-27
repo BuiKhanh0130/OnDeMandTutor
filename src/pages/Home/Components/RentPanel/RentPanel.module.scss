@@ -1,0 +1,41 @@
+.RentPanel {
+    margin: 40px 0;
+}
+
+.RentPanel-container {
+}
+.RentPanel-title {
+    font-size: 5rem;
+    font-weight: 700;
+    margin-bottom: 4px;
+    padding-bottom: 40px;
+    text-align: center;
+}
+.RentPanel-items {
+    display: flex;
+}
+
+.RentPanel-items-left {
+    width: 35%;
+
+    img {
+        height: 350px;
+    }
+}
+.RentPanel-items-right {
+    flex: 1 1;
+}
+
+.RentPanel-items-right-content {
+    margin: 24px 0;
+    p {
+        font-size: 2rem;
+        margin-bottom: 6px;
+    }
+    span {
+        display: flex;
+        margin-left: 22px;
+        font-size: 1.4rem;
+        color: #afabaa;
+    }
+}
