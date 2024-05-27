@@ -183,6 +183,14 @@ function Home() {
         [],
     );
 
+    const applyTutor = useMemo(() => [
+        {
+            title: 'Looking to tutor with On Demand Tutor?',
+            summary: `We're always looking for talented tutors. Set your own rate, get paid and make a difference`,
+            button: 'Apply now',
+        },
+    ]);
+
     useEffect(() => {
         const currentScroll = '.' + nodeRef.current.className;
         const GreatTutorPanel_animation = '.' + nodeRef2.current.className;
@@ -324,7 +332,6 @@ function Home() {
                         );
                     })}
                 </div>
-
                 <div className={cx('GreatTutorPanel')}>
                     {greatTutors.map((greatTutorChildren, index) => {
                         return (
@@ -356,7 +363,6 @@ function Home() {
                                         })}
                                     </div>
                                 </div>
-
                                 <div className={cx('scroller')} ref={nodeRef} data-direction={'right'}>
                                     <div className={cx('GreatTutorPanel-animation')} ref={nodeRef2}>
                                         {greatTutorChildren.subjects.map((subject, index) => {
@@ -381,6 +387,19 @@ function Home() {
                                         })}
                                     </div>
                                 </div>
+                            </div>
+                        );
+                    })}
+                </div>
+                <div className={cx('ApplyTutor')}>
+                    {applyTutor.map((apply) => {
+                        return (
+                            <div className={cx('ApplyTutor-container')}>
+                                <div className={cx('ApplyTutor-title')}>{apply.title}</div>
+                                <div className={cx('ApplyTutor-summary')}>{apply.summary}</div>
+                                <Button transparent className={cx('ApplyTutor-btn')}>
+                                    {apply.button}
+                                </Button>
                             </div>
                         );
                     })}

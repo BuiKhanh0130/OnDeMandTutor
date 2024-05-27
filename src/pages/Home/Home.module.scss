@@ -200,7 +200,7 @@
     font-size: 5rem;
     font-weight: 700;
     margin-bottom: 4px;
-    padding: 40px 0;
+    padding-bottom: 40px;
     text-align: center;
 }
 .RentPanel-items {
@@ -235,10 +235,12 @@
 //GreatPanel
 
 .GreatTutorPanel {
-    margin: 40px 0;
+    margin: 40px -36px;
+    background-color: var(--white);
 }
 
 .GreatTutorPanel-container {
+    padding: 0 0 40px 0;
 }
 .GreatTutorPanel-title {
     font-size: 5rem;
@@ -273,6 +275,7 @@
     border-radius: 10px;
     box-shadow: 0px 2px 4px #c0c2c6;
     align-items: center;
+    padding: 0 4px;
     max-width: 400px;
     min-width: 300px;
 }
@@ -299,7 +302,7 @@
 
 @keyframes scroll {
     to {
-        transform: translate(calc(-100% - 0.5rem));
+        transform: translate(calc(-50% - 0.5rem));
     }
 }
 
@@ -330,11 +333,34 @@
     margin-top: 8px;
 }
 
-// @keyframes TestimonialsPanelCarousel_scroll_row1 {
-//     0% {
-//         transform: translateX(-300);
-//     }
-//     100% {
-//         transform: translateX(-1400px);
-//     }
-// }
+//ApplyTutor
+
+.ApplyTutor {
+    margin: 40px -36px;
+}
+
+.ApplyTutor-container {
+    padding: 40px 0;
+    text-align: center;
+}
+
+.ApplyTutor-title {
+    font-size: 5rem;
+    font-weight: 700;
+    margin-bottom: 4px;
+}
+.ApplyTutor-summary {
+    font-size: 1.4rem;
+    margin-bottom: 40px;
+}
+.ApplyTutor-btn {
+    color: var(--black);
+    width: 120px;
+    border-radius: 6px;
+
+    &:hover {
+        cursor: pointer;
+        background-color: #60ad56;
+        color: var(--white);
+    }
+}

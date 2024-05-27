@@ -12,3 +12,13 @@
 .medium {
     min-width: 240px;
 }
+
+.transparent {
+    width: 72px;
+    height: 32px;
+    font-size: 1.2rem;
+    margin-left: 5px;
+    color: var(--white);
+    background-color: transparent;
+    border: 1px solid #60ad56;
+}

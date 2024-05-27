@@ -1,0 +1,37 @@
+.Footer {
+    background-color: #363232;
+    margin: 0 -36px;
+}
+
+.footer-container {
+    display: flex;
+    padding: 10px 36px;
+    justify-content: space-between;
+}
+
+.footer_content {
+    display: flex;
+    flex-direction: column;
+    color: var(--white);
+}
+
+.footer_content-link-items {
+}
+
+.footer_content-title {
+    font-size: 1.4rem;
+    margin-bottom: 4px;
+}
+.footer_content-link {
+    a {
+        display: flex;
+        align-items: center;
+    }
+}
+.footer_content-icon {
+    margin-right: 24px;
+}
+.footer_content-label {
+    color: var(--white);
+    line-height: 1.6rem;
+}

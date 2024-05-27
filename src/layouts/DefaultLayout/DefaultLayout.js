@@ -2,6 +2,7 @@ import classNames from 'classnames/bind';
 import { useContext } from 'react';
 
 import Header from '../Header';
+import Footer from '../Footer';
 import Login from '~/component/Login';
 import { ModalContext } from '~/component/ModalProvider';
 
@@ -16,6 +17,7 @@ function DefaultLayout({ children }) {
             <div className={cx('container')}>
                 <Header />
                 {children}
+                <Footer />
             </div>
             {Login_Signup.active && <Login onHide={Login_Signup.handleHiddenActive}></Login>}
         </div>
