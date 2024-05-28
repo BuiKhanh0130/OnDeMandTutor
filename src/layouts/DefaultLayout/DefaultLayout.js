@@ -3,8 +3,8 @@ import { useContext } from 'react';
 
 import Header from '../Header';
 import Footer from '../Footer';
-import Login from '~/component/Login';
-import { ModalContext } from '~/component/ModalProvider';
+import Login from '~/components/Login';
+import { ModalContext } from '~/components/ModalProvider';
 
 import styles from './DefaultLayout.module.scss';
 
@@ -19,7 +19,10 @@ function DefaultLayout({ children }) {
                 {children}
                 <Footer />
             </div>
-            {Login_Signup.active && <Login onHide={Login_Signup.handleHiddenActive}></Login>}
+            {Login_Signup.active && <Login onHide={Login_Signup.handleHiddenActive} state={'Log In'}></Login>}
+            {Login_Signup.activeSignUp && (
+                <Login onHide={Login_Signup.handleHiddenActiveSignUp} state={'Register'}></Login>
+            )}
         </div>
     );
 }

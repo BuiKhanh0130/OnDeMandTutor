@@ -3,7 +3,16 @@
 }
 
 .ApplyTutor-container {
+    display: flex;
+    justify-content: center;
     text-align: center;
+}
+
+.ApplyTutor-content {
+    border: 2px solid var(--light-green);
+    border-radius: 10px;
+    width: 1200px;
+    padding: 40px;
 }
 
 .ApplyTutor-title {
@@ -22,7 +31,7 @@
 
     &:hover {
         cursor: pointer;
-        background-color: #60ad56;
+        background-color: var(--light-green);
         color: var(--white);
     }
 }

@@ -2,8 +2,7 @@ import classNames from 'classnames/bind';
 import { Fragment, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 
-import { FaceBookIcon, LineIcon, TelegramIcon, InstagramIcon } from '~/component/Icons';
-import Image from '~/component/Image';
+import { FaceBookIcon, LineIcon, TelegramIcon, InstagramIcon } from '~/components/Icons';
 
 import styles from './Footer.module.scss';
 
@@ -119,12 +118,12 @@ function Footer() {
             <div className={cx('footer-container')}>
                 {items.map((itemChildren, index) => {
                     return (
-                        <div className={cx('footer_content')}>
+                        <div key={index} className={cx('footer_content')}>
                             <div className={cx('footer_content-title')}>{itemChildren.title}</div>
                             <div className={cx('footer_content-link')}>
-                                {itemChildren.lists.map((item) => {
+                                {itemChildren.lists.map((item, index) => {
                                     return (
-                                        <Fragment>
+                                        <Fragment key={index}>
                                             <Link to={item.title}>
                                                 {item.icon && (
                                                     <item.icon className={cx('footer_content-icon')}></item.icon>

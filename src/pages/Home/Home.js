@@ -3,13 +3,13 @@ import classNames from 'classnames/bind';
 import { useMemo } from 'react';
 
 import images from '~/assets/images';
-import SearchPanel from './Components/SearchPanel';
-import LessonPanel from './Components/LessonPanel';
-import SubjectPanel from './Components/SubjectPanel';
-import UniversityPanel from './Components/UniversityPanel';
-import RentPanel from './Components/RentPanel';
-import GreatPanel from './Components/GreatPanel';
-import ApplyTutor from './Components/ApplyTutor';
+import SearchPanel from './components/SearchPanel';
+import LessonPanel from './components/LessonPanel';
+import SubjectPanel from './components/SubjectPanel';
+import UniversityPanel from './components/UniversityPanel';
+import RentPanel from './components/RentPanel';
+import GreatPanel from './components/GreatPanel';
+import ApplyTutor from './components/ApplyTutor';
 
 import styles from './Home.module.scss';
 

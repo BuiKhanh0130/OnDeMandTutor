@@ -13,6 +13,12 @@
     min-width: 240px;
 }
 
+.large {
+    width: 100%;
+    border-radius: 10px;
+    height: 60px;
+}
+
 .transparent {
     width: 72px;
     height: 32px;
@@ -21,4 +27,11 @@
     color: var(--white);
     background-color: transparent;
     border: 1px solid #60ad56;
+}
+
+.active {
+    background-color: #f18c3e;
+    color: var(--white);
+    font-weight: 700;
+    text-decoration: underline;
 }

@@ -1,10 +1,10 @@
 import classNames from 'classnames/bind';
 import HeadlessTippy from '@tippyjs/react/headless';
 
-import styles from './Menu.module.scss';
-
-import Popper from '~/component/Popper';
+import Popper from '~/components/Popper';
 import MenuItem from './MenuItem';
+
+import styles from './Menu.module.scss';
 
 const cx = classNames.bind(styles);
 

@@ -2,10 +2,10 @@ import classNames from 'classnames/bind';
 import { Fragment } from 'react';
 import { ReactTyped } from 'react-typed';
 
-import { SearchIcon, TrendingIcon } from '~/component/Icons';
-import Button from '~/component/Button';
+import { SearchIcon, TrendingIcon } from '~/components/Icons';
+import Button from '~/components/Button';
 import images from '~/assets/images';
-import Image from '~/component/Image';
+import Image from '~/components/Image';
 
 import styles from './SearchPanel.module.scss';
 

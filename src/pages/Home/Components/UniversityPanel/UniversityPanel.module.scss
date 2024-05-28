@@ -1,10 +1,13 @@
 .UniversityPanel {
     margin: 40px var(--default-viewport-weight);
+    background-color: var(--white);
+    display: flex;
+    justify-content: center;
 }
 
 .UniversityPanel-container {
-    background-color: var(--white);
     text-align: center;
+    width: 1200px;
 }
 .UniversityPanel-title {
     font-size: 5rem;

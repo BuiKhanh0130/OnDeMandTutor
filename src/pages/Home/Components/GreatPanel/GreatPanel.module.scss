@@ -1,10 +1,13 @@
 .GreatTutorPanel {
     margin: 40px var(--default-viewport-weight);
     background-color: var(--white);
+    display: flex;
+    justify-content: center;
 }
 
 .GreatTutorPanel-container {
     padding: 0 0 40px 0;
+    width: 1200px;
 }
 .GreatTutorPanel-title {
     font-size: 5rem;

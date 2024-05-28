@@ -2,11 +2,11 @@ import classNames from 'classnames/bind';
 import { Link } from 'react-router-dom';
 import config from '~/config';
 
-import Image from '~/component/Image';
+import Image from '~/components/Image';
 import Sidebar from '~/layouts/components/Sidebar';
 import images from '~/assets/images';
-import Button from '~/component/Button';
-import { ModalContext } from '~/component/ModalProvider';
+import Button from '~/components/Button';
+import { ModalContext } from '~/components/ModalProvider';
 
 import styles from './Header.module.scss';
 import { useContext } from 'react';
@@ -29,7 +29,9 @@ function Header() {
                     <Button onClick={formLogin.handleActive} className={cx('login-btn')}>
                         LOG IN
                     </Button>
-                    <Button className={cx('signup-btn')}>SIGN UP</Button>
+                    <Button onClick={formLogin.handleActiveSignUp} className={cx('signup-btn')}>
+                        SIGN UP
+                    </Button>
                 </div>
             </div>
         </div>

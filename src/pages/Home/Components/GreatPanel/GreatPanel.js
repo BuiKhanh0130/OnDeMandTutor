@@ -2,7 +2,7 @@ import classNames from 'classnames/bind';
 
 import { useEffect, useRef } from 'react';
 
-import Image from '~/component/Image';
+import Image from '~/components/Image';
 
 import styles from './GreatPanel.module.scss';
 
@@ -37,6 +37,7 @@ function GreatPanel({ greatTutors }) {
             });
         }
     }, []);
+
     return (
         <div className={cx('GreatTutorPanel')}>
             {greatTutors.map((greatTutorChildren, index) => {
@@ -49,7 +50,7 @@ function GreatPanel({ greatTutors }) {
                             <div className={cx('GreatTutorPanel-animation')} ref={nodeRef2}>
                                 {greatTutorChildren.subjects.map((subject, index) => {
                                     return (
-                                        <div className={cx('GreatTutorPanel_subjects')}>
+                                        <div key={index} className={cx('GreatTutorPanel_subjects')}>
                                             <div className={cx('GreatTutorPanel_subjects-left')}>
                                                 <Image src={subject.avatar} alt={'#'}></Image>
                                             </div>
@@ -73,7 +74,7 @@ function GreatPanel({ greatTutors }) {
                             <div className={cx('GreatTutorPanel-animation')} ref={nodeRef2}>
                                 {greatTutorChildren.subjects.map((subject, index) => {
                                     return (
-                                        <div className={cx('GreatTutorPanel_subjects')}>
+                                        <div key={index} className={cx('GreatTutorPanel_subjects')}>
                                             <div className={cx('GreatTutorPanel_subjects-left')}>
                                                 <Image src={subject.avatar} alt={'#'}></Image>
                                             </div>

@@ -13,7 +13,9 @@ function Button({
     rounded,
     small,
     medium,
+    large,
     disable,
+    active,
     transparent,
     className,
     onClick,
@@ -43,7 +45,9 @@ function Button({
         rounded,
         small,
         medium,
+        large,
         disable,
+        active,
         transparent,
     });
 
