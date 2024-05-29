@@ -18,7 +18,7 @@ function BecomeTutor() {
                                 id="txtUserName"
                                 name="txtUserName"
                                 className={cx('txtUserName')}
-                                placeholder="Username"
+                                placeholder="Buikhanh.FPT"
                             ></input>
                         </div>
 
@@ -34,7 +34,7 @@ function BecomeTutor() {
                         </div>
 
                         <div className={cx('form_row')}>
-                            <label for="txtRePassword">Re-Password</label>
+                            <label for="txtRePassword">Password confirm</label>
                             <input
                                 type="password"
                                 id="txtRePassword"
@@ -45,7 +45,7 @@ function BecomeTutor() {
                         </div>
 
                         <div className={cx('form_row')}>
-                            <label for="txtFullName">Full Name</label>
+                            <label for="txtFullName">Full name</label>
                             <input
                                 type="text"
                                 id="txtFullName"

@@ -12,14 +12,11 @@ function ModalProvider({ children }) {
 
     const handleHiddenActive = () => {
         setActive(false);
+        setActiveSignUp(false);
     };
 
     const handleActiveSignUp = () => {
         setActiveSignUp(true);
-    };
-
-    const handleHiddenActiveSignUp = () => {
-        setActiveSignUp(false);
     };
 
     const value = {
@@ -28,7 +25,6 @@ function ModalProvider({ children }) {
         handleActive,
         handleHiddenActive,
         handleActiveSignUp,
-        handleHiddenActiveSignUp,
     };
 
     return <ModalContext.Provider value={value}>{children}</ModalContext.Provider>;

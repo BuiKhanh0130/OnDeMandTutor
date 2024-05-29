@@ -12,7 +12,11 @@ const cx = classNames.bind(styles);
 
 function Registration({ state }) {
     const location = useLocation();
-    const data = location.state;
+    let data = location.state;
+
+    if (data === null || data === undefined) {
+        data = [];
+    }
 
     return (
         <div className={cx('wrapper')}>

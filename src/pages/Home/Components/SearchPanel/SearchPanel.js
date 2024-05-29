@@ -2,10 +2,11 @@ import classNames from 'classnames/bind';
 import { Fragment } from 'react';
 import { ReactTyped } from 'react-typed';
 
-import { SearchIcon, TrendingIcon } from '~/components/Icons';
+import { TrendingIcon } from '~/components/Icons';
 import Button from '~/components/Button';
 import images from '~/assets/images';
 import Image from '~/components/Image';
+import Search from '~/components/Search';
 
 import styles from './SearchPanel.module.scss';
 
@@ -28,16 +29,7 @@ function SearchPanel({ trends }) {
                     </span>
                     tutors
                 </h1>
-                <div className={cx('SearchPanel_left-search')}>
-                    <input
-                        type="text"
-                        className={cx('SearchPanel_left-search-ip')}
-                        placeholder="What would you like to learn?"
-                    ></input>
-                    <Button orange small className={cx('SearchPanel_left-search-ic')}>
-                        <SearchIcon />
-                    </Button>
-                </div>
+                <Search />
                 <div className={cx('SearchPanel_left-trending')}>
                     <div className={cx('SearchPanel_left-trending-label')}>
                         <TrendingIcon />

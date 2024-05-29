@@ -21,28 +21,6 @@
     }
 }
 
-.SearchPanel_left-search {
-    position: relative;
-    width: 92%;
-    margin: 60px 0 30px 0;
-}
-.SearchPanel_left-search-ip {
-    width: 100%;
-    min-height: 40px;
-    border-radius: 10px;
-
-    &:focus-within {
-        border: 1.5px solid rgba(22, 24, 35, 0.06);
-    }
-}
-
-.SearchPanel_left-search-ic {
-    position: absolute;
-    right: -1px;
-    height: 100%;
-    z-index: 1;
-}
-
 .SearchPanel_left-trending {
     display: flex;
     flex-wrap: wrap;

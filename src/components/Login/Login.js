@@ -115,7 +115,9 @@ function Login({ onHide, state }) {
                                                 large
                                                 to={`/registration/${register.link}`}
                                                 state={[register.link, register.id]}
-                                                onClick={formModal.handleHiddenActive}
+                                                onClick={
+                                                    formModal.handleHiddenActive || formModal.handleHiddenActiveSignUp
+                                                }
                                             >
                                                 {register.btn}
                                             </Button>

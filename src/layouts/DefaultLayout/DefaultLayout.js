@@ -20,9 +20,7 @@ function DefaultLayout({ children }) {
                 <Footer />
             </div>
             {Login_Signup.active && <Login onHide={Login_Signup.handleHiddenActive} state={'Log In'}></Login>}
-            {Login_Signup.activeSignUp && (
-                <Login onHide={Login_Signup.handleHiddenActiveSignUp} state={'Register'}></Login>
-            )}
+            {Login_Signup.activeSignUp && <Login onHide={Login_Signup.handleHiddenActive} state={'Register'}></Login>}
         </div>
     );
 }
