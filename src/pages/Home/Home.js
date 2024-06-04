@@ -196,7 +196,7 @@ function Home() {
 
     return (
         <div className={cx('wrapper')}>
-            <div className={cx('container')}>
+            <div className={cx('')}>
                 <SearchPanel trends={trends} />
                 <LessonPanel judgments={judgments} />
                 <SubjectPanel subjects={subjects} />

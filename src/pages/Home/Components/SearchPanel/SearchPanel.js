@@ -29,7 +29,7 @@ function SearchPanel({ trends }) {
                     </span>
                     tutors
                 </h1>
-                <Search />
+                <Search width="660px" />
                 <div className={cx('SearchPanel_left-trending')}>
                     <div className={cx('SearchPanel_left-trending-label')}>
                         <TrendingIcon />

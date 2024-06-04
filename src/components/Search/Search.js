@@ -9,7 +9,7 @@ import Popper from '../Popper';
 import styles from './Search.module.scss';
 
 const cx = classNames.bind(styles);
-function Search() {
+function Search({ width }) {
     const [searchValue, setSearchResult] = useState('');
     const [loading, setLoading] = useState(false);
     const [showResult, setShowResult] = useState(false);
@@ -47,7 +47,7 @@ function Search() {
             placement="bottom"
             onClickOutside={handleHiddenResult}
             render={(attrs) => (
-                <div className={cx('search_results')} tabIndex="-1" {...attrs}>
+                <div className={cx('search_results')} style={{ width: width }} tabIndex="-1" {...attrs}>
                     <Popper>
                         <ul className={cx('search_list')}>
                             <li>Math</li>

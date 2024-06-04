@@ -6,13 +6,15 @@
 
 .SearchPanel_left {
     width: 100%;
+    margin-right: 20px;
 }
+
 .SearchPanel_left-title {
     font-size: 5rem;
     color: var(--text-color);
     width: 100%;
     padding-top: 30px;
-    margin-bottom: 40px;
+    margin-bottom: 50px;
     line-height: 5.4rem;
 
     span {
@@ -25,8 +27,9 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
+    margin-top: 50px;
     padding-top: 20px;
-    width: 96%;
+    width: 100%;
 }
 
 .SearchPanel_left-trending-label {
