@@ -1,6 +1,7 @@
 import classNames from 'classnames/bind';
-import { useMemo, useState } from 'react';
+import { useMemo, useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import MultiRangeSlider from 'multi-range-slider-react';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Container from 'react-bootstrap/Container';
@@ -18,9 +19,32 @@ import styles from './FindTutor.module.scss';
 const cx = classNames.bind(styles);
 
 function FindTutor() {
-    const [minHourlyRate, setMinHourlyRate] = useState(10);
-    const [maxHourlyRate, setMaxHourlyRate] = useState(200);
-    const [inputRangeAge, setInputRangeAge] = useState(1);
+    const [minValueRate, setMinValueRate] = useState(10);
+    const [maxValueRate, setMaxValueRate] = useState(200);
+    const [minValueAge, setMinValueAge] = useState(10);
+    const [maxValueAge, setMaxValueAge] = useState(100);
+
+    const handleInputRate = (e) => {
+        setMinValueRate(e.minValue);
+        setMaxValueRate(e.maxValue);
+    };
+
+    const handleInputAge = (e) => {
+        setMinValueAge(e.minValue);
+        setMaxValueAge(e.maxValue);
+    };
+
+    // Declare event handlers
+    // const handleMinValueInputHour = (e) => {
+    //     const newValue = e.target.value;
+    //     console.log(e.target.value);
+    //     if (newValue > maxHourlyRate) {
+    //         return;
+    //     }
+    //     setMinHourlyRate(newValue);
+    //     setLeftPosition(calcLeftPosition(newValue) + '%');
+    //     setRightPosition(100 - calcLeftPosition(200) + '%');
+    // };
 
     const dayOfWeek = useMemo(() => ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'], []);
 
@@ -87,18 +111,6 @@ function FindTutor() {
         [],
     );
 
-    const handleMinValueInputHour = (e) => {
-        setMinHourlyRate(e.target.value);
-    };
-
-    const handleMaxValueInputHour = (e) => {
-        setMaxHourlyRate(e.target.value);
-    };
-
-    const handleValueInputAge = (e) => {
-        setInputRangeAge(e.target.value);
-    };
-
     return (
         <Container className={cx('wrapper')}>
             <Row>
@@ -106,7 +118,7 @@ function FindTutor() {
                     <form action="GET" className={cx('sidebar__items')}>
                         <p className={cx('sidebar__items-title')}>Filters</p>
                         <div className={cx('sidebar__items-hours')}>
-                            <span className={cx('sidebar__items-hours-label')}>Hourly rate</span>
+                            {/* <span className={cx('sidebar__items-hours-label')}>Hourly rate</span>
                             <div className={cx('sidebar__items-hours-rangeInput')}>
                                 <input
                                     type="range"
@@ -117,7 +129,7 @@ function FindTutor() {
                                     aria-label="min Hourly Rate"
                                     value={minHourlyRate}
                                     className={cx('sidebar__items-range-input')}
-                                    onChange={handleMinValueInputHour}
+                                    onInput={handleMinValueInputHour}
                                 ></input>
                                 <input
                                     type="range"
@@ -134,19 +146,41 @@ function FindTutor() {
                             <div className={cx('sidebar__items-hours-visible')}>
                                 <div
                                     className={cx('sidebar__items-hours-dragControl')}
-                                    style={{ left: 'calc(0%)' }}
+                                    style={{ left: leftPosition }}
                                 ></div>
                                 <div className={cx('sidebar__items-hours-rail')}>
                                     <div
                                         className={cx('sidebar__items-hours-innerRail')}
-                                        style={{ left: 'calc(0%)', right: 'calc(0%)' }}
+                                        style={{ left: leftPosition, right: rightPosition }}
                                     ></div>
                                 </div>
                                 <div
                                     className={cx('sidebar__items-hours-dragControl')}
                                     style={{ left: 'calc(100%)' }}
                                 ></div>
-                            </div>
+                            </div> */}
+                            <span className={cx('sidebar__items-hours-label')}>
+                                Hourly rate:
+                                <span>
+                                    {minValueRate} - {maxValueRate === 200 ? 'up' : maxValueRate}
+                                </span>
+                            </span>
+                            <MultiRangeSlider
+                                min={10}
+                                max={200}
+                                step={5}
+                                minValue={minValueRate}
+                                maxValue={maxValueRate}
+                                label={false}
+                                ruler={false}
+                                onInput={(e) => {
+                                    handleInputRate(e);
+                                }}
+                                barLeftColor={'transparent'}
+                                barRightColor={'transparent'}
+                                barInnerColor={'#000'}
+                                className={cx('sidebar__items-hours-multiRange')}
+                            />
                         </div>
                         <div className={cx('sidebar__items-role')}>
                             <label htmlFor="levels" className={cx('sidebar__items-role-label')}>
@@ -176,16 +210,28 @@ function FindTutor() {
                             })}
                         </div>
                         <div className={cx('sidebar__items-age')}>
-                            <span className={cx('sidebar__items-age-label')}>Tutor ate</span>
-                            <input
-                                type="range"
-                                min="1"
-                                max="100"
-                                value={inputRangeAge}
-                                id="inputRange"
-                                className={cx('sidebar__items-range-input')}
-                                onChange={handleValueInputAge}
-                            ></input>
+                            <span className={cx('sidebar__items-age-label')}>
+                                Tutor ate:
+                                <span>
+                                    {minValueAge} - {maxValueAge === 100 ? 'up' : maxValueAge}
+                                </span>
+                            </span>
+                            <MultiRangeSlider
+                                min={10}
+                                max={100}
+                                step={1}
+                                minValue={minValueAge}
+                                maxValue={maxValueAge}
+                                label={false}
+                                ruler={false}
+                                onInput={(e) => {
+                                    handleInputAge(e);
+                                }}
+                                barLeftColor={'transparent'}
+                                barRightColor={'transparent'}
+                                barInnerColor={'#000'}
+                                className={cx('sidebar__items-hours-multiRange')}
+                            />
                         </div>
                     </form>
                 </Col>

@@ -4,7 +4,7 @@ import Home from '~/pages/Home';
 import Profile from '~/pages/Profile';
 import Student from '~/pages/Account/Student';
 import Tutor from '~/pages/Account/Tutor';
-import FindTutor from '~/pages/FindTutor';
+import FindTutor from '~/pages/SearchForTutor';
 import Registration from '~/pages/Registration';
 
 const publicRoutes = [
