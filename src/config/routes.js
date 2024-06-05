@@ -4,6 +4,7 @@ const routes = {
     registration: '/:registration/:registrationName',
     findtutor: '/findtutor',
     account: '/:account/:accountName',
+    requestTutor: '/requestTutor',
 };
 
 export default routes;

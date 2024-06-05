@@ -1,5 +1,5 @@
 import classNames from 'classnames/bind';
-import { useMemo, useState, useEffect } from 'react';
+import { useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import MultiRangeSlider from 'multi-range-slider-react';
 
@@ -197,7 +197,7 @@ function FindTutor() {
                             <p className={cx('sidebar__items-availability-title')}>Availability</p>
                             {dayOfWeek.map((day, index) => {
                                 return (
-                                    <div className={cx('sidebar__items-availability-list')}>
+                                    <div key={index} className={cx('sidebar__items-availability-list')}>
                                         <label htmlFor={day}>{day}</label>
                                         <input
                                             type="checkbox"
@@ -261,7 +261,7 @@ function FindTutor() {
                     <Row className={cx('result__wrapper')}>
                         {tutors.map((tutor, index) => {
                             return (
-                                <div className={cx('result__wrapper-content')}>
+                                <div key={index} className={cx('result__wrapper-content')}>
                                     <Link to={`account/${tutor.role}/${tutor.name}`}>
                                         <Row className={cx('result__profile')}>
                                             <Col lg="2" className={cx('result__profile-img')}>
@@ -277,7 +277,10 @@ function FindTutor() {
                                             <Col lg="4" className={cx('result__profile-generality')}>
                                                 {tutor.rating.map((rate, index) => {
                                                     return (
-                                                        <div className={cx('result__profile-generality-valuate')}>
+                                                        <div
+                                                            key={index}
+                                                            className={cx('result__profile-generality-valuate')}
+                                                        >
                                                             <div
                                                                 className={cx('result__profile-generality-valuate-ic')}
                                                             >
@@ -318,7 +321,7 @@ function FindTutor() {
                                                 </div>
                                                 <Button
                                                     orange
-                                                    to={`account/${tutor.role}/${tutor.name}`}
+                                                    // to={`account/${tutor.role}/${tutor.name}`}
                                                     className={cx('result__profile-generality-btn')}
                                                 >
                                                     View {tutor.name} profile
