@@ -1,37 +1,34 @@
-.Footer {
+.wrapper {
     background-color: #363232;
-    margin: 0 -36px;
+    position: relative;
+    width: 100%;
 }
 
-.footer-container {
-    display: flex;
-    padding: 10px 36px;
-    justify-content: space-between;
+.container {
+    padding: 10px 0;
 }
 
-.footer_content {
-    display: flex;
-    flex-direction: column;
+.container__content {
     color: var(--white);
 }
 
-.footer_content-link-items {
+.container__content-link-items {
 }
 
-.footer_content-title {
+.container__content-title {
     font-size: 1.4rem;
     margin-bottom: 4px;
 }
-.footer_content-link {
+.container__content-link {
     a {
         display: flex;
         align-items: center;
     }
 }
-.footer_content-icon {
+.container__content-icon {
     margin-right: 24px;
 }
-.footer_content-label {
+.container__content-label {
     color: var(--white);
     line-height: 1.6rem;
 }

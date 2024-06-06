@@ -1,21 +1,22 @@
-.UniversityPanel {
-    margin: 40px var(--default-viewport-weight);
+.wrapper {
+    margin: 40px 0;
     background-color: var(--white);
     display: flex;
     justify-content: center;
+    border-radius: 10px;
+    box-shadow: rgba(3, 102, 214, 0.3) 0px 0px 0px 3px;
 }
 
-.UniversityPanel-container {
+.universityPanel__container {
     text-align: center;
-    width: 1200px;
 }
-.UniversityPanel-title {
+.universityPanel__container-title {
     font-size: 5rem;
     font-weight: 700;
     margin-bottom: 4px;
     padding: 40px 0;
 }
-.UniversityPanel-items {
+.universityPanel__container-items {
     display: flex;
     justify-content: space-between;
     margin: 0 36px;

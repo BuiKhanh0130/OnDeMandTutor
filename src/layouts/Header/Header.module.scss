@@ -18,8 +18,8 @@
 }
 
 .logo-img {
-    width: 60px;
-    height: 60px;
+    width: var(--default-layout-height-header);
+    height: 100%;
 }
 
 .login-signup {

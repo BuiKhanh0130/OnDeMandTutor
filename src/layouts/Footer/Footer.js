@@ -2,6 +2,11 @@ import classNames from 'classnames/bind';
 import { Fragment, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 
+import 'bootstrap/dist/css/bootstrap.min.css';
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+
 import { FaceBookIcon, LineIcon, TelegramIcon, InstagramIcon } from '~/components/Icons';
 
 import styles from './Footer.module.scss';
@@ -114,30 +119,34 @@ function Footer() {
     );
 
     return (
-        <div className={cx('Footer')}>
-            <div className={cx('footer-container')}>
-                {items.map((itemChildren, index) => {
-                    return (
-                        <div key={index} className={cx('footer_content')}>
-                            <div className={cx('footer_content-title')}>{itemChildren.title}</div>
-                            <div className={cx('footer_content-link')}>
-                                {itemChildren.lists.map((item, index) => {
-                                    return (
-                                        <Fragment key={index}>
-                                            <Link to={item.title}>
-                                                {item.icon && (
-                                                    <item.icon className={cx('footer_content-icon')}></item.icon>
-                                                )}
-                                                <div className={cx('footer_content-label')}>{item.label}</div>
-                                            </Link>
-                                        </Fragment>
-                                    );
-                                })}
-                            </div>
-                        </div>
-                    );
-                })}
-            </div>
+        <div className={cx('wrapper')}>
+            <Container>
+                <Row className={cx('container')}>
+                    {items.map((itemChildren, index) => {
+                        return (
+                            <Col lg="2" key={index} className={cx('container__content')}>
+                                <div className={cx('container__content-title')}>{itemChildren.title}</div>
+                                <div className={cx('container__content-link')}>
+                                    {itemChildren.lists.map((item, index) => {
+                                        return (
+                                            <Fragment key={index}>
+                                                <Link to={item.title}>
+                                                    {item.icon && (
+                                                        <item.icon
+                                                            className={cx('container__content-icon')}
+                                                        ></item.icon>
+                                                    )}
+                                                    <div className={cx('container__content-label')}>{item.label}</div>
+                                                </Link>
+                                            </Fragment>
+                                        );
+                                    })}
+                                </div>
+                            </Col>
+                        );
+                    })}
+                </Row>
+            </Container>
         </div>
     );
 }

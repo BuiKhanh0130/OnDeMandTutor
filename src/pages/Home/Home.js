@@ -1,6 +1,8 @@
 import classNames from 'classnames/bind';
-
 import { useMemo } from 'react';
+
+import 'bootstrap/dist/css/bootstrap.min.css';
+import Container from 'react-bootstrap/Container';
 
 import images from '~/assets/images';
 import SearchPanel from './components/SearchPanel';
@@ -196,15 +198,15 @@ function Home() {
 
     return (
         <div className={cx('wrapper')}>
-            <div className={cx('')}>
+            <Container className={cx('')}>
                 <SearchPanel trends={trends} />
                 <LessonPanel judgments={judgments} />
                 <SubjectPanel subjects={subjects} />
                 <UniversityPanel universities={universities} />
                 <RentPanel rents={rents} />
-                <GreatPanel greatTutors={greatTutors} />
                 <ApplyTutor applyTutor={applyTutor} />
-            </div>
+                <GreatPanel greatTutors={greatTutors} />
+            </Container>
         </div>
     );
 }

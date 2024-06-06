@@ -1,5 +1,9 @@
 import classNames from 'classnames/bind';
 
+import 'bootstrap/dist/css/bootstrap.min.css';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+
 import Button from '~/components/Button';
 
 import styles from './ApplyTutor.module.scss';
@@ -8,21 +12,21 @@ const cx = classNames.bind(styles);
 
 function ApplyTutor({ applyTutor }) {
     return (
-        <div className={cx('ApplyTutor')}>
-            <div className={cx('ApplyTutor-container')}>
+        <Row className={cx('wrapper')}>
+            <Col className={cx('applyTutor__container')}>
                 {applyTutor.map((apply, index) => {
                     return (
-                        <div key={index} className={cx('ApplyTutor-content')}>
-                            <div className={cx('ApplyTutor-title')}>{apply.title}</div>
-                            <div className={cx('ApplyTutor-summary')}>{apply.summary}</div>
-                            <Button transparent className={cx('ApplyTutor-btn')}>
+                        <div key={index} className={cx('applyTutor__container-content')}>
+                            <div className={cx('applyTutor__container-title')}>{apply.title}</div>
+                            <div className={cx('applyTutor__container-summary')}>{apply.summary}</div>
+                            <Button transparent className={cx('applyTutor__container-btn')}>
                                 {apply.button}
                             </Button>
                         </div>
                     );
                 })}
-            </div>
-        </div>
+            </Col>
+        </Row>
     );
 }
 

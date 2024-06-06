@@ -1,24 +1,25 @@
-.SubjectPanel {
+.wrapper {
+    padding: 40px 0;
 }
 
-.SubjectPanel-container {
+.subjectPanel__container {
     text-align: center;
     max-width: 100%;
 }
-.SubjectPanel-title {
+.subjectPanel__container-title {
     font-size: 5rem;
     font-weight: 700;
     margin-bottom: 4px;
 }
 
-.SubjectPanel-items {
+.subjectPanel__container-items {
     width: 100%;
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
 }
 
-.SubjectPanel-item {
+.subjectPanel__container-item {
     display: flex;
     flex-direction: column;
     align-items: center;

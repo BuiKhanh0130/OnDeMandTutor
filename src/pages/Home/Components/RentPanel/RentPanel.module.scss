@@ -1,32 +1,32 @@
-.RentPanel {
-    margin: 40px 0;
+.wrapper {
+    padding: 40px 0;
 }
 
-.RentPanel-container {
+.rentPanel__container {
 }
-.RentPanel-title {
+.rentPanel__container-title {
     font-size: 5rem;
     font-weight: 700;
     margin-bottom: 4px;
     padding-bottom: 40px;
     text-align: center;
 }
-.RentPanel-items {
+.rentPanel__container-items {
     display: flex;
 }
 
-.RentPanel-items-left {
+.rentPanel__container-items-img {
     width: 35%;
 
     img {
         height: 350px;
     }
 }
-.RentPanel-items-right {
+.rentPanel__container-items-dsc {
     flex: 1 1;
 }
 
-.RentPanel-items-right-content {
+.rentPanel__container-items-content {
     margin: 24px 0;
     p {
         font-size: 2rem;

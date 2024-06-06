@@ -1,22 +1,19 @@
-.GreatTutorPanel {
-    margin: 40px var(--default-viewport-weight);
-    background-color: var(--white);
-    display: flex;
-    justify-content: center;
+.wrapper {
+    margin: 40px 0;
+    border-radius: 10px;
 }
 
-.GreatTutorPanel-container {
+.greatTutorPanel__container {
     padding: 0 0 40px 0;
-    width: 1200px;
 }
-.GreatTutorPanel-title {
+.greatTutorPanel__container-title {
     font-size: 5rem;
     font-weight: 700;
     margin-bottom: 4px;
     padding: 40px 0 0 0;
     text-align: center;
 }
-.GreatTutorPanel-summary {
+.greatTutorPanel__container-summary {
     text-align: center;
     font-size: 1.4rem;
 }
@@ -26,7 +23,7 @@
     margin-top: 20px;
 }
 
-.GreatTutorPanel-animation {
+.greatTutorPanel__container-animation {
     width: 100%;
     display: flex;
     flex-wrap: wrap;
@@ -36,7 +33,7 @@
     // animation-play-state: running;
 }
 
-.GreatTutorPanel_subjects {
+.greatTutorPanel__container-subjects {
     display: flex;
     background-color: var(--white);
     border-radius: 10px;
@@ -53,7 +50,7 @@
     mask: linear-gradient(90deg, transparent, var(--white) 20%, var(--white) 80%, transparent);
 }
 
-.scroller[data-animated='true'] .GreatTutorPanel-animation {
+.scroller[data-animated='true'] .greatTutorPanel__container-animation {
     width: max-content;
     flex-wrap: nowrap;
     animation: scroll var(--_animation-duration, 100s) var(--_animation-direction, forwards) linear infinite;
@@ -73,7 +70,7 @@
     }
 }
 
-.GreatTutorPanel_subjects-left {
+.greatTutorPanel__container-subjects-left {
     margin-right: 8px;
     img {
         width: 100px;
@@ -81,21 +78,21 @@
         border-radius: 50%;
     }
 }
-.GreatTutorPanel_subjects-right {
+.greatTutorPanel__container-subjects-right {
 }
 
-.GreatTutorPanel_subjects-right-label {
+.greatTutorPanel__container-subjects-right-label {
     font-size: 1.4rem;
     margin-bottom: 12px;
 }
 
-.GreatTutorPanel_subjects-right-content {
+.greatTutorPanel__container-subjects-right-content {
     font-size: 1.2rem;
     line-height: 1.6rem;
     color: #6b6c6e;
 }
 
-.GreatTutorPanel_subjects-right-level {
+.greatTutorPanel__container-subjects-right-level {
     font-size: 1.4rem;
     margin-top: 8px;
 }

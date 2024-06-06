@@ -1,23 +1,27 @@
 import classNames from 'classnames/bind';
 
+import 'bootstrap/dist/css/bootstrap.min.css';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+
 import styles from './LessonPanel.module.scss';
 
 const cx = classNames.bind(styles);
 
 function LessonPanel({ judgments }) {
     return (
-        <div className={cx('LessonPanel')}>
-            <div className={cx('LessonPanel_container')}>
+        <Row className={cx('wrapper')}>
+            <Col className={cx('lessonPanel__container')}>
                 {judgments.map((judgment, index) => {
                     return (
-                        <div key={index} className={cx('LessonPanel_items')}>
-                            <div className={cx('LessonPanel_items-number')}>{judgment.number}</div>
-                            <div className={cx('LessonPanel_items-title')}>{judgment.title}</div>
+                        <div key={index} className={cx('lessonPanel__container-items')}>
+                            <div className={cx('lessonPanel__container-items-number')}>{judgment.number}</div>
+                            <div className={cx('lessonPanel__container-items-title')}>{judgment.title}</div>
                         </div>
                     );
                 })}
-            </div>
-        </div>
+            </Col>
+        </Row>
     );
 }
 
