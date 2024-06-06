@@ -16,6 +16,9 @@ const images = {
     UIT: require('~/assets/images/UIT.png'),
     rentTutor: require('~/assets/images/rentTutor.png'),
     avatar: require('~/assets/images/avatar.png'),
+    chat: require('~/assets/images/chat.png'),
+    schedule: require('~/assets/images/schedule.png'),
+    map: require('~/assets/images/map.png'),
 };
 
 export default images;

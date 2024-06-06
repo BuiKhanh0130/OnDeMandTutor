@@ -16,7 +16,7 @@ function Sidebar() {
                 items: [
                     { label: 'Search for Tutors', link: config.routes.findtutor },
                     { label: 'Request a Tutor', link: config.routes.requestTutor },
-                    { label: 'Online Tutoring', link: config.routes.home },
+                    { label: 'Online Tutoring', link: config.routes.onlineTutoring },
                 ],
             },
 
