@@ -19,6 +19,14 @@ const images = {
     chat: require('~/assets/images/chat.png'),
     schedule: require('~/assets/images/schedule.png'),
     map: require('~/assets/images/map.png'),
+    one: require('~/assets/images/1.png'),
+    two: require('~/assets/images/2.png'),
+    three: require('~/assets/images/3.png'),
+    message: require('~/assets/images/message.png'),
+    suit: require('~/assets/images/suit.png'),
+    person: require('~/assets/images/person.png'),
+    chart: require('~/assets/images/chart.png'),
+    question: require('~/assets/images/questionMark.png'),
 };
 
 export default images;

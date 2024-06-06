@@ -23,7 +23,7 @@ function Sidebar() {
             {
                 title: 'How It Works',
                 items: [
-                    { label: 'For Student', link: config.routes.home },
+                    { label: 'For Student', link: config.routes.forStudent },
                     { label: 'FAQ', link: config.routes.home },
                     { label: 'What Customers Say', link: config.routes.home },
                 ],

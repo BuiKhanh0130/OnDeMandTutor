@@ -6,6 +6,7 @@ const routes = {
     account: '/:account/:accountName',
     requestTutor: '/requestTutor',
     onlineTutoring: '/onlineTutoring',
+    forStudent: '/forStudent',
 };
 
 export default routes;

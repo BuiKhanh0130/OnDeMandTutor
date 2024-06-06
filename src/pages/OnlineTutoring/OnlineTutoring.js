@@ -14,26 +14,29 @@ import Search from '~/components/Search';
 const cx = classNames.bind(styles);
 
 function OnlineTutoring() {
-    const steps = useMemo(() => [
-        {
-            title: 'MEET 1–TO–1',
-            image: images.chat,
-            summary:
-                'Interactive features and video chat make collaborating so easy, it’ll feel like you’re in the same room.',
-        },
-        {
-            title: 'SAVE TIME',
-            image: images.schedule,
-            summary:
-                'Skip the planning and travel. Work any time, from anywhere, to easily fit lessons into your busy schedule.',
-        },
-        {
-            title: 'STRESS LESS',
-            image: images.map,
-            summary:
-                'Find the right person to help you reach your goals–no matter where you live, or what you want to learn.',
-        },
-    ]);
+    const steps = useMemo(
+        () => [
+            {
+                title: 'MEET 1–TO–1',
+                image: images.chat,
+                summary:
+                    'Interactive features and video chat make collaborating so easy, it’ll feel like you’re in the same room.',
+            },
+            {
+                title: 'SAVE TIME',
+                image: images.schedule,
+                summary:
+                    'Skip the planning and travel. Work any time, from anywhere, to easily fit lessons into your busy schedule.',
+            },
+            {
+                title: 'STRESS LESS',
+                image: images.map,
+                summary:
+                    'Find the right person to help you reach your goals–no matter where you live, or what you want to learn.',
+            },
+        ],
+        [],
+    );
     return (
         <div className={cx('wrapper')}>
             <Container className={cx('container')}>
