@@ -9,6 +9,7 @@ import OnlineTutoring from '~/pages/OnlineTutoring';
 import ForStudent from '~/pages/ForStudent';
 import RequestTutor from '~/pages/RequestTutor';
 import Registration from '~/pages/Registration';
+import CustomerSay from '~/pages/CustomerSay';
 
 const publicRoutes = [
     { path: config.routes.home, component: Home },
@@ -20,6 +21,7 @@ const publicRoutes = [
     { path: config.routes.requestTutor, component: RequestTutor },
     { path: config.routes.onlineTutoring, component: OnlineTutoring },
     { path: config.routes.forStudent, component: ForStudent },
+    { path: config.routes.customerSay, component: CustomerSay },
 ];
 
 const privateRoutes = [];

@@ -230,6 +230,7 @@
         height: 130px;
         border-radius: 50%;
         border: 1px solid var(--green);
+        margin-bottom: 20px;
     }
 
     span {
@@ -283,6 +284,10 @@
             display: inline-block;
             color: var(--white);
             font-size: 1.4rem;
+        }
+
+        &:hover {
+            background-color: var(--hover);
         }
     }
 }

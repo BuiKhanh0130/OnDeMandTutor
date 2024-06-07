@@ -1,11 +1,10 @@
 //menu
 .container {
-    min-height: 20px;
+    margin-bottom: 5px;
 }
 
 //menu item
-.menu-item {
-    min-height: 30px;
+.menu__item {
     display: flex;
     align-items: center;
     width: 100%;
@@ -15,7 +14,7 @@
     }
 }
 
-.menu-item-label {
+.menu__item-label {
     padding: 6px 0;
     margin: 0 10px;
     width: 100%;

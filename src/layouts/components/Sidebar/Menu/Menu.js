@@ -21,7 +21,7 @@ function Menu({ children, items, className, ...passProps }) {
             interactive
             // visible={true}
             delay={[0, 0]}
-            offset={[10, 5]}
+            offset={[20, 2]}
             placement="bottom"
             render={(attrs) => (
                 <div className="box" tabIndex="-1" {...attrs}>
