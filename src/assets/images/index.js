@@ -27,6 +27,7 @@ const images = {
     person: require('~/assets/images/person.png'),
     chart: require('~/assets/images/chart.png'),
     question: require('~/assets/images/questionMark.png'),
+    clock: require('~/assets/images/clock.png'),
 };
 
 export default images;

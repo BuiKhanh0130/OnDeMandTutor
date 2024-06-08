@@ -9,15 +9,12 @@
     background-color: #363232;
 }
 
-.logo {
-}
-
-.logo-link {
+.container__logo-link {
     height: 100%;
     display: block;
 }
 
-.logo-img {
+.container__logo-img {
     width: var(--default-layout-height-header);
     height: 100%;
 }
@@ -26,6 +23,19 @@
     display: flex;
     align-items: center;
     justify-content: end;
+}
+
+.container__login-user {
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    height: 100%;
+}
+
+.container__login-user-img {
+    width: 40px;
+    height: 4 0px;
+    border-radius: 50%;
 }
 
 .login-btn {

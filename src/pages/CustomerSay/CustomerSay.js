@@ -88,8 +88,8 @@ function CustomerSay() {
                                         </div>
                                         <p className={cx('container__comments-tags-content-by')}>
                                             <strong>{comment.author}</strong> reviews{' '}
-                                            <Link to={config.routes.profile}>{comment.tutor}</Link> from Ha Noi, Viet
-                                            Nam
+                                            <Link to={`/account/tutor/${comment.tutor}`}>{comment.tutor}</Link> from Ha
+                                            Noi, Viet Nam
                                         </p>
                                     </div>
                                 );
