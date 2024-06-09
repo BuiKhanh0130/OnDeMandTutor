@@ -15,16 +15,16 @@ function Sidebar() {
                 title: 'Find a Tutor',
                 items: [
                     { label: 'Search for Tutors', link: config.routes.findTutor },
-                    { label: 'Request a Tutor', link: config.routes.requestTutor },
-                    { label: 'Online Tutoring', link: config.routes.onlineTutoring },
+                    { label: 'Request a Tutor', link: '/requestTutor' },
+                    { label: 'Online Tutoring', link: '/onlineTutoring' },
                 ],
             },
 
             {
                 title: 'How It Works',
                 items: [
-                    { label: 'For Student', link: config.routes.forStudent },
-                    { label: 'What Customers Say', link: config.routes.customerSay },
+                    { label: 'For Student', link: '/forStudent' },
+                    { label: 'What Customers Say', link: '/customerSay' },
                 ],
             },
 
@@ -33,7 +33,7 @@ function Sidebar() {
                 items: [
                     { label: 'Ask An Expert', link: config.routes.home },
                     { label: 'Lesson', link: config.routes.home },
-                    { label: 'Blog', link: config.routes.home },
+                    { label: 'Blog', link: '/blog' },
                 ],
             },
 

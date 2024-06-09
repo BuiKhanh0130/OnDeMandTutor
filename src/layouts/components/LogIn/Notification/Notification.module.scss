@@ -1,0 +1,21 @@
+.container {
+    max-width: 285px;
+}
+
+.container__tag {
+    padding: 10px 10px;
+    border-bottom: 1px solid var(--line-border);
+
+    p {
+        margin: 0;
+    }
+
+    &:hover {
+        background-color: var(--line-border);
+        cursor: pointer;
+    }
+}
+
+.container .container__tag:last-child {
+    border-bottom: none;
+}

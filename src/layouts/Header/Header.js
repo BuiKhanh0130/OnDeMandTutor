@@ -12,8 +12,12 @@ import Image from '~/components/Image';
 import Sidebar from '~/layouts/components/Sidebar';
 import images from '~/assets/images';
 import Button from '~/components/Button';
-import User from '../components/Sidebar/User';
+import User from '../components/LogIn/User';
+import Notification from '../components/LogIn/Notification';
 import { ModalContext } from '~/components/ModalProvider';
+// import { faBell } from '@fortawesome/free-solid-svg-icons';
+// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { NotificationIcon } from '~/components/Icons';
 
 import styles from './Header.module.scss';
 
@@ -39,6 +43,12 @@ function Header() {
 
                     {user ? (
                         <Col lg="2" className={cx('container__login-signup')}>
+                            <Notification>
+                                <div className={cx('container__login-signup-noti')}>
+                                    <NotificationIcon />
+                                    <span className={cx('container__login-signup-number')}>2</span>
+                                </div>
+                            </Notification>
                             <User>
                                 <div className={cx('container__login-user')}>
                                     <img
@@ -51,10 +61,16 @@ function Header() {
                         </Col>
                     ) : (
                         <Col lg="2" className={cx('container__login-signup')}>
-                            <Button onClick={formLogin.handleActive} className={cx('login-btn')}>
+                            <Button
+                                onClick={formLogin.handleActive}
+                                className={cx('container__login-signup-login-btn')}
+                            >
                                 LOG IN
                             </Button>
-                            <Button onClick={formLogin.handleActiveSignUp} className={cx('signup-btn')}>
+                            <Button
+                                onClick={formLogin.handleActiveSignUp}
+                                className={cx('container__login-signup-signup-btn')}
+                            >
                                 SIGN UP
                             </Button>
                         </Col>

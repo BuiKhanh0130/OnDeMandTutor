@@ -19,10 +19,26 @@
     height: 100%;
 }
 
-.login-signup {
+.container__login-signup {
     display: flex;
     align-items: center;
     justify-content: end;
+}
+
+.container__login-signup-noti {
+    position: relative;
+}
+
+.container__login-signup-number {
+    position: absolute;
+    top: -5px;
+    right: -3px;
+    color: red;
+    background-color: var(--light-gray);
+    width: 1.2rem;
+    height: 1.2rem;
+    border-radius: 50%;
+    text-align: center;
 }
 
 .container__login-user {
@@ -30,6 +46,7 @@
     justify-content: end;
     align-items: center;
     height: 100%;
+    margin-left: 20px;
 }
 
 .container__login-user-img {
@@ -38,7 +55,7 @@
     border-radius: 50%;
 }
 
-.login-btn {
+.container__login-signup-login-btn {
     width: 72px;
     height: 32px;
     font-size: 1.2rem;
@@ -55,7 +72,7 @@
     }
 }
 
-.signup-btn {
+.container__login-signup-signup-btn {
     width: 72px;
     height: 32px;
     font-size: 1.2rem;

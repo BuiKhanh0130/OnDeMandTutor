@@ -1,8 +1,9 @@
 import classNames from 'classnames/bind';
 import HeadlessTippy from '@tippyjs/react/headless';
 
-import styles from './User.module.scss';
 import Popper from '~/components/Popper';
+
+import styles from './User.module.scss';
 
 const cx = classNames.bind(styles);
 

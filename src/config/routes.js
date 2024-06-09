@@ -8,6 +8,7 @@ const routes = {
     onlineTutoring: '/onlineTutoring',
     forStudent: '/forStudent',
     customerSay: '/customerSay',
+    blog: '/blog',
 };
 
 export default routes;
