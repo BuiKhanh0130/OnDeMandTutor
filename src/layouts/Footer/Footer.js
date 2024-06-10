@@ -109,9 +109,9 @@ function Footer() {
                     },
                 ],
             },
-            { title: 'Contacts', lists: [{ label: '1309 Beacon Street, Suite 300, Brookline, MA, 02446' }] },
+            { title: 'CONTACTS', lists: [{ label: '1309 Beacon Street, Suite 300, Brookline, MA, 02446' }] },
             {
-                title: 'Support',
+                title: 'SUPPORT',
                 lists: [{ label: 'Need any help?' }],
             },
         ],

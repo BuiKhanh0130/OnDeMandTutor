@@ -9,7 +9,7 @@ import Popper from '../Popper';
 import styles from './Search.module.scss';
 
 const cx = classNames.bind(styles);
-function Search({ width }) {
+function Search({ width, className }) {
     const [searchValue, setSearchResult] = useState('');
     const [loading, setLoading] = useState(false);
     const [showResult, setShowResult] = useState(false);
@@ -67,7 +67,7 @@ function Search({ width }) {
                     ref={inputRef}
                     value={searchValue}
                     type="text"
-                    className={cx('SearchPanel_left-search-ip')}
+                    className={cx('SearchPanel_left-search-ip', { className })}
                     placeholder="What would you like to learn?"
                     onChange={handleSearch}
                     onFocus={handleShowResult}

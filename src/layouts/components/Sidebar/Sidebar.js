@@ -32,7 +32,7 @@ function Sidebar() {
                 title: 'Resources',
                 items: [
                     { label: 'Ask An Expert', link: config.routes.home },
-                    { label: 'Lesson', link: config.routes.home },
+                    { label: 'Lesson', link: '/advertisement' },
                     { label: 'Blog', link: '/blog' },
                 ],
             },
@@ -40,7 +40,7 @@ function Sidebar() {
             {
                 title: 'Become a Tutor',
                 items: [
-                    { label: 'Apply Now', link: config.routes.profile },
+                    { label: 'Apply Now', link: '/registration/registrationtutor' },
                     { label: 'About Tutoring Jobs', link: config.routes.home },
                     { label: 'Find Tutoring Jobs', link: config.routes.home },
                     { label: 'How It Works For Tutors', link: config.routes.home },

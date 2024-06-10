@@ -9,6 +9,7 @@ const routes = {
     forStudent: '/forStudent',
     customerSay: '/customerSay',
     blog: '/blog',
+    advertisement: '/advertisement',
 };
 
 export default routes;

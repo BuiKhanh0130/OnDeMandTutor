@@ -1,0 +1,20 @@
+.wrapper {
+    margin-bottom: 10px;
+    display: inline-block;
+}
+
+.container {
+    display: flex;
+}
+
+.container__img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+}
+
+.container__dsc {
+    display: flex;
+    flex-direction: column;
+    margin-left: 10px;
+}
