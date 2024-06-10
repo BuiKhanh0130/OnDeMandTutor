@@ -28,6 +28,12 @@ const images = {
     chart: require('~/assets/images/chart.png'),
     question: require('~/assets/images/questionMark.png'),
     clock: require('~/assets/images/clock.png'),
+    user: require('~/assets/images/user.png'),
+    multiUser: require('~/assets/images/multiUser.png'),
+    paid: require('~/assets/images/paid.png'),
+    setting: require('~/assets/images/setting.png'),
+    sample: require('~/assets/images/sample.png'),
+    tick: require('~/assets/images/tick.png'),
 };
 
 export default images;

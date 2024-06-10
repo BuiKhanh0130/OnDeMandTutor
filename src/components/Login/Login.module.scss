@@ -9,13 +9,13 @@
     align-items: center;
     justify-content: center;
     height: 100%;
-    z-index: 3;
+    z-index: 10;
 }
 
 .wrapper {
     position: relative;
     background-color: var(--white);
-    height: 80%;
+    height: 82%;
     border-radius: 10px;
     width: 483px;
     display: flex;

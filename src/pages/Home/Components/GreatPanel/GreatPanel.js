@@ -50,7 +50,7 @@ function GreatPanel({ greatTutors }) {
                             <div className={cx('greatTutorPanel__container-title')}>{greatTutorChildren.title}</div>
                             <div className={cx('greatTutorPanel__container-summary')}>{greatTutorChildren.summary}</div>
 
-                            <div className={cx('scroller')} ref={nodeRef} ata-direction={'left'}>
+                            <div className={cx('scroller')} ref={nodeRef} data-direction={'left'}>
                                 <div className={cx('greatTutorPanel__container-animation')} ref={nodeRef2}>
                                     {greatTutorChildren.subjects.map((subject, index) => {
                                         return (
@@ -86,7 +86,7 @@ function GreatPanel({ greatTutors }) {
                                     })}
                                 </div>
                             </div>
-                            <div className={cx('scroller')} ref={nodeRef} ata-direction={'right'}>
+                            <div className={cx('scroller')} ref={nodeRef} data-direction={'right'}>
                                 <div className={cx('greatTutorPanel__container-animation')} ref={nodeRef2}>
                                     {greatTutorChildren.subjects.map((subject, index) => {
                                         return (
