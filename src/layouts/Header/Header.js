@@ -24,7 +24,6 @@ import styles from './Header.module.scss';
 const cx = classNames.bind(styles);
 
 function Header() {
-    const user = true;
     const formLogin = useContext(ModalContext);
 
     return (
