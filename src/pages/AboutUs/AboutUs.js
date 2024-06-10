@@ -8,12 +8,12 @@ import Col from 'react-bootstrap/Col';
 
 import images from '~/assets/images';
 
-import styles from './OnlineTutoring.module.scss';
+import styles from './AboutUs.module.scss';
 import Search from '~/components/Search';
 
 const cx = classNames.bind(styles);
 
-function OnlineTutoring() {
+function AboutUs(){
     const steps = useMemo(
         () => [
             {
@@ -35,7 +35,7 @@ function OnlineTutoring() {
                     'Find the right person to help you reach your goals–no matter where you live, or what you want to learn.',
             },
         ],
-        []
+        [],
     );
     return (
         <div className={cx('wrapper')}>
@@ -82,4 +82,4 @@ function OnlineTutoring() {
     );
 }
 
-export default OnlineTutoring;
+export default AboutUs;
