@@ -12,6 +12,7 @@ import Registration from '~/pages/Registration';
 import CustomerSay from '~/pages/CustomerSay';
 import Blog from '~/pages/Blog';
 import Advertisement from '~/pages/Advertisement';
+import HowItWork from '~/pages/HowItWork';
 import AboutUs from '~/pages/AboutUs';
 
 const publicRoutes = [
@@ -27,6 +28,7 @@ const publicRoutes = [
     { path: config.routes.customerSay, component: CustomerSay },
     { path: config.routes.blog, component: Blog },
     { path: config.routes.advertisement, component: Advertisement },
+    { path: config.routes.howItWork, component: HowItWork },
     { path: config.routes.aboutUs, component: AboutUs },
 ];
 
