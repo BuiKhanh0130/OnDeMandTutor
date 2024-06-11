@@ -34,6 +34,8 @@ const images = {
     setting: require('~/assets/images/setting.png'),
     sample: require('~/assets/images/sample.png'),
     tick: require('~/assets/images/tick.png'),
+    background: require('~/assets/images/background.png'),
+    react: require('~/assets/images/react.png'),
 };
 
 export default images;

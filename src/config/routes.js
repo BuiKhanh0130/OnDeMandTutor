@@ -1,16 +1,16 @@
 const routes = {
     home: '/',
-    profile: 'profile',
-    registration: '/:registration/:registrationName',
+    blog: '/blog',
+    howItWork: '/howItWork',
     findTutor: '/findTutor',
-    account: '/:account/:role/:accountName',
-    requestTutor: '/requestTutor',
-    onlineTutoring: '/onlineTutoring',
     forStudent: '/forStudent',
     customerSay: '/customerSay',
-    blog: '/blog',
+    accountStudent: '/:nickname',
+    requestTutor: '/requestTutor',
     advertisement: '/advertisement',
-    howItWork: '/howItWork',
+    onlineTutoring: '/onlineTutoring',
+    account: '/:account/:role/:accountName',
+    registration: '/:registration/:registrationName',
 };
 
 export default routes;

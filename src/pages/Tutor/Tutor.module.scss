@@ -12,7 +12,8 @@
 
 .container__tag {
     background-color: var(--white);
-    position: fixed;
+    position: sticky;
+    top: var(--default-layout-height-header);
     border-radius: 8px;
 }
 
