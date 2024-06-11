@@ -21,18 +21,20 @@
     font-size: 2rem;
 }
 
-.container__tag {
-    padding: 20px;
+//profile
+.container__tag-profile {
+    padding: 20px 0;
 }
 
-.container__tag-left {
+.container__tag-profile-left {
     display: flex;
     flex-direction: column;
     align-items: center;
     text-align: center;
+    padding: 10px;
     img {
-        width: 60px;
-        height: 60px;
+        width: 48px;
+        height: 48px;
         margin-bottom: 10px;
     }
 
@@ -44,6 +46,7 @@
     span {
         font-size: 1.2rem;
         margin-bottom: 30px;
+        width: 100%;
     }
 
     a {
@@ -64,13 +67,14 @@
     }
 }
 
-.container__tag-right {
+.container__tag-profile-right {
+    padding: 10px 0;
     p {
         font-size: 1.4rem;
     }
 }
 
-.container__tag-right-title {
+.container__tag-profile-right-title {
     span {
         font-size: 3rem;
         font-weight: 500;
@@ -78,15 +82,13 @@
     margin-bottom: 10px;
 }
 
-.container__tag-right-steps {
+.container__tag-profile-right {
 }
 
-.container__tag-right-judgement {
-    padding-left: 30px;
-}
-
+//student
 .container__tag-student {
     background-color: var(--white);
+    padding: 20px 0;
 }
 
 .container__tag-student-left {
@@ -128,7 +130,15 @@
     padding: 10px 0;
 }
 
-.container__tag-right-body {
+.container__tag-student-right-title {
+    span {
+        font-size: 3rem;
+        font-weight: 500;
+    }
+    margin-bottom: 10px;
+}
+
+.container__tag-student-right-body {
     ul {
         padding: 0;
     }
@@ -163,7 +173,9 @@
     }
 }
 
+//organized
 .container__tag-organized {
+    padding: 20px 0;
 }
 
 .container__tag-organized-left {
@@ -229,6 +241,7 @@
     }
 }
 
+//apply
 .container__tag-apply {
     display: flex;
     align-items: center;

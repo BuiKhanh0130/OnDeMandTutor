@@ -62,7 +62,7 @@ function Search({ width, className }) {
                 </div>
             )}
         >
-            <div className={cx('SearchPanel_left-search')}>
+            <div className={cx('SearchPanel_left-search', { className })}>
                 <input
                     ref={inputRef}
                     value={searchValue}

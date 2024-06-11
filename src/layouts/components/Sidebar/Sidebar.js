@@ -46,11 +46,7 @@ function Sidebar() {
 
             {
                 title: 'About Us ',
-                items: [
-                    { label: 'About Us', link: config.routes.home },
-                    { label: 'Careers', link: config.routes.home },
-                    { label: 'Contact Us', link: config.routes.home },
-                ],
+                items: [{ label: 'About Us', link: config.routes.home }],
             },
         ],
         [],

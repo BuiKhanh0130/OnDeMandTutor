@@ -27,8 +27,8 @@ function HowItWork() {
                         </p>
                     </Col>
                 </Row>
-                <Row className={cx('container__tag')}>
-                    <Col lg="4" className={cx('container__tag-left')}>
+                <Row className={cx('container__tag-profile')}>
+                    <Col lg="4" className={cx('container__tag-profile-left')}>
                         <Image src={images.user}></Image>
                         <strong>Create a free profile</strong>
                         <span>Customize your free, professional profile</span>
@@ -36,9 +36,9 @@ function HowItWork() {
                             CREATE YOUR PROFILE
                         </Button>
                     </Col>
-                    <Col lg="8" className={cx('container__tag-right')}>
+                    <Col lg="8" className={cx('container__tag-profile-right')}>
                         <Row>
-                            <Col lg="6" className={cx('container__tag-right-steps')}>
+                            <Col lg="6" className={cx('container__tag-profile-right-steps')}>
                                 <p>
                                     Millions of people search online for private tutors every day. On demand tutor lets
                                     you create a free online profile complete with pictures, videos, student reviews and
@@ -46,7 +46,7 @@ function HowItWork() {
                                     experience for potential students to review.s
                                 </p>
                             </Col>
-                            <Col lg="6" className={cx('container__tag-right-judgement')}>
+                            <Col lg="6" className={cx('container__tag-profile-right-judgement')}>
                                 <Image src={images.sample}></Image>
                             </Col>
                         </Row>
@@ -62,13 +62,13 @@ function HowItWork() {
                         </Button>
                     </Col>
                     <Col lg="8" className={cx('container__tag-student-right')}>
-                        <Row className={cx('container__tag-right-title')}>
+                        <Row className={cx('container__tag-student-right-title')}>
                             <Col lg="12">
                                 <span>On demand tutor marketplace</span>
                             </Col>
                         </Row>
-                        <Row className={cx('container__tag-right-body')}>
-                            <Col lg="6" className={cx('container__tag-right-steps')}>
+                        <Row className={cx('container__tag-student-right-body')}>
+                            <Col lg="6" className={cx('container__tag-student-right-steps')}>
                                 <ul>
                                     <li>
                                         <Image src={images.tick} alt="tick"></Image>
@@ -162,13 +162,13 @@ function HowItWork() {
                         </Button>
                     </Col>
                     <Col lg="8" className={cx('container__tag-student-right')}>
-                        <Row className={cx('container__tag-right-title')}>
+                        <Row className={cx('container__tag-student-right-title')}>
                             <Col lg="12">
                                 <span>Hassle-free pay</span>
                             </Col>
                         </Row>
-                        <Row className={cx('container__tag-right-body')}>
-                            <Col lg="6" className={cx('container__tag-right-steps')}>
+                        <Row className={cx('container__tag-student-right-body')}>
+                            <Col lg="6" className={cx('container__tag-student-right-steps')}>
                                 <ul>
                                     <li>
                                         <Image src={images.tick} alt="tick"></Image>

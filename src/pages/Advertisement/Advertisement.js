@@ -5,12 +5,11 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 
-import SuggestedAccounts from './components/SuggestAccounts';
 import images from '~/assets/images';
-import Image from '~/components/Image';
-import { HomeIcon } from '~/components/Icons';
 import Search from '~/components/Search';
-import Button from '~/components/Button';
+import Video from './components/Video';
+import SuggestedAccounts from './components/SuggestAccounts';
+import { HomeIcon } from '~/components/Icons';
 
 import styles from './Advertisement.module.scss';
 
@@ -69,7 +68,7 @@ function Advertisement() {
                         </div>
 
                         <div className={cx('container__sidebar-search')}>
-                            <Search className={cx('container__sidebar-search-input')} width="300px"></Search>
+                            <Search className={cx('container__sidebar-search-input')} width="300px" />
                         </div>
 
                         <div className={cx('container__sidebar-suggested')}>
@@ -94,117 +93,10 @@ function Advertisement() {
                             )}
                         </div>
                     </Col>
-                    <Col lg="8" className={cx('container__video')}>
-                        <div className={cx('container__tag-video')}>
-                            <Row className={cx('container__video-user')}>
-                                <Col lg="1">
-                                    <Image src={images.avatar} alt={'NTP'}></Image>
-                                </Col>
-                                <Col lg="9" className={cx('container__video-user-summary')}>
-                                    <span>Nguyen Thanh Phong</span>
-                                    <p>English/Writing/Reading/Study Habits Tutor</p>
-                                    <p>
-                                        Michael has taught my son since this summer. He is very experienced and
-                                        knowledgeable. He keeps his lesson effective, engaging and fun. My son is able
-                                        to stay focus and overcome his fear of writing. We definitely plan to keep
-                                        working with Michael.
-                                    </p>
-                                </Col>
-                                <Col lg="2">
-                                    <Button orange to={'/'} className={cx('container__video-user-btn')}>
-                                        Connect with Phong
-                                    </Button>
-                                </Col>
-                            </Row>
-                            <div className={cx('container__clip')}>
-                                <section>
-                                    <iframe
-                                        width="560"
-                                        height="315"
-                                        src="https://www.youtube.com/embed/abPmZCZZrFA?si=r_a2yaVe8RGKhNuK"
-                                        title="YouTube video player"
-                                        frameborder="0"
-                                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                                        referrerPolicy="strict-origin-when-cross-origin"
-                                        allowfullscreen
-                                    ></iframe>
-                                </section>
-                            </div>
-                        </div>
-
-                        <div className={cx('container__tag-video')}>
-                            <Row className={cx('container__video-user')}>
-                                <Col lg="1">
-                                    <Image src={images.avatar} alt={'NTP'}></Image>
-                                </Col>
-                                <Col lg="9" className={cx('container__video-user-summary')}>
-                                    <span>Nguyen Thanh Phong</span>
-                                    <p>English/Writing/Reading/Study Habits Tutor</p>
-                                    <p>
-                                        Michael has taught my son since this summer. He is very experienced and
-                                        knowledgeable. He keeps his lesson effective, engaging and fun. My son is able
-                                        to stay focus and overcome his fear of writing. We definitely plan to keep
-                                        working with Michael.
-                                    </p>
-                                </Col>
-                                <Col lg="2">
-                                    <Button orange to={'/'} className={cx('container__video-user-btn')}>
-                                        Connect with Phong
-                                    </Button>
-                                </Col>
-                            </Row>
-                            <div className={cx('container__clip')}>
-                                <section>
-                                    <iframe
-                                        width="560"
-                                        height="315"
-                                        src="https://www.youtube.com/embed/abPmZCZZrFA?si=r_a2yaVe8RGKhNuK"
-                                        title="YouTube video player"
-                                        frameborder="0"
-                                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                                        referrerPolicy="strict-origin-when-cross-origin"
-                                        allowfullscreen
-                                    ></iframe>
-                                </section>
-                            </div>
-                        </div>
-
-                        <div className={cx('container__tag-video')}>
-                            <Row className={cx('container__video-user')}>
-                                <Col lg="1">
-                                    <Image src={images.avatar} alt={'NTP'}></Image>
-                                </Col>
-                                <Col lg="9" className={cx('container__video-user-summary')}>
-                                    <span>Nguyen Thanh Phong</span>
-                                    <p>English/Writing/Reading/Study Habits Tutor</p>
-                                    <p>
-                                        Michael has taught my son since this summer. He is very experienced and
-                                        knowledgeable. He keeps his lesson effective, engaging and fun. My son is able
-                                        to stay focus and overcome his fear of writing. We definitely plan to keep
-                                        working with Michael.
-                                    </p>
-                                </Col>
-                                <Col lg="2">
-                                    <Button orange to={'/'} className={cx('container__video-user-btn')}>
-                                        Connect with Phong
-                                    </Button>
-                                </Col>
-                            </Row>
-                            <div className={cx('container__clip')}>
-                                <section>
-                                    <iframe
-                                        width="560"
-                                        height="315"
-                                        src="https://www.youtube.com/embed/abPmZCZZrFA?si=r_a2yaVe8RGKhNuK"
-                                        title="YouTube video player"
-                                        frameborder="0"
-                                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                                        referrerPolicy="strict-origin-when-cross-origin"
-                                        allowfullscreen
-                                    ></iframe>
-                                </section>
-                            </div>
-                        </div>
+                    <Col lg="8">
+                        <Video />
+                        <Video />
+                        <Video />
                     </Col>
                 </Row>
             </Container>
