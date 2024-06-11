@@ -51,11 +51,11 @@ function Header() {
                             </Notification>
                             <User>
                                 <div className={cx('container__login-user')}>
-                                    <img
+                                    <Image
                                         src={images.avatar}
                                         alt="NTP"
                                         className={cx('container__login-user-img')}
-                                    ></img>
+                                    ></Image>
                                 </div>
                             </User>
                         </Col>

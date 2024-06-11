@@ -39,7 +39,7 @@ function Sidebar() {
             {
                 title: 'Become a Tutor',
                 items: [
-                    { label: 'Apply Now', link: '/registration/registrationtutor' },
+                    { label: 'Apply Now', link: '/registration/registrationtutor', state: ['registrationtutor'] },
                     { label: 'How It Works For Tutors', link: '/howItWork' },
                 ],
             },

@@ -29,7 +29,7 @@ function HowItWork() {
                 </Row>
                 <Row className={cx('container__tag-profile')}>
                     <Col lg="4" className={cx('container__tag-profile-left')}>
-                        <Image src={images.user}></Image>
+                        <Image src={images.user} alt={'user'}></Image>
                         <strong>Create a free profile</strong>
                         <span>Customize your free, professional profile</span>
                         <Button orange to={'/'}>
@@ -47,14 +47,14 @@ function HowItWork() {
                                 </p>
                             </Col>
                             <Col lg="6" className={cx('container__tag-profile-right-judgement')}>
-                                <Image src={images.sample}></Image>
+                                <Image src={images.sample} alt={'user'}></Image>
                             </Col>
                         </Row>
                     </Col>
                 </Row>
                 <Row className={cx('container__tag-student')}>
                     <Col lg="4" className={cx('container__tag-student-left')}>
-                        <Image src={images.multiUser}></Image>
+                        <Image src={images.multiUser} alt={'user'}></Image>
                         <strong>Secure more students</strong>
                         <span>On demand tutor gives you access to the most tutoring opportunities</span>
                         <Button orange to={'/'}>
@@ -103,7 +103,7 @@ function HowItWork() {
                 </Row>
                 <Row className={cx('container__tag-organized')}>
                     <Col lg="4" className={cx('container__tag-organized-left')}>
-                        <Image src={images.setting}></Image>
+                        <Image src={images.setting} alt={'user'}></Image>
                         <strong>Manage your tutoring business</strong>
                         <span>Get the tools and support you need to manage your own successful tutoring business</span>
                         <Button orange to={'/'}>
@@ -154,7 +154,7 @@ function HowItWork() {
                 </Row>
                 <Row className={cx('container__tag-student')}>
                     <Col lg="4" className={cx('container__tag-student-left')}>
-                        <Image src={images.paid}></Image>
+                        <Image src={images.paid} alt={'user'}></Image>
                         <strong>Get paid</strong>
                         <span>On demand tutor offers fast, hassle-free payment</span>
                         <Button orange to={'/'}>

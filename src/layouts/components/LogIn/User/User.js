@@ -13,6 +13,7 @@ function User({ children }) {
             interactive={true}
             // visible={true}
             // offset={[0, 0]}
+            appendTo={() => document.body}
             placement="bottom"
             render={(attrs) => (
                 <div className={cx('wrapper')} tabIndex="-1" {...attrs}>

@@ -222,7 +222,6 @@ export const ClearIcon = ({ className, width = '1.6rem', height = '1.6rem' }) =>
         focusable="false"
         data-prefix="fas"
         data-icon="circle-xmark"
-        class="svg-inline--fa fa-circle-xmark"
         role="img"
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 512 512"

@@ -6,6 +6,7 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 
 import images from '~/assets/images';
+import Image from '~/components/Image';
 import { StarIcon } from '~/components/Icons';
 import Button from '~/components/Button';
 
@@ -68,7 +69,7 @@ function Tutor() {
                             <Col lg="4" key={index} className={cx('container__contact')}>
                                 <div className={cx('container__tag')}>
                                     <div className={cx('container__tag-info')}>
-                                        <img src={tutor.img} alt={tutor.name}></img>
+                                        <Image src={tutor.img} alt={tutor.name}></Image>
                                         <strong>{tutor.name}</strong>
                                         <p>{tutor.subject}</p>
                                         <div className={cx('container__tag-rating')}>
@@ -83,7 +84,7 @@ function Tutor() {
                                             <span>({tutor.numberRated} ratings)</span>
                                         </div>
                                         <div className={cx('container__hour')}>
-                                            <img src={images.clock} alt="clock"></img>
+                                            <Image src={images.clock} alt="clock"></Image>
                                             <span>{tutor.numberHour} hours tutoring</span>
                                         </div>
                                     </div>
