@@ -34,8 +34,13 @@ const images = {
     setting: require('~/assets/images/setting.png'),
     sample: require('~/assets/images/sample.png'),
     tick: require('~/assets/images/tick.png'),
-    background: require('~/assets/images/background.png'),
-    react: require('~/assets/images/react.png'),
+    image: require('~/assets/images/image.png'),
+    aboutUs1: require('~/assets/images/aboutUs1.png'),
+    aboutUs2: require('~/assets/images/aboutUs2.png'),
+    aboutUs3: require('~/assets/images/aboutUs3.png'),
+    different1: require('~/assets/images/different1.jpg'),
+    different2: require('~/assets/images/different2.jpg'),
+    different3: require('~/assets/images/different3.jpg'),
 };
 
 export default images;
