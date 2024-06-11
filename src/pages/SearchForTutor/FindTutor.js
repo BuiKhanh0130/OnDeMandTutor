@@ -1,9 +1,8 @@
 import classNames from 'classnames/bind';
 import { useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
-import MultiRangeSlider from 'multi-range-slider-react';
+import MultiRangeSlider from './component/MultiRangeSliderInput';
 
-import 'bootstrap/dist/css/bootstrap.min.css';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
@@ -33,18 +32,6 @@ function FindTutor() {
         setMinValueAge(e.minValue);
         setMaxValueAge(e.maxValue);
     };
-
-    // Declare event handlers
-    // const handleMinValueInputHour = (e) => {
-    //     const newValue = e.target.value;
-    //     console.log(e.target.value);
-    //     if (newValue > maxHourlyRate) {
-    //         return;
-    //     }
-    //     setMinHourlyRate(newValue);
-    //     setLeftPosition(calcLeftPosition(newValue) + '%');
-    //     setRightPosition(100 - calcLeftPosition(200) + '%');
-    // };
 
     const dayOfWeek = useMemo(() => ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'], []);
 
@@ -118,47 +105,6 @@ function FindTutor() {
                     <form action="GET" className={cx('sidebar__items')}>
                         <p className={cx('sidebar__items-title')}>Filters</p>
                         <div className={cx('sidebar__items-hours')}>
-                            {/* <span className={cx('sidebar__items-hours-label')}>Hourly rate</span>
-                            <div className={cx('sidebar__items-hours-rangeInput')}>
-                                <input
-                                    type="range"
-                                    min="10"
-                                    max="200"
-                                    step="5"
-                                    id="minHourlyRate"
-                                    aria-label="min Hourly Rate"
-                                    value={minHourlyRate}
-                                    className={cx('sidebar__items-range-input')}
-                                    onInput={handleMinValueInputHour}
-                                ></input>
-                                <input
-                                    type="range"
-                                    min="10"
-                                    max="200"
-                                    step="5"
-                                    id="maxHourlyRate"
-                                    aria-label="max Hourly Rate"
-                                    value={maxHourlyRate}
-                                    className={cx('sidebar__items-range-input')}
-                                    onChange={handleMaxValueInputHour}
-                                ></input>
-                            </div>
-                            <div className={cx('sidebar__items-hours-visible')}>
-                                <div
-                                    className={cx('sidebar__items-hours-dragControl')}
-                                    style={{ left: leftPosition }}
-                                ></div>
-                                <div className={cx('sidebar__items-hours-rail')}>
-                                    <div
-                                        className={cx('sidebar__items-hours-innerRail')}
-                                        style={{ left: leftPosition, right: rightPosition }}
-                                    ></div>
-                                </div>
-                                <div
-                                    className={cx('sidebar__items-hours-dragControl')}
-                                    style={{ left: 'calc(100%)' }}
-                                ></div>
-                            </div> */}
                             <span className={cx('sidebar__items-hours-label')}>
                                 Hourly rate:
                                 <span>
@@ -171,15 +117,9 @@ function FindTutor() {
                                 step={5}
                                 minValue={minValueRate}
                                 maxValue={maxValueRate}
-                                label={false}
-                                ruler={false}
                                 onInput={(e) => {
                                     handleInputRate(e);
                                 }}
-                                barLeftColor={'transparent'}
-                                barRightColor={'transparent'}
-                                barInnerColor={'#000'}
-                                className={cx('sidebar__items-hours-multiRange')}
                             />
                         </div>
                         <div className={cx('sidebar__items-role')}>
@@ -222,15 +162,9 @@ function FindTutor() {
                                 step={1}
                                 minValue={minValueAge}
                                 maxValue={maxValueAge}
-                                label={false}
-                                ruler={false}
                                 onInput={(e) => {
                                     handleInputAge(e);
                                 }}
-                                barLeftColor={'transparent'}
-                                barRightColor={'transparent'}
-                                barInnerColor={'#000'}
-                                className={cx('sidebar__items-hours-multiRange')}
                             />
                         </div>
                     </form>

@@ -1,0 +1,114 @@
+.wrapper {
+}
+
+.container__profile {
+    position: relative;
+}
+
+.container__profile-banner {
+    width: 100%;
+    height: 317px;
+    background-image: url('/assets/images/background.png');
+    border-radius: 10px;
+}
+
+.container__profile-student {
+    display: flex;
+    align-items: end;
+    position: absolute;
+    bottom: -74px;
+    left: 40px;
+
+    img {
+        width: 140px;
+        height: 140px;
+        border-radius: 50%;
+        padding: 10px;
+        background-color: var(--white);
+    }
+
+    p {
+        font-size: 3rem;
+        font-weight: 800;
+    }
+}
+
+.container__user {
+    margin-top: 60px;
+    padding: 40px 0;
+
+    h2 {
+        font-size: 2.4rem;
+        font-weight: 500;
+        margin-bottom: 20px;
+    }
+}
+
+.container__user-name,
+.container__user-email,
+.container__user-address {
+    padding: 0 0 10px 0;
+    label {
+        font-size: 1.4rem;
+        margin-right: 4px;
+        min-width: 18%;
+    }
+
+    input {
+        font-size: 1.4rem;
+        border: 1px solid var(--black);
+        border-radius: 4px;
+        padding: 4px 0;
+        width: 80%;
+    }
+}
+
+.container__course {
+    margin-top: 100px;
+    margin-bottom: 20px;
+    border: 1px solid var(--line-border);
+
+    h2 {
+        font-size: 2.4rem;
+        font-weight: 500;
+        margin-bottom: 20px;
+    }
+
+    img {
+        width: 70%;
+    }
+
+    .container__user-course {
+        width: 30%;
+    }
+}
+
+.container__course-detail {
+    display: flex;
+    padding: 0 10px 20px 10px;
+    border-bottom: 1px solid var(--line-border);
+
+    img {
+        width: 60%;
+        border-radius: 10px;
+    }
+
+    .container__user-course-detail-dcs {
+        width: 30%;
+        padding-left: 10px;
+
+        h5 {
+            font-size: 1.4rem;
+            margin-bottom: 10px;
+        }
+
+        p {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+        }
+
+        span {
+            font-size: 1.2rem;
+        }
+    }
+}

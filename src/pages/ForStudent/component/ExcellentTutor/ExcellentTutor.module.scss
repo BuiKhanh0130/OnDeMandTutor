@@ -1,0 +1,62 @@
+.slide {
+    width: 20%;
+    transition: 2s;
+    perspective: 100px;
+}
+
+.container__tutors-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 200px;
+    max-width: 240px;
+    background-color: var(--white);
+    padding: 20px;
+    box-shadow: rgba(196, 123, 63, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px,
+        rgba(21, 93, 164, 0.35) 0px -2px 6px 0px inset;
+    border-radius: 10px;
+    margin-bottom: 40px;
+    margin-right: 10px;
+    img {
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        margin-bottom: 20px;
+    }
+
+    strong {
+        font-weight: 800;
+        font-size: 2rem;
+        margin-bottom: 5px;
+    }
+
+    .container__tutors-icons {
+        width: 100%;
+        margin-bottom: 10px;
+        display: flex;
+        justify-content: space-around;
+    }
+
+    .container__tutors-icons-item {
+        width: 2rem;
+        height: 2rem;
+        color: #94921f;
+    }
+
+    span {
+        font-size: 1.6rem;
+        font-weight: 600;
+        margin-bottom: 5px;
+        color: var(--green);
+    }
+
+    p {
+        font-size: 1.2rem;
+        font-weight: 400;
+        color: #1d1b1a;
+    }
+}
+
+.container__tutors-card:hover {
+    transform: translateZ(5px);
+}

@@ -12,6 +12,7 @@ function Notification({ children }) {
         <HeadlessTippy
             interactive={true}
             // visible={true}
+            appendTo={() => document.body}
             offset={[0, 20]}
             placement="bottom"
             render={(attrs) => (

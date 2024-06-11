@@ -7,6 +7,7 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 
 import images from '~/assets/images';
+import Image from '~/components/Image';
 import config from '~/config';
 import Button from '~/components/Button';
 
@@ -80,7 +81,7 @@ function CustomerSay() {
                                 return (
                                     <div key={index} className={cx('container__comments-tags-content')}>
                                         <div className={cx('container__comments-tags-content-item')}>
-                                            <img src={comment.img} alt={comment.tutor}></img>
+                                            <Image src={comment.img} alt={comment.tutor}></Image>
                                             <div>
                                                 <strong>{comment.title}</strong>
                                                 <p>{comment.summary}</p>

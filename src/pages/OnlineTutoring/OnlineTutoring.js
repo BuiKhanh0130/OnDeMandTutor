@@ -7,6 +7,7 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 
 import images from '~/assets/images';
+import Image from '~/components/Image';
 
 import styles from './OnlineTutoring.module.scss';
 import Search from '~/components/Search';
@@ -53,7 +54,7 @@ function OnlineTutoring() {
                                 width="900"
                                 height="400"
                                 title="Example website content"
-                                frameborder="0"
+                                frameBorder="0"
                                 src="https://www.youtube.com/embed/tgbNymZ7vqY"
                             ></iframe>
                         </section>
@@ -62,8 +63,8 @@ function OnlineTutoring() {
                 <Row>
                     {steps.map((step, index) => {
                         return (
-                            <Col lg="4" className={cx('container__instruction')}>
-                                <img src={step.image} alt={step.title}></img>
+                            <Col lg="4" key={index} className={cx('container__instruction')}>
+                                <Image src={step.image} alt={step.title}></Image>
                                 <span>{step.title}</span>
                                 <p>{step.summary}</p>
                             </Col>

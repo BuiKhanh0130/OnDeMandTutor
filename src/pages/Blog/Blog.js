@@ -6,6 +6,7 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 
 import images from '~/assets/images';
+import Image from '~/components/Image';
 import Button from '~/components/Button';
 
 import styles from './Blog.module.scss';
@@ -94,7 +95,7 @@ function Blog() {
             <Container className={cx('container')}>
                 {videos.map((video, index) => {
                     return (
-                        <Row className={cx('container__hero')}>
+                        <Row key={index} className={cx('container__hero')}>
                             <Col lg="8" className={cx('container__card')} key={index}>
                                 <form className={cx('container__form-control')} action="Get">
                                     <div className={cx('container__form-control-portfolio')}>
@@ -122,7 +123,7 @@ function Blog() {
                             </Col>
 
                             <Col lg="4" className={cx('container_avatar')}>
-                                <img src={images.avatar} alt="NTP"></img>
+                                <Image src={images.avatar} alt="NTP"></Image>
                                 <p>Nguyen Thanh Phong</p>
                                 <Button orange medium className={cx('container_avatar-chat')}>
                                     Chat with Phong

@@ -24,7 +24,7 @@ import styles from './Header.module.scss';
 const cx = classNames.bind(styles);
 
 function Header() {
-    const user = false;
+    const user = true;
     const formLogin = useContext(ModalContext);
 
     return (
@@ -51,11 +51,11 @@ function Header() {
                             </Notification>
                             <User>
                                 <div className={cx('container__login-user')}>
-                                    <img
+                                    <Image
                                         src={images.avatar}
                                         alt="NTP"
                                         className={cx('container__login-user-img')}
-                                    ></img>
+                                    ></Image>
                                 </div>
                             </User>
                         </Col>

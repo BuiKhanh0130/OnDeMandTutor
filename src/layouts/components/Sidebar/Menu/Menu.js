@@ -19,6 +19,7 @@ function Menu({ children, items, className, ...passProps }) {
             //truyền các props từ bên ngoài vào
             {...passProps}
             interactive
+            appendTo={() => document.body}
             // visible={true}
             delay={[0, 0]}
             // offset={[10, 2]}

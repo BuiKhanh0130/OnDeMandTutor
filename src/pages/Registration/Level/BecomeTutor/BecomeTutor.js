@@ -12,7 +12,7 @@ function BecomeTutor() {
                 <div className={cx('currentForm')}>
                     <form action="post" className={cx('currentForm_content')}>
                         <div className={cx('form_row')}>
-                            <label for="txtUserName">User name</label>
+                            <label htmlFor="txtUserName">User name</label>
                             <input
                                 type="text"
                                 id="txtUserName"
@@ -23,7 +23,7 @@ function BecomeTutor() {
                         </div>
 
                         <div className={cx('form_row')}>
-                            <label for="txtPassword">Password</label>
+                            <label htmlFor="txtPassword">Password</label>
                             <input
                                 type="password"
                                 id="txtPassword"
@@ -34,7 +34,7 @@ function BecomeTutor() {
                         </div>
 
                         <div className={cx('form_row')}>
-                            <label for="txtRePassword">Password confirm</label>
+                            <label htmlFor="txtRePassword">Password confirm</label>
                             <input
                                 type="password"
                                 id="txtRePassword"
@@ -45,7 +45,7 @@ function BecomeTutor() {
                         </div>
 
                         <div className={cx('form_row')}>
-                            <label for="txtFullName">Full name</label>
+                            <label htmlFor="txtFullName">Full name</label>
                             <input
                                 type="text"
                                 id="txtFullName"
@@ -55,7 +55,7 @@ function BecomeTutor() {
                             ></input>
                         </div>
                         <div className={cx('form_row')}>
-                            <label for="txtCardId">Card Id</label>
+                            <label htmlFor="txtCardId">Card Id</label>
                             <input
                                 type="number"
                                 id="txtCardId"
@@ -67,7 +67,7 @@ function BecomeTutor() {
 
                         <div className={cx('form_row-birth-radio')}>
                             <div className={cx('form_row-birth')}>
-                                <label for="dateOfBirth">Date of birth</label>
+                                <label htmlFor="dateOfBirth">Date of birth</label>
                                 <input
                                     type="date"
                                     id="dateOfBirth"
@@ -85,7 +85,7 @@ function BecomeTutor() {
                                         name="gender"
                                         value="gentlemen"
                                     ></input>
-                                    <label for="gentlemen">Boy</label>
+                                    <label htmlFor="gentlemen">Boy</label>
                                     <input
                                         type="radio"
                                         className={cx('gender')}
@@ -93,13 +93,13 @@ function BecomeTutor() {
                                         name="gender"
                                         value="lady"
                                     ></input>
-                                    <label for="lady">Girl</label>
+                                    <label htmlFor="lady">Girl</label>
                                 </div>
                             </div>
                         </div>
 
                         <div className={cx('form_row')}>
-                            <label for="txtEmail">Email</label>
+                            <label htmlFor="txtEmail">Email</label>
                             <input
                                 type="email"
                                 id="txtEmail"
@@ -110,7 +110,7 @@ function BecomeTutor() {
                         </div>
 
                         <div className={cx('form_row')}>
-                            <label for="txtPhone">Phone</label>
+                            <label htmlFor="txtPhone">Phone</label>
                             <input
                                 type="number"
                                 id="txtPhone"
@@ -121,7 +121,7 @@ function BecomeTutor() {
                         </div>
 
                         <div className={cx('form_row')}>
-                            <label for="txtEducation">Education</label>
+                            <label htmlFor="txtEducation">Education</label>
                             <input
                                 type="text"
                                 id="txtEducation"
@@ -132,7 +132,7 @@ function BecomeTutor() {
                         </div>
 
                         <div className={cx('form_row')}>
-                            <label for="txtAddress">Address</label>
+                            <label htmlFor="txtAddress">Address</label>
                             <input
                                 type="text"
                                 id="txtAddress"

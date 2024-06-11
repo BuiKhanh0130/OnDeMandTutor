@@ -1,14 +1,14 @@
 import classNames from 'classnames/bind';
 
-import 'bootstrap/dist/css/bootstrap.min.css';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 
-import images from '~/assets/images';
-import { StarIcon } from '~/components/Icons';
-import Button from '~/components/Button';
 import config from '~/config';
+import images from '~/assets/images';
+import Image from '~/components/Image';
+import Button from '~/components/Button';
+import ExcellentTutor from './component/ExcellentTutor';
 
 import styles from './ForStudent.module.scss';
 
@@ -38,208 +38,17 @@ function ForStudent() {
                 <Row className={cx('container__levels')}>
                     <Col lg="6" className={cx('container__tutors')}>
                         <div className={cx('slide-track')}>
-                            <div className={cx('slide')}>
-                                <div className={cx('container__tutors-card')}>
-                                    <img src={images.avatar} alt="ntp"></img>
-
-                                    <strong>Nguyen Phong</strong>
-
-                                    <div className={cx('container__tutors-icons')}>
-                                        <StarIcon className={cx('container__tutors-icons-item')} />
-                                        <StarIcon className={cx('container__tutors-icons-item')} />
-                                        <StarIcon className={cx('container__tutors-icons-item')} />
-                                        <StarIcon className={cx('container__tutors-icons-item')} />
-                                        <StarIcon className={cx('container__tutors-icons-item')} />
-                                    </div>
-
-                                    <span>$40/h</span>
-
-                                    <p>
-                                        I am certified to teach k-12 Mathematics, Social Studies, and Spanish. Before
-                                        that, I taught at University of Maine Orono as a TA for two years.
-                                    </p>
-                                </div>
-                            </div>
-                            <div className={cx('slide')}>
-                                <div className={cx('container__tutors-card')}>
-                                    <img src={images.avatar} alt="ntp"></img>
-
-                                    <strong>Nguyen Phong</strong>
-
-                                    <div className={cx('container__tutors-icons')}>
-                                        <StarIcon className={cx('container__tutors-icons-item')} />
-                                        <StarIcon className={cx('container__tutors-icons-item')} />
-                                        <StarIcon className={cx('container__tutors-icons-item')} />
-                                        <StarIcon className={cx('container__tutors-icons-item')} />
-                                        <StarIcon className={cx('container__tutors-icons-item')} />
-                                    </div>
-
-                                    <span>$40/h</span>
-
-                                    <p>
-                                        I am certified to teach k-12 Mathematics, Social Studies, and Spanish. Before
-                                        that, I taught at University of Maine Orono as a TA for two years.
-                                    </p>
-                                </div>
-                            </div>
-                            <div className={cx('slide')}>
-                                <div className={cx('container__tutors-card')}>
-                                    <img src={images.avatar} alt="ntp"></img>
-
-                                    <strong>Nguyen Phong</strong>
-
-                                    <div className={cx('container__tutors-icons')}>
-                                        <StarIcon className={cx('container__tutors-icons-item')} />
-                                        <StarIcon className={cx('container__tutors-icons-item')} />
-                                        <StarIcon className={cx('container__tutors-icons-item')} />
-                                        <StarIcon className={cx('container__tutors-icons-item')} />
-                                        <StarIcon className={cx('container__tutors-icons-item')} />
-                                    </div>
-
-                                    <span>$40/h</span>
-
-                                    <p>
-                                        I am certified to teach k-12 Mathematics, Social Studies, and Spanish. Before
-                                        that, I taught at University of Maine Orono as a TA for two years.
-                                    </p>
-                                </div>
-                            </div>
-                            <div className={cx('slide')}>
-                                <div className={cx('container__tutors-card')}>
-                                    <img src={images.avatar} alt="ntp"></img>
-
-                                    <strong>Nguyen Phong</strong>
-
-                                    <div className={cx('container__tutors-icons')}>
-                                        <StarIcon className={cx('container__tutors-icons-item')} />
-                                        <StarIcon className={cx('container__tutors-icons-item')} />
-                                        <StarIcon className={cx('container__tutors-icons-item')} />
-                                        <StarIcon className={cx('container__tutors-icons-item')} />
-                                        <StarIcon className={cx('container__tutors-icons-item')} />
-                                    </div>
-
-                                    <span>$40/h</span>
-
-                                    <p>
-                                        I am certified to teach k-12 Mathematics, Social Studies, and Spanish. Before
-                                        that, I taught at University of Maine Orono as a TA for two years.
-                                    </p>
-                                </div>
-                            </div>
-                            <div className={cx('slide')}>
-                                <div className={cx('container__tutors-card')}>
-                                    <img src={images.avatar} alt="ntp"></img>
-
-                                    <strong>Nguyen Phong</strong>
-
-                                    <div className={cx('container__tutors-icons')}>
-                                        <StarIcon className={cx('container__tutors-icons-item')} />
-                                        <StarIcon className={cx('container__tutors-icons-item')} />
-                                        <StarIcon className={cx('container__tutors-icons-item')} />
-                                        <StarIcon className={cx('container__tutors-icons-item')} />
-                                        <StarIcon className={cx('container__tutors-icons-item')} />
-                                    </div>
-
-                                    <span>$40/h</span>
-
-                                    <p>
-                                        I am certified to teach k-12 Mathematics, Social Studies, and Spanish. Before
-                                        that, I taught at University of Maine Orono as a TA for two years.
-                                    </p>
-                                </div>
-                            </div>
-                            <div className={cx('slide')}>
-                                <div className={cx('container__tutors-card')}>
-                                    <img src={images.avatar} alt="ntp"></img>
-
-                                    <strong>Nguyen Phong</strong>
-
-                                    <div className={cx('container__tutors-icons')}>
-                                        <StarIcon className={cx('container__tutors-icons-item')} />
-                                        <StarIcon className={cx('container__tutors-icons-item')} />
-                                        <StarIcon className={cx('container__tutors-icons-item')} />
-                                        <StarIcon className={cx('container__tutors-icons-item')} />
-                                        <StarIcon className={cx('container__tutors-icons-item')} />
-                                    </div>
-
-                                    <span>$40/h</span>
-
-                                    <p>
-                                        I am certified to teach k-12 Mathematics, Social Studies, and Spanish. Before
-                                        that, I taught at University of Maine Orono as a TA for two years.
-                                    </p>
-                                </div>
-                            </div>
-                            <div className={cx('slide')}>
-                                <div className={cx('container__tutors-card')}>
-                                    <img src={images.avatar} alt="ntp"></img>
-
-                                    <strong>Nguyen Phong</strong>
-
-                                    <div className={cx('container__tutors-icons')}>
-                                        <StarIcon className={cx('container__tutors-icons-item')} />
-                                        <StarIcon className={cx('container__tutors-icons-item')} />
-                                        <StarIcon className={cx('container__tutors-icons-item')} />
-                                        <StarIcon className={cx('container__tutors-icons-item')} />
-                                        <StarIcon className={cx('container__tutors-icons-item')} />
-                                    </div>
-
-                                    <span>$40/h</span>
-
-                                    <p>
-                                        I am certified to teach k-12 Mathematics, Social Studies, and Spanish. Before
-                                        that, I taught at University of Maine Orono as a TA for two years.
-                                    </p>
-                                </div>
-                            </div>
-                            <div className={cx('slide')}>
-                                <div className={cx('container__tutors-card')}>
-                                    <img src={images.avatar} alt="ntp"></img>
-
-                                    <strong>Nguyen Phong</strong>
-
-                                    <div className={cx('container__tutors-icons')}>
-                                        <StarIcon className={cx('container__tutors-icons-item')} />
-                                        <StarIcon className={cx('container__tutors-icons-item')} />
-                                        <StarIcon className={cx('container__tutors-icons-item')} />
-                                        <StarIcon className={cx('container__tutors-icons-item')} />
-                                        <StarIcon className={cx('container__tutors-icons-item')} />
-                                    </div>
-
-                                    <span>$40/h</span>
-
-                                    <p>
-                                        I am certified to teach k-12 Mathematics, Social Studies, and Spanish. Before
-                                        that, I taught at University of Maine Orono as a TA for two years.
-                                    </p>
-                                </div>
-                            </div>
-                            <div className={cx('slide')}>
-                                <div className={cx('container__tutors-card')}>
-                                    <img src={images.avatar} alt="ntp"></img>
-
-                                    <strong>Nguyen Phong</strong>
-
-                                    <div className={cx('container__tutors-icons')}>
-                                        <StarIcon className={cx('container__tutors-icons-item')} />
-                                        <StarIcon className={cx('container__tutors-icons-item')} />
-                                        <StarIcon className={cx('container__tutors-icons-item')} />
-                                        <StarIcon className={cx('container__tutors-icons-item')} />
-                                        <StarIcon className={cx('container__tutors-icons-item')} />
-                                    </div>
-
-                                    <span>$40/h</span>
-
-                                    <p>
-                                        I am certified to teach k-12 Mathematics, Social Studies, and Spanish. Before
-                                        that, I taught at University of Maine Orono as a TA for two years.
-                                    </p>
-                                </div>
-                            </div>
+                            <ExcellentTutor />
+                            <ExcellentTutor />
+                            <ExcellentTutor />
+                            <ExcellentTutor />
+                            <ExcellentTutor />
+                            <ExcellentTutor />
+                            <ExcellentTutor />
                         </div>
                     </Col>
                     <Col lg="6" className={cx('container__introduction-1')}>
-                        <img src={images.one} alt="one"></img>
+                        <Image src={images.one} alt="one"></Image>
                         <span>Pick Your Instructor</span>
                         <div className={cx('container__introduction-dsc')}>
                             <p>
@@ -254,11 +63,10 @@ function ForStudent() {
                         </div>
                     </Col>
                 </Row>
-
                 <Row className={cx('container__levels')}>
                     <Col lg="6">
                         <div className={cx('container__introduction-2')}>
-                            <img src={images.two} alt="two"></img>
+                            <Image src={images.two} alt="two"></Image>
                             <span>Chat With Your Instructor</span>
                             <div className={cx('container__introduction-dsc')}>
                                 <p>
@@ -270,14 +78,13 @@ function ForStudent() {
                         </div>
                     </Col>
                     <Col lg="6" className={cx('container__message')}>
-                        <img src={images.message} alt="message"></img>
+                        <Image src={images.message} alt="message"></Image>
                     </Col>
                 </Row>
-
                 <Row className={cx('container__levels')}>
                     <Col lg={{ span: 6, offset: 3 }}>
                         <div className={cx('container__introduction-3')}>
-                            <img src={images.three} alt="three"></img>
+                            <Image src={images.three} alt="three"></Image>
                             <span>Book Your Lesson</span>
                             <div className={cx('container__introduction-dsc')}>
                                 <p>
@@ -294,7 +101,6 @@ function ForStudent() {
                         </div>
                     </Col>
                 </Row>
-
                 <Row>
                     <Col className={cx('container__1-1')}>
                         <p>
@@ -308,33 +114,31 @@ function ForStudent() {
                         </Button>
                     </Col>
                 </Row>
-
                 <Row>
                     <Col lg="12" className={cx('container__national')}>
                         <p>Learn from the nation’s largest community of professional tutors.</p>
                         <Row>
                             <Col lg="4" className={cx('container__national-suggestions')}>
-                                <img src={images.person} alt="person"></img>
+                                <Image src={images.person} alt="person"></Image>
                                 <strong>VETTED EXPERTS.</strong>
                                 <span>More qualified instructors than anywhere else, ready to help.</span>
                             </Col>
                             <Col lg="4" className={cx('container__national-suggestions')}>
-                                <img src={images.suit} alt="person"></img>
+                                <Image src={images.suit} alt="person"></Image>
                                 <strong>THE RIGHT FIT.</strong>
                                 <span>Find an expert who suits your needs and learning style.</span>
                             </Col>
                             <Col lg="4" className={cx('container__national-suggestions')}>
-                                <img src={images.chart} alt="person"></img>
+                                <Image src={images.chart} alt="person"></Image>
                                 <strong>REAL RESULTS.</strong>
                                 <span>Reach your goals faster with private, 1–to–1 lessons.</span>
                             </Col>
                         </Row>
                     </Col>
                 </Row>
-
                 <Row className={cx('container__help')}>
                     <Col lg="8" className={cx('container__questions')}>
-                        <img src={images.question} alt="question"></img>
+                        <Image src={images.question} alt="question"></Image>
                         <div>
                             <strong>Have questions?</strong>
                             <p>Get answers in our Help Center or connect with Customer Support.</p>

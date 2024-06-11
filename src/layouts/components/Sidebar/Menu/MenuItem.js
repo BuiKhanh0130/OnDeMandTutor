@@ -9,7 +9,7 @@ const cx = classNames.bind(styles);
 function MenuItem({ item }) {
     return (
         <div className={cx('menu__item')}>
-            <Button className={cx('menu__item-label')} to={item.link}>
+            <Button className={cx('menu__item-label')} to={item.link} state>
                 {item.label}
             </Button>
         </div>

@@ -222,7 +222,6 @@ export const ClearIcon = ({ className, width = '1.6rem', height = '1.6rem' }) =>
         focusable="false"
         data-prefix="fas"
         data-icon="circle-xmark"
-        class="svg-inline--fa fa-circle-xmark"
         role="img"
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 512 512"
@@ -280,7 +279,7 @@ export const NotificationIcon = ({ className, width = '1.6rem', height = '1.6rem
         role="img"
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 448 512"
-        color="#fff"
+        color="#ed6d20"
     >
         <path
             fill="currentColor"
@@ -297,5 +296,25 @@ export const HomeIcon = ({ className, currentColor, width = '1.6rem', height = '
             fill="currentColor"
             d="M575.8 255.5c0 18-15 32.1-32 32.1h-32l.7 160.2c0 2.7-.2 5.4-.5 8.1V472c0 22.1-17.9 40-40 40H456c-1.1 0-2.2 0-3.3-.1c-1.4 .1-2.8 .1-4.2 .1H416 392c-22.1 0-40-17.9-40-40V448 384c0-17.7-14.3-32-32-32H256c-17.7 0-32 14.3-32 32v64 24c0 22.1-17.9 40-40 40H160 128.1c-1.5 0-3-.1-4.5-.2c-1.2 .1-2.4 .2-3.6 .2H104c-22.1 0-40-17.9-40-40V360c0-.9 0-1.9 .1-2.8V287.6H32c-18 0-32-14-32-32.1c0-9 3-17 10-24L266.4 8c7-7 15-8 22-8s15 2 21 7L564.8 231.5c8 7 12 15 11 24z"
         />
+    </svg>
+);
+
+export const BackIcon = ({ className, width = '1.6rem', height = '1.6rem' }) => (
+    <svg
+        width={width}
+        height={height}
+        className={className}
+        aria-hidden="true"
+        focusable="false"
+        data-prefix="fas"
+        data-icon="chevron-left"
+        role="img"
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 320 512"
+    >
+        <path
+            fill="#736e6d"
+            d="M224 480c-8.188 0-16.38-3.125-22.62-9.375l-192-192c-12.5-12.5-12.5-32.75 0-45.25l192-192c12.5-12.5 32.75-12.5 45.25 0s12.5 32.75 0 45.25L77.25 256l169.4 169.4c12.5 12.5 12.5 32.75 0 45.25C240.4 476.9 232.2 480 224 480z"
+        ></path>
     </svg>
 );

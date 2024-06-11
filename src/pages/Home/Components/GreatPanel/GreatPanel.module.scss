@@ -64,6 +64,12 @@
     --_animation-direction: forwards;
 }
 
+.scroller[data-animated='true'] .greatTutorPanel__container-animation {
+    &:hover {
+        animation-play-state: paused;
+    }
+}
+
 @keyframes scroll {
     to {
         transform: translate(calc(-50% - 0.5rem));
