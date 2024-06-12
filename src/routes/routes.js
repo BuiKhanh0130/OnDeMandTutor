@@ -13,6 +13,7 @@ import Blog from '~/pages/Blog';
 import Advertisement from '~/pages/Advertisement';
 import HowItWork from '~/pages/HowItWork';
 import HeaderOnly from '~/layouts/HeaderOnly';
+import AboutUs from '~/pages/AboutUs';
 
 const publicRoutes = [
     { path: config.routes.home, component: Home },
@@ -27,6 +28,7 @@ const publicRoutes = [
     { path: config.routes.advertisement, component: Advertisement },
     { path: config.routes.howItWork, component: HowItWork },
     { path: config.routes.accountStudent, component: Student, layout: HeaderOnly },
+    { path: config.routes.aboutUs, component: AboutUs },
 ];
 
 const privateRoutes = [];

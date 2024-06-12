@@ -36,7 +36,7 @@ function OnlineTutoring() {
                     'Find the right person to help you reach your goals–no matter where you live, or what you want to learn.',
             },
         ],
-        [],
+        []
     );
     return (
         <div className={cx('wrapper')}>

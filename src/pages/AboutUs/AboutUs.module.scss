@@ -1,0 +1,117 @@
+.wrapper {
+    margin-top: var(--default-layout-height-header);
+    min-height: 1000px;
+}
+
+.container__header {
+    margin-top: 50px;
+    text-align: center;
+    p {
+        font-size: 4rem;
+        font-weight: 700;
+        margin: 40px;
+        color: #ed6d20;
+    }
+    span {
+        font-size: 2rem;
+        padding: 20px;
+    }
+}
+
+.image {
+    width: 85%;
+    height: 450px;
+    margin: 0 auto;
+    img{
+        height: 100%;
+        width:  100%;
+    }
+  }
+
+
+.container__button{
+    display: flex; 
+    align-items: center;
+    justify-content: center;
+    margin-top: 20px;
+    button{
+        padding: 13px 20px;
+        line-height: 1.3em;
+        font-size: 14px;
+        color: #fff;
+        background: #ed6d20;
+        border-radius: 5px;
+    }
+}
+
+
+
+.container__different {
+    margin: 40px 0;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    img {
+        width: 100px;
+        height: 100px;
+        margin-bottom: 20px;
+        // border-radius: 50%;
+    }
+
+    p {
+        font-weight: 500;
+        font-size: 1.6rem;
+        max-width: 300px;
+    }
+}
+
+.container__booking {
+    padding: 40px 80px;
+    margin: 40px 0;
+    border: 2px solid #16c2dc;
+    border-radius: 8px;
+    text-align: center;
+    background-color: var(--black);
+    color: var(--white);
+
+    p {
+        font-weight: 700;
+        font-size: 3rem;
+        margin-bottom: 20px;
+    }
+
+    span {
+        font-weight: 500;
+        font-size: 1.6rem;
+    }
+}
+
+.container__information{
+    margin: 100px 0;
+    .text-center{
+        margin-top: 40px;
+        position: absolute;
+    }
+    img {
+
+        display: block;
+        position: relative;
+        margin-left: auto;
+        margin-right: auto;
+        max-width: 70%;
+        border-radius: 50%;
+      }
+}
+
+.container__difference{
+    text-align: center;
+    h1 {
+        font-size: 4rem;
+        font-weight: 700;
+        margin-top: 40px;
+        color: #ed6d20;
+    }
+
+}
