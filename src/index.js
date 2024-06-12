@@ -4,7 +4,7 @@ import reportWebVitals from './reportWebVitals';
 
 import App from '~/App';
 import { ModalProvider } from './components/ModalProvider';
-
+import {RoleSide} from './components/RoleSide'; 
 import GlobalStyles from '~/components/GlobalStyles';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -12,7 +12,9 @@ root.render(
     <React.StrictMode>
         <GlobalStyles>
             <ModalProvider>
-                <App />
+                <RoleSide>
+                    <App />
+                </RoleSide>
             </ModalProvider>
         </GlobalStyles>
     </React.StrictMode>,
