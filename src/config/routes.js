@@ -12,7 +12,9 @@ const routes = {
     account: '/:account/:role/:accountName',
     registration: '/:registration/:registrationName',
     aboutUs: '/aboutUs',
-    payment: '/payment',
+    transaction: 'transaction',
+    payment: '/transaction/payment',
+    history: '/transaction/history',
 };
 
 export default routes;

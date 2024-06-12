@@ -1,0 +1,33 @@
+.wrapper {
+    margin-bottom: 10px;
+}
+
+.history__subject {
+    display: flex;
+    align-items: center;
+    img {
+        width: 200px;
+        height: 100px;
+        padding: 10px;
+        background-color: var(--primary);
+        border-radius: 10px;
+    }
+}
+
+.history__subject-content {
+    width: 100%;
+}
+
+.history__subject-left,
+.history__subject-right {
+    display: flex;
+    flex-direction: column;
+    padding: 0 0 0 40px;
+    h4 {
+        font-size: 1.6rem;
+    }
+
+    span {
+        color: #e10f0f;
+    }
+}

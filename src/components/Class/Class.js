@@ -7,10 +7,10 @@ import styles from './Class.module.scss';
 
 const cx = classNames.bind(styles);
 
-function Class({ separate, background }) {
+function Class({ separate, background, width, height }) {
     return (
         <div className={cx('container__course-detail', { separate, background })}>
-            <Image src={images.react} alt="react"></Image>
+            <img style={{ width: width, height: height }} src={images.react} alt="react"></img>
             <div className={cx('container__user-course-detail-dcs')}>
                 <h5>
                     Subject: <strong>Math</strong>

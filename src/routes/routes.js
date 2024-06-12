@@ -1,20 +1,22 @@
 import config from '~/config';
 
 import Home from '~/pages/Home';
-import Student from '~/pages/Student';
+import Blog from '~/pages/Blog';
 import Tutor from '~/pages/Tutor';
-import FindTutor from '~/pages/SearchForTutor';
-import OnlineTutoring from '~/pages/OnlineTutoring';
+import Student from '~/pages/Student';
+import AboutUs from '~/pages/AboutUs';
+import Payment from '~/pages/Pay';
+import History from '~/pages/History';
+import HowItWork from '~/pages/HowItWork';
 import ForStudent from '~/pages/ForStudent';
+import Transaction from '~/pages/Transaction';
+import HeaderOnly from '~/layouts/HeaderOnly';
+import CustomerSay from '~/pages/CustomerSay';
+import FindTutor from '~/pages/SearchForTutor';
 import RequestTutor from '~/pages/RequestTutor';
 import Registration from '~/pages/Registration';
-import CustomerSay from '~/pages/CustomerSay';
-import Blog from '~/pages/Blog';
 import Advertisement from '~/pages/Advertisement';
-import HowItWork from '~/pages/HowItWork';
-import HeaderOnly from '~/layouts/HeaderOnly';
-import AboutUs from '~/pages/AboutUs';
-import Payment from '~/pages/Payment';
+import OnlineTutoring from '~/pages/OnlineTutoring';
 
 const publicRoutes = [
     { path: config.routes.home, component: Home },
@@ -30,7 +32,9 @@ const publicRoutes = [
     { path: config.routes.howItWork, component: HowItWork },
     { path: config.routes.accountStudent, component: Student, layout: HeaderOnly },
     { path: config.routes.aboutUs, component: AboutUs },
-    { path: config.routes.payment, component: Payment, layout: HeaderOnly },
+    { path: config.routes.transaction, component: Transaction },
+    { path: config.routes.payment, component: Payment, layout: Transaction },
+    { path: config.routes.history, component: History, layout: Transaction },
 ];
 
 const privateRoutes = [];

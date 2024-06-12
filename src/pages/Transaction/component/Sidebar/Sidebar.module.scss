@@ -1,0 +1,32 @@
+.wrapper {
+    height: 100%;
+    border: 1px solid var(--primary);
+}
+
+.container__move {
+    padding: 0 10px;
+    margin: 10px 0;
+    li {
+        text-align: center;
+        list-style-type: none;
+        font-size: 2rem;
+        font-weight: 800;
+        padding: 8px 0;
+        background: var(--primary);
+        cursor: pointer;
+        &:hover {
+            background-color: rgba(194, 189, 189, 0.3);
+        }
+    }
+
+    .active {
+        li {
+            background-color: var(--orange);
+            color: var(--white);
+
+            &:hover {
+                background-color: var(--hover);
+            }
+        }
+    }
+}
