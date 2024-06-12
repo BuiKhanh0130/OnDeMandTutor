@@ -1,0 +1,32 @@
+.wrapper {
+    position: sticky;
+    bottom: 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    margin-right: 20px;
+    margin-bottom: 10px;
+}
+
+.btn-back-top {
+    max-width: 32px;
+    height: 32px;
+    color: rgba(22, 24, 35, 0.75);
+    background-color: var(--orange);
+    border-radius: 50%;
+    outline: none;
+    font-weight: 700;
+    font-size: 1.4rem;
+    padding: 0 8px;
+    box-shadow: 0 2px 8px rgb(0 0 0 / 6%);
+    cursor: pointer;
+    line-height: 30px;
+    white-space: nowrap;
+    border: 1px solid rgba(22, 24, 35, 0.12);
+    width: 100%;
+
+    &:hover {
+        border-color: rgba(22, 24, 35, 0.2);
+        background-color: var(--hover);
+    }
+}

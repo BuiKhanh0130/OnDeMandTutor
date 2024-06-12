@@ -12,7 +12,6 @@ import UniversityPanel from './components/UniversityPanel';
 import RentPanel from './components/RentPanel';
 import GreatPanel from './components/GreatPanel';
 import ApplyTutor from './components/ApplyTutor';
-import { ScrollToTop } from '~/layouts/ScrollToTop';
 
 import styles from './Home.module.scss';
 
