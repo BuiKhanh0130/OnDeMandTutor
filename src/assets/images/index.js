@@ -43,6 +43,8 @@ const images = {
     different1: require('~/assets/images/different1.jpg'),
     different2: require('~/assets/images/different2.jpg'),
     different3: require('~/assets/images/different3.jpg'),
+    qa: require('~/assets/images/QA.png'),
+    vnpay: require('~/assets/images/VNPAY.png'),
 };
 
 export default images;

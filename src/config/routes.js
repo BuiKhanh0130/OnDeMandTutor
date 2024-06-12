@@ -11,8 +11,8 @@ const routes = {
     onlineTutoring: '/onlineTutoring',
     account: '/:account/:role/:accountName',
     registration: '/:registration/:registrationName',
-    howItWork: '/howItWork',
     aboutUs: '/aboutUs',
+    payment: '/payment',
 };
 
 export default routes;

@@ -82,33 +82,3 @@
         width: 30%;
     }
 }
-
-.container__course-detail {
-    display: flex;
-    padding: 0 10px 20px 10px;
-    border-bottom: 1px solid var(--line-border);
-
-    img {
-        width: 60%;
-        border-radius: 10px;
-    }
-
-    .container__user-course-detail-dcs {
-        width: 30%;
-        padding-left: 10px;
-
-        h5 {
-            font-size: 1.4rem;
-            margin-bottom: 10px;
-        }
-
-        p {
-            font-size: 1.2rem;
-            margin-bottom: 10px;
-        }
-
-        span {
-            font-size: 1.2rem;
-        }
-    }
-}

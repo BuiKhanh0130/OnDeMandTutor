@@ -1,0 +1,42 @@
+.wrapper {
+    margin-top: calc(var(--default-layout-height) + 40px);
+}
+
+.container__title {
+    margin-bottom: 20px;
+    h2 {
+        font-size: 3rem;
+        font-weight: 800;
+    }
+}
+
+.container__content-title {
+    margin-bottom: 20px;
+}
+
+.container__content-transaction {
+    display: flex;
+    align-items: center;
+}
+
+.container__content-payment {
+    border: 1px solid var(--line-border);
+    padding: 10px;
+    border-radius: 10px;
+    p {
+        font-size: 1.6rem;
+        margin: 20px 0;
+        padding-left: 10px;
+    }
+    span {
+        font-size: 1.6rem;
+        font-weight: 700;
+        color: #24199c;
+        padding-left: 10px;
+    }
+}
+
+.container__footer {
+    margin-top: 40px;
+    font-size: 2rem;
+}

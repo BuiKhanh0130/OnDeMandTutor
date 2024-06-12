@@ -6,6 +6,7 @@ import Col from 'react-bootstrap/Col';
 
 import Image from '~/components/Image';
 import images from '~/assets/images';
+import Class from '~/components/Class';
 
 import styles from './Student.module.scss';
 
@@ -104,62 +105,12 @@ function Student() {
                     </Col>
                     <Col lg="4" className={cx('container__course')}>
                         <h2>Courses attended</h2>
-                        <div className={cx('container__course-detail')}>
-                            <Image src={images.react} alt="react"></Image>
-                            <div className={cx('container__user-course-detail-dcs')}>
-                                <h5>
-                                    Subject: <strong>Math</strong>
-                                </h5>
-                                <p>
-                                    Grade: <strong>12</strong>
-                                </p>
-                                <span>
-                                    Tutor: <strong>Bui Khanh</strong>
-                                </span>
-                            </div>
-                        </div>
-                        <div className={cx('container__course-detail')}>
-                            <Image src={images.react} alt="react"></Image>
-                            <div className={cx('container__user-course-detail-dcs')}>
-                                <h5>
-                                    Subject: <strong>Math</strong>
-                                </h5>
-                                <p>
-                                    Grade: <strong>12</strong>
-                                </p>
-                                <span>
-                                    Tutor: <strong>Bui Khanh</strong>
-                                </span>
-                            </div>
-                        </div>
-                        <div className={cx('container__course-detail')}>
-                            <Image src={images.react} alt="react"></Image>
-                            <div className={cx('container__user-course-detail-dcs')}>
-                                <h5>
-                                    Subject: <strong>Math</strong>
-                                </h5>
-                                <p>
-                                    Grade: <strong>12</strong>
-                                </p>
-                                <span>
-                                    Tutor: <strong>Bui Khanh</strong>
-                                </span>
-                            </div>
-                        </div>
-                        <div className={cx('container__course-detail')}>
-                            <Image src={images.react} alt="react"></Image>
-                            <div className={cx('container__user-course-detail-dcs')}>
-                                <h5>
-                                    Subject: <strong>Math</strong>
-                                </h5>
-                                <p>
-                                    Grade: <strong>12</strong>
-                                </p>
-                                <span>
-                                    Tutor: <strong>Bui Khanh</strong>
-                                </span>
-                            </div>
-                        </div>
+                        <Class separate />
+                        <Class separate />
+                        <Class separate />
+                        <Class separate />
+                        <Class separate />
+                        <Class separate />
                     </Col>
                 </Row>
             </Container>
