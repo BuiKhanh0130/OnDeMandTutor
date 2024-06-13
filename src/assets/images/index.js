@@ -1,6 +1,6 @@
 const images = {
     noImage: require('~/assets/images/NoImage.png'),
-    logo: require('~/assets/images/logo.png'),
+    logo: require('~/assets/images/Logo.png'),
     google: require('~/assets/images/google.svg').default,
     search: require('~/assets/images/Search.png'),
     sociology: require('~/assets/images/Sociology.png'),
@@ -43,6 +43,7 @@ const images = {
     different1: require('~/assets/images/different1.jpg'),
     different2: require('~/assets/images/different2.jpg'),
     different3: require('~/assets/images/different3.jpg'),
+    tutor: require('~/assets/images/tutor.png'),
     qa: require('~/assets/images/QA.png'),
     vnpay: require('~/assets/images/VNPAY.png'),
     backgroundTransaction: require('~/assets/images/backgroundtransaction.png'),
