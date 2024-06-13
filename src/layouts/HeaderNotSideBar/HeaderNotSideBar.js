@@ -8,8 +8,8 @@ import Col from 'react-bootstrap/Col';
 
 import Image from '~/components/Image';
 import images from '~/assets/images';
-import User from '../LogIn/User';
-import Notification from '../LogIn/Notification';
+import User from '../components/LogIn/User';
+import Notification from '../components/LogIn/Notification';
 import { NotificationIcon, BackIcon } from '~/components/Icons';
 
 import styles from './HeaderNotSideBar.module.scss';

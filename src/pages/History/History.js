@@ -15,7 +15,7 @@ function History() {
         <Row>
             <Row className={cx('wrapper')}>
                 <Col className={cx('history__subject')}>
-                    <Image src={images.react}></Image>
+                    <Image alt="react" src={images.react}></Image>
                     <Row className={cx('history__subject-content')}>
                         <Col lg="4" className={cx('history__subject-left')}>
                             <h4>
@@ -47,7 +47,7 @@ function History() {
             </Row>
             <Row className={cx('wrapper')}>
                 <Col className={cx('history__subject')}>
-                    <Image src={images.react}></Image>
+                    <Image alt="react" src={images.react}></Image>
                     <Row className={cx('history__subject-content')}>
                         <Col lg="4" className={cx('history__subject-left')}>
                             <h4>
@@ -79,7 +79,7 @@ function History() {
             </Row>
             <Row className={cx('wrapper')}>
                 <Col className={cx('history__subject')}>
-                    <Image src={images.react}></Image>
+                    <Image src={images.react} alt="react"></Image>
                     <Row className={cx('history__subject-content')}>
                         <Col lg="4" className={cx('history__subject-left')}>
                             <h4>
@@ -111,7 +111,7 @@ function History() {
             </Row>
             <Row className={cx('wrapper')}>
                 <Col className={cx('history__subject')}>
-                    <Image src={images.react}></Image>
+                    <Image alt="react" src={images.react}></Image>
                     <Row className={cx('history__subject-content')}>
                         <Col lg="4" className={cx('history__subject-left')}>
                             <h4>
@@ -143,7 +143,7 @@ function History() {
             </Row>
             <Row className={cx('wrapper')}>
                 <Col className={cx('history__subject')}>
-                    <Image src={images.react}></Image>
+                    <Image alt="react" src={images.react}></Image>
                     <Row className={cx('history__subject-content')}>
                         <Col lg="4" className={cx('history__subject-left')}>
                             <h4>
@@ -175,7 +175,7 @@ function History() {
             </Row>
             <Row className={cx('wrapper')}>
                 <Col className={cx('history__subject')}>
-                    <Image src={images.react}></Image>
+                    <Image alt="react" src={images.react}></Image>
                     <Row className={cx('history__subject-content')}>
                         <Col lg="4" className={cx('history__subject-left')}>
                             <h4>
@@ -207,7 +207,7 @@ function History() {
             </Row>
             <Row className={cx('wrapper')}>
                 <Col className={cx('history__subject')}>
-                    <Image src={images.react}></Image>
+                    <Image alt="react" src={images.react}></Image>
                     <Row className={cx('history__subject-content')}>
                         <Col lg="4" className={cx('history__subject-left')}>
                             <h4>
@@ -239,7 +239,7 @@ function History() {
             </Row>
             <Row className={cx('wrapper')}>
                 <Col className={cx('history__subject')}>
-                    <Image src={images.react}></Image>
+                    <Image alt="react" src={images.react}></Image>
                     <Row className={cx('history__subject-content')}>
                         <Col lg="4" className={cx('history__subject-left')}>
                             <h4>

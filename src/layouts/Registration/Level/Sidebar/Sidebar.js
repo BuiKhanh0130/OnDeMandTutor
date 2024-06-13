@@ -4,23 +4,22 @@ import { useState, useMemo } from 'react';
 import Button from '~/components/Button';
 
 import styles from './Sidebar.module.scss';
+import { NavLink } from 'react-router-dom';
 
 const cx = classNames.bind(styles);
 
 function Sidebar({ id }) {
-    const [isActive, setIsActive] = useState(id);
-
     const roles = useMemo(
         () => [
             {
                 id: 1,
                 btn: 'Apply to become a tutor',
-                link: 'registrationtutor',
+                link: 'tutor',
             },
             {
                 id: 2,
                 btn: 'Register as a student',
-                link: 'registrationstudent',
+                link: 'student',
             },
         ],
         [],
@@ -32,19 +31,13 @@ function Sidebar({ id }) {
                 <div className={cx('side_navigation')}>
                     {roles.map((role) => {
                         return (
-                            <Button
+                            <NavLink
                                 key={role.id}
                                 to={`/registration/${role.link}`}
-                                className={cx('sidebar-link')}
-                                state={[role.link, role.id]}
-                                active={isActive === role.id}
-                                onClick={() => {
-                                    setIsActive(role.id);
-                                    console.log(isActive === role.id);
-                                }}
+                                className={({ isActive }) => cx('sidebar-link', { active: isActive })}
                             >
                                 {role.btn}
-                            </Button>
+                            </NavLink>
                         );
                     })}
                     <Button to="/">Back to Home</Button>

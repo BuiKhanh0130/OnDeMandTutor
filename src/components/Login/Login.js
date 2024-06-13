@@ -40,12 +40,12 @@ function Login({ onHide, state }) {
                     {
                         id: 1,
                         btn: 'Apply to become a tutor',
-                        link: 'registrationtutor',
+                        link: 'tutor',
                     },
                     {
                         id: 2,
                         btn: 'Register as a student',
-                        link: 'registrationstudent',
+                        link: 'student',
                     },
                 ],
             },

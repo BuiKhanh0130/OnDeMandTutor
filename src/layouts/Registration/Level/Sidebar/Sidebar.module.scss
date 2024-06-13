@@ -18,8 +18,19 @@
         border-radius: 6px;
         margin-bottom: 8px;
         &:hover {
-            background-color: rgba(198, 190, 190, 0.9);
+            background-color: var(--hover);
+            color: var(--white);
         }
+    }
+}
+
+.active {
+    background-color: var(--orange);
+    font-weight: 700;
+    color: var(--white);
+
+    &:hover {
+        background-color: var(--hover);
     }
 }
 

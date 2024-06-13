@@ -9,18 +9,21 @@ import Payment from '~/pages/Pay';
 import History from '~/pages/History';
 import HowItWork from '~/pages/HowItWork';
 import ForStudent from '~/pages/ForStudent';
-import Transaction from '~/pages/Transaction';
+import Transaction from '~/layouts/Transaction';
 import HeaderOnly from '~/layouts/HeaderOnly';
 import CustomerSay from '~/pages/CustomerSay';
 import FindTutor from '~/pages/SearchForTutor';
 import RequestTutor from '~/pages/RequestTutor';
-import Registration from '~/pages/Registration';
+import Registration from '~/layouts/Registration';
 import Advertisement from '~/pages/Advertisement';
 import OnlineTutoring from '~/pages/OnlineTutoring';
+import BecomeTutor from '~/pages/BecomeTutor';
+import BecomeStudent from '~/pages/BecomeStudent';
 
 const publicRoutes = [
     { path: config.routes.home, component: Home },
-    { path: config.routes.registration, component: Registration },
+    { path: config.routes.registrationTutor, component: BecomeTutor, layout: Registration },
+    { path: config.routes.registrationStudent, component: BecomeStudent, layout: Registration },
     { path: config.routes.findTutor, component: FindTutor },
     { path: config.routes.account, component: Tutor },
     { path: config.routes.requestTutor, component: RequestTutor },

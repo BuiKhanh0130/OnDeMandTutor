@@ -14,7 +14,7 @@ function Sidebar() {
             {
                 title: 'Find a Tutor',
                 items: [
-                    { label: 'Search for Tutors', link: config.routes.findTutor },
+                    { label: 'Search for Tutors', link: '/findTutor' },
                     { label: 'Request a Tutor', link: '/requestTutor' },
                     { label: 'Online Tutoring', link: '/onlineTutoring' },
                 ],
@@ -39,14 +39,14 @@ function Sidebar() {
             {
                 title: 'Become a Tutor',
                 items: [
-                    { label: 'Apply Now', link: '/registration/registrationtutor', state: ['registrationtutor'] },
+                    { label: 'Apply Now', link: '/registration/tutor' },
                     { label: 'How It Works For Tutors', link: '/howItWork' },
                 ],
             },
 
             {
                 title: 'About Us ',
-                items: [{ label: 'About Us', link: config.routes.aboutUs }],
+                items: [{ label: 'About Us', link: '/aboutUs' }],
             },
         ],
         [],
@@ -57,7 +57,7 @@ function Sidebar() {
             <div className={cx('container')}>
                 {sidebarItems.map((sidebarItem, index) => {
                     return (
-                        <Menu key={index} items={sidebarItem.items}>
+                        <Menu enu key={index} items={sidebarItem.items}>
                             <div className={cx('menu__item-title')}>
                                 <span>{sidebarItem.title}</span>
                             </div>

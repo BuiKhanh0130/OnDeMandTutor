@@ -14,7 +14,7 @@ function Sidebar() {
             {
                 title: 'Find a Tutor',
                 items: [
-                    { label: 'Search for Tutors', link: config.routes.findTutor },
+                    { label: 'Search for Tutors', link: '/findTutor' },
                     { label: 'Request a Tutor', link: '/requestTutor' },
                     { label: 'Online Tutoring', link: '/onlineTutoring' },
                 ],
@@ -39,7 +39,7 @@ function Sidebar() {
             {
                 title: 'Become a Tutor',
                 items: [
-                    { label: 'Apply Now', link: '/registration/registrationtutor', state: ['registrationtutor'] },
+                    { label: 'Apply Now', link: '/registration/tutor' },
                     { label: 'How It Works For Tutors', link: '/howItWork' },
                 ],
             },

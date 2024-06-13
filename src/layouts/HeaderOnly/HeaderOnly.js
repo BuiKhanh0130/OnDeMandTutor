@@ -1,6 +1,6 @@
 import classNames from 'classnames/bind';
 
-import HeaderNotSideBar from '../components/HeaderNotSideBar';
+import HeaderNotSideBar from '../HeaderNotSideBar';
 
 import styles from './HeaderOnly.module.scss';
 
