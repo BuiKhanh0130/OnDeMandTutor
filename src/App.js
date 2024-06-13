@@ -3,7 +3,7 @@ import { Fragment } from 'react';
 
 import { publicRoutes } from '~/routes';
 import { DefaultLayout } from './layouts/DefaultLayout';
-
+import Admin from './layouts/Admin';
 
 function App() {
     return (
@@ -13,8 +13,7 @@ function App() {
                     {publicRoutes.map((route, index) => {
                         const Page = route.component;
 
-                        let Layout = DefaultLayout;
-
+                        let Layout = Admin;
                         if (route.layout) {
                             Layout = route.layout;
                         } else if (route.layout === null) {

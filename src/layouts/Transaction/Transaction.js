@@ -1,4 +1,3 @@
-import { Router, Routes, Route } from 'react-router';
 import classNames from 'classnames/bind';
 
 import Container from 'react-bootstrap/Container';

@@ -1,0 +1,42 @@
+.nav-icon {
+    font-size: 2.2rem;
+    color: #012970;
+    margin-right: 25px;
+    position: relative;
+}
+
+.badge-number {
+    position: absolute;
+    inset: -2px -5px auto auto;
+    font-weight: normal;
+    font-size: 1.2rem;
+    padding: 3px 6px;
+}
+
+.messages {
+    inset: 8px -15px auto auto !important;
+}
+
+.messages .message-item {
+    padding: 15px 10px;
+    transform: 0.3s;
+}
+
+.messages .message-item a {
+    display: flex;
+}
+
+.messages .message-item img {
+    margin: 0 20px 0 10px;
+    max-height: 40px;
+}
+
+.messages .message-item h4 {
+    font-size: 1.6rem;
+    margin-bottom: 3px;
+    color: #919191;
+}
+
+.messages .message-item:hover {
+    background-color: #f6f9ff;
+}
