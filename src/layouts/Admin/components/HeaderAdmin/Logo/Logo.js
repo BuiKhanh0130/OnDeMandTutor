@@ -8,7 +8,7 @@ const cx = classNames.bind(styles);
 
 function Logo() {
     const handleToggleSideBar = () => {
-        document.classList.toggle('toggle-sidebar');
+        document.classList.toggle('toggle-sidebar-btn');
     };
     return (
         <div className={cx('d-flex align-items-center justify-content-between')}>

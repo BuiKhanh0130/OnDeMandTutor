@@ -72,7 +72,7 @@ function NavMessage() {
         >
             <Link className={cx('nav-link', 'nav-icon')} to="/" data-bs-toggle="dropdown">
                 <i className={cx('bi bi-chat-left-text')}></i>
-                <span className={cx('badge', 'bg-primary', 'badge-number')}>4</span>
+                <span className={cx('badge', 'bg-danger', 'badge-number')}>4</span>
             </Link>
         </HeadlessTippy>
     );

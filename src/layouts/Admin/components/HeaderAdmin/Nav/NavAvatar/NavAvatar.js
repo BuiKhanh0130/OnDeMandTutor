@@ -1,5 +1,4 @@
 import classNames from 'classnames/bind';
-import { Link } from 'react-router-dom';
 import HeadlessTippy from '@tippyjs/react/headless';
 
 import Popper from '~/components/Popper';
@@ -26,30 +25,27 @@ function NavAvatar() {
                             <hr className={cx('dropdown-divider')}></hr>
                         </li>
                         <li className={cx('profile-item')}>
-                            <a href="/">
-                                <i className={cx('bi bi-person')}>
-                                    <span>My profile</span>
-                                </i>
+                            <a className={cx('dropdown-item')} href="/">
+                                <i className={cx('bi bi-person')}></i>
+                                <span>My profile</span>
                             </a>
                         </li>
                         <li>
                             <hr className={cx('dropdown-divider')}></hr>
                         </li>
                         <li className={cx('profile-item')}>
-                            <a href="/">
-                                <i className={cx('bi bi-person')}>
-                                    <span>My profile</span>
-                                </i>
+                            <a className={cx('dropdown-item')} href="/">
+                                <i className={cx('bi bi-person')}></i>
+                                <span>My profile</span>
                             </a>
                         </li>
                         <li>
                             <hr className={cx('dropdown-divider')}></hr>
                         </li>
                         <li className={cx('profile-item')}>
-                            <a href="/">
-                                <i className={cx('bi bi-person')}>
-                                    <span>My profile</span>
-                                </i>
+                            <a className={cx('dropdown-item')} href="/">
+                                <i className={cx('bi bi-person')}></i>
+                                <span>My profile</span>
                             </a>
                         </li>
                         <li>

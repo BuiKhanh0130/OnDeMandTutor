@@ -1,6 +1,8 @@
 import classNames from 'classnames/bind';
 
 import HeaderAdmin from './components/HeaderAdmin';
+import Sidebar from '../Admin/components/Sidebar';
+import Main from './components/Sidebar/Main';
 
 import styles from './Admin.module.scss';
 
@@ -8,12 +10,11 @@ const cx = classNames.bind(styles);
 
 function Admin({ children }) {
     return (
-        <div className={cx('wrapper')}>
-            <div className={cx('container')}>
-                <HeaderAdmin />
-                {children}
-            </div>
-        </div>
+        <>
+            <HeaderAdmin />
+            <Sidebar />
+            <Main />
+        </>
     );
 }
 

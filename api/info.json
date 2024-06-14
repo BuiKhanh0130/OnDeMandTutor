@@ -1,0 +1,63 @@
+{
+    "card": [
+        { "id": 1, "name": "Sales", "icon": "bi bi-cart", "amount": 145, "percentage": 0.12, "active": true },
+        { "id": 2, "name": "Revenue", "icon": "bi bi-cart", "amount": 145, "percentage": -0.12, "active": true },
+        { "id": 3, "name": "Customer", "icon": "bi bi-cart", "amount": 145, "percentage": 0.12, "active": true }
+    ],
+    "news": [
+        {
+            "id": 1,
+
+            "img": "~/assets/images/avatar.png",
+            "title": "jsfkjfksjfkdsjfdsjk",
+            "subtitle": "nkadnasdasldadajsdaslkd",
+            "category": "abc"
+        },
+        {
+            "id": 2,
+
+            "img": "~/assets/images/avatar.png",
+            "title": "jsfkjfksjfkdsjfdsjk",
+            "subtitle": "nkadnasdasldadajsdaslkd",
+            "category": "abc"
+        },
+        {
+            "id": 3,
+
+            "img": "~/assets/images/avatar.png",
+            "title": "jsfkjfksjfkdsjfdsjk",
+            "subtitle": "nkadnasdasldadajsdaslkd",
+            "category": "abc"
+        },
+        {
+            "id": 4,
+
+            "img": "~/assets/images/avatar.png",
+            "title": 145,
+            "subtitle": "nkadnasdasldadajsdaslkd",
+            "category": "abc"
+        },
+        {
+            "id": 5,
+
+            "img": "~/assets/images/avatar.png",
+            "title": "sfajsajdsakdja",
+            "subtitle": "nkadnasdasldadajsdaslkd",
+            "category": "abc"
+        }
+    ],
+    "topTutor": [
+        { "id": 1, "name": "Sales", "icon": "bi bi-cart", "amount": 145, "percentage": 0.12, "active": true },
+        { "id": 2, "name": "Sales", "icon": "bi bi-cart", "amount": 145, "percentage": 0.12, "active": true },
+        { "id": 3, "name": "Sales", "icon": "bi bi-cart", "amount": 145, "percentage": 0.12, "active": true },
+        { "id": 4, "name": "Sales", "icon": "bi bi-cart", "amount": 145, "percentage": 0.12, "active": true },
+        { "id": 5, "name": "Sales", "icon": "bi bi-cart", "amount": 145, "percentage": 0.12, "active": true }
+    ],
+    "recentActivity": [
+        { "id": 1, "name": "Sales", "icon": "bi bi-cart", "amount": 145, "percentage": 0.12, "active": true },
+        { "id": 2, "name": "Sales", "icon": "bi bi-cart", "amount": 145, "percentage": 0.12, "active": true },
+        { "id": 3, "name": "Sales", "icon": "bi bi-cart", "amount": 145, "percentage": 0.12, "active": true },
+        { "id": 4, "name": "Sales", "icon": "bi bi-cart", "amount": 145, "percentage": 0.12, "active": true },
+        { "id": 5, "name": "Sales", "icon": "bi bi-cart", "amount": 145, "percentage": 0.12, "active": true }
+    ]
+}
