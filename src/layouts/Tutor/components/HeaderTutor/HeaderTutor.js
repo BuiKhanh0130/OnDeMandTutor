@@ -9,7 +9,7 @@ import Col from 'react-bootstrap/Col';
 
 import config from '~/config';
 import Image from '~/components/Image';
-import Sidebar from '~/layouts/components/Sidebar';
+import Sidebar from '../Sidebar/Sidebar';
 import images from '~/assets/images';
 import Button from '~/components/Button';
 import User from '~/layouts/components/LogIn/User';

@@ -47,6 +47,7 @@ const images = {
     qa: require('~/assets/images/QA.png'),
     vnpay: require('~/assets/images/VNPAY.png'),
     backgroundTransaction: require('~/assets/images/backgroundtransaction.png'),
+    learnMore: require('~/assets/images/learnmore.png'),
 };
 
 export default images;

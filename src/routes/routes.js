@@ -19,6 +19,7 @@ import Advertisement from '~/pages/Advertisement';
 import OnlineTutoring from '~/pages/OnlineTutoring';
 import BecomeTutor from '~/pages/BecomeTutor';
 import BecomeStudent from '~/pages/BecomeStudent';
+import LearnMore from '~/pages/LearnMore'
 
 const publicRoutes = [
     { path: config.routes.home, component: Home },
@@ -35,6 +36,7 @@ const publicRoutes = [
     { path: config.routes.howItWork, component: HowItWork },
     { path: config.routes.accountStudent, component: Student, layout: HeaderOnly },
     { path: config.routes.aboutUs, component: AboutUs },
+    { path: config.routes.learnMore, component: LearnMore },
     { path: config.routes.transaction, component: Transaction },
     { path: config.routes.payment, component: Payment, layout: Transaction },
     { path: config.routes.history, component: History, layout: Transaction },

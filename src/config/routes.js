@@ -16,6 +16,7 @@ const routes = {
     transaction: 'transaction',
     payment: '/transaction/payment',
     history: '/transaction/history',
+    learnMore: '/learnMore',
 };
 
 export default routes;
