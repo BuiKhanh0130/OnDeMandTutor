@@ -1,42 +1,42 @@
 import classNames from 'classnames/bind';
-import { useState, useEffect } from 'react';
+
+import Report from './Report';
+import BudgetReport from './BudgetReport';
+import RecentSell from './RecentSell';
+import TopSelling from './TopSelling';
+import RecentActivity from './RecentActivity';
+import WebTraffic from './WebTraffic';
+import News from './News';
+import Cards from './Cards';
 
 import styles from './Dashboard.module.scss';
-import Card from './Card';
-import Report from './Report';
 
 const cx = classNames.bind(styles);
 
 function Dashboard() {
-    const [cards, setCards] = useState([]);
-
-    const fetchData = () => {
-        fetch('http://localhost:4000/card')
-            .then((res) => res.json())
-            .then((data) => {
-                setCards(data);
-            })
-            .catch((e) => {
-                console.log(e.message);
-            });
-    };
-
-    useEffect(() => {
-        fetchData();
-    }, []);
-
     return (
         <section className={cx('dashboard', 'section')}>
             <div className={cx('row')}>
                 <div className={cx('col-lg-8')}>
                     <div className={cx('row')}>
-                        {cards && cards.length > 0 && cards.map((card) => <Card key={card.id} card={card} />)}
+                        <Cards />
                         <div className={cx('col-12')}>
                             <Report />
                         </div>
+                        <div className={cx('col-12', 'recent-sale')}>
+                            <RecentSell />
+                        </div>
+                        <div className={cx('col-12', 'recent-sale')}>
+                            <TopSelling />
+                        </div>
                     </div>
                 </div>
-                <div className={cx('col-lg-4')}></div>
+                <div className={cx('col-lg-4')}>
+                    <RecentActivity />
+                    <BudgetReport />
+                    <WebTraffic />
+                    <News />
+                </div>
             </div>
         </section>
     );

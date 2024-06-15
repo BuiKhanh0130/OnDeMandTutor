@@ -7,7 +7,6 @@
     "@fortawesome/free-solid-svg-icons": "^6.5.2",
     "@fortawesome/react-fontawesome": "^0.2.2",
     "@testing-library/jest-dom": "^5.17.0",
-    "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
     "@tippyjs/react": "^4.2.6",
     "apexcharts": "^3.49.1",
@@ -15,6 +14,7 @@
     "bootstrap-icons": "^1.11.3",
     "classnames": "^2.5.1",
     "customize-cra": "^1.0.0",
+    "echarts": "^5.5.0",
     "localforage": "^1.10.0",
     "match-sorter": "^6.3.4",
     "multi-range-slider-react": "^2.0.7",
@@ -34,6 +34,8 @@
     "web-vitals": "^2.1.4"
   },
   "devDependencies": {
+    "@testing-library/dom": "^10.1.0",
+    "@testing-library/react": "^16.0.0",
     "babel-plugin-module-resolver": "^5.0.2",
     "react-app-rewired": "^2.2.1"
   },
