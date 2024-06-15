@@ -3,7 +3,7 @@ import classNames from 'classnames/bind';
 import Sidebar from './Level/Sidebar';
 
 import styles from './Registration.module.scss';
-import Header from '~/layouts/Header';
+import Header from '~/layouts/components/Header';
 
 const cx = classNames.bind(styles);
 

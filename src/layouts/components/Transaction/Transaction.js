@@ -7,7 +7,7 @@ import Col from 'react-bootstrap/Col';
 import Sidebar from './component/Sidebar';
 
 import styles from './Transaction.module.scss';
-import HeaderNotFix from '~/layouts/HeaderNotFix';
+import HeaderNotFix from '../HeaderNotFix';
 
 const cx = classNames.bind(styles);
 

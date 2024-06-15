@@ -9,11 +9,11 @@ import Col from 'react-bootstrap/Col';
 
 import config from '~/config';
 import Image from '~/components/Image';
-import Sidebar from '~/layouts/components/Sidebar';
+import Sidebar from './components/Sidebar';
 import images from '~/assets/images';
 import Button from '~/components/Button';
-import User from '../components/LogIn/User';
-import Notification from '../components/LogIn/Notification';
+import User from '~/layouts/DefaultLayout/components/LogIn/User';
+import Notification from '~/layouts/DefaultLayout/components/LogIn/Notification';
 import { ModalContext } from '~/components/ModalProvider';
 // import { faBell } from '@fortawesome/free-solid-svg-icons';
 // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';

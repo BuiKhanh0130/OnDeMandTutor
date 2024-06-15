@@ -1,8 +1,8 @@
 import classNames from 'classnames/bind';
 import { useContext } from 'react';
 
-import Header from '../Header';
-import Footer from '../Footer';
+import Header from '../components/Header';
+import Footer from '../components/Footer';
 import Login from '~/components/Login';
 import { ModalContext } from '~/components/ModalProvider';
 import { ScrollToTop } from '~/components/ScrollToTop';
