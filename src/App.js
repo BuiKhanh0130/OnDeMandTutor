@@ -4,6 +4,7 @@ import { Fragment } from 'react';
 import { publicRoutes } from '~/routes';
 import { DefaultLayout } from './layouts/DefaultLayout';
 import Admin from './layouts/Admin';
+import Tutor from './layouts/Tutor';
 
 function App() {
     return (
@@ -13,7 +14,7 @@ function App() {
                     {publicRoutes.map((route, index) => {
                         const Page = route.component;
 
-                        let Layout = DefaultLayout;
+                        let Layout = Tutor;
                         if (route.layout) {
                             Layout = route.layout;
                         } else if (route.layout === null) {
