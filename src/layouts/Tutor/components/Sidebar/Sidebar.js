@@ -25,10 +25,14 @@ function Sidebar() {
             },
 
             {
-                title: 'Resources',
+                title: 'My Business',
                 items: [
                     { label: 'News', link: '/advertisement' },
                     { label: 'Blog', link: '/blog' },
+                    { label: 'Student\'s Post', link: '/advertisement' },
+                    { label: 'Advertisement', link: '/blog' },
+                    { label: 'Wallet', link: '/blog' },
+                    { label: 'Feedback', link: '/blog' },
                 ],
             },
 
@@ -37,7 +41,7 @@ function Sidebar() {
                 items: [
                     { label: 'Learn More', link: '/learnMore' },
                     { label: 'How Tutors Work', link: '/howItWork' },
-                    { label: '5 Tips For Success', link: '/advertisement' },
+                    { label: '5 Tips For Success', link: '/tipSuccess' },
                 ],
             },
 

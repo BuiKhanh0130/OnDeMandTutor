@@ -48,6 +48,9 @@ const images = {
     vnpay: require('~/assets/images/VNPAY.png'),
     backgroundTransaction: require('~/assets/images/backgroundtransaction.png'),
     learnMore: require('~/assets/images/learnmore.png'),
+    tipSuccess: require('~/assets/images/tipsuccess.png'),
+    tipSuccess1: require('~/assets/images/tipsuccess1.png'),
+    tipSuccess2: require('~/assets/images/tipsuccess2.png'),
 };
 
 export default images;

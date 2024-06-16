@@ -4,6 +4,9 @@ import styles from './LearnMore.module.scss'
 import  Container  from "react-bootstrap/Container";
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
+// import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 // import images from "~/assets/images";
 // import Figure from 'react-bootstrap/Figure'
 
@@ -44,6 +47,47 @@ function LearnMore(){
 
         ]
         , [])
+
+        const sliders = useMemo(
+           () => [
+                    {
+                    id: 1,
+                    title: "accusamus beatae ad facilis cum similique qui sunt",
+                    url: "https://via.placeholder.com/600/92c952",
+                    },
+                    {
+                    id: 2,
+                    title: "reprehenderit est deserunt velit ipsam",
+                    url: "https://via.placeholder.com/600/771796",
+                    },
+                    {
+                    id: 3,
+                    title: "officia porro iure quia iusto qui ipsa ut modi",
+                    url: "https://via.placeholder.com/600/24f355",
+                    },
+                    {
+                    id: 4,
+                    title: "culpa odio esse rerum omnis laboriosam voluptate repudiandae",
+                    url: "https://via.placeholder.com/600/d32776",
+                    },
+                    {
+                    id: 5,
+                    title: "natus nisi omnis corporis facere molestiae rerum in",
+                    url: "https://via.placeholder.com/600/f66b97",
+                    }
+                ], [] )
+
+        var settings = {
+            dots: true,
+            infinite: true,
+            speed: 500,
+            slidesToShow: 1,
+            slidesToScroll: 1,
+            autoplay: true,
+            autoplaySpeed: 2000,
+            cssEase: "linear"
+            
+            };
 
     return (
         <div className={cx('wrapper')}>
@@ -120,10 +164,6 @@ function LearnMore(){
                                             <div className={cx('container__content-title')}>
                                                 <h4>{lession.title}</h4>
                                             </div>
-
-                                            {/* <div className={cx('container__content-content')}>
-                                                {lession.content}
-                                            </div> */}
                                         </div>
                                     </div>
                             )
@@ -132,9 +172,26 @@ function LearnMore(){
                     }
                 </Row>
 
-                <Row>
-                        
-                </Row>
+                {/* <Row >
+                       <Col lg='9' className="container__content">
+                                <div className="container__header">
+                                        <h4 className="inner_text">Related Articles</h4>
+                                </div>
+                        <Slider {...settings}>
+                        {
+                                    sliders.map((slider, index) =>{
+                                        return (
+                                            <div key={slider.id} className={cx('container__slider__block')}>
+                                                    <div className={cx('container__slider-pic')}>
+                                                        <img src={slider.url} alt='noImage'></img>
+                                                    </div>
+                                            </div>
+                                        )
+                                    })
+                                }
+                            </Slider>
+                       </Col> 
+                </Row> */}
             </Container>
         </div>
     )

@@ -19,7 +19,8 @@ import Advertisement from '~/pages/Advertisement';
 import OnlineTutoring from '~/pages/OnlineTutoring';
 import BecomeTutor from '~/pages/BecomeTutor';
 import BecomeStudent from '~/pages/BecomeStudent';
-import LearnMore from '~/pages/LearnMore'
+import LearnMore from '~/pages/LearnMore';
+import TipSuccess from '~/pages/TipSuccess';
 
 const publicRoutes = [
     { path: config.routes.home, component: Home },
@@ -40,6 +41,7 @@ const publicRoutes = [
     { path: config.routes.transaction, component: Transaction },
     { path: config.routes.payment, component: Payment, layout: Transaction },
     { path: config.routes.history, component: History, layout: Transaction },
+    { path: config.routes.tipSuccess, component: TipSuccess },
 ];
 
 const privateRoutes = [];

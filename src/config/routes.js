@@ -17,6 +17,7 @@ const routes = {
     payment: '/transaction/payment',
     history: '/transaction/history',
     learnMore: '/learnMore',
+    tipSuccess: '/tipSuccess',
 };
 
 export default routes;
