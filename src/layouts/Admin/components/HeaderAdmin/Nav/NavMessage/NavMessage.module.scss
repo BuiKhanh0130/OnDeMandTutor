@@ -15,10 +15,26 @@
 
 .messages {
     inset: 8px -15px auto auto !important;
+    padding-left: 0;
+}
+
+.dropdown-header {
+    font-size: 2rem;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    padding: 0 10px;
+
+    a {
+        display: flex;
+        align-items: center;
+        span {
+            font-size: 1.2rem;
+        }
+    }
 }
 
 .messages .message-item {
-    padding: 15px 10px;
     transform: 0.3s;
 }
 
@@ -39,4 +55,8 @@
 
 .messages .message-item:hover {
     background-color: #f6f9ff;
+}
+
+.dropdown-divider {
+    border: 1px solid #919191;
 }

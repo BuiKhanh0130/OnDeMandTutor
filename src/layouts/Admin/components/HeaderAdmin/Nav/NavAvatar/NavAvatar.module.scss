@@ -24,13 +24,22 @@
     min-width: 240px;
     padding-bottom: 0;
     top: 8px !important;
+    padding-left: 0;
+}
+
+.dropdown-header {
+    display: flex;
+    padding-left: 18px;
 }
 
 .profile .dropdown-header h6 {
     font-size: 1.8rem;
     margin-bottom: 0;
+    margin-right: 10px;
     font-weight: 600;
     color: #444444;
+    padding-right: 10px;
+    border-right: 1px solid var(--line-border);
 }
 
 .profile .dropdown-header span {
@@ -44,11 +53,15 @@
 }
 
 .profile .dropdown-item i {
-    margin-right: 10px;
+    margin-right: 14px;
     font-size: 1.8rem;
     line-height: 0;
 }
 
 .profile .dropdown-item:hover {
     background-color: #f6f9ff;
+}
+
+.dropdown-divider {
+    border: 1px solid #919191;
 }

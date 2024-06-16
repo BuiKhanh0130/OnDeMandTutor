@@ -1,0 +1,36 @@
+.info-card {
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+.info-card h6 {
+    font-size: 2.8rem;
+    color: #012970;
+    font-weight: 700;
+    margin: 0;
+    padding: 0;
+}
+
+.card-icon {
+    font-size: 3.2rem;
+    line-height: 0;
+    width: 64px;
+    height: 64px;
+    flex-shrink: 0;
+    flex-grow: 0;
+}
+
+.sales-card .card-icon {
+    color: #4154f1;
+    background: #f6f6fe;
+}
+
+.revenue-card .card-icon {
+    color: #2eca6a;
+    background: #e0f8e9;
+}
+
+.customer-card .card-icon {
+    color: #ff771d;
+    background: #ffecdf;
+}
