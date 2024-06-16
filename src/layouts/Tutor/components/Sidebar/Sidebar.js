@@ -4,7 +4,7 @@ import { useMemo } from 'react';
 import styles from './Sidebar.module.scss';
 
 import config from '~/config';
-import Menu from '~/layouts/components/Sidebar/Menu/Menu';
+import Menu from '~/layouts/DefaultLayout/components/Sidebar/Menu';
 
 const cx = classNames.bind(styles);
 

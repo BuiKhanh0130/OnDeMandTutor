@@ -107,6 +107,7 @@
         height: 80px;
         width: 120px;
     }
+    
 }
 
 .container__items{
@@ -118,6 +119,11 @@
         text-align: left;
         font-size: 14px;
         font-weight: bold
+    }
+
+    &:hover {
+        cursor: pointer;
+        background-color: rgba(255, 255, 255, 0.2);
     }
 }
 
