@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 
 import CardFilter from '../Card/CardFilter';
 import BudgetReportItem from './BudgetReportItem';
@@ -10,7 +10,7 @@ import styles from './BudgetReport.module.scss';
 const cx = classNames.bind(styles);
 
 function BudgetReport({ classNames }) {
-    const [items, setItems] = useState([]);
+    // const [items, setItems] = useState([]);
     const [filter, setFilter] = useState('Today');
     const handleFilterChange = (filter) => {
         setFilter(filter);

@@ -5,6 +5,7 @@ import styles from './Sidebar.module.scss';
 
 import config from '~/config';
 import Menu from '~/layouts/DefaultLayout/components/Sidebar/Menu';
+import { Link } from 'react-router-dom';
 
 const cx = classNames.bind(styles);
 
@@ -13,7 +14,7 @@ function Sidebar() {
         () => [
             {
                 title: 'Dashboard',
-             
+                // items: [{ label: 'Dashboard', link: config.routes.dashboardTutor }],
             },
 
             {
@@ -28,11 +29,8 @@ function Sidebar() {
                 title: 'My Business',
                 items: [
                     { label: 'News', link: '/advertisement' },
-                    { label: 'Blog', link: '/blog' },
-                    { label: 'Student\'s Post', link: '/advertisement' },
+                    { label: 'Student\'s Post', link: '/blog' },
                     { label: 'Advertisement', link: '/blog' },
-                    { label: 'Wallet', link: '/blog' },
-                    { label: 'Feedback', link: '/blog' },
                 ],
             },
 
@@ -64,9 +62,15 @@ function Sidebar() {
                                 </div>
                             </Menu>)
                         } else {
-                            return(<div key = {index} className={cx('notmenu__item-title')}>
-                            <span>{sidebarItem.title}</span>
-                        </div>)
+                            return(
+                                <Link to="/dashboardTutor">
+                                    <div key = {index} className={cx('notmenu__item-title')}>
+                                        <span>
+                                            {sidebarItem.title}
+                                        </span>
+                                    </div>
+                                </Link>
+                        )
                         }   
                 })}
             </div>

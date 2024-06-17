@@ -51,6 +51,7 @@ const images = {
     tipSuccess: require('~/assets/images/tipsuccess.png'),
     tipSuccess1: require('~/assets/images/tipsuccess1.png'),
     tipSuccess2: require('~/assets/images/tipsuccess2.png'),
+    tipSuccess3: require('~/assets/images/tipsuccess3.png'),
 };
 
 export default images;
