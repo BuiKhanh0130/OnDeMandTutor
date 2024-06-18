@@ -1,7 +1,11 @@
 
 .wrapper {
     margin-top: var(--default-layout-height-header);
-    min-height: 1000px;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Inter', sans-serif;
 }
   
   .AppGlass {
@@ -10,9 +14,7 @@
     height: 97%;
     width: 97%;
     background: var(--glass);
-    border-radius: 2rem;
     gap: 16px;
     grid-template-columns: 20rem auto 20rem;
     overflow: hidden;
-    min-height: 1000px;
   }

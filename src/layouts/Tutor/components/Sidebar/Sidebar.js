@@ -70,9 +70,9 @@ function Sidebar() {
                                         </span>
                                     </div>
                                 </Link>
-                        )
+                            )
                         }   
-                })}
+                    })}
             </div>
         </div>
     );

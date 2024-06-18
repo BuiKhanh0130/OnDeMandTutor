@@ -52,11 +52,10 @@ const SidebarTutor = () => {
                     </div>
                 )
             })}
-            
-            <div className={cx('MenuItem')}>
+        </div>
+        <div className={cx('MenuItem1')}>
                         <UilSignOutAlt/>
                     </div>
-        </div>
         </div>
   )
 }

@@ -4,8 +4,8 @@
     position: relative;
     padding-top: 4rem;
     transition: all 300ms ease;
-  
-    
+    // box-shadow: inset 0 1px 10px grey;
+    // border-radius: 10px;
   }
 
   .Menu {
@@ -13,7 +13,10 @@
     display: flex;
     flex-direction: column;
     gap: 5rem;
+    width: 200px;
     text-align: center;
+    position: fixed;
+    top: 50px;
   }
   .MenuItem {
     display: flex;
@@ -25,8 +28,6 @@
     transition: all 300ms ease;
     border-radius: 0.7rem;
     font-size: 14px;
-    
-    
   }
   .MenuItem:hover{
     cursor: pointer;
@@ -36,6 +37,7 @@
     margin-left: 0;
 }
 
+
 .active::before {
     content: "";
     width: 8px;
@@ -44,7 +46,7 @@
     margin-right: calc(1rem - 8px);
   }
 
-  .Menu .MenuItem:last-child {
+  .MenuItem1 {
     position: absolute;
     bottom: 2.3rem;
     width: 100%;
