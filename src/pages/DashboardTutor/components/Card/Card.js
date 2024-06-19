@@ -1,13 +1,10 @@
 import React, { useState } from 'react'
-import classNames from 'classnames/bind'
 import "./Card.css";
 import {motion } from 'framer-motion'
 import { CircularProgressbar } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
 import {UilTimes} from '@iconscout/react-unicons'
 import Chart from 'react-apexcharts'
-
-// const cx = classNames.bind(styles)
 
 const Card = (props) => {
 
@@ -40,7 +37,6 @@ function CompactCard({param, setExpanded}){
                 }
             }
             onClick = {setExpanded}
-            layoutId="expandableCard"
         >
             <div className='radialBar'>
                     <CircularProgressbar
@@ -123,7 +119,12 @@ function ExpandedCard({param, setExpanded}){
 
         layoutId="expandableCard"
         >
-            <div>
+            <div style={
+              {
+                alignSelf: 'flex-end',
+                cursor: 'pointer',
+                color: 'white'
+              }}>
                 <UilTimes onClick={setExpanded}/>
             </div>
             <span>{param.title}</span>

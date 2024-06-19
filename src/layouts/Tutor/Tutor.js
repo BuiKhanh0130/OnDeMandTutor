@@ -13,7 +13,7 @@ function Tutor({children}){
             <HeaderTutor/>
             {children}
             <ScrollToTop />
-            {/* <FooterTutor/> */}
+            <FooterTutor/>
         </div>
     )
 }

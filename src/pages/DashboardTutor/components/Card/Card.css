@@ -1,13 +1,13 @@
 .CompactCard{
   display: flex;
   flex: 1;
-  height: 12rem!important;
+  height: 14rem!important;
   border-radius: 0.7rem;
   color: white;
   position: relative;
   cursor: pointer;
   padding: 1rem;
-  width: 300px;
+  width: 320px;
 }
 
 .CompactCard:hover{
@@ -71,9 +71,9 @@
 .ExpandedCard {
   position: absolute;
   width: 60%;
-  height: 70vh;
+  /* height: 70vh; */
   z-index: 9;
-  left: 13rem;
+  left: 22.5rem;
   border-radius: 1rem;
   display: flex;
   flex-direction: column;

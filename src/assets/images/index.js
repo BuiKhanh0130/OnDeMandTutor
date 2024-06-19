@@ -52,6 +52,11 @@ const images = {
     tipSuccess1: require('~/assets/images/tipsuccess1.png'),
     tipSuccess2: require('~/assets/images/tipsuccess2.png'),
     tipSuccess3: require('~/assets/images/tipsuccess3.png'),
+    dashboard1: require('~/assets/images/buikhanh.png'),
+    dashboard2: require('~/assets/images/hoangphuc.png'),
+    dashboard3: require('~/assets/images/quynhnhu.png'),
+    dashboard4: require('~/assets/images/nhutam.png'),
+    dashboard5: require('~/assets/images/vanlam.png'),
 };
 
 export default images;
