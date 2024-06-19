@@ -1,0 +1,35 @@
+.wrapper {
+    background-color: #363232;
+    position: relative;
+    width: 100%;
+    margin-top: 20px;
+}
+
+.container {
+    padding: 10px 0;
+}
+
+.container__content {
+    color: var(--white);
+}
+
+.container__content-link-items {
+}
+
+.container__content-title {
+    font-size: 1.4rem;
+    margin-bottom: 4px;
+}
+.container__content-link {
+    a {
+        display: flex;
+        align-items: center;
+    }
+}
+.container__content-icon {
+    margin-right: 24px;
+}
+.container__content-label {
+    color: var(--white);
+    line-height: 1.6rem;
+}

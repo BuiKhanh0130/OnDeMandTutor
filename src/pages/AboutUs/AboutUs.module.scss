@@ -9,7 +9,7 @@
     p {
         font-size: 4rem;
         font-weight: 700;
-        margin: 40px;
+        margin: 30px;
         color: #ed6d20;
     }
     span {
@@ -18,16 +18,29 @@
     }
 }
 
-.image {
-    width: 85%;
-    height: 450px;
-    margin: 0 auto;
-    img{
-        height: 100%;
-        width:  100%;
-    }
-  }
+.image_header{
+    background-image: url('../../assets/images/image.png');
+    height: 500px;
+        text-align: center;
+        background-size: cover;
+        background-position: center;
+        img{
+            height: 100%;
+            width:  100%;
+        }
 
+        h1{
+            padding-top: 200px;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+            // color: rgb(3, 68, 68);
+            color: rgb(237, 241, 241);
+            text-transform: uppercase;
+            font-weight: 400;
+            line-height: 1.2;
+            font-size: 48px;
+            font-family: "Ubuntu", sans-serif;
+        }
+}
 
 .container__button{
     display: flex; 
@@ -88,22 +101,75 @@
     }
 }
 
-.container__information{
-    margin: 100px 0;
-    .text-center{
-        margin-top: 40px;
-        position: absolute;
+.container__information1{
+    background-image: url('../../assets/images/aboutUs1.png');
+    background-repeat: no-repeat;
+    text-align: center;
+    background-position: center;
+    margin-top: 30px;
+    height: 400px;
+    h1{
+        padding-top: 170px;
+        color: #fff;
+        font-family: "Ubuntu", sans-serif;
+        font-size: 42px;
+        font-weight: 400;
+    line-height: 1.2;
     }
-    img {
-
-        display: block;
-        position: relative;
-        margin-left: auto;
-        margin-right: auto;
-        max-width: 70%;
-        border-radius: 50%;
-      }
+    h3{
+        color: #fff;
+        font-size: 22px;
+        line-height: 1.25;
+        font-family: "Ubuntu", sans-serif;
+    }
 }
+
+.container__information2{
+    background-image: url('../../assets/images/aboutUs2.png');
+    background-repeat: no-repeat;
+    background-position: center;
+    margin-top: 30px;
+
+    h1{
+        padding-top: 170px;
+        color: #fff;
+        font-family: "Ubuntu", sans-serif;
+        font-size: 42px;
+        font-weight: 400;
+    line-height: 1.2;
+    }
+
+    h3{
+        color: #fff;
+        font-size: 22px;
+        line-height: 1.25;
+        font-family: "Ubuntu", sans-serif;
+    }
+}
+
+.container__information3{
+    background-image: url('../../assets/images/aboutUs3.png');
+    background-repeat: no-repeat;
+    background-position: center;
+    margin-top: 30px;
+
+    h1{
+        padding-top: 170px;
+        color: #fff;
+        font-family: "Ubuntu", sans-serif;
+        font-size: 42px;
+        font-weight: 400;
+    line-height: 1.2;
+    }
+
+    h3{
+        color: #fff;
+        font-size: 22px;
+        line-height: 1.25;
+        font-family: "Ubuntu", sans-serif;
+    }
+}
+
 
 .container__difference{
     text-align: center;

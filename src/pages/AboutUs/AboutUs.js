@@ -1,5 +1,8 @@
 import classNames from 'classnames/bind';
 import { useMemo } from 'react';
+import aboutUs1 from '../../assets/images/aboutUs1.png'; // Import image
+import aboutUs2 from '../../assets/images/aboutUs2.png';
+import aboutUs3 from '../../assets/images/aboutUs3.png';
 
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
@@ -36,17 +39,17 @@ function AboutUs() {
     const infors = useMemo(
         () => [
             {
-                image: images.aboutUs1,
+                image: aboutUs1,
                 value: '300+',
                 title: 'Subject',
             },
             {
-                image: images.aboutUs2,
+                image: aboutUs2,
                 value: '1,000,000+',
                 title: 'Lession in 2021',
             },
             {
-                image: images.aboutUs3,
+                image: aboutUs3,
                 value: '65,000+',
                 title: 'Trusted Instructors',
             },
@@ -56,11 +59,13 @@ function AboutUs() {
 
     return (
         <div className={cx('wrapper')}>
-            <div className={cx('image')}>
-                <img src={images.image} alt="header" />
-            </div>
 
             <Container className={cx('container')}>
+                <Row>
+                     <div className={cx('image_header')}>
+                        <h1>Introducing Us</h1>
+                        </div> 
+                </Row>
                 <Row>
                     <Col className={cx('container__header')}>
                         <p>Learning That Works</p>
@@ -82,17 +87,26 @@ function AboutUs() {
                 </Row>
 
                 <Row>
-                    {infors.map((infor, index) => {
-                        return (
-                            <Col key={index} lg="4" className={cx('container__information')}>
+                        <Col lg="4" className={cx('container__information1')}>
                                 <div className="text-center">
-                                    <h1>{infor.value}</h1>
-                                    <h3>{infor.title}</h3>
+                                    <h1>300+</h1>
+                                    <h3>Subject</h3>
                                 </div>
-                                <img src={infor.image} alt={infor.title}></img>
                             </Col>
-                        );
-                    })}
+
+                        <Col lg="4" className={cx('container__information2')}>
+                                <div className="text-center">
+                                    <h1>1,000,000+</h1>
+                                    <h3>Lession in 2021</h3>
+                                </div>
+                            </Col>
+
+                        <Col lg="4" className={cx('container__information3')}>
+                                <div className="text-center">
+                                    <h1>65,000+</h1>
+                                    <h3>Trusted Instructors</h3>
+                                </div>
+                            </Col>
                 </Row>
 
                 <Row>
