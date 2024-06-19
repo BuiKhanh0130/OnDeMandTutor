@@ -2,29 +2,29 @@
     margin-top: 15px;
 }
 
-img {
+.post-item img {
     width: 60px;
     float: left;
     border-radius: 5px;
 }
 
-h4 {
+.post-item h4 {
     font-size: 1.2rem;
     margin-left: 95px;
     font-weight: bold;
     margin-bottom: 5px;
 }
 
-h4 a {
+.post-item h4 a {
     color: #012970;
     transition: 0.3s;
 }
 
-h4 a:hover {
+.post-item h4 a:hover {
     color: #4154f1;
 }
 
-p {
+.post-item p {
     font-size: 1rem;
     color: #777777;
     margin-left: 95px;

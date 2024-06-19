@@ -86,6 +86,36 @@ a {
     text-decoration: none;
 }
 
+//Err
+.instructions {
+    display: flex;
+    margin-bottom: 0px;
+    background-color: transparent;
+    width: 100%;
+    color: red;
+
+    p {
+        margin-bottom: 0px;
+    }
+}
+
+.valid {
+    display: inline-block;
+}
+
+.hide {
+    display: none;
+}
+
+.offscreen {
+    position: absolute;
+    left: -10000px;
+    top: auto;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+}
+
 //Fonts embedded
 @font-face {
     font-family: TikTokDisplayFont;

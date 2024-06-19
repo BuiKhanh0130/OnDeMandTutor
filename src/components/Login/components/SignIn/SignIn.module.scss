@@ -1,0 +1,81 @@
+.signIn-form {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 10px;
+
+    input {
+        border: 1px solid var(--line-border);
+    }
+}
+
+.sign-in-form-btn {
+    display: flex;
+    justify-content: center;
+    border: none;
+    width: 100%;
+    margin-top: 10px;
+    background: var(--orange);
+    color: var(--white);
+}
+
+.forgotten-link {
+    display: flex;
+    justify-content: end;
+}
+
+.form-login-signup-btn-item {
+    color: var(--white);
+    height: 40px;
+    width: 100%;
+
+    &:hover {
+        background-color: rgb(248, 138, 59, 0.8);
+        cursor: pointer;
+    }
+}
+
+.signIn-form-by-google {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 40px;
+    font-weight: 500;
+    font-size: 1.4rem;
+    border-radius: 4px;
+    border: 1px solid var(--black);
+    margin-top: 10px;
+
+    span {
+        margin: 10px 6px;
+    }
+
+    img {
+        position: absolute;
+        left: 8px;
+        width: 20px;
+    }
+
+    &:hover {
+        cursor: pointer;
+    }
+}
+
+.login-license {
+    margin-top: 20px;
+
+    font-style: 1.6rem;
+    font-size: 1.2rem;
+
+    p {
+        color: rgba(22, 24, 35, 0.5);
+        font-weight: 500;
+        width: 100%;
+        text-align: center;
+        margin-left: 0px;
+    }
+
+    a {
+        color: var(--text-color);
+    }
+}
