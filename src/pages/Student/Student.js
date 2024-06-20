@@ -1,4 +1,6 @@
 import classNames from 'classnames/bind';
+import { useEffect, useState } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
@@ -7,12 +9,43 @@ import Col from 'react-bootstrap/Col';
 import Image from '~/components/Image';
 import images from '~/assets/images';
 import Class from '~/components/Class';
+import useRequestsPrivate from '~/hook/useRequestPrivate';
 
 import styles from './Student.module.scss';
 
 const cx = classNames.bind(styles);
 
 function Student() {
+    const [users, setUsers] = useState();
+    const axiosPrivate = useRequestsPrivate();
+    const navigate = useNavigate();
+    const location = useLocation();
+
+    useEffect(() => {
+        let isMounted = true;
+        const controller = new AbortController();
+
+        const getUsers = async () => {
+            try {
+                const response = await axiosPrivate.get('Accounts', {
+                    signal: controller.signal,
+                });
+                console.log(response.data);
+                isMounted && setUsers(response.data);
+            } catch (err) {
+                console.error(err);
+                navigate('/login', { state: { from: location }, replace: true });
+            }
+        };
+
+        getUsers();
+
+        return () => {
+            isMounted = false;
+            controller.abort();
+        };
+    }, []);
+
     return (
         <div className={cx('wrapper')}>
             <Container>
@@ -22,6 +55,15 @@ function Student() {
                         <div className={cx('container__profile-student')}>
                             <Image src={images.avatar} alt="NT" />
                             <p>Nguyen Thanh Phong</p>
+                            {users?.length ? (
+                                <ul>
+                                    {users.map((user, i) => (
+                                        <li key={i}>{user?.username}</li>
+                                    ))}
+                                </ul>
+                            ) : (
+                                <p>No users to display</p>
+                            )}
                         </div>
                     </Col>
                 </Row>

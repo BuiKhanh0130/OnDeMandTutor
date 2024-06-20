@@ -1,29 +1,33 @@
 import classNames from 'classnames/bind';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useState, useEffect, useRef, useContext } from 'react';
-import { Link } from 'react-router-dom';
 import { Fragment } from 'react';
+import { jwtDecode } from 'jwt-decode';
 
+import request from '~/utils/request';
 import config from '~/config';
 import Button from '~/components/Button';
 import { ModalContext } from '~/components/ModalProvider';
-import requests from '~/utils/request';
 
 import styles from './SignIn.module.scss';
 
-const LOG_URL = 'auth/signIn';
+const LOGIN_URL = 'auth/signIn';
 
 const cx = classNames.bind(styles);
 
 function SignIn({ item, onChangeUsername, onChangePassword }) {
-    const { setAuth } = useContext(ModalContext);
+    const { setAuth, setActive } = useContext(ModalContext);
+
+    const navigate = useNavigate();
+    const location = useLocation();
+    const from = location.state?.from?.pathname || '/';
+
     const userRef = useRef();
     const errRef = useRef();
 
     const [userName, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [errMsg, setErrMsg] = useState('');
-    const [success, setSuccess] = useState(false);
-    const [redirect, setRedirect] = useState(false);
 
     useEffect(() => {
         userRef.current.focus();
@@ -37,71 +41,44 @@ function SignIn({ item, onChangeUsername, onChangePassword }) {
         setPassword(e.target.value);
     };
 
-    const handleSubmit = async (e: SyntheticEvent) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
         try {
-            console.log(JSON.stringify({ userName: userName, password: password }));
-            const response = await requests.post(LOG_URL, JSON.stringify({ userName: userName, password: password }), {
-                headers: {
-                    'Content-Type': 'application/json',
-                },
+            const response = await request.post(LOGIN_URL, JSON.stringify({ userName, password }), {
+                headers: { 'Content-Type': 'application/json' },
                 withCredentials: true,
             });
-            console.log(JSON.stringify(response?.data));
-            // console.log(JSON.stringify(response));
-            const accessToken = response?.data?.accessToken;
-            const roles = response?.data?.roles;
-            setAuth({ userName, password, roles, accessToken });
+            //console.log(JSON.stringify(response));
+            const accessToken = response?.data?.token;
+            const role = jwtDecode(accessToken);
+            setAuth({ userName, password, role, accessToken });
             setUsername('');
             setPassword('');
-            setSuccess(true);
+            localStorage.setItem('item', JSON.stringify(response?.data));
+            setActive(false);
+            navigate(from, { replace: true });
         } catch (err) {
             if (!err?.response) {
-                setErrMsg('No server response');
-            } else if (!err?.response?.status === 400) {
-                setErrMsg('Missing username or password');
+                setErrMsg('No Server Response');
+            } else if (err.response?.status === 400) {
+                setErrMsg('Missing Username or Password');
             } else if (err.response?.status === 401) {
                 setErrMsg('Unauthorized');
-            } else if (err.response?.status === 415) {
-                setErrMsg('Unsupported Media Type');
             } else {
-                setErrMsg('Login failed');
+                setErrMsg('Login Failed');
             }
+            errRef.current.focus();
         }
-
-        // await fetch('', {
-        //     method: 'POST',
-        //     headers: {
-        //         'Content-Type': 'application/json',
-        //     },
-        //     credentials: 'included',
-        //     body: JSON.stringify({
-        //         username,
-        //         password,
-        //     }),
-        // });
-        // setRedirect(true);
     };
 
     useEffect(() => {
         setErrMsg('');
     }, [userName, password]);
 
-    if (redirect === true) {
-        return <redirect to="/" />;
-    }
     return item.map((signIn, index, onSubmit) => {
         return (
             <Fragment key={index}>
-                {/* {
-                    <section>
-                        <h1>Success</h1>
-                        <p>
-                            <a href="/">Sign in</a>
-                        </p>
-                    </section>
-                } */}
                 <div className={cx('wrapper')}>
                     <p ref={errRef} className={errMsg ? 'errMsg' : 'offscreen'} aria-live="assertive">
                         {errMsg}

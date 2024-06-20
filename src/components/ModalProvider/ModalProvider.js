@@ -24,6 +24,7 @@ function ModalProvider({ children }) {
         active,
         auth,
         setAuth,
+        setActive,
         activeSignUp,
         handleActive,
         handleHiddenActive,
