@@ -44,9 +44,9 @@ const Contact = () => {
   return (
     <div className={cx("RecentContact")}>
         <h3>Recent Contacts</h3>
-      {Customers.map((update) => {
+      {Customers.map((update, index) => {
         return (
-          <div className={cx("Contact")}>
+          <div key={index} className={cx("Contact")}>
             <img src={update.img} alt="profile" />
             <div className={cx("mess")}>
               <div  style={{marginBottom: '0.5rem'}}>

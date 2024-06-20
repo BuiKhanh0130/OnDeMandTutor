@@ -19,6 +19,7 @@ const routes = {
     learnMore: '/learnMore',
     tipSuccess: '/tipSuccess',
     dashboardTutor: '/dashboardTutor',
+    feedbackHistory: '/feedbackHistory',
 };
 
 export default routes;

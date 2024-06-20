@@ -1,0 +1,19 @@
+.wrapper {
+    width: 100%;
+    border-top: 1px solid #333;
+    margin-top: 16px;
+    text-align: center;
+    height: 34px;
+
+    p {
+        padding: 6px 0;
+        font-size: 1.4rem;
+        margin-left: 0;
+
+        span {
+            margin-left: 2px;
+            color: #ff0000;
+            cursor: pointer;
+        }
+    }
+}

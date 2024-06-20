@@ -1,0 +1,21 @@
+.wrapper {
+    width: 100%;
+    a {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        margin-bottom: 10px;
+        width: 100%;
+        border: 1px solid var(--light-green);
+        border-radius: 10px;
+        height: 60px;
+        font-size: 2rem;
+        font-weight: 600;
+
+        &:hover {
+            color: var(--white);
+            background-color: var(--light-green);
+        }
+    }
+}

@@ -86,7 +86,7 @@ function ExpandedCard({param, setExpanded}){
           },
           tooltip: {
             x: {
-              format: "dd/MM/yy HH:mm",
+              format: "dd/MM/yyyy HH:mm",
             },
           },
           grid: {

@@ -1,7 +1,8 @@
 import React, { useState } from 'react'
-import images from '~/assets/images'
+// import images from '~/assets/images'
 import styles from './SidebarTutor.module.scss'
 import classNames from 'classnames/bind'
+import { Link } from 'react-router-dom';
 import {
     UilEstate,
     UilClipboardAlt,
@@ -13,12 +14,13 @@ import {
 
 const cx = classNames.bind(styles)
 
-const SidebarTutor = () => {
+const SidebarTutor = ({index}) => {
 
     const SidebarData = [
         {
           icon: UilEstate,
           heading: "Dashboard",
+          link: '/dashboardTutor'
         },
         {
           icon: UilClipboardAlt,
@@ -30,7 +32,8 @@ const SidebarTutor = () => {
         },
         {
           icon: UilPackage,
-          heading: 'Feedback'
+          heading: 'Feedback',
+          link: '/feedbackHistory'
         },
         {
           icon: UilChart,
@@ -38,25 +41,26 @@ const SidebarTutor = () => {
         },
       ];
 
-      const [selected, setSelected] = useState(0)
-
+      const [selected, setSelected] = useState(index ? index : 0)
 
   return (
     <div className={cx('SidebarTutor')}>
         <div className={cx('Menu')}>
             {SidebarData.map((item, index) => {
                 return (
+                 item.link ? <Link key={index} to={item.link}>
                     <div className={selected === index ? cx('MenuItem', 'active') : cx('MenuItem')} key={index} onClick={() => setSelected(index)}>
+                        <item.icon className={cx('MenuIcon')} />
+                        <span className={cx('MenuText')}>{item.heading}</span>
+                    </div>
+                    </Link> : <div className={selected === index ? cx('MenuItem', 'active') : cx('MenuItem')} key={index} onClick={() => setSelected(index)}>
                         <item.icon className={cx('MenuIcon')} />
                         <span className={cx('MenuText')}>{item.heading}</span>
                     </div>
                 )
             })}
         </div>
-        {/* <div className={cx('MenuItem1')}>
-                        <UilSignOutAlt/>
-                    </div> */}
-        </div>
+    </div>
   )
 }
 
