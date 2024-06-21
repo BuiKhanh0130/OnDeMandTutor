@@ -42,6 +42,21 @@
     }
 }
 
+.sidebar__items-grade, .sidebar__items-gender {
+    font-size: 1.6rem;
+        font-weight: 700;
+        margin: auto;
+        margin-top: 10px;
+        select{
+            border: 1px solid var(--line-border);
+        }
+}
+
+.sider__items-grade-gender{
+        display: flex;
+
+}
+
 .sidebar__items-hours-rangeInput {
     margin-bottom: 5px;
     width: 100%;
@@ -111,18 +126,18 @@
     }
 }
 
-.sidebar__items-age {
-    display: flex;
-    flex-direction: column;
+// .sidebar__items-age {
+//     display: flex;
+//     flex-direction: column;
 
-    span {
-        span {
-            margin-left: 10px;
-            font-weight: 300;
-            color: var(--light-gray);
-        }
-    }
-}
+//     span {
+//         span {
+//             margin-left: 10px;
+//             font-weight: 300;
+//             color: var(--light-gray);
+//         }
+//     }
+// }
 
 //result
 
