@@ -12,97 +12,106 @@ import Image from '~/components/Image';
 import images from '~/assets/images';
 import Button from '~/components/Button';
 import { StarIcon } from '~/components/Icons';
+import request from '~/utils/request';
 
 import styles from './FindTutor.module.scss';
+import { useEffect } from 'react';
 
 const cx = classNames.bind(styles);
 
+const GRADE_URL = 'Grade'
+const TUTOR_URL = 'Tutors'
+
 function FindTutor() {
+    const [searchValue, setSearchValue] = useState('');
     const [minValueRate, setMinValueRate] = useState(10);
     const [maxValueRate, setMaxValueRate] = useState(200);
-    const [minValueAge, setMinValueAge] = useState(10);
-    const [maxValueAge, setMaxValueAge] = useState(100);
+    const [grade, setGrade] = useState('G0012');
+    const [gender, setGender] = useState(true);
+    const [fetchedGrades, setFetchedGrades] = useState([]);
+    const [sort, setSort] = useState();
+    const [tutor, setTutors] = useState();
+
+    useEffect(() => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }, []);
 
     const handleInputRate = (e) => {
         setMinValueRate(e.minValue);
         setMaxValueRate(e.maxValue);
     };
 
-    const handleInputAge = (e) => {
-        setMinValueAge(e.minValue);
-        setMaxValueAge(e.maxValue);
-    };
+    const handleSearchChange = (newValue) => {
+        setSearchValue(newValue);
+      };
 
+    const handleSelectSort = (e) =>{
+        switch (e.target.value) {
+            case 'Lowest price':
+                setSort({title: 1, sort: 1})
+                break;
+            case 'Highest price':
+                setSort({title: 1, sort: 2})
+                break;
+            case 'Rating':
+                setSort({title: 2, sort: 2})
+                break;
+        
+            default:
+                break;
+        }
+    }
+    console.log(sort);
+
+        const handleSubmit = async (event) => {
+            event.preventDefault()
+        try {
+                const params = {
+                    Search: searchValue,
+                    MaxRate: maxValueRate,
+                    MinRate: minValueRate,
+                    GradeId: grade,
+                    Gender: gender,
+                    TypeOfDegree: '',
+                    SortContent: {
+                      sortTutorBy: sort.title,
+                      sortTutorType: sort.sort
+                    }
+                  };
+              
+                  const response = await request.get(`${TUTOR_URL}`, { params });
+
+                console.log(response.data);
+                setTutors(response.data);
+            }
+         catch (error) {
+            console.log(error.message);
+        }
+    }
+    
     const dayOfWeek = useMemo(() => ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'], []);
 
-    const tutors = useMemo(
-        () => [
-            {
-                avatar: images.avatar,
-                name: 'Nguyen Thanh Phong',
-                title: 'Experienced Math Teacher, used to teach K-12 and at FPT University',
-                bio: 'I am a certified high school Math teacher in the state of Maine. I am certified to teach k-12 Mathematics, Social Studies, and Spanish. Before that, I taught at University of Maine Orono as a TA for two years, and at The College of Coastal Georgia as the Math Tutor Coordinator. I have a BA in History and a BA in Mathematics with a Minor in Spanish.',
-                describe:
-                    'Nguyen Thanh Phong is an excellent tutor and has helped my son immensely this year in AP Stats. She is kind, effective, patient and communications very difficult material with ease. She also has a very easy going way about her that makes her even more special and effective. My son meets with her regularly and he and I both love that Rachael is so responsive.',
-                role: 'tutor',
-                rating: [
-                    {
-                        icon: StarIcon,
-                        number: '5.0',
-                        total: '1208',
-                    },
-                ],
-                price: '$12.99',
-                totalHourTeach: 4.017,
-                respondTimeAbout: 11,
-            },
-            {
-                avatar: images.avatar,
-                name: 'Nguyen Hoang Phuc',
-                title: 'Experienced Math Teacher, used to teach K-12 and at FPT University',
-                bio: 'I am a certified high school Math teacher in the state of Maine. I am certified to teach k-12 Mathematics, Social Studies, and Spanish. Before that, I taught at University of Maine Orono as a TA for two years, and at The College of Coastal Georgia as the Math Tutor Coordinator. I have a BA in History and a BA in Mathematics with a Minor in Spanish.',
-                describe:
-                    'Nguyen Thanh Phong is an excellent tutor and has helped my son immensely this year in AP Stats. She is kind, effective, patient and communications very difficult material with ease. She also has a very easy going way about her that makes her even more special and effective. My son meets with her regularly and he and I both love that Rachael is so responsive.',
-                role: 'student',
-                rating: [
-                    {
-                        icon: StarIcon,
-                        number: '5.0',
-                        total: '1208',
-                    },
-                ],
-                price: '$12.99',
-                totalHourTeach: 4.017,
-                respondTimeAbout: 11,
-            },
-            {
-                avatar: images.avatar,
-                name: 'Nguyen Thanh Phong',
-                title: 'Experienced Math Teacher, used to teach K-12 and at FPT University',
-                bio: 'I am a certified high school Math teacher in the state of Maine. I am certified to teach k-12 Mathematics, Social Studies, and Spanish. Before that, I taught at University of Maine Orono as a TA for two years, and at The College of Coastal Georgia as the Math Tutor Coordinator. I have a BA in History and a BA in Mathematics with a Minor in Spanish.',
-                describe:
-                    'Nguyen Thanh Phong is an excellent tutor and has helped my son immensely this year in AP Stats. She is kind, effective, patient and communications very difficult material with ease. She also has a very easy going way about her that makes her even more special and effective. My son meets with her regularly and he and I both love that Rachael is so responsive.',
-                role: 'student',
-                rating: [
-                    {
-                        icon: StarIcon,
-                        number: '5.0',
-                        total: '1208',
-                    },
-                ],
-                price: '$12.99',
-                totalHourTeach: 4.017,
-                respondTimeAbout: 11,
-            },
-        ],
-        [],
-    );
+    useEffect(
+        () =>{
+                try {
+                    const Grades = async () => {
+                        const response = await request.get(GRADE_URL);
+                        setFetchedGrades(response.data);
+                        }
+                        Grades();
+                    }
+                catch (error) {
+                    console.log(error);
+                }    
+            }
+    , [])
+
 
     return (
         <Container className={cx('wrapper')}>
             <Row>
                 <Col lg="3" className={cx('sidebar')}>
-                    <form action="GET" className={cx('sidebar__items')}>
+                    <form action="GET" className={cx('sidebar__items')} >
                         <p className={cx('sidebar__items-title')}>Filters</p>
                         <div className={cx('sidebar__items-hours')}>
                             <span className={cx('sidebar__items-hours-label')}>
@@ -122,17 +131,47 @@ function FindTutor() {
                                 }}
                             />
                         </div>
+                       
+                       <div className={cx('sider__items-grade-gender')}>
+                        <div className={cx('sidebar__items-grade')}>
+                                    <label htmlFor="grade" style={{ fontWeight: 'bold', marginRight:'10px'}}>
+                                        <strong>Grade:</strong>
+                                    </label>
+                                    <select id="grade" onChange={(e) => setGrade(e.target.value)}>
+                                    {
+                                        fetchedGrades.map((grade, index) =>{
+                                            return (
+                                                <option key={index} value={grade.gradeId} style={{textAlign:'center'}}>{grade.number}</option>
+                                            )
+                                        })
+                                    }
+                                    </select>
+                            </div>
+
+                        <div className={cx('sidebar__items-gender')}>
+                                    <label htmlFor="gender" style={{ fontWeight: 'bold', marginRight:'10px'}}>
+                                        <strong>Gender:</strong>
+                                    </label>
+                                    <select id="gender" onChange={e => setGender(e.target.value)}>
+                                        <option value={true}>Male</option>
+                                        <option value={false}>Female</option>
+                                    </select>
+                            </div>
+                       </div>
+
                         <div className={cx('sidebar__items-role')}>
                             <label htmlFor="levels" className={cx('sidebar__items-role-label')}>
-                                Student's level
+                                Type Of Degree
                             </label>
                             <select id="levels" className={cx('sidebar__items-role-level')}>
-                                <option value="Elementary">Elementary</option>
-                                <option value="Middle">Middle School</option>
-                                <option value="High">High School</option>
-                                <option value="Adult">Adult</option>
+                                <option value="College">College</option>
+                                <option value="Associate Degree">Associate Degree</option>
+                                <option value="Bachelors Degree">Bachelors Degree</option>
+                                <option value="Masters Degree">Masters Degree</option>
+                                <option value="Doctoral Degree">Doctoral Degree</option>
                             </select>
                         </div>
+
                         <div className={cx('sidebar__items-availability')}>
                             <p className={cx('sidebar__items-availability-title')}>Availability</p>
                             {dayOfWeek.map((day, index) => {
@@ -149,28 +188,13 @@ function FindTutor() {
                                 );
                             })}
                         </div>
-                        <div className={cx('sidebar__items-age')}>
-                            <span className={cx('sidebar__items-age-label')}>
-                                Tutor ate:
-                                <span>
-                                    {minValueAge} - {maxValueAge === 100 ? 'up' : maxValueAge}
-                                </span>
-                            </span>
-                            <MultiRangeSlider
-                                min={10}
-                                max={100}
-                                step={1}
-                                minValue={minValueAge}
-                                maxValue={maxValueAge}
-                                onInput={(e) => {
-                                    handleInputAge(e);
-                                }}
-                            />
-                        </div>
+
                     </form>
                 </Col>
                 <Col lg="9" className={cx('result')}>
-                    <Search width="770px" />
+                        <div onClick={handleSubmit}>
+                        <Search width="770px" onChangeResult={handleSearchChange}/>
+                        </div>
                     <Row className={cx('result__total')}>
                         <Col className={cx('result__total-number')}>
                             <p>
@@ -182,75 +206,75 @@ function FindTutor() {
                                 <label htmlFor="sort">
                                     <strong>Sort</strong>
                                 </label>
-                                <select id="sort">
+                                <select id="sort" onChange={handleSelectSort}>
                                     <option value="best">Best match</option>
-                                    <option value="lowest">Lowest price</option>
-                                    <option value="highest">Highest price</option>
-                                    <option value="rating">Rating</option>
+                                    <option value='Lowest price'>Lowest price</option>
+                                    <option value='Highest price'>Highest price</option>
+                                    <option value='Rating'>Rating</option>
                                     <option value="experience">Experience</option>
                                 </select>
                             </form>
                         </Col>
                     </Row>
                     <Row className={cx('result__wrapper')}>
-                        {tutors.map((tutor, index) => {
+                        {  tutor && tutor.map((tutor, index) => {
                             return (
                                 <div key={index} className={cx('result__wrapper-content')}>
-                                    <Link to={`account/${tutor.role}/${tutor.name}`}>
+                                    <Link to={`account/${tutor.role}/${tutor.fullName}`}>
                                         <Row className={cx('result__profile')}>
                                             <Col lg="2" className={cx('result__profile-img')}>
-                                                <Image src={tutor.avatar} alt={tutor.name}></Image>
+                                                <Image src={tutor.avatar || images.avatarDefault} alt={tutor.fullName}></Image>
                                             </Col>
                                             <Col lg="6" className={cx('result__profile-header')}>
                                                 <p className={cx('result__profile-header-name')}>
-                                                    <strong>{tutor.name}</strong>
+                                                    <strong>{tutor.fullName}</strong>
                                                 </p>
-                                                <p className={cx('result__profile-header-title')}>{tutor.title}</p>
-                                                <p className={cx('result__profile-header-bio')}>{tutor.bio}</p>
+                                                <p className={cx('result__profile-header-title')}>{tutor.headline}</p>
+                                                <p className={cx('result__profile-header-bio')}>{tutor.description}</p>
                                             </Col>
                                             <Col lg="4" className={cx('result__profile-generality')}>
-                                                {tutor.rating.map((rate, index) => {
-                                                    return (
+                                                {/* {tutor.ratings.map((rate, index) => {
+                                                    return ( */}
                                                         <div
-                                                            key={index}
+                                                            // key={index}
                                                             className={cx('result__profile-generality-valuate')}
                                                         >
                                                             <div
                                                                 className={cx('result__profile-generality-valuate-ic')}
                                                             >
-                                                                <rate.icon></rate.icon>
-                                                                <rate.icon></rate.icon>
-                                                                <rate.icon></rate.icon>
-                                                                <rate.icon></rate.icon>
-                                                                <rate.icon></rate.icon>
+                                                                <StarIcon></StarIcon>
+                                                                <StarIcon></StarIcon>
+                                                                <StarIcon></StarIcon>
+                                                                <StarIcon></StarIcon>
+                                                                <StarIcon></StarIcon>
                                                             </div>
                                                             <span
                                                                 className={cx(
                                                                     'result__profile-generality-valuate-number',
                                                                 )}
                                                             >
-                                                                {rate.number}
+                                                                {/* {rate.start} */}
                                                             </span>
                                                             <span
                                                                 className={cx(
                                                                     'result__profile-generality-valuate-total',
                                                                 )}
                                                             >
-                                                                ({rate.total})
+                                                                {/* ({rate.ratings}) */}
                                                             </span>
                                                         </div>
-                                                    );
-                                                })}
+                                                    {/* ); */}
+                                                {/* })} */}
                                                 <div className={cx('result__profile-generality-price')}>
                                                     <i className={cx('wc-clock-o', 'wc-green', 'text-center')}></i>
-                                                    <span>{tutor.price}/hour</span>
+                                                    <span>{tutor.hourlyRate}/hour</span>
                                                 </div>
                                                 <div className={cx('result__profile-generality-hour')}>
-                                                    <span>{tutor.totalHourTeach}</span>
+                                                    <span>{tutor.hourlyRate}</span>
                                                 </div>
                                                 <div className={cx('result__profile-generality-respond')}>
                                                     <span>
-                                                        Response Time: <strong>{tutor.respondTimeAbout} minutes</strong>
+                                                        Response Time: <strong>{5} minutes</strong>
                                                     </span>
                                                 </div>
                                                 <Button
@@ -258,14 +282,14 @@ function FindTutor() {
                                                     // to={`account/${tutor.role}/${tutor.name}`}
                                                     className={cx('result__profile-generality-btn')}
                                                 >
-                                                    View {tutor.name} profile
+                                                    View {tutor.fullName} profile
                                                 </Button>
                                             </Col>
                                         </Row>
 
                                         <Row>
                                             <Col lg="12">
-                                                <p className={cx('result__profile-dsc')}>{tutor.describe}</p>
+                                                <p className={cx('result__profile-dsc')}>{tutor.description}</p>
                                             </Col>
                                         </Row>
                                     </Link>

@@ -57,6 +57,7 @@ const images = {
     dashboard3: require('~/assets/images/quynhnhu.png'),
     dashboard4: require('~/assets/images/nhutam.png'),
     dashboard5: require('~/assets/images/vanlam.png'),
+    avatarDefault: require('~/assets/images/avatardefault.png'),
 };
 
 export default images;

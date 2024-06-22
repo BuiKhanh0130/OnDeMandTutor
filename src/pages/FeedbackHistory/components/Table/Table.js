@@ -5,18 +5,17 @@ import { useEffect } from "react";
 import { useState } from "react";
 import {FaStar} from "react-icons/fa"
 
-
 const Feedback_URL = 'Feedbacks/'
 
 
 function TableFeeback(){
     const createData = (name, trackingId, date, status) => ({ name, trackingId, date, status });
-    const id = 'T0010'
+    const [id, setId] = useState('T0010')
 
     const [feedbacks, setFeedbacks] = useState([])
 
     useEffect(() =>{
-        const GetFeedbackById = async (id) =>{
+        const GetFeedbackById = async () =>{
             try {
                 const response = await request.get(Feedback_URL + id);
                 setFeedbacks(response.data);
@@ -24,12 +23,8 @@ function TableFeeback(){
                 console.log(error);
             }
         }
-    
-        GetFeedbackById(id)
+        GetFeedbackById()
     }, [])
-
-    console.log(feedbacks);
-    
 
       const makeStyle=(status)=>{
         if(status === 'Well Done')
