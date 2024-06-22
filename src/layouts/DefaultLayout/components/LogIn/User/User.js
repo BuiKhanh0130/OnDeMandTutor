@@ -18,7 +18,6 @@ function User({ children }) {
 
     const handleLogout = async (e) => {
         e.preventDefault();
-
         try {
             const response = await request.post(LOGOUT_URL);
             console.log(response);
@@ -43,7 +42,10 @@ function User({ children }) {
                                     <Link to="/@NT">My profile</Link>
                                 </li>
                                 <li>
-                                    <Link to="/transaction/history">Transaction history</Link>
+                                    <Link to="/transaction/history">Feedback</Link>
+                                </li>
+                                <li>
+                                    <Link to="/transaction/history">Wallet</Link>
                                 </li>
                                 <li onClick={handleLogout}>Log out</li>
                             </ul>

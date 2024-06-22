@@ -1,0 +1,21 @@
+
+.wrapper {
+    margin-top: var(--default-layout-height-header);
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Inter', sans-serif;
+    min-height: 1000px;
+}
+
+.AppGlass {
+    margin-top: 64px;
+    display: grid;
+    height: 100%;
+    width: 98%;
+    background: var(--glass);
+    gap: 10px;
+    grid-template-columns: 20rem auto 0;
+    overflow: hidden;
+  }

@@ -52,6 +52,7 @@ function SignIn({ item, onChangeUsername, onChangePassword }) {
             //console.log(JSON.stringify(response));
             const accessToken = response?.data?.token;
             const role = jwtDecode(accessToken);
+            console.log(role);
             setAuth({ userName, password, role, accessToken });
             setUsername('');
             setPassword('');

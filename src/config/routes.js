@@ -18,6 +18,8 @@ const routes = {
     history: '/transaction/history',
     learnMore: '/learnMore',
     tipSuccess: '/tipSuccess',
+    dashboardTutor: '/dashboardTutor',
+    feedbackHistory: '/feedbackHistory',
 };
 
 export default routes;
