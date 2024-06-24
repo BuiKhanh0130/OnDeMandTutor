@@ -12,11 +12,9 @@ const useRequestsPrivate = () => {
     useEffect(() => {
         const requestIntercept = requestsPrivate.interceptors.request.use(
             (config) => {
-                console.log(config?.headers);
                 if (!config.headers['Authorization']) {
                     config.headers['Authorization'] = `Bearer ${auth?.accessToken?.token}`;
                 }
-                console.log(config?.headers);
                 return config;
             },
             (error) => Promise.reject(error),
@@ -26,7 +24,7 @@ const useRequestsPrivate = () => {
             (response) => response,
             async (error) => {
                 const prevRequest = error?.config;
-                if (error?.response?.status === 401 && !prevRequest?.sent) {
+                if (error?.response?.status === 401 || (error?.response?.status === 500 && !prevRequest?.sent)) {
                     prevRequest.sent = true;
                     const newAccessToken = await refresh();
                     prevRequest.headers['Authorization'] = `Bearer ${newAccessToken}`;

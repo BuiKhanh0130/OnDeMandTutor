@@ -9,6 +9,8 @@ import Button from '~/components/Button';
 import { ModalContext } from '~/components/ModalProvider';
 import config from '~/config';
 import request from '~/utils/request';
+import useInput from '~/hook/useInput';
+import useToggle from '~/hook/useToggle';
 
 import styles from './SignIn.module.scss';
 
@@ -32,17 +34,18 @@ function SignIn({ item, onChangeUsername, onChangePassword }) {
     const userRef = useRef();
     const errRef = useRef();
 
-    const [userName, setUsername] = useState('');
+    const [userName, resetUser, userAttribs] = useInput('user', ''); //useState('');
     const [password, setPassword] = useState('');
     const [errMsg, setErrMsg] = useState('');
+    const [check, toggleCheck] = useToggle('persist', false);
 
     useEffect(() => {
         userRef.current.focus();
     }, []);
 
-    const handleUsername = (e) => {
-        setUsername(e.target.value);
-    };
+    // const handleUsername = (e) => {
+    //     setUsername(e.target.value);
+    // };
 
     const handlePassword = (e) => {
         setPassword(e.target.value);
@@ -62,7 +65,8 @@ function SignIn({ item, onChangeUsername, onChangePassword }) {
             const role = jwtDecode(accessToken);
             setAuth({ userName, password, role, accessToken });
             //set for next login
-            setUsername('');
+            //setUsername('');
+            resetUser();
             setPassword('');
             localStorage.setItem('accessToken', JSON.stringify(response?.data));
             setActive(false);
@@ -99,9 +103,8 @@ function SignIn({ item, onChangeUsername, onChangePassword }) {
                             id="userName"
                             ref={userRef}
                             className={cx('username')}
-                            onChange={handleUsername}
+                            {...userAttribs}
                             autoComplete="off"
-                            value={userName}
                             required
                         />
                         <label htmlFor="password">Password</label>
@@ -115,9 +118,15 @@ function SignIn({ item, onChangeUsername, onChangePassword }) {
                         />
                         <Button className={cx('sign-in-form-btn')}>{signIn.btn}</Button>
                     </form>
-                    <Link to={config.routes.home} className={cx('forgotten-link')}>
-                        {signIn.forget}
-                    </Link>
+                    <div className={cx('support')}>
+                        {/* <div className={cx('support-trust')}>
+                            <input type="checkbox" id="persist" onChange={toggleCheck} checked={check}></input>
+                            <label htmlFor="persist">Trust This Device</label>
+                        </div> */}
+                        <Link to={config.routes.home} className={cx('forgotten-link')}>
+                            {signIn.forget}
+                        </Link>
+                    </div>
                     <form className={cx('signIn-form-by-google')}>
                         <img src={signIn.image} alt={signIn.label}></img>
                         <span>{signIn.label}</span>
