@@ -1,9 +1,11 @@
 import classNames from 'classnames/bind';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheck, faTimes } from '@fortawesome/free-solid-svg-icons';
-import requests from '~/utils/request';
 
+import requests from '~/utils/request';
+import { ModalContext } from '~/components/ModalProvider';
 import Button from '~/components/Button';
 
 import styles from './BecomeTutor.module.scss';
@@ -12,12 +14,15 @@ const cx = classNames.bind(styles);
 
 const USER_REGEX = /^[a-zA-Z][a-zA-z0-9-_]{3,23}$/;
 const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9](?=.*[!@H$%])).{8,24}$/;
-const CARD_REGEX = /^[1-9][0-9]{10}$/;
 const GMAIL_REGEX = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-const PHONE_REGEX = /^[1-9][0-9]{9}$/;
-const REGISTER_URL = '/register';
+const PHONE_REGEX = /^[0-9]{10}$/;
+const FULLNAME_REGEX = /^[a-zA-Z\s]+$/;
+const REGISTER_URL = '/auth/signUp';
 
 function BecomeTutor() {
+    const context = useContext(ModalContext);
+    const navigate = useNavigate();
+
     const userRef = useRef();
     const errRef = useRef();
 
@@ -33,9 +38,13 @@ function BecomeTutor() {
     const [validMatch, setValidMatch] = useState(false);
     const [matchFocus, setMatchFocus] = useState(false);
 
-    const [cardId, setCardId] = useState('');
-    const [validCardID, setValidCardId] = useState(false);
-    const [cardFocus, setCardFocus] = useState(false);
+    // const [cardId, setCardId] = useState('');
+    // const [validCardID, setValidCardId] = useState(false);
+    // const [cardFocus, setCardFocus] = useState(false);
+
+    const [fullName, setFullName] = useState('');
+    const [validFullName, setValidFullName] = useState(false);
+    const [FullNameFocus, setFullNameFocus] = useState(false);
 
     const [gmail, setGmail] = useState('');
     const [validGmail, setValidGmail] = useState(false);
@@ -45,8 +54,9 @@ function BecomeTutor() {
     const [validPhone, setValidPhone] = useState(false);
     const [phoneFocus, setPhoneFocus] = useState(false);
 
+    const [gender, setGender] = useState(true);
+
     const [errMsg, setErrMsg] = useState();
-    const [success, setSuccess] = useState();
 
     useEffect(() => {
         userRef.current.focus();
@@ -64,15 +74,20 @@ function BecomeTutor() {
         setValidMatch(match);
     }, [pwd, matchPwd]);
 
-    useEffect(() => {
-        const result = CARD_REGEX.test(cardId);
-        setValidCardId(result);
-    }, [cardId]);
+    // useEffect(() => {
+    //     const result = CARD_REGEX.test(cardId);
+    //     setValidCardId(result);
+    // }, [cardId]);
 
     useEffect(() => {
         const result = GMAIL_REGEX.test(gmail);
         setValidGmail(result);
     }, [gmail]);
+
+    useEffect(() => {
+        const result = FULLNAME_REGEX.test(fullName);
+        setValidFullName(result);
+    }, [fullName]);
 
     useEffect(() => {
         const result = PHONE_REGEX.test(phone);
@@ -88,23 +103,37 @@ function BecomeTutor() {
 
         const v1 = USER_REGEX.test(user);
         const v2 = PWD_REGEX.test(pwd);
-        const v3 = CARD_REGEX.test(cardId);
+        const v3 = GMAIL_REGEX.test(gmail);
+        const v4 = PHONE_REGEX.test(phone);
+        const v5 = FULLNAME_REGEX.test(fullName);
+        // const v3 = CARD_REGEX.test(cardId);
 
-        if (!v1 || !v2 || !v3) {
+        if (!v1 || !v2 || !v3 || !v4 || !v5) {
             setErrMsg('Invalid entry');
             return;
         }
 
         try {
-            const response = await requests.post(REGISTER_URL, JSON.stringify({ user, pwd }), {
-                headers: { 'Content-Type': 'application/json' },
-                withCredentials: true,
-            });
-            console.log(response.data);
-            console.log(response.accessToken);
-            console.log(JSON.stringify(response));
-            setSuccess(true);
-            //clear input fields
+            const response = await requests.post(
+                REGISTER_URL,
+                JSON.stringify({
+                    fullName: fullName,
+                    email: gmail,
+                    userName: user,
+                    password: pwd,
+                    phoneNumber: phone,
+                    gender: gender,
+                    isActive: 1,
+                    isAdmin: true,
+                }),
+                {
+                    headers: { 'Content-Type': 'application/json' },
+                    withCredentials: true,
+                },
+            );
+            console.log(response?.data?.userId);
+            context.setUserId(response?.data.userId);
+            navigate('/registration/tutor/step2');
         } catch (error) {
             if (!error?.response) {
                 setErrMsg('No server response');
@@ -134,7 +163,7 @@ function BecomeTutor() {
                             <p ref={errRef} className={errMsg ? 'errMsg' : 'offscreen'} aria-live="assertive">
                                 {errMsg}
                             </p>
-                            <label htmlFor="username">
+                            <label htmlFor="userName">
                                 User name
                                 <span className={cx({ valid: validName, hide: !validName })}>
                                     <FontAwesomeIcon icon={faCheck}></FontAwesomeIcon>
@@ -150,7 +179,7 @@ function BecomeTutor() {
                             </label>
                             <input
                                 type="text"
-                                id="user"
+                                id="userName"
                                 name="txtUserName"
                                 ref={userRef}
                                 autoComplete="off"
@@ -158,6 +187,7 @@ function BecomeTutor() {
                                 placeholder="Username"
                                 aria-invalid={validName ? 'false' : 'true'}
                                 aria-describedby="uidnote"
+                                value={user}
                                 onChange={(e) => {
                                     setUser(e.target.value);
                                 }}
@@ -181,7 +211,7 @@ function BecomeTutor() {
                         </div>
 
                         <div className={cx('form_row')}>
-                            <label htmlFor="txtPassword">
+                            <label htmlFor="password">
                                 Password
                                 <span className={cx({ valid: validPwd, hide: !validPwd })}>
                                     <FontAwesomeIcon icon={faCheck}></FontAwesomeIcon>
@@ -198,13 +228,14 @@ function BecomeTutor() {
 
                             <input
                                 type="password"
-                                id="txtPassword"
+                                id="password"
                                 name="txtPassword"
                                 className={cx('txtPassword')}
+                                value={pwd}
                                 placeholder="******"
                                 autoComplete="off"
-                                aria-invalid={validName ? 'false' : 'true'}
-                                aria-describedby="uidnote"
+                                aria-invalid={validPwd ? 'false' : 'true'}
+                                aria-describedby="uidpwd"
                                 onChange={(e) => {
                                     setPwd(e.target.value);
                                 }}
@@ -214,7 +245,7 @@ function BecomeTutor() {
                                 onBlur={() => setPwdFocus(false)}
                             ></input>
                             <p
-                                id="uidnote"
+                                id="uidpwd"
                                 className={cx({
                                     instructions: pwdFocus && pwd && !validPwd,
                                     offscreen: !(pwdFocus && pwd && !validPwd),
@@ -246,11 +277,12 @@ function BecomeTutor() {
                                 type="password"
                                 id="txtRePassword"
                                 name="txtRePassword"
+                                value={matchPwd}
                                 className={cx('txtRePassword')}
                                 placeholder="******"
                                 autoComplete="off"
-                                aria-invalid={validName ? 'false' : 'true'}
-                                aria-describedby="uidnote"
+                                aria-invalid={validMatch ? 'false' : 'true'}
+                                aria-describedby="uidre"
                                 onChange={(e) => {
                                     setMatchPwd(e.target.value);
                                 }}
@@ -260,7 +292,7 @@ function BecomeTutor() {
                                 onBlur={() => setMatchFocus(false)}
                             ></input>
                             <p
-                                id="uidnote"
+                                id="uidre"
                                 className={cx({
                                     instructions: matchFocus && matchPwd && !validMatch,
                                     offscreen: !(matchFocus && matchPwd && !validMatch),
@@ -271,113 +303,59 @@ function BecomeTutor() {
                         </div>
 
                         <div className={cx('form_row')}>
-                            <label htmlFor="txtFullName">Last Name</label>
-                            <input
-                                type="text"
-                                id="txtLastName"
-                                name="txtLastName"
-                                className={cx('txtFullName')}
-                                placeholder="Justin Bieber"
-                            ></input>
-                        </div>
-
-                        <div className={cx('form_row')}>
-                            <label htmlFor="txtFullName">First Name</label>
-                            <input
-                                type="text"
-                                id="txtFirstName"
-                                name="txtFirstName"
-                                className={cx('txtFullName')}
-                                placeholder="Justin Bieber"
-                            ></input>
-                        </div>
-
-                        <div className={cx('form_row')}>
-                            <label htmlFor="txtCardId">
-                                Card Id
-                                <span className={cx({ valid: validCardID, hide: !validCardID })}>
+                            <label htmlFor="txtFullName">
+                                Full Name
+                                <span className={cx({ valid: validFullName, hide: !validFullName })}>
                                     <FontAwesomeIcon icon={faCheck}></FontAwesomeIcon>
                                 </span>
                                 <span
                                     className={cx({
-                                        hide: validCardID || !cardId,
-                                        invalid: !validCardID && cardId,
+                                        hide: validFullName || !fullName,
+                                        invalid: !validFullName && fullName,
                                     })}
                                 >
                                     <FontAwesomeIcon icon={faTimes}></FontAwesomeIcon>
                                 </span>
                             </label>
                             <input
-                                type="number"
-                                id="txtCardId"
-                                name="txtCardId"
-                                className={cx('txtCardId')}
-                                placeholder="00000000000"
+                                type="text"
+                                id="txtFullName"
+                                name="txtFullName"
+                                className={cx('txtFullName')}
+                                value={fullName}
+                                placeholder="Justin Bieber"
                                 autoComplete="off"
-                                aria-invalid={validCardID ? 'false' : 'true'}
-                                aria-describedby="uidnote"
+                                aria-invalid={validFullName ? 'false' : 'true'}
+                                aria-describedby="uidname"
                                 onChange={(e) => {
-                                    setCardId(e.target.value);
+                                    setFullName(e.target.value);
                                 }}
                                 onFocus={() => {
-                                    setCardFocus(true);
+                                    setFullNameFocus(true);
                                 }}
-                                onBlur={() => setCardFocus(false)}
-                            />
+                                onBlur={() => setFullNameFocus(false)}
+                            ></input>
                             <p
-                                id="uidnote"
+                                id="uidname"
                                 className={cx({
-                                    instructions: cardFocus && cardId && !validCardID,
-                                    offscreen: !(cardFocus && cardId && !validCardID),
+                                    instructions: FullNameFocus && !validFullName && fullName,
+                                    offscreen: !(FullNameFocus && !validFullName && fullName),
                                 })}
                             >
-                                <p>Card ID must be 11 number</p>
+                                <p>Full name must not be contained numbers and special characters</p>
                             </p>
                         </div>
 
-                        <div className={cx('form_row-birth-radio')}>
-                            <div className={cx('form_row-birth')}>
-                                <label htmlFor="dateOfBirth">Date of birth</label>
-                                <input
-                                    type="date"
-                                    id="dateOfBirth"
-                                    name="dateOfBirth"
-                                    className={cx('dateOfBirth')}
-                                ></input>
-                            </div>
-                            <div className={cx('form_row-radio')}>
-                                <p>Gender</p>
-                                <div className={cx('form_row-radio-content')}>
-                                    <input
-                                        type="radio"
-                                        className={cx('gender')}
-                                        id="gentlemen"
-                                        name="gender"
-                                        value="gentlemen"
-                                    ></input>
-                                    <label htmlFor="gentlemen">Boy</label>
-                                    <input
-                                        type="radio"
-                                        className={cx('gender')}
-                                        id="lady"
-                                        name="gender"
-                                        value="lady"
-                                    ></input>
-                                    <label htmlFor="lady">Girl</label>
-                                </div>
-                            </div>
-                        </div>
-
                         <div className={cx('form_row')}>
-                            <label htmlFor="txtEmail">
+                            <label htmlFor="email">
                                 Email
                                 <span className={cx({ valid: validGmail, hide: !validGmail })}>
                                     <FontAwesomeIcon icon={faCheck}></FontAwesomeIcon>
                                 </span>
                                 <span
                                     className={cx({
-                                        hide: validGmail || !user,
-                                        invalid: !validGmail && user,
+                                        hide: validGmail || !gmail,
+                                        invalid: !validGmail && gmail,
                                     })}
                                 >
                                     <FontAwesomeIcon icon={faTimes}></FontAwesomeIcon>
@@ -385,13 +363,14 @@ function BecomeTutor() {
                             </label>
                             <input
                                 type="email"
-                                id="txtEmail"
+                                id="email"
                                 name="txtEmail"
                                 className={cx('txtEmail')}
+                                value={gmail}
                                 placeholder="user@gmail.com"
                                 autoComplete="off"
                                 aria-invalid={validGmail ? 'false' : 'true'}
-                                aria-describedby="uidnote"
+                                aria-describedby="uidemail"
                                 onChange={(e) => {
                                     setGmail(e.target.value);
                                 }}
@@ -401,7 +380,7 @@ function BecomeTutor() {
                                 onBlur={() => setGmailFocus(false)}
                             ></input>
                             <p
-                                id="uidnote"
+                                id="uidemail"
                                 className={cx({
                                     instructions: gmailFocus && gmail && !validGmail,
                                     offscreen: !(gmailFocus && gmail && !validGmail),
@@ -412,7 +391,7 @@ function BecomeTutor() {
                         </div>
 
                         <div className={cx('form_row')}>
-                            <label htmlFor="txtPhone">
+                            <label htmlFor="phoneNumber">
                                 Phone
                                 <span className={cx({ valid: validPhone, hide: !validPhone })}>
                                     <FontAwesomeIcon icon={faCheck}></FontAwesomeIcon>
@@ -428,13 +407,14 @@ function BecomeTutor() {
                             </label>
                             <input
                                 type="number"
-                                id="txtPhone"
+                                id="phoneNumber"
                                 name="txtPhone"
                                 className={cx('txtPhone')}
+                                value={phone}
                                 placeholder="+84"
                                 autoComplete="off"
                                 aria-invalid={validPhone ? 'false' : 'true'}
-                                aria-describedby="uidnote"
+                                aria-describedby="uidphone"
                                 onChange={(e) => {
                                     setPhone(e.target.value);
                                 }}
@@ -444,7 +424,7 @@ function BecomeTutor() {
                                 onBlur={() => setPhoneFocus(false)}
                             ></input>
                             <p
-                                id="uidnote"
+                                id="uidphone"
                                 className={cx({
                                     instructions: phoneFocus && phone && !validPhone,
                                     offscreen: !(phoneFocus && phone && !validPhone),
@@ -454,7 +434,7 @@ function BecomeTutor() {
                             </p>
                         </div>
 
-                        <div className={cx('form_row')}>
+                        {/* <div className={cx('form_row')}>
                             <label htmlFor="txtEducation">Education</label>
                             <input
                                 type="text"
@@ -463,9 +443,9 @@ function BecomeTutor() {
                                 className={cx('txtEducation')}
                                 placeholder="Graduate FPT University"
                             ></input>
-                        </div>
+                        </div> */}
 
-                        <div className={cx('form_row')}>
+                        {/* <div className={cx('form_row')}>
                             <label htmlFor="txtAddress">Address</label>
                             <input
                                 type="text"
@@ -474,10 +454,37 @@ function BecomeTutor() {
                                 className={cx('txtAddress')}
                                 placeholder="Lô E2a-7, Đường D1, Đ. D1, Long Thạnh Mỹ, Thành Phố Thủ Đức, Thành phố Hồ Chí Minh 700000"
                             ></input>
+                        </div> */}
+
+                        <div className={cx('form_row-radio')}>
+                            <p>Gender</p>
+                            <div className={cx('form_row-radio-content')}>
+                                <input
+                                    type="radio"
+                                    className={cx('gender')}
+                                    id="gentlemen"
+                                    name="gender"
+                                    value="gentlemen"
+                                    onChange={() => {
+                                        setGender(true);
+                                    }}
+                                ></input>
+                                <label htmlFor="gentlemen">Boy</label>
+                                <input
+                                    type="radio"
+                                    className={cx('gender')}
+                                    id="lady"
+                                    name="gender"
+                                    value="lady"
+                                    onChange={() => {
+                                        setGender(false);
+                                    }}
+                                ></input>
+                                <label htmlFor="lady">Girl</label>
+                            </div>
                         </div>
-                        <Button type="submit" className={cx('submit')}>
-                            SIGN UP
-                        </Button>
+
+                        <Button className={cx('submit')}>Next</Button>
                     </form>
                 </div>
             </div>

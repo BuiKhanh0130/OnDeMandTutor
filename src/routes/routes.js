@@ -21,11 +21,16 @@ import BecomeTutor from '~/pages/BecomeTutor';
 import BecomeStudent from '~/pages/BecomeStudent';
 import LearnMore from '~/pages/LearnMore';
 import TipSuccess from '~/pages/TipSuccess';
+import BecomeTutor2 from '~/pages/BecomeTutor2';
+import Main from '~/pages/Main';
 
 const publicRoutes = [
     { path: config.routes.home, component: Home },
-    { path: config.routes.registrationTutor, component: BecomeTutor, layout: Registration },
-    { path: config.routes.registrationStudent, component: BecomeStudent, layout: Registration },
+    { path: config.routes.main, component: Main },
+    { path: config.routes.registrationTutor1, component: BecomeTutor, layout: Registration },
+    { path: config.routes.registrationTutor2, component: BecomeTutor2, layout: Registration },
+    { path: config.routes.registrationStudent1, component: BecomeStudent, layout: Registration },
+    { path: config.routes.registrationStudent2, component: BecomeStudent, layout: Registration },
     { path: config.routes.findTutor, component: FindTutor },
     { path: config.routes.account, component: Tutor },
     { path: config.routes.requestTutor, component: RequestTutor },
@@ -44,6 +49,29 @@ const publicRoutes = [
     { path: config.routes.tipSuccess, component: TipSuccess },
 ];
 
-const privateRoutes = [];
+const privateRoutes = [
+    { path: config.routes.home, component: Home },
+    { path: config.routes.main, component: Main },
+    { path: config.routes.registrationTutor1, component: BecomeTutor, layout: Registration },
+    { path: config.routes.registrationTutor2, component: BecomeTutor2, layout: Registration },
+    { path: config.routes.registrationStudent1, component: BecomeStudent, layout: Registration },
+    { path: config.routes.registrationStudent2, component: BecomeStudent, layout: Registration },
+    { path: config.routes.findTutor, component: FindTutor },
+    { path: config.routes.account, component: Tutor },
+    { path: config.routes.requestTutor, component: RequestTutor },
+    { path: config.routes.onlineTutoring, component: OnlineTutoring },
+    { path: config.routes.forStudent, component: ForStudent },
+    { path: config.routes.customerSay, component: CustomerSay },
+    { path: config.routes.blog, component: Blog },
+    { path: config.routes.advertisement, component: Advertisement },
+    { path: config.routes.howItWork, component: HowItWork },
+    { path: config.routes.accountStudent, component: Student, layout: HeaderOnly },
+    { path: config.routes.aboutUs, component: AboutUs },
+    { path: config.routes.learnMore, component: LearnMore },
+    { path: config.routes.transaction, component: Transaction },
+    { path: config.routes.payment, component: Payment, layout: Transaction },
+    { path: config.routes.history, component: History, layout: Transaction },
+    { path: config.routes.tipSuccess, component: TipSuccess },
+];
 
 export { publicRoutes, privateRoutes };

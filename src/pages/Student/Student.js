@@ -1,5 +1,5 @@
 import classNames from 'classnames/bind';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 
 import Container from 'react-bootstrap/Container';
@@ -12,6 +12,7 @@ import Class from '~/components/Class';
 import useRequestsPrivate from '~/hook/useRequestPrivate';
 
 import styles from './Student.module.scss';
+import { ModalContext } from '~/components/ModalProvider';
 
 const cx = classNames.bind(styles);
 
@@ -20,21 +21,24 @@ function Student() {
     const axiosPrivate = useRequestsPrivate();
     const navigate = useNavigate();
     const location = useLocation();
+    const context = useContext(ModalContext);
+    const auth = context.auth;
 
     useEffect(() => {
         let isMounted = true;
+
         const controller = new AbortController();
 
         const getUsers = async () => {
             try {
-                const response = await axiosPrivate.get('Accounts', {
+                console.log(auth);
+                const response = await axiosPrivate.get('Admin/getRole', {
                     signal: controller.signal,
                 });
-                console.log(response.data);
                 isMounted && setUsers(response.data);
             } catch (err) {
                 console.error(err);
-                navigate('/login', { state: { from: location }, replace: true });
+                navigate('/', { state: { from: location }, replace: true });
             }
         };
 
@@ -58,7 +62,7 @@ function Student() {
                             {users?.length ? (
                                 <ul>
                                     {users.map((user, i) => (
-                                        <li key={i}>{user?.username}</li>
+                                        <li key={i}>{user?.name}</li>
                                     ))}
                                 </ul>
                             ) : (

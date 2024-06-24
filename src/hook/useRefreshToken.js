@@ -1,28 +1,29 @@
-import requests from '~/utils/request';
 import { useAuth } from './useAuth';
-import axios from 'axios';
+import { jwtDecode } from 'jwt-decode';
+import requests from '~/utils/request';
 
 const useRefreshToken = () => {
-    const { auth, setAuth } = useAuth();
+    const { setAuth } = useAuth();
 
     const refreshToken = async () => {
+        const accessToken = localStorage.getItem('accessToken');
+        const refreshToken = JSON.parse(accessToken).refreshToken;
+        const userId = jwtDecode(accessToken).userId;
+
         try {
-            const refreshToken = auth.refreshToken;
-            const response = await axios.post(
-                '/https://localhost:7262/api/auth/refresh-token',
-                JSON.stringify({ refreshToken }),
+            const response = await requests.post(
+                'auth/refresh-token',
+                JSON.stringify({ userId: userId, refreshToken: refreshToken }),
                 {
                     headers: { 'Content-Type': 'application/json' },
                     withCredentials: true,
                 },
             );
-            console.log(response);
             setAuth((prev) => {
-                console.log(JSON.stringify(prev));
-                console.log(response.data.accessToken);
-                return { ...prev, accessToken: response.data.accessToken };
+                localStorage.setItem('accessToken', JSON.stringify(response?.data));
+                return { ...prev, role: jwtDecode(response?.data?.token).UserRole, accessToken: response?.data };
             });
-            return response.data.accessToken;
+            return response.data.token;
         } catch (error) {
             console.log(error);
         }

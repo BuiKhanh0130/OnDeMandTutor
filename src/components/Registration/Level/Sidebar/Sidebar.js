@@ -14,12 +14,12 @@ function Sidebar({ id }) {
             {
                 id: 1,
                 btn: 'Apply to become a tutor',
-                link: 'tutor',
+                link: 'tutor/step1',
             },
             {
                 id: 2,
                 btn: 'Register as a student',
-                link: 'student',
+                link: 'student/step1',
             },
         ],
         [],

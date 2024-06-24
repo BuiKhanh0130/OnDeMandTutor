@@ -6,15 +6,17 @@ import { ModalContext } from '~/components/ModalProvider';
 
 const useRequestsPrivate = () => {
     const refresh = useRefreshToken();
-    const modal = useContext(ModalContext);
-    const auth = modal.auth;
+    const context = useContext(ModalContext);
+    const auth = context.auth;
 
     useEffect(() => {
         const requestIntercept = requestsPrivate.interceptors.request.use(
             (config) => {
-                if (config.headers['Authorization']) {
-                    config.headers['Authorization'] = `Bearer ${auth?.refreshToken}`;
+                console.log(config?.headers);
+                if (!config.headers['Authorization']) {
+                    config.headers['Authorization'] = `Bearer ${auth?.accessToken?.token}`;
                 }
+                console.log(config?.headers);
                 return config;
             },
             (error) => Promise.reject(error),
@@ -24,7 +26,7 @@ const useRequestsPrivate = () => {
             (response) => response,
             async (error) => {
                 const prevRequest = error?.config;
-                if (error?.response?.status === 403 && !prevRequest?.sent) {
+                if (error?.response?.status === 401 && !prevRequest?.sent) {
                     prevRequest.sent = true;
                     const newAccessToken = await refresh();
                     prevRequest.headers['Authorization'] = `Bearer ${newAccessToken}`;

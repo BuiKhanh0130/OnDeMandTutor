@@ -10,14 +10,17 @@ const routes = {
     advertisement: '/advertisement',
     onlineTutoring: '/onlineTutoring',
     account: '/:account/:role/:accountName',
-    registrationTutor: '/registration/tutor',
-    registrationStudent: '/registration/student',
+    registrationTutor1: '/registration/tutor/step1',
+    registrationTutor2: '/registration/tutor/step2',
+    registrationStudent1: '/registration/student/step1',
+    registrationStudent2: '/registration/student/step2',
     aboutUs: '/aboutUs',
     transaction: 'transaction',
     payment: '/transaction/payment',
     history: '/transaction/history',
     learnMore: '/learnMore',
     tipSuccess: '/tipSuccess',
+    main: '/admin/main',
 };
 
 export default routes;

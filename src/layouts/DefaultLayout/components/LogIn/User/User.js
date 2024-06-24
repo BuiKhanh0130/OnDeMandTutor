@@ -1,32 +1,27 @@
 import classNames from 'classnames/bind';
-import { useContext } from 'react';
-import { Link } from 'react-router-dom';
 import HeadlessTippy from '@tippyjs/react/headless';
+import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import Popper from '~/components/Popper';
 import request from '~/utils/request';
 import { ModalContext } from '~/components/ModalProvider';
 
-import styles from './User.module.scss';
+import useLogout from '~/hook/useLogout';
 
-const LOGOUT_URL = 'auth/signOut';
+import styles from './User.module.scss';
 
 const cx = classNames.bind(styles);
 
 function User({ children }) {
-    const { auth, setAuth } = useContext(ModalContext);
+    const logout = useLogout();
+    const navigate = useNavigate();
 
-    const handleLogout = async (e) => {
-        e.preventDefault();
-
-        try {
-            const response = await request.post(LOGOUT_URL);
-            console.log(response);
-            setAuth({});
-        } catch (error) {
-            console.log(error);
-        }
+    const signOut = async () => {
+        await logout();
+        navigate('/');
     };
+
     return (
         <HeadlessTippy
             interactive={true}
@@ -45,7 +40,7 @@ function User({ children }) {
                                 <li>
                                     <Link to="/transaction/history">Transaction history</Link>
                                 </li>
-                                <li onClick={handleLogout}>Log out</li>
+                                <li onClick={signOut}>Log out</li>
                             </ul>
                         </div>
                     </Popper>

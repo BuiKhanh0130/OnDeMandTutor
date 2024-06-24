@@ -1,17 +1,24 @@
 import classNames from 'classnames/bind';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { useState, useEffect, useRef, useContext } from 'react';
-import { Fragment } from 'react';
+import firebase from 'firebase/compat/app';
 import { jwtDecode } from 'jwt-decode';
+import { Fragment, useContext, useEffect, useRef, useState } from 'react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
 
-import request from '~/utils/request';
-import config from '~/config';
 import Button from '~/components/Button';
 import { ModalContext } from '~/components/ModalProvider';
+import config from '~/config';
+import request from '~/utils/request';
 
 import styles from './SignIn.module.scss';
 
 const LOGIN_URL = 'auth/signIn';
+
+const uiConfig = {
+    signInFlow: 'redirect',
+    signInSuccessUrl: '/',
+    signInOptions: [firebase.auth.GoogleAuthProvider.PROVIDER_ID],
+};
 
 const cx = classNames.bind(styles);
 
@@ -41,6 +48,7 @@ function SignIn({ item, onChangeUsername, onChangePassword }) {
         setPassword(e.target.value);
     };
 
+    //handle login
     const handleSubmit = async (e) => {
         e.preventDefault();
 
@@ -50,12 +58,14 @@ function SignIn({ item, onChangeUsername, onChangePassword }) {
                 withCredentials: true,
             });
             //console.log(JSON.stringify(response));
-            const accessToken = response?.data?.token;
-            const role = jwtDecode(accessToken);
+            const accessToken = response?.data;
+            //get role
+            const role = jwtDecode(accessToken?.token).UserRole;
             setAuth({ userName, password, role, accessToken });
+            //set for next login
             setUsername('');
             setPassword('');
-            localStorage.setItem('item', JSON.stringify(response?.data));
+            localStorage.setItem('accessToken', JSON.stringify(response?.data));
             setActive(false);
             navigate(from, { replace: true });
         } catch (err) {
@@ -113,6 +123,7 @@ function SignIn({ item, onChangeUsername, onChangePassword }) {
                         <img src={signIn.image} alt={signIn.label}></img>
                         <span>{signIn.label}</span>
                     </form>
+                    <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={firebase.auth()} />
                     <div className={cx('login-license')}>
                         <p className={cx('login-license-content')}>
                             By continuing with an account located in Vietnam, you agree to our Terms of

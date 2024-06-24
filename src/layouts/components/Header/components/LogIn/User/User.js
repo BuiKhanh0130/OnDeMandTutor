@@ -1,7 +1,9 @@
 import classNames from 'classnames/bind';
 import HeadlessTippy from '@tippyjs/react/headless';
 import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
+import useLogout from '~/hook/useLogout';
 import Popper from '~/components/Popper';
 
 import styles from './User.module.scss';
@@ -9,6 +11,13 @@ import styles from './User.module.scss';
 const cx = classNames.bind(styles);
 
 function User({ children }) {
+    const logout = useLogout();
+    const navigate = useNavigate();
+
+    const signOut = async () => {
+        await logout();
+        navigate('/');
+    };
     return (
         <HeadlessTippy
             interactive={true}
@@ -28,7 +37,7 @@ function User({ children }) {
                                     <Link to="/transaction/history">Transaction history</Link>
                                 </li>
 
-                                <li>Log out</li>
+                                <li onClick={signOut}>Log out</li>
                             </ul>
                         </div>
                     </Popper>

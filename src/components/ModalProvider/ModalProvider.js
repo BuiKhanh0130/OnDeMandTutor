@@ -5,6 +5,7 @@ const ModalContext = createContext();
 function ModalProvider({ children }) {
     const [active, setActive] = useState(false);
     const [auth, setAuth] = useState({});
+    const [userId, setUserId] = useState('');
     const [activeSignUp, setActiveSignUp] = useState(false);
 
     const handleActive = () => {
@@ -25,6 +26,8 @@ function ModalProvider({ children }) {
         auth,
         setAuth,
         setActive,
+        userId,
+        setUserId,
         activeSignUp,
         handleActive,
         handleHiddenActive,

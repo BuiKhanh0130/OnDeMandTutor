@@ -13,9 +13,14 @@
     justify-content: center;
     border: none;
     width: 100%;
-    margin-top: 10px;
+    padding: 10px;
+    margin-top: 14px;
     background: var(--orange);
     color: var(--white);
+
+    &:hover {
+        background-color: var(--hover);
+    }
 }
 
 .forgotten-link {
