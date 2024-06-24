@@ -25,10 +25,10 @@ import BecomeTutor from '~/pages/BecomeTutor';
 import BecomeStudent from '~/pages/BecomeStudent';
 import LearnMore from '~/pages/LearnMore';
 import TipSuccess from '~/pages/TipSuccess';
+import Unauthorized from '~/pages/Unauthorized';
 
 const publicRoutes = [
     { path: config.routes.home, component: Home },
-    { path: config.routes.main, component: Main },
     { path: config.routes.registrationTutor1, component: BecomeTutor, layout: Registration },
     { path: config.routes.registrationTutor2, component: BecomeTutor2, layout: Registration },
     { path: config.routes.registrationStudent1, component: BecomeStudent, layout: Registration },
@@ -45,37 +45,32 @@ const publicRoutes = [
     { path: config.routes.accountStudent, component: Student, layout: HeaderOnly },
     { path: config.routes.aboutUs, component: AboutUs },
     { path: config.routes.learnMore, component: LearnMore },
-    { path: config.routes.transaction, component: Transaction },
-    { path: config.routes.payment, component: Payment, layout: Transaction },
-    { path: config.routes.history, component: History, layout: Transaction },
     { path: config.routes.tipSuccess, component: TipSuccess },
-    { path: config.routes.dashboardTutor, component: DashboardTutor },
-    { path: config.routes.feedbackHistory, component: FeedbackHistory },
 ];
 
 const privateRoutes = [
-    { path: config.routes.home, component: Home },
-    { path: config.routes.main, component: Main },
-    { path: config.routes.registrationTutor1, component: BecomeTutor, layout: Registration },
-    { path: config.routes.registrationTutor2, component: BecomeTutor2, layout: Registration },
-    { path: config.routes.registrationStudent1, component: BecomeStudent, layout: Registration },
-    { path: config.routes.registrationStudent2, component: BecomeStudent, layout: Registration },
-    { path: config.routes.findTutor, component: FindTutor },
-    { path: config.routes.account, component: Tutor },
-    { path: config.routes.requestTutor, component: RequestTutor },
-    { path: config.routes.onlineTutoring, component: OnlineTutoring },
-    { path: config.routes.forStudent, component: ForStudent },
-    { path: config.routes.customerSay, component: CustomerSay },
+    { path: config.routes.home, component: Home, role: ['Student', 'Tutor'] },
+    { path: config.routes.main, component: Main, role: ['Tutor'] },
+    { path: config.routes.findTutor, component: FindTutor, role: ['Student'] },
+    { path: config.routes.account, component: Tutor, role: ['Tutor', 'Admin'] },
+    { path: config.routes.requestTutor, component: RequestTutor, role: ['Student'] },
+    { path: config.routes.onlineTutoring, component: OnlineTutoring, role: ['Student', 'Admin'] },
+    { path: config.routes.forStudent, component: ForStudent, role: ['Student'] },
+    { path: config.routes.customerSay, component: CustomerSay, role: ['Student', 'Admin'] },
     { path: config.routes.blog, component: Blog },
-    { path: config.routes.advertisement, component: Advertisement },
-    { path: config.routes.howItWork, component: HowItWork },
-    { path: config.routes.accountStudent, component: Student, layout: HeaderOnly },
-    { path: config.routes.aboutUs, component: AboutUs },
-    { path: config.routes.learnMore, component: LearnMore },
-    { path: config.routes.transaction, component: Transaction },
-    { path: config.routes.payment, component: Payment, layout: Transaction },
-    { path: config.routes.history, component: History, layout: Transaction },
-    { path: config.routes.tipSuccess, component: TipSuccess },
+    { path: config.routes.advertisement, component: Advertisement, role: ['Tutor'] },
+    { path: config.routes.howItWork, component: HowItWork, role: ['Student', 'Tutor'] },
+    { path: config.routes.accountStudent, component: Student, layout: HeaderOnly, role: ['Student'] },
+    { path: config.routes.aboutUs, component: AboutUs, role: ['Student'] },
+    { path: config.routes.learnMore, component: LearnMore, role: ['Student'] },
+    { path: config.routes.transaction, component: Transaction, role: ['Student'] },
+    { path: config.routes.payment, component: Payment, layout: Transaction, role: ['Student'] },
+    { path: config.routes.history, component: History, layout: Transaction, role: ['Student'] },
+    { path: config.routes.tipSuccess, component: TipSuccess, role: ['Student'] },
+    { path: config.routes.tipSuccess, component: TipSuccess, role: ['Student'] },
+    { path: config.routes.dashboardTutor, component: DashboardTutor, role: ['Tutor'] },
+    { path: config.routes.feedbackHistory, component: FeedbackHistory, role: ['Tutor', 'Student'] },
+    { path: config.routes.unauthorized, component: Unauthorized, layout: null, role: ['Student', 'Tutor', 'Admin'] },
 ];
 
 export { publicRoutes, privateRoutes };

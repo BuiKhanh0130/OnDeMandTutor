@@ -1,6 +1,6 @@
 // import firebase from 'firebase/compat/app';
 // import 'firebase/compat/auth';
-import { Fragment, useContext, useEffect } from 'react';
+import { Fragment, useContext } from 'react';
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 
 import { publicRoutes, privateRoutes } from '~/routes';
@@ -10,6 +10,7 @@ import Main from './pages/Main';
 import { DefaultLayout } from './layouts/DefaultLayout';
 import { ModalContext } from './components/ModalProvider';
 import PersistLogin from './components/Login/components/PersistLogin';
+import RequireAuth from './pages/RequireAuth/RequireAuth';
 
 // Configure Firebase.
 // const config = {
@@ -51,14 +52,12 @@ function App() {
 
                               let Layout = DefaultLayout;
 
+                              const role = route.role;
+
                               if (context?.auth?.role === 'Tutor') {
                                   Layout = Tutor;
                               } else if (context?.auth?.role === 'Admin') {
                                   Layout = Admin;
-                              }
-
-                              if (Layout === Admin) {
-                                  Page = Main;
                               }
 
                               if (route.layout) {
@@ -69,16 +68,18 @@ function App() {
 
                               return (
                                   <Route element={<PersistLogin />}>
-                                      <Route
-                                          exact
-                                          key={index}
-                                          path={route.path}
-                                          element={
-                                              <Layout>
-                                                  <Page></Page>
-                                              </Layout>
-                                          }
-                                      ></Route>
+                                      <Route element={<RequireAuth allowedRoles={role} />}>
+                                          <Route
+                                              exact
+                                              key={index}
+                                              path={route.path}
+                                              element={
+                                                  <Layout>
+                                                      <Page></Page>
+                                                  </Layout>
+                                              }
+                                          ></Route>
+                                      </Route>
                                   </Route>
                               );
                           })

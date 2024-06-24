@@ -10,7 +10,7 @@ import { ModalContext } from '~/components/ModalProvider';
 import config from '~/config';
 import request from '~/utils/request';
 import useInput from '~/hook/useInput';
-import useToggle from '~/hook/useToggle';
+// import useToggle from '~/hook/useToggle';
 
 import styles from './SignIn.module.scss';
 
@@ -37,7 +37,7 @@ function SignIn({ item, onChangeUsername, onChangePassword }) {
     const [userName, resetUser, userAttribs] = useInput('user', ''); //useState('');
     const [password, setPassword] = useState('');
     const [errMsg, setErrMsg] = useState('');
-    const [check, toggleCheck] = useToggle('persist', false);
+    // const [check, toggleCheck] = useToggle('persist', false);
 
     useEffect(() => {
         userRef.current.focus();
@@ -63,7 +63,7 @@ function SignIn({ item, onChangeUsername, onChangePassword }) {
             //console.log(JSON.stringify(response));
             const accessToken = response?.data?.token;
             const role = jwtDecode(accessToken);
-            setAuth({ userName, password, role, accessToken });
+            setAuth({ userName, role, accessToken });
             //set for next login
             //setUsername('');
             resetUser();

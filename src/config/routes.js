@@ -22,6 +22,7 @@ const routes = {
     tipSuccess: '/tipSuccess',
     dashboardTutor: '/dashboardTutor',
     feedbackHistory: '/feedbackHistory',
+    unauthorized: '/unauthorized',
 };
 
 export default routes;
