@@ -1,5 +1,5 @@
 import classNames from 'classnames/bind';
-import { useState, useMemo } from 'react';
+import { useMemo } from 'react';
 
 import Button from '~/components/Button';
 

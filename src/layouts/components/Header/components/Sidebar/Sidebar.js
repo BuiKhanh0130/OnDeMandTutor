@@ -57,8 +57,8 @@ function Sidebar() {
             <div className={cx('container')}>
                 {sidebarItems.map((sidebarItem, index) => {
                     return (
-                        <Menu enu key={index} items={sidebarItem.items}>
-                            <div className={cx('menu__item-title')}>
+                        <Menu key={index} items={sidebarItem.items}>
+                            <div key={index} className={cx('menu__item-title')}>
                                 <span>{sidebarItem.title}</span>
                             </div>
                         </Menu>

@@ -1,6 +1,6 @@
 const images = {
     noImage: require('~/assets/images/NoImage.png'),
-    logo: require('~/assets/images/logo.png'),
+    logo: require('~/assets/images/Logo.png'),
     google: require('~/assets/images/google.svg').default,
     search: require('~/assets/images/Search.png'),
     sociology: require('~/assets/images/Sociology.png'),
@@ -51,6 +51,13 @@ const images = {
     tipSuccess: require('~/assets/images/tipsuccess.png'),
     tipSuccess1: require('~/assets/images/tipsuccess1.png'),
     tipSuccess2: require('~/assets/images/tipsuccess2.png'),
+    tipSuccess3: require('~/assets/images/tipsuccess3.png'),
+    dashboard1: require('~/assets/images/buikhanh.png'),
+    dashboard2: require('~/assets/images/hoangphuc.png'),
+    dashboard3: require('~/assets/images/quynhnhu.png'),
+    dashboard4: require('~/assets/images/nhutam.png'),
+    dashboard5: require('~/assets/images/vanlam.png'),
+    avatarDefault: require('~/assets/images/avatardefault.png'),
 };
 
 export default images;

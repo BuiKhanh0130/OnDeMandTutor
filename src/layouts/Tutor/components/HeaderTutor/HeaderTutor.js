@@ -18,6 +18,7 @@ import { ModalContext } from '~/components/ModalProvider';
 // import { faBell } from '@fortawesome/free-solid-svg-icons';
 // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { NotificationIcon } from '~/components/Icons';
+import NavMessage from '~/layouts/Admin/components/HeaderAdmin/Nav/NavMessage';
 
 import styles from './HeaderTutor.module.scss';
 
@@ -47,6 +48,7 @@ function HeaderTutor(){
                                     <span className={cx('container__login-signup-number')}>2</span>
                                 </div>
                             </Notification>
+                            <NavMessage/>
                             <User>
                                 <div className={cx('container__login-user')}>
                                     <Image

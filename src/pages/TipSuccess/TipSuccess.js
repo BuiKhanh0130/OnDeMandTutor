@@ -105,17 +105,16 @@ function TipSuccess(){
                         <p>Students will have a better experience when tutors can contact them quickly and easily.</p>
                         <h4>The best advices:</h4>
                         <ul>
-                            <li >Clear descriptions of your expertise</li>
-                            <li >Tutors can use the search function to search for student posts by criteria such as subject, level, and study time.</li>
-                            <li >Details about your background</li>
-                            <li >A little about your personality</li>
+                            <li >Show enthusiasm</li>
+                            <li >Respond quickly to customers</li>
+                            <li >Search for student posts by criteria such as subject, level, and study time.</li>
                         </ul>
                         <div className={cx('tipSuccess__button')}>
                         <button >Update Profile</button>
                         </div>
                     </Col>
-                    <Col lg='6' className={cx('tipSuccess__images1')}>
-                            <img src={images.tipSuccess1} alt='TipSuccess1'></img>
+                    <Col lg='6' className={cx('tipSuccess__images3')}>
+                            <img src={images.tipSuccess3} alt='TipSuccess1'></img>
                     </Col>
                 </Row>
 

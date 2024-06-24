@@ -21,8 +21,6 @@ import BecomeTutor from '~/pages/BecomeTutor';
 import BecomeStudent from '~/pages/BecomeStudent';
 import LearnMore from '~/pages/LearnMore';
 import TipSuccess from '~/pages/TipSuccess';
-import BecomeTutor2 from '~/pages/BecomeTutor2';
-import Main from '~/pages/Main';
 
 const publicRoutes = [
     { path: config.routes.home, component: Home },
@@ -47,6 +45,8 @@ const publicRoutes = [
     { path: config.routes.payment, component: Payment, layout: Transaction },
     { path: config.routes.history, component: History, layout: Transaction },
     { path: config.routes.tipSuccess, component: TipSuccess },
+    { path: config.routes.dashboardTutor, component: DashboardTutor },
+    { path: config.routes.feedbackHistory, component: FeedbackHistory },
 ];
 
 const privateRoutes = [

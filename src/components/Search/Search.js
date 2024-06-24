@@ -9,7 +9,7 @@ import Popper from '../Popper';
 import styles from './Search.module.scss';
 
 const cx = classNames.bind(styles);
-function Search({ width, className, ...passProps }) {
+function Search({ width, className, onChangeResult, ...passProps }) {
     const [searchValue, setSearchResult] = useState('');
     const [loading, setLoading] = useState(false);
     const [showResult, setShowResult] = useState(false);
@@ -24,6 +24,7 @@ function Search({ width, className, ...passProps }) {
         }
 
         setSearchResult(searchValue);
+        onChangeResult(searchValue);
     };
 
     const handleClear = () => {

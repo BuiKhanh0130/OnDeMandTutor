@@ -4,7 +4,7 @@ import Chart from 'react-apexcharts';
 
 import styles from './ReportCharts.module.scss';
 
-const cx = classNames.bind(styles);
+// const cx = classNames.bind(styles);
 
 function ReportCharts() {
     const [data, setData] = useState({

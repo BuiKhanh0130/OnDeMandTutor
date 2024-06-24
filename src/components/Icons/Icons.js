@@ -290,6 +290,8 @@ export const NotificationIcon = ({ className, width = '1.6rem', height = '1.6rem
     </svg>
 );
 
+
+
 export const HomeIcon = ({ className, currentColor, width = '1.6rem', height = '1.6rem' }) => (
     <svg width={width} height={height} className={className} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512">
         <path

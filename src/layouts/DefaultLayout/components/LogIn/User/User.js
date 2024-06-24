@@ -38,7 +38,10 @@ function User({ children }) {
                                     <Link to="/@NT">My profile</Link>
                                 </li>
                                 <li>
-                                    <Link to="/transaction/history">Transaction history</Link>
+                                    <Link to="/transaction/history">Feedback</Link>
+                                </li>
+                                <li>
+                                    <Link to="/transaction/history">Wallet</Link>
                                 </li>
                                 <li onClick={signOut}>Log out</li>
                             </ul>
