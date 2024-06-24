@@ -1,9 +1,9 @@
 import classNames from 'classnames/bind';
-import firebase from 'firebase/compat/app';
+// import firebase from 'firebase/compat/app';
 import { jwtDecode } from 'jwt-decode';
 import { Fragment, useContext, useEffect, useRef, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
+// import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
 
 import Button from '~/components/Button';
 import { ModalContext } from '~/components/ModalProvider';
@@ -14,11 +14,11 @@ import styles from './SignIn.module.scss';
 
 const LOGIN_URL = 'auth/signIn';
 
-const uiConfig = {
-    signInFlow: 'redirect',
-    signInSuccessUrl: '/',
-    signInOptions: [firebase.auth.GoogleAuthProvider.PROVIDER_ID],
-};
+// const uiConfig = {
+//     signInFlow: 'redirect',
+//     signInSuccessUrl: '/',
+//     signInOptions: [firebase.auth.GoogleAuthProvider.PROVIDER_ID],
+// };
 
 const cx = classNames.bind(styles);
 
@@ -122,7 +122,7 @@ function SignIn({ item, onChangeUsername, onChangePassword }) {
                         <img src={signIn.image} alt={signIn.label}></img>
                         <span>{signIn.label}</span>
                     </form>
-                    <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={firebase.auth()} />
+                    {/* <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={firebase.auth()} /> */}
                     <div className={cx('login-license')}>
                         <p className={cx('login-license-content')}>
                             By continuing with an account located in Vietnam, you agree to our Terms of

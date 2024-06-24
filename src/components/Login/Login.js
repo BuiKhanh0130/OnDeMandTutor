@@ -1,6 +1,6 @@
 import { useMemo, useState, useEffect } from 'react';
 import classNames from 'classnames/bind';
-import firebase from 'firebase/compat/app';
+// import firebase from 'firebase/compat/app';
 
 import Image from '~/assets/images';
 import SignIn from './components/SignIn';
@@ -11,13 +11,13 @@ import { CloseIcon } from '../Icons';
 import styles from './Login.module.scss';
 
 // Configure Firebase.
-const config = {
-    apiKey: 'AIzaSyDERqCP1b33M7qBHOZpEF1b65iHNfPgvNM',
-    authDomain: 'on-demand-tutor-de8fd.firebaseapp.com',
-    // ...
-};
+// const config = {
+//     apiKey: 'AIzaSyDERqCP1b33M7qBHOZpEF1b65iHNfPgvNM',
+//     authDomain: 'on-demand-tutor-de8fd.firebaseapp.com',
+//     // ...
+// };
 
-firebase.initializeApp(config);
+// firebase.initializeApp(config);
 
 const cx = classNames.bind(styles);
 

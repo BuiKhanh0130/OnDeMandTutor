@@ -1,5 +1,5 @@
-import firebase from 'firebase/compat/app';
-import 'firebase/compat/auth';
+// import firebase from 'firebase/compat/app';
+// import 'firebase/compat/auth';
 import { Fragment, useContext, useEffect } from 'react';
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 
@@ -12,40 +12,41 @@ import { ModalContext } from './components/ModalProvider';
 import PersistLogin from './components/Login/components/PersistLogin';
 
 // Configure Firebase.
-const config = {
-    apiKey: 'AIzaSyDERqCP1b33M7qBHOZpEF1b65iHNfPgvNM',
-    authDomain: 'on-demand-tutor-de8fd.firebaseapp.com',
-    // ...
-};
-firebase.initializeApp(config);
+// const config = {
+//     apiKey: 'AIzaSyDERqCP1b33M7qBHOZpEF1b65iHNfPgvNM',
+//     authDomain: 'on-demand-tutor-de8fd.firebaseapp.com',
+//     // ...
+// };
+// firebase.initializeApp(config);
 
 function App() {
     const context = useContext(ModalContext);
 
-    const token = localStorage.getItem('token');
+    const accessToken = localStorage.getItem('accessToken');
 
-    useEffect(() => {
-        const unregisterAuthObserver = firebase.auth().onAuthStateChanged(async (user) => {
-            if (!user) {
-                // user logs out, handle something here
-                console.log('User is not logged in');
-                return;
-            }
+    //     useEffect(() => {
+    //         const unregisterAuthObserver = firebase.auth().onAuthStateChanged(async (user) => {
+    //             if (!user) {
+    //                 // user logs out, handle something here
+    //                 console.log('User is not logged in');
+    //                 return;
+    //             }
 
-            console.log('Logged in user: ', user.displayName);
-            const token = await user.getIdToken();
-            console.log('Logged in user token: ', token);
-        });
+    //             console.log('Logged in user: ', user.displayName);
+    //             const token = await user.getIdToken();
+    //             console.log('Logged in user token: ', token);
+    //         });
 
-        return () => unregisterAuthObserver();
-    }, []);
+    //         return () => unregisterAuthObserver();
+    //     }, []);
 
     return (
         <Router>
             <div>
                 <Routes>
-                    {token
+                    {accessToken
                         ? privateRoutes.map((route, index) => {
+                              console.log('hi');
                               let Page = route.component;
 
                               let Layout = DefaultLayout;
@@ -82,6 +83,7 @@ function App() {
                               );
                           })
                         : publicRoutes.map((route, index) => {
+                              console.log('hello');
                               let Page = route.component;
 
                               let Layout = DefaultLayout;
