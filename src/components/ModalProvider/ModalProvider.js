@@ -3,6 +3,7 @@ import { createContext, useState } from 'react';
 const ModalContext = createContext();
 
 function ModalProvider({ children }) {
+    const [user, setUser] = useState(false);
     const [active, setActive] = useState(false);
     const [auth, setAuth] = useState({});
     const [userId, setUserId] = useState('');
@@ -21,7 +22,16 @@ function ModalProvider({ children }) {
         setActiveSignUp(true);
     };
 
+    const handleUser = () => {
+        setUser(true);
+    };
+
+    const handleHiddenUser = () => {
+        setUser(false);
+    };
+
     const value = {
+        user,
         active,
         auth,
         setAuth,
@@ -29,6 +39,8 @@ function ModalProvider({ children }) {
         userId,
         setUserId,
         activeSignUp,
+        handleUser,
+        handleHiddenUser,
         handleActive,
         handleHiddenActive,
         handleActiveSignUp,

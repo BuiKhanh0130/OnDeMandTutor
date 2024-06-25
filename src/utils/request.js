@@ -1,13 +1,11 @@
 import axios from 'axios';
 
-const BASE_URL = 'https://localhost:7262/api/';
-
 const requests = axios.create({
-    baseURL: BASE_URL,
+    baseURL: process.env.REACT_APP_URL_API,
 });
 
 export const requestsPrivate = axios.create({
-    baseURL: BASE_URL,
+    baseURL: process.env.REACT_APP_URL_API,
     headers: { 'Content-Type': 'application/json' },
     withCredentials: true,
 });

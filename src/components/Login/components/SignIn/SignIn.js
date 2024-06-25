@@ -1,8 +1,11 @@
 import classNames from 'classnames/bind';
-// import firebase from 'firebase/compat/app';
 import { jwtDecode } from 'jwt-decode';
 import { Fragment, useContext, useEffect, useRef, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
+import { doc, setDoc } from 'firebase/firestore';
+import { auth, db } from '~/firebase/firebase';
+
 // import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
 
 import Button from '~/components/Button';
@@ -25,7 +28,7 @@ const LOGIN_URL = 'auth/signIn';
 const cx = classNames.bind(styles);
 
 function SignIn({ item, onChangeUsername, onChangePassword }) {
-    const { setAuth, setActive } = useContext(ModalContext);
+    const { setAuth, setActive, handleUser } = useContext(ModalContext);
 
     const navigate = useNavigate();
     const location = useLocation();
@@ -68,8 +71,10 @@ function SignIn({ item, onChangeUsername, onChangePassword }) {
             //setUsername('');
             resetUser();
             setPassword('');
+            localStorage.setItem('loginMethod', 'account');
             localStorage.setItem('accessToken', JSON.stringify(response?.data));
             setActive(false);
+            handleUser();
             navigate(from, { replace: true });
         } catch (err) {
             if (!err?.response) {
@@ -83,6 +88,27 @@ function SignIn({ item, onChangeUsername, onChangePassword }) {
             }
             errRef.current.focus();
         }
+    };
+
+    //handle login with google
+    const signInWithGoogle = () => {
+        const provider = new GoogleAuthProvider();
+        signInWithPopup(auth, provider).then(async (result) => {
+            const user = result.user;
+            if (result.user) {
+                localStorage.setItem('loginMethod', 'google');
+                setAuth({ userName, role: 'Student', accessToken: user.accessToken });
+                localStorage.setItem('accessToken', user.accessToken);
+                setActive(false);
+                handleUser();
+                navigate(from, { replace: true });
+                await setDoc(doc(db, 'Users', user.uid), {
+                    email: user.email,
+                    firstName: user.displayName,
+                    photo: user.photoURL,
+                });
+            }
+        });
     };
 
     useEffect(() => {
@@ -127,10 +153,10 @@ function SignIn({ item, onChangeUsername, onChangePassword }) {
                             {signIn.forget}
                         </Link>
                     </div>
-                    <form className={cx('signIn-form-by-google')}>
+                    <Button onClick={signInWithGoogle} className={cx('signIn-form-by-google')}>
                         <img src={signIn.image} alt={signIn.label}></img>
                         <span>{signIn.label}</span>
-                    </form>
+                    </Button>
                     {/* <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={firebase.auth()} /> */}
                     <div className={cx('login-license')}>
                         <p className={cx('login-license-content')}>

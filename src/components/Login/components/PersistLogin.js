@@ -1,13 +1,18 @@
 import { Outlet } from 'react-router-dom';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
+
 import useRefreshToken from '~/hook/useRefreshToken';
 import { useAuth } from '~/hook/useAuth';
-import useLocalStorage from '~/hook/useLocalStorage';
+import { ModalContext } from '~/components/ModalProvider';
 
 const PersistLogin = () => {
     const [isLoading, setIsLoading] = useState(true);
     const refresh = useRefreshToken();
-    const { auth } = useAuth();
+    const { auth, setAuth } = useAuth();
+    const method = localStorage.getItem('loginMethod');
+    const accessToken = localStorage.getItem('accessToken');
+    const { handleUser } = useContext(ModalContext);
+
     // const [persist] = useLocalStorage('persist', false);
 
     useEffect(() => {
@@ -20,17 +25,19 @@ const PersistLogin = () => {
                 setIsLoading(false);
             }
         };
-        !auth?.accessToken?.token &&
-        {
-            /*persist*/
+        !auth?.accessToken?.token && method === 'user' ? verifyRefreshToken() : setIsLoading(false);
+    }, []);
+
+    useEffect(() => {
+        if (method === 'google') {
+            setAuth({ userName: '', role: 'Student', accessToken: accessToken });
+            handleUser();
         }
-            ? verifyRefreshToken()
-            : setIsLoading(false);
     }, []);
 
     useEffect(() => {
         console.log(`isLoading: ${isLoading}`);
-        console.log(`aT: ${JSON.stringify(auth?.accessToken?.token)}`);
+        console.log(`aT: ${JSON.stringify(auth?.accessToken)}`);
     }, [isLoading]);
 
     return <>{isLoading ? <p>Loading...</p> : <Outlet />}</>;

@@ -1,4 +1,5 @@
 import { useContext, useEffect } from 'react';
+import firebase from 'firebase/compat/app';
 
 import { requestsPrivate } from '~/utils/request';
 import useRefreshToken from './useRefreshToken';
@@ -11,8 +12,12 @@ const useRequestsPrivate = () => {
 
     useEffect(() => {
         const requestIntercept = requestsPrivate.interceptors.request.use(
-            (config) => {
-                if (!config.headers['Authorization']) {
+            async (config) => {
+                const currentUser = firebase.auth().currentUser;
+                if (currentUser) {
+                    const token = await currentUser.getIdToken();
+                    config.headers.Authorization = `Bearer ${token}`;
+                } else if (!config.headers['Authorization']) {
                     config.headers['Authorization'] = `Bearer ${auth?.accessToken?.token}`;
                 }
                 return config;

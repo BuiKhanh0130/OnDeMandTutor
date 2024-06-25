@@ -61,6 +61,7 @@
 .signIn-form-by-google {
     position: relative;
     display: flex;
+    width: 100%;
     align-items: center;
     justify-content: center;
     height: 40px;
@@ -69,6 +70,7 @@
     border-radius: 4px;
     border: 1px solid var(--black);
     margin-top: 10px;
+    background-color: var(--white);
 
     span {
         margin: 10px 6px;
