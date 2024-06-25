@@ -51,7 +51,9 @@
 
 .requestTutor__container-subject,
 .requestTutor__container-grade,
-.requestTutor__container-gender {
+.requestTutor__container-gender,
+.requestTutor__container-title,
+.requestTutor__container-degree {
     margin: 10px 0;
     label {
         font-size: 1.4rem;
@@ -74,6 +76,15 @@
             border: 1px solid #f30606;
         }
     }
+
+    input{
+        height: 35px;
+        width: 260px;
+        border: 1px solid black;
+        border-radius: 4px;
+        font-size: 20px;
+        padding: 10px;
+    }
 }
 
 .requestTutor__container-dcs {
@@ -87,6 +98,8 @@
 
     textarea {
         width: 100%;
+        padding: 10px;
+        font-size: 18px;
     }
 }
 
