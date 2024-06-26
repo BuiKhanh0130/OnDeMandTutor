@@ -15,6 +15,8 @@ import { StarIcon } from '~/components/Icons';
 import useRequestsPrivate from '~/hook/useRequestPrivate';
 import request from '~/utils/request';
 
+import Paging from '~/components/Paging'
+
 import styles from './FindTutor.module.scss';
 
 const cx = classNames.bind(styles);
@@ -23,15 +25,22 @@ const GRADE_URL = 'Grade';
 const TUTOR_URL = 'Tutors';
 
 function FindTutor() {
+
     const [searchValue, setSearchValue] = useState('');
-    const [minValueRate, setMinValueRate] = useState(10);
-    const [maxValueRate, setMaxValueRate] = useState(200);
-    const [grade, setGrade] = useState('G0012');
-    const [gender, setGender] = useState(true);
+    const [minValueRate, setMinValueRate] = useState();
+    const [maxValueRate, setMaxValueRate] = useState();
+    const [grade, setGrade] = useState('');
+    const [gender, setGender] = useState(null);
     const [fetchedGrades, setFetchedGrades] = useState([]);
-    const [sort, setSort] = useState();
-    const [tutor, setTutors] = useState();
-    const requestPrivate = useRequestsPrivate();
+    const [sort, setSort] = useState({});
+    const [tutor, setTutors] = useState([]);
+    const [typeOfDegree, setTypeOfDegree] = useState();
+    const [curPage, setcurPage] = useState(1);
+    const [pagination, setPagination] = useState({
+        page: 1,
+        limit: 3,
+        total: 1,
+    });
 
     useEffect(() => {
         window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -62,34 +71,44 @@ function FindTutor() {
                 break;
         }
     };
-    console.log(sort);
-
-    const handleSubmit = async (event) => {
-        event.preventDefault();
-        try {
             const params = {
                 Search: searchValue,
                 MaxRate: maxValueRate,
                 MinRate: minValueRate,
                 GradeId: grade,
                 Gender: gender,
-                TypeOfDegree: '',
+                TypeOfDegree: typeOfDegree,
+                pageIndex: curPage,
                 SortContent: {
-                    sortTutorBy: sort.title,
-                    sortTutorType: sort.sort,
-                },
+                sortTutorBy: sort.title,
+                sortTutorType: sort.sort
+                }
             };
 
-            const response = await request.get(`${TUTOR_URL}`, { params });
 
-            console.log(response.data);
-            setTutors(response.data);
-        } catch (error) {
-            console.log(error.message);
+            const handleSubmit = async (event) => {
+                event.preventDefault()
+                handleChange();
         }
-    };
 
-    const dayOfWeek = useMemo(() => ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'], []);
+            const handleChange = async () => {
+            try {              
+                    const response = await request.get(`${TUTOR_URL}`, { params });
+
+                    setTutors(response.data);
+                }
+            catch (error) {
+                console.log(error.message);
+            }
+        }
+
+        useEffect(() => {
+
+            handleChange();
+
+        }, [maxValueRate, minValueRate, grade, gender, typeOfDegree, sort, curPage]);
+
+    // const dayOfWeek = useMemo(() => ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'], []);
 
     useEffect(() => {
         try {
@@ -159,7 +178,7 @@ function FindTutor() {
                             <label htmlFor="levels" className={cx('sidebar__items-role-label')}>
                                 Type Of Degree
                             </label>
-                            <select id="levels" className={cx('sidebar__items-role-level')}>
+                            <select id="levels" className={cx('sidebar__items-role-level')} onChange={e => setTypeOfDegree(e.target.value)}>
                                 <option value="College">College</option>
                                 <option value="Associate Degree">Associate Degree</option>
                                 <option value="Bachelors Degree">Bachelors Degree</option>
@@ -168,7 +187,7 @@ function FindTutor() {
                             </select>
                         </div>
 
-                        <div className={cx('sidebar__items-availability')}>
+                        {/* <div className={cx('sidebar__items-availability')}>
                             <p className={cx('sidebar__items-availability-title')}>Availability</p>
                             {dayOfWeek.map((day, index) => {
                                 return (
@@ -183,7 +202,7 @@ function FindTutor() {
                                     </div>
                                 );
                             })}
-                        </div>
+                        </div> */}
                     </form>
                 </Col>
                 <Col lg="9" className={cx('result')}>
@@ -202,11 +221,11 @@ function FindTutor() {
                                     <strong>Sort</strong>
                                 </label>
                                 <select id="sort" onChange={handleSelectSort}>
-                                    <option value="best">Best match</option>
+                                    {/* <option value="best">Best match</option> */}
                                     <option value="Lowest price">Lowest price</option>
                                     <option value="Highest price">Highest price</option>
                                     <option value="Rating">Rating</option>
-                                    <option value="experience">Experience</option>
+                                    {/* <option value="experience">Experience</option> */}
                                 </select>
                             </form>
                         </Col>
@@ -293,6 +312,11 @@ function FindTutor() {
                                     </div>
                                 );
                             })}
+
+                                <Paging 
+                                pagination={pagination}
+                                curPage={curPage}
+                                setcurPage={setcurPage} />
                     </Row>
                 </Col>
             </Row>
