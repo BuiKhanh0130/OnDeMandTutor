@@ -12,9 +12,11 @@ import RequireAuth from './pages/RequireAuth/RequireAuth';
 // Configure Firebase.
 
 function App() {
-    const context = useContext(ModalContext);
+    const { handleUser, auth } = useContext(ModalContext);
 
     const accessToken = localStorage.getItem('accessToken');
+
+    if (accessToken) handleUser();
 
     // useEffect(() => {
     //     const unregisterAuthObserver = firebase.auth().onAuthStateChanged(async (user) => {
@@ -44,9 +46,9 @@ function App() {
 
                               const role = route.role;
 
-                              if (context?.auth?.role === 'Tutor') {
+                              if (auth?.role === 'Tutor') {
                                   Layout = Tutor;
-                              } else if (context?.auth?.role === 'Admin') {
+                              } else if (auth?.role === 'Admin') {
                                   Layout = Admin;
                               }
 
@@ -58,7 +60,7 @@ function App() {
 
                               return (
                                   <Route element={<PersistLogin />}>
-                                      <Route element={<RequireAuth allowedRoles={role} />}>
+                                      <Route element={<RequireAuth reAuth allowedRoles={role} />}>
                                           <Route
                                               exact
                                               key={index}

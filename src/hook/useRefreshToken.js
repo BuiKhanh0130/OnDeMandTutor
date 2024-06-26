@@ -8,9 +8,10 @@ const useRefreshToken = () => {
     const refreshToken = async () => {
         const accessToken = localStorage.getItem('accessToken');
         const refreshToken = JSON.parse(accessToken).refreshToken;
-        const userId = jwtDecode(accessToken).userId;
+        console.log(refreshToken);
+        const userId = jwtDecode(accessToken).UserId;
+        console.log(userId);
 
-        console.log(JSON.stringify({ refreshToken: refreshToken, userId: userId }));
         try {
             const response = await requests.post(
                 'auth/refresh-token',

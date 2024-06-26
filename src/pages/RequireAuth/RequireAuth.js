@@ -7,6 +7,7 @@ const RequireAuth = ({ allowedRoles }) => {
     const { auth } = useAuth();
     const location = useLocation();
     const modal = useContext(ModalContext);
+    console.log(auth);
 
     return allowedRoles.find((allowedRole) => allowedRole === auth?.role) ? (
         <Outlet />

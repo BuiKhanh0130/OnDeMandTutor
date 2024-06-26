@@ -13,10 +13,9 @@ import styles from './RequestTutor.module.scss';
 import useRequestsPrivate from '~/hook/useRequestPrivate';
 
 const cx = classNames.bind(styles);
-const SUBJECTGROUP_URL = 'SubjectGroup'
-const GRADE_URL = 'Grade'
-const CREATEFROM_URL = 'FormFindTutor/student/createform'
-
+const SUBJECTGROUP_URL = 'SubjectGroup';
+const GRADE_URL = 'Grade';
+const CREATEFROM_URL = 'FormFindTutor/student/createform';
 
 function RequestTutor() {
     const [title, setTitle] = useState('');
@@ -30,7 +29,6 @@ function RequestTutor() {
     const [description, setDescription] = useState('');
     const [typeDegree, setTypeDegree] = useState('College');
     const requestsPrivate = useRequestsPrivate();
-    
 
     useEffect(() => {
         const GetSubject = async () => {
@@ -40,11 +38,11 @@ function RequestTutor() {
             } catch (error) {
                 console.log(error);
             }
-        }
+        };
         GetSubject();
-    }, [])
+    }, []);
 
-    const params = { 
+    const params = {
         gradeId: grade,
         subjectGroupId: subject,
         typeOfDegree: typeDegree,
@@ -53,36 +51,31 @@ function RequestTutor() {
         minHourlyRate: minValueRate,
         maxHourlyRate: maxValueRate,
         describeTutor: description,
-      }
+    };
 
-      const handleSubmit = async (events) => {
+    const handleSubmit = async (events) => {
         events.preventDefault();
         try {
-            const response = await request.post(CREATEFROM_URL, params, {
-                headers: { Authorization: `Bearer ${localStorage.getItem("item")}` }
-              });
+            const response = await requestsPrivate.post(CREATEFROM_URL, params);
             setTitle('');
             setDescription('');
             console.log(response.data);
         } catch (error) {
             console.log(error);
         }
-      }
+    };
 
-      useEffect(
-        () =>{
-                try {
-                    const Grades = async () => {
-                        const response = await request.get(GRADE_URL);
-                        setFetchedGrades(response.data);
-                        }
-                        Grades();
-                    }
-                catch (error) {
-                    console.log(error);
-                }    
-            }
-    , [])
+    useEffect(() => {
+        try {
+            const Grades = async () => {
+                const response = await request.get(GRADE_URL);
+                setFetchedGrades(response.data);
+            };
+            Grades();
+        } catch (error) {
+            console.log(error);
+        }
+    }, []);
 
     return (
         <Container className={cx('wrapper')}>
@@ -92,16 +85,16 @@ function RequestTutor() {
                         <div className={cx('requestTutor__container-subject')}>
                             <label htmlFor="subjects">Subject</label>
                             <select id="subjects" name="subjects" onChange={(e) => setSubject(e.target.value)}>
-                                {
-                                    listSubject.map((subject, index) => <option key={index} value={subject.subjectGroupId}>{subject.subjectName}</option>)
-                                }
+                                {listSubject.map((subject, index) => (
+                                    <option key={index} value={subject.subjectGroupId}>
+                                        {subject.subjectName}
+                                    </option>
+                                ))}
                             </select>
                         </div>
 
                         <div className={cx('requestTutor__container-degree')}>
-                            <label htmlFor="degree">
-                                Degree
-                            </label>
+                            <label htmlFor="degree">Degree</label>
                             <select id="degree" onChange={(e) => setTypeDegree(e.target.value)}>
                                 <option value="College">College</option>
                                 <option value="Associate Degree">Associate Degree</option>
@@ -114,15 +107,17 @@ function RequestTutor() {
                         <div className={cx('requestTutor__container-grade')}>
                             <label htmlFor="grades">Grade</label>
                             <select id="grades" name="grades" onChange={(e) => setGrade(e.target.value)}>
-                                {
-                                    fetchedGrades.map((grade, index) =>  <option key={index} value={grade.gradeId}>{grade.number}</option>)
-                                }
+                                {fetchedGrades.map((grade, index) => (
+                                    <option key={index} value={grade.gradeId}>
+                                        {grade.number}
+                                    </option>
+                                ))}
                             </select>
                         </div>
 
                         <div className={cx('requestTutor__container-gender')}>
                             <label htmlFor="gender">Gender</label>
-                            <select id="gender" name="gender" onChange={(e)=> setGender(e.target.value)}>
+                            <select id="gender" name="gender" onChange={(e) => setGender(e.target.value)}>
                                 <option value={false}>Lady</option>
                                 <option value={true}>Gentlemen</option>
                             </select>
@@ -130,9 +125,7 @@ function RequestTutor() {
 
                         <div className={cx('requestTutor__container-title')}>
                             <label htmlFor="title">Title</label>
-                            <input id="title" name="title" type="text"
-                            onChange={(e)=> setTitle(e.target.value)}/>                        
-                            
+                            <input id="title" name="title" type="text" onChange={(e) => setTitle(e.target.value)} />
                         </div>
 
                         <div className={cx('requestTutor__container-dcs')}>
@@ -142,7 +135,7 @@ function RequestTutor() {
                                 rows="5"
                                 cols="30"
                                 placeholder="Enter your text here..."
-                                onChange={e => setDescription(e.target.value)}
+                                onChange={(e) => setDescription(e.target.value)}
                             ></textarea>
                         </div>
                         <input className={cx('requestTutor__container-submit')} type="submit" value="Submit"></input>

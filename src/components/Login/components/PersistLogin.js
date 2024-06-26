@@ -12,7 +12,6 @@ const PersistLogin = () => {
     const method = localStorage.getItem('loginMethod');
     const accessToken = localStorage.getItem('accessToken');
     const { handleUser } = useContext(ModalContext);
-
     // const [persist] = useLocalStorage('persist', false);
 
     useEffect(() => {
@@ -25,7 +24,7 @@ const PersistLogin = () => {
                 setIsLoading(false);
             }
         };
-        !auth?.accessToken?.token && method === 'user' ? verifyRefreshToken() : setIsLoading(false);
+        !auth?.accessToken?.token ? verifyRefreshToken() : setIsLoading(false);
     }, []);
 
     useEffect(() => {

@@ -1,10 +1,9 @@
 import classNames from 'classnames/bind';
 import { useMemo } from 'react';
 
-import styles from './Sidebar.module.scss';
-
-import config from '~/config';
 import Menu from './Menu';
+
+import styles from './Sidebar.module.scss';
 
 const cx = classNames.bind(styles);
 

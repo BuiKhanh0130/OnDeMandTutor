@@ -57,7 +57,9 @@ function Student() {
                 });
             }
         };
+
         getUsers();
+
         return () => {
             isMounted = false;
             controller.abort();
