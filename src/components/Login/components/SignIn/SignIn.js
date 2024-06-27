@@ -62,18 +62,21 @@ function SignIn({ item, onChangeUsername, onChangePassword }) {
             const response = await request.post(LOGIN_URL, JSON.stringify({ userName, password }), {
                 headers: { 'Content-Type': 'application/json' },
                 withCredentials: true,
-            });
-            //console.log(JSON.stringify(response));
+            }); 
             const accessToken = response?.data?.token;
-            const role = jwtDecode(accessToken).UserRole;
-            console.log(role);
-            setAuth({ userName, role, accessToken });
+            console.log(accessToken.token);
+            const user = jwtDecode(accessToken);
+            const role = user.UserRole
+            // console.log(user);
+            setAuth({ userName, role, accessToken});
             //set for next login
             //setUsername('');
             resetUser();
             setPassword('');
             localStorage.setItem('loginMethod', 'account');
             localStorage.setItem('accessToken', JSON.stringify(response?.data));
+            localStorage.setItem('role', JSON.stringify(role));
+            localStorage.setItem('token', JSON.stringify(accessToken));
             setActive(false);
             handleUser();
             navigate(from, { replace: true });

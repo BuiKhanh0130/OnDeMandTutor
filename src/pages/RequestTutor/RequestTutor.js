@@ -29,6 +29,7 @@ function RequestTutor() {
     const [description, setDescription] = useState('');
     const [typeDegree, setTypeDegree] = useState('College');
     const requestsPrivate = useRequestsPrivate();
+    const [loading, setLoading] = useState();
 
     useEffect(() => {
         const GetSubject = async () => {
@@ -59,6 +60,7 @@ function RequestTutor() {
             const response = await requestsPrivate.post(CREATEFROM_URL, params);
             setTitle('');
             setDescription('');
+            setLoading(false);
             console.log(response.data);
         } catch (error) {
             console.log(error);
@@ -67,11 +69,11 @@ function RequestTutor() {
 
     useEffect(() => {
         try {
-            const Grades = async () => {
+            const GetGrades = async () => {
                 const response = await request.get(GRADE_URL);
                 setFetchedGrades(response.data);
             };
-            Grades();
+            GetGrades();
         } catch (error) {
             console.log(error);
         }
@@ -125,7 +127,7 @@ function RequestTutor() {
 
                         <div className={cx('requestTutor__container-title')}>
                             <label htmlFor="title">Title</label>
-                            <input id="title" name="title" type="text" onChange={(e) => setTitle(e.target.value)} />
+                            <input id="title" name="title" type="text" onChange={(e) => setTitle(e.target.value)} value={title}/>
                         </div>
 
                         <div className={cx('requestTutor__container-dcs')}>
@@ -136,6 +138,7 @@ function RequestTutor() {
                                 cols="30"
                                 placeholder="Enter your text here..."
                                 onChange={(e) => setDescription(e.target.value)}
+                                value={description}
                             ></textarea>
                         </div>
                         <input className={cx('requestTutor__container-submit')} type="submit" value="Submit"></input>

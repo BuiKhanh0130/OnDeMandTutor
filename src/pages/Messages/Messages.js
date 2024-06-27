@@ -1,12 +1,15 @@
-import React from 'react'
+import React, { useState } from 'react'
 import classNames from 'classnames/bind'
 import styles from './Messages.module.scss'
 import { Container, Row, Col } from 'react-bootstrap'
 import Search from '~/components/Search';
 import images from '~/assets/images'
+import CreateClass from '~/pages/PopUp/Class'
 const cx = classNames.bind(styles)
 
 const Messages = () => {
+
+    const [isOpenPopup, setIsOpenPopup] = useState(false);
 
     const Interactors = [
         {
@@ -88,7 +91,10 @@ const Messages = () => {
                     </Col>
             </Row>
             <Row>
-                <Col lg='12' className={cx('container__type_message')}>
+                <Col lg='3' className={cx('button__create_class')}>
+                    <button onClick={() => setIsOpenPopup(!isOpenPopup)}>Create class</button>
+                </Col>
+                <Col lg='9' className={cx('container__type_message')}>
                     <input type='text' className={cx('type_message')} />
                         <i className={cx('send_icon')}>
                             <svg  xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="Blue" class="bi bi-send" viewBox="0 0 16 16">
@@ -98,7 +104,10 @@ const Messages = () => {
                 </Col>
             </Row>
         </Col>
-    </Row>
+        
+                {
+                    isOpenPopup && <CreateClass setIsOpenPopup={setIsOpenPopup}/>}
+        </Row>
     </Container>
 </div>
   )

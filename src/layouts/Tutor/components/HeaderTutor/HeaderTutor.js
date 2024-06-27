@@ -48,6 +48,7 @@ function HeaderTutor(){
                                     <span className={cx('container__login-signup-number')}>2</span>
                                 </div>
                             </Notification>
+
                             <NavMessage/>
                             <User>
                                 <div className={cx('container__login-user')}>
