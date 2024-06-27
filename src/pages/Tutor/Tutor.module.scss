@@ -120,15 +120,17 @@
 }
 
 .container__about-content {
+    margin-bottom: 20px;
 }
 
 .container__about-content-title {
     font-size: 2rem;
     font-weight: 700;
-    margin-top: 20px;
+    // margin-top: 20px;
 }
 
 .container__about-bio {
+    margin-bottom: 10px;
     span {
         font-size: 1.4rem;
         color: var(--text-color);
@@ -152,11 +154,6 @@
     display: flex;
     flex-direction: column;
     margin-bottom: 20px;
-    span:first-of-type {
-        color: var(--light-gray);
-        font-size: 1.4rem;
-        margin-bottom: 2px;
-    }
 }
 
 .container__about-rating {

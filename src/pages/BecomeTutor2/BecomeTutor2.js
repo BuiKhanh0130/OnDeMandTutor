@@ -10,6 +10,8 @@ import Button from '~/components/Button';
 
 import styles from './BecomeTutor2.module.scss';
 
+const IMGBB = 'https://api.imgbb.com/1/upload?key=9c7d176f8c72a29fa6384fbb49cff7bc';
+
 const cx = classNames.bind(styles);
 
 const CARD_REGEX = /^[0-9]{10}$/;
@@ -20,6 +22,8 @@ function BecomeTutor2() {
     const navigate = useNavigate();
     const errRef = useRef();
 
+    const [image, setImage] = useState(null);
+    const [file, setFile] = useState('');
     const [date, setDate] = useState('');
 
     const [cardId, setCardId] = useState('');
@@ -58,13 +62,25 @@ function BecomeTutor2() {
         e.preventDefault();
 
         const v = CARD_REGEX.test(cardId);
+        const form = new FormData();
 
         if (!v) {
             setErrMsg('Invalid entry');
             return;
         }
+        try {
+            form.append('image', image);
+            const response = await requests.post(IMGBB, form);
+            console.log(response?.data?.data?.display_url);
+            if (response.status === 200) {
+                setFile(response?.data?.data?.display_url);
+            }
+        } catch (error) {
+            console.log(error);
+        }
 
         try {
+            console.log(file);
             const response = await requests.post(
                 REGISTER_URL,
                 JSON.stringify({
@@ -73,7 +89,7 @@ function BecomeTutor2() {
                     typeOfDegree: typeOfDegree,
                     cardId: cardId,
                     hourlyRate: 0,
-                    photo: selectedFile,
+                    photo: file,
                     headline: headline,
                     description: description,
                     address: address,
@@ -299,16 +315,16 @@ function BecomeTutor2() {
                         </div>
 
                         <div className={cx('form_row')}>
-                            <label for="myfile">Avatar</label>
+                            <label for="myfile">Photo Certificate</label>
                             <input
                                 type="file"
                                 id="myfile"
                                 name="myfile"
-                                onChange={(e) => setSelectedFile(e.target.files[0].name)}
+                                onChange={(e) => setImage(e.target.files[0])}
                             />
                         </div>
 
-                        <Button className={cx('submit')}>Next</Button>
+                        <Button className={cx('submit')}>Submit</Button>
                     </form>
                 </div>
             </div>

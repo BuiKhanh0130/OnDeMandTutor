@@ -44,11 +44,12 @@
     }
 }
 
-.container__user-name,
-.container__user-email,
-.container__user-address {
+.container__user-field {
     padding: 0 0 10px 0;
-    label {
+    display: flex;
+    align-items: center;
+    label,
+    p {
         font-size: 1.4rem;
         margin-right: 4px;
         min-width: 18%;
@@ -60,6 +61,15 @@
         border-radius: 4px;
         padding: 4px 0;
         width: 80%;
+    }
+}
+
+.container__user-field-radio {
+    display: flex;
+    width: 200px;
+
+    label {
+        margin-right: 6px;
     }
 }
 
@@ -80,5 +90,29 @@
 
     .container__user-course {
         width: 30%;
+    }
+}
+
+.btn {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.btn__update {
+    margin: 0 12px;
+    color: var(--white);
+
+    &:hover {
+        background-color: var(--hover);
+    }
+}
+
+.btn__cancel {
+    background-color: var(--white);
+    border: 1px solid var(--line-border);
+
+    &:hover {
+        background-color: var(--hover);
+        color: var(--white);
     }
 }
