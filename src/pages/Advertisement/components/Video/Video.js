@@ -8,6 +8,7 @@ import Image from '~/components/Image';
 import Button from '~/components/Button';
 
 import styles from './Video.module.scss';
+import Clip from './Clip';
 
 const cx = classNames.bind(styles);
 
@@ -26,6 +27,7 @@ function Video() {
                         his lesson effective, engaging and fun. My son is able to stay focus and overcome his fear of
                         writing. We definitely plan to keep working with Michael.
                     </p>
+                    <Clip width={'530'} height={'315'} />
                 </Col>
                 <Col lg="2">
                     <Button orange to={'/'} className={cx('container__video-user-btn')}>
@@ -33,20 +35,6 @@ function Video() {
                     </Button>
                 </Col>
             </Row>
-            <div className={cx('container__clip')}>
-                <section>
-                    <iframe
-                        width="560"
-                        height="315"
-                        src="https://www.youtube.com/embed/abPmZCZZrFA?si=r_a2yaVe8RGKhNuK"
-                        title="YouTube video player"
-                        frameBorder="0"
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                        referrerPolicy="strict-origin-when-cross-origin"
-                        allowFullScreen
-                    ></iframe>
-                </section>
-            </div>
         </div>
     );
 }

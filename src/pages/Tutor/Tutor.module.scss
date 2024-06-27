@@ -44,6 +44,7 @@
     width: 100%;
     display: flex;
     align-items: center;
+    justify-content: space-between;
 
     span {
         margin-left: 8px;
@@ -56,6 +57,7 @@
     margin-top: 20px;
     display: flex;
     align-items: center;
+    justify-content: center;
     img {
         width: 1rem;
         height: 1rem;
@@ -118,15 +120,17 @@
 }
 
 .container__about-content {
+    margin-bottom: 20px;
 }
 
 .container__about-content-title {
     font-size: 2rem;
     font-weight: 700;
-    margin-top: 20px;
+    // margin-top: 20px;
 }
 
 .container__about-bio {
+    margin-bottom: 10px;
     span {
         font-size: 1.4rem;
         color: var(--text-color);
@@ -150,11 +154,6 @@
     display: flex;
     flex-direction: column;
     margin-bottom: 20px;
-    span:first-of-type {
-        color: var(--light-gray);
-        font-size: 1.4rem;
-        margin-bottom: 2px;
-    }
 }
 
 .container__about-rating {
@@ -182,7 +181,19 @@
 
 .container__about-rating-review-item {
     border-top: 1px solid #ca885e8a;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
     p {
         margin: 0 0 4px 0;
+    }
+}
+
+.review-info {
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+    strong {
+        margin-left: 4px;
     }
 }

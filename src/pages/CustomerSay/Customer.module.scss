@@ -56,6 +56,11 @@
     a {
         color: var(--green);
         text-decoration: underline;
+        margin: 0 4px;
+
+        &:hover {
+            cursor: pointer;
+        }
     }
 }
 

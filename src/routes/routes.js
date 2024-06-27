@@ -3,7 +3,7 @@ import config from '~/config';
 import Home from '~/pages/Home';
 import Blog from '~/pages/Blog';
 import Tutor from '~/pages/Tutor';
-import Student from '~/pages/Student';
+import Student from '~/pages/StudentProfile';
 import AboutUs from '~/pages/AboutUs';
 import Payment from '~/pages/Pay';
 import History from '~/pages/History';
@@ -29,6 +29,7 @@ import Unauthorized from '~/pages/Unauthorized';
 import HeaderNotSideBar from '~/layouts/components/HeaderNotSideBar';
 import Messages from '~/pages/Messages';
 import Notification from '~/pages/Notification';
+
 
 const publicRoutes = [
     { path: config.routes.home, component: Home },
@@ -58,7 +59,7 @@ const privateRoutes = [
     { path: config.routes.registrationTutor2, component: BecomeTutor2, layout: Registration, role: ['Student'] },
     { path: config.routes.findTutor, component: FindTutor, role: ['Student'] },
     { path: config.routes.requestTutor, component: RequestTutor, role: ['Student'] },
-    { path: config.routes.account, component: Tutor, role: ['Tutor', 'Admin'] },
+    { path: config.routes.account, component: Tutor, role: ['Tutor', 'Admin', 'Student'] },
     { path: config.routes.requestTutor, component: RequestTutor, role: ['Student'] },
     { path: config.routes.onlineTutoring, component: OnlineTutoring, role: ['Student', 'Admin'] },
     { path: config.routes.forStudent, component: ForStudent, role: ['Student'] },
