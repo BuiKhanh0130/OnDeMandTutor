@@ -20,7 +20,7 @@ function NavMessage() {
                     <ul className={cx('messages')}>
                         <li className={cx('dropdown-header')}>
                             You have 4 messages
-                            <Link to="/">
+                            <Link to="/messages">
                                 <span className={cx('badge rounded-pill bg-primary p-2 ms-2')}>View all</span>
                             </Link>
                         </li>

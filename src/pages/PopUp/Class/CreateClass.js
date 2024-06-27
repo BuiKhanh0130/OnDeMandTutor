@@ -1,10 +1,12 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { useState, useEffect } from 'react';
 import styles from './CreateClass.module.scss'
 import classNames from 'classnames/bind'
 import { CloseIcon } from '~/components/Icons';
 import request from '~/utils/request';
 import useRequestsPrivate from '~/hook/useRequestPrivate';
+import { ModalContext, ModalProvider } from '~/components/ModalProvider';
+import axios from 'axios'
 
 const cx = classNames.bind(styles)
 const SUBJECTGROUP_URL = 'SubjectGroup';
@@ -22,8 +24,11 @@ const requestsPrivate = useRequestsPrivate();
     const [grade, setGrade] = useState('G0012');
     const [hour, setHour] = useState(1);
     const [day, setDay] = useState(1);
+    const [studentId, setStudentId] = useState('99fc1f0b-925e-426a-8b64-4ca669e76f31');
     const days = [1, 2, 3, 4, 5, 6, 7];
     const hours = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
+
+
 
         const params ={
             className: name,
@@ -31,18 +36,25 @@ const requestsPrivate = useRequestsPrivate();
             gradeId: grade,
             hourPerDay: hour,
             dayPerWeek: day,
-            studentId: 'S0001',
+            studentId: studentId,
             subjectGroupId: subject
         }
 
         useEffect(() => {
-            console.log(name, subject, description, grade, hour, day);
+            console.log(name, description, hour, day,  grade , subject, studentId);
         }, [name, subject, description, grade, hour, day])
+
+        const token = localStorage.getItem('token');
+        // console.log(token);
 
         const handleSubmit = async (e) => {
             e.preventDefault();
             try {
-                const response = await requestsPrivate.post(CREATE_CLASS_URL, params);
+                const response = await axios.post('https://localhost:7262/api/Classes/tutor/createClass', params, 
+                    {
+                        headers: { Authorization: `Bearer ${token}` }
+                      }
+                );
                 console.log(response.data);
             } catch (error) {
                 console.log(error);

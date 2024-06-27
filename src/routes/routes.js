@@ -67,16 +67,16 @@ const privateRoutes = [
     { path: config.routes.advertisement, component: Advertisement, role: ['Tutor, Student'] },
     { path: config.routes.howItWork, component: HowItWork, role: ['Student', 'Tutor'] },
     { path: config.routes.accountStudent, component: Student, layout: HeaderOnly, role: ['Student'] },
-    { path: config.routes.aboutUs, component: AboutUs, role: ['Student'] },
+    { path: config.routes.aboutUs, component: AboutUs, role: ['Student', 'Tutor'] },
     { path: config.routes.learnMore, component: LearnMore, role: ['Student'] },
     { path: config.routes.transaction, component: Transaction, role: ['Student'] },
     { path: config.routes.payment, component: Payment, layout: Transaction, role: ['Student'] },
     { path: config.routes.history, component: History, layout: Transaction, role: ['Student'] },
-    { path: config.routes.tipSuccess, component: TipSuccess, role: ['Student'] },
-    { path: config.routes.tipSuccess, component: TipSuccess, role: ['Student'] },
+    { path: config.routes.tipSuccess, component: TipSuccess, role: ['Student', 'Tutor'] },
     { path: config.routes.dashboardTutor, component: DashboardTutor, role: ['Tutor'] },
     { path: config.routes.feedbackHistory, component: FeedbackHistory, role: ['Tutor', 'Student'] },
     { path: config.routes.unauthorized, component: Unauthorized, layout: null, role: ['Student', 'Tutor', 'Admin'] },
+    { path: config.routes.messages, component: Messages, role: ['Student', 'Tutor'] },
 ];
 
 export { publicRoutes, privateRoutes };

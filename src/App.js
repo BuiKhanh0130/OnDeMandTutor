@@ -44,7 +44,7 @@ function App() {
                               let Page = route.component;
 
                               let Layout = DefaultLayout;
-                                // Layout = Student;
+                              
                               const role = route.role;
                               
 
