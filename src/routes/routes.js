@@ -26,6 +26,8 @@ import BecomeStudent from '~/pages/BecomeStudent';
 import LearnMore from '~/pages/LearnMore';
 import TipSuccess from '~/pages/TipSuccess';
 import Unauthorized from '~/pages/Unauthorized';
+import HeaderNotSideBar from '~/layouts/components/HeaderNotSideBar';
+import Messages from '~/pages/Messages';
 
 const publicRoutes = [
     { path: config.routes.home, component: Home },
@@ -45,6 +47,7 @@ const publicRoutes = [
     { path: config.routes.aboutUs, component: AboutUs },
     { path: config.routes.learnMore, component: LearnMore },
     { path: config.routes.tipSuccess, component: TipSuccess },
+    { path: config.routes.messages, component: Messages },
 ];
 
 const privateRoutes = [

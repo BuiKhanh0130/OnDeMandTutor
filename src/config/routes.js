@@ -23,6 +23,7 @@ const routes = {
     dashboardTutor: '/dashboardTutor',
     feedbackHistory: '/feedbackHistory',
     unauthorized: '/unauthorized',
+    messages: '/messages',
 };
 
 export default routes;

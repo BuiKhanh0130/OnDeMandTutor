@@ -8,6 +8,7 @@ import { DefaultLayout } from './layouts/DefaultLayout';
 import { ModalContext } from './components/ModalProvider';
 import PersistLogin from './components/Login/components/PersistLogin';
 import RequireAuth from './pages/RequireAuth/RequireAuth';
+import Student from './pages/Student';
 
 // Configure Firebase.
 
@@ -43,8 +44,9 @@ function App() {
                               let Page = route.component;
 
                               let Layout = DefaultLayout;
-
+                                // Layout = Student;
                               const role = route.role;
+                              
 
                               if (auth?.role === 'Tutor') {
                                   Layout = Tutor;
