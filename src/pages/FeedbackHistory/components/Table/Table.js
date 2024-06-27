@@ -3,7 +3,7 @@ import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper
 import request from '~/utils/request';
 import { useEffect } from 'react';
 import { useState } from 'react';
-// import {FaStar} from "react-icons/fa"
+import {FaStar} from "react-icons/fa"
 
 const Feedback_URL = 'Feedbacks/';
 
@@ -69,11 +69,11 @@ function TableFeeback() {
                                             {[...Array(5)].map((rating, index) => {
                                                 return (
                                                     <span key={index}>
-                                                        {/* <FaStar
+                                                        <FaStar
                                                             aria-readonly
                                                             color={row.start >= index + 1 ? '#FDB515' : '#B2BEB5'}
                                                             size={18}
-                                                        /> */}
+                                                        />
                                                     </span>
                                                 );
                                             })}

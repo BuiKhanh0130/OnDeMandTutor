@@ -28,6 +28,7 @@ import TipSuccess from '~/pages/TipSuccess';
 import Unauthorized from '~/pages/Unauthorized';
 import HeaderNotSideBar from '~/layouts/components/HeaderNotSideBar';
 import Messages from '~/pages/Messages';
+import Notification from '~/pages/Notification';
 
 const publicRoutes = [
     { path: config.routes.home, component: Home },
@@ -77,6 +78,7 @@ const privateRoutes = [
     { path: config.routes.feedbackHistory, component: FeedbackHistory, role: ['Tutor', 'Student'] },
     { path: config.routes.unauthorized, component: Unauthorized, layout: null, role: ['Student', 'Tutor', 'Admin'] },
     { path: config.routes.messages, component: Messages, role: ['Student', 'Tutor'] },
+    { path: config.routes.notification, component: Notification, role: ['Student', 'Tutor'] },
 ];
 
 export { publicRoutes, privateRoutes };
