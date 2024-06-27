@@ -28,6 +28,8 @@ import TipSuccess from '~/pages/TipSuccess';
 import Unauthorized from '~/pages/Unauthorized';
 import HeaderNotSideBar from '~/layouts/components/HeaderNotSideBar';
 import Messages from '~/pages/Messages';
+import Notification from '~/pages/Notification';
+
 
 const publicRoutes = [
     { path: config.routes.home, component: Home },
@@ -67,17 +69,17 @@ const privateRoutes = [
     { path: config.routes.advertisement, component: Advertisement, role: ['Tutor, Student'] },
     { path: config.routes.howItWork, component: HowItWork, role: ['Student', 'Tutor'] },
     { path: config.routes.accountStudent, component: Student, layout: HeaderOnly, role: ['Student'] },
-    { path: config.routes.aboutUs, component: AboutUs, role: ['Student'] },
+    { path: config.routes.aboutUs, component: AboutUs, role: ['Student', 'Tutor'] },
     { path: config.routes.learnMore, component: LearnMore, role: ['Student'] },
     { path: config.routes.transaction, component: Transaction, role: ['Student'] },
     { path: config.routes.payment, component: Payment, layout: Transaction, role: ['Student'] },
     { path: config.routes.history, component: History, layout: Transaction, role: ['Student'] },
-    { path: config.routes.tipSuccess, component: TipSuccess, role: ['Student'] },
-    { path: config.routes.tipSuccess, component: TipSuccess, role: ['Student'] },
+    { path: config.routes.tipSuccess, component: TipSuccess, role: ['Student', 'Tutor'] },
     { path: config.routes.dashboardTutor, component: DashboardTutor, role: ['Tutor'] },
     { path: config.routes.feedbackHistory, component: FeedbackHistory, role: ['Tutor', 'Student'] },
     { path: config.routes.unauthorized, component: Unauthorized, layout: null, role: ['Student', 'Tutor', 'Admin'] },
     { path: config.routes.messages, component: Messages, role: ['Student', 'Tutor'] },
+    { path: config.routes.notification, component: Notification, role: ['Student', 'Tutor'] },
 ];
 
 export { publicRoutes, privateRoutes };

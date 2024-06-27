@@ -50,6 +50,7 @@ function HeaderTutor(){
                             </Notification>
 
                             <NavMessage/>
+                            
                             <User>
                                 <div className={cx('container__login-user')}>
                                     <Image
