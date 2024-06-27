@@ -11,11 +11,9 @@ const RequireAuth = ({ allowedRoles }) => {
 
     return allowedRoles.find((allowedRole) => allowedRole === auth?.role) ? (
         <Outlet />
-    ) : auth?.accessToken ? ( //changed from user to accessToken to persist login after refresh
+    ) :( //changed from user to accessToken to persist login after refresh
         <Navigate to="/unauthorized" state={{ from: location }} replace />
-    ) : (
-        modal.handleActive()
-    );
+    ) 
 };
 
 export default RequireAuth;
