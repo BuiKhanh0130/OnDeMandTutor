@@ -74,11 +74,6 @@ function BecomeTutor() {
         setValidMatch(match);
     }, [pwd, matchPwd]);
 
-    // useEffect(() => {
-    //     const result = CARD_REGEX.test(cardId);
-    //     setValidCardId(result);
-    // }, [cardId]);
-
     useEffect(() => {
         const result = GMAIL_REGEX.test(gmail);
         setValidGmail(result);
@@ -106,7 +101,6 @@ function BecomeTutor() {
         const v3 = GMAIL_REGEX.test(gmail);
         const v4 = PHONE_REGEX.test(phone);
         const v5 = FULLNAME_REGEX.test(fullName);
-        // const v3 = CARD_REGEX.test(cardId);
 
         if (!v1 || !v2 || !v3 || !v4 || !v5) {
             setErrMsg('Invalid entry');

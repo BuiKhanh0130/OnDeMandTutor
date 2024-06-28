@@ -3,7 +3,7 @@ import config from '~/config';
 import Home from '~/pages/Home';
 import Blog from '~/pages/Blog';
 import Tutor from '~/pages/Tutor';
-import Student from '~/pages/StudentProfile';
+import StudentProfile from '~/pages/StudentProfile';
 import AboutUs from '~/pages/AboutUs';
 import Payment from '~/pages/Pay';
 import History from '~/pages/History';
@@ -29,14 +29,14 @@ import Unauthorized from '~/pages/Unauthorized';
 import HeaderNotSideBar from '~/layouts/components/HeaderNotSideBar';
 import Messages from '~/pages/Messages';
 import Notification from '~/pages/Notification';
-
+import BecomeStudent2 from '~/pages/BecomeStudent2/BecomStudent2';
 
 const publicRoutes = [
     { path: config.routes.home, component: Home },
     { path: config.routes.registrationTutor1, component: BecomeTutor, layout: Registration },
     { path: config.routes.registrationTutor2, component: BecomeTutor2, layout: Registration },
     { path: config.routes.registrationStudent1, component: BecomeStudent, layout: Registration },
-    { path: config.routes.registrationStudent2, component: BecomeStudent, layout: Registration },
+    { path: config.routes.registrationStudent2, component: BecomeStudent2, layout: Registration },
     { path: config.routes.findTutor, component: FindTutor },
     { path: config.routes.account, component: Tutor },
     { path: config.routes.onlineTutoring, component: OnlineTutoring },
@@ -45,7 +45,6 @@ const publicRoutes = [
     { path: config.routes.blog, component: Blog },
     { path: config.routes.advertisement, component: Advertisement },
     { path: config.routes.howItWork, component: HowItWork },
-    { path: config.routes.accountStudent, component: Student, layout: HeaderOnly },
     { path: config.routes.aboutUs, component: AboutUs },
     { path: config.routes.learnMore, component: LearnMore },
     { path: config.routes.tipSuccess, component: TipSuccess },
@@ -68,7 +67,7 @@ const privateRoutes = [
     { path: config.routes.forStudent, component: ForStudent, role: ['Student'] },
     { path: config.routes.advertisement, component: Advertisement, role: ['Tutor, Student'] },
     { path: config.routes.howItWork, component: HowItWork, role: ['Student', 'Tutor'] },
-    { path: config.routes.accountStudent, component: Student, layout: HeaderOnly, role: ['Student'] },
+    { path: config.routes.accountStudent, component: StudentProfile, layout: HeaderOnly, role: ['Student'] },
     { path: config.routes.aboutUs, component: AboutUs, role: ['Student', 'Tutor'] },
     { path: config.routes.learnMore, component: LearnMore, role: ['Student'] },
     { path: config.routes.transaction, component: Transaction, role: ['Student'] },

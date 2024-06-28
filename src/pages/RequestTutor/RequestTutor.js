@@ -10,7 +10,7 @@ import { faCheck } from '@fortawesome/free-solid-svg-icons';
 import request from '~/utils/request';
 
 import styles from './RequestTutor.module.scss';
-import useRequestsPrivate from '~/hook/useRequestPrivate';
+import useRequestsPrivate from '~/hooks/useRequestPrivate';
 
 const cx = classNames.bind(styles);
 const SUBJECTGROUP_URL = 'SubjectGroup';
@@ -127,7 +127,13 @@ function RequestTutor() {
 
                         <div className={cx('requestTutor__container-title')}>
                             <label htmlFor="title">Title</label>
-                            <input id="title" name="title" type="text" onChange={(e) => setTitle(e.target.value)} value={title}/>
+                            <input
+                                id="title"
+                                name="title"
+                                type="text"
+                                onChange={(e) => setTitle(e.target.value)}
+                                value={title}
+                            />
                         </div>
 
                         <div className={cx('requestTutor__container-dcs')}>

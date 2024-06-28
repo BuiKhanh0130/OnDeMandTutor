@@ -38,10 +38,6 @@ function BecomeStudent() {
     const [validMatch, setValidMatch] = useState(false);
     const [matchFocus, setMatchFocus] = useState(false);
 
-    // const [cardId, setCardId] = useState('');
-    // const [validCardID, setValidCardId] = useState(false);
-    // const [cardFocus, setCardFocus] = useState(false);
-
     const [fullName, setFullName] = useState('');
     const [validFullName, setValidFullName] = useState(false);
     const [FullNameFocus, setFullNameFocus] = useState(false);
@@ -74,11 +70,6 @@ function BecomeStudent() {
         setValidMatch(match);
     }, [pwd, matchPwd]);
 
-    // useEffect(() => {
-    //     const result = CARD_REGEX.test(cardId);
-    //     setValidCardId(result);
-    // }, [cardId]);
-
     useEffect(() => {
         const result = GMAIL_REGEX.test(gmail);
         setValidGmail(result);
@@ -106,7 +97,6 @@ function BecomeStudent() {
         const v3 = GMAIL_REGEX.test(gmail);
         const v4 = PHONE_REGEX.test(phone);
         const v5 = FULLNAME_REGEX.test(fullName);
-        // const v3 = CARD_REGEX.test(cardId);
 
         if (!v1 || !v2 || !v3 || !v4 || !v5) {
             setErrMsg('Invalid entry');
@@ -124,7 +114,7 @@ function BecomeStudent() {
                     phoneNumber: phone,
                     gender: gender,
                     isActive: 1,
-                    isAdmin: true,
+                    isAdmin: false,
                 }),
                 {
                     headers: { 'Content-Type': 'application/json' },
@@ -132,7 +122,7 @@ function BecomeStudent() {
                 },
             );
             context.setUserId(response?.data.userId);
-            navigate('/registration/tutor/step2');
+            navigate('/registration/student/step2');
         } catch (error) {
             if (!error?.response) {
                 setErrMsg('No server response');
@@ -146,14 +136,6 @@ function BecomeStudent() {
 
     return (
         <div className={cx('wrapper')}>
-            {/* {
-                <section>
-                    <h1>Success</h1>
-                    <p>
-                        <a href="/">Sign in</a>
-                    </p>
-                </section>
-            } */}
             <div className={cx('container')}>
                 <div className={cx('title')}>Register</div>
                 <div className={cx('currentForm')}>
@@ -432,28 +414,6 @@ function BecomeStudent() {
                                 <p>Required exactly 10 number and does not start with 0"</p>
                             </p>
                         </div>
-
-                        {/* <div className={cx('form_row')}>
-                            <label htmlFor="txtEducation">Education</label>
-                            <input
-                                type="text"
-                                id="txtEducation"
-                                name="txtEducation"
-                                className={cx('txtEducation')}
-                                placeholder="Graduate FPT University"
-                            ></input>
-                        </div> */}
-
-                        {/* <div className={cx('form_row')}>
-                            <label htmlFor="txtAddress">Address</label>
-                            <input
-                                type="text"
-                                id="txtAddress"
-                                name="txtAddress"
-                                className={cx('txtAddress')}
-                                placeholder="Lô E2a-7, Đường D1, Đ. D1, Long Thạnh Mỹ, Thành Phố Thủ Đức, Thành phố Hồ Chí Minh 700000"
-                            ></input>
-                        </div> */}
 
                         <div className={cx('form_row-radio')}>
                             <p>Gender</p>

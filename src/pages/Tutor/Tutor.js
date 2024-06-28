@@ -10,7 +10,7 @@ import images from '~/assets/images';
 import Image from '~/components/Image';
 import { StarIcon } from '~/components/Icons';
 import Button from '~/components/Button';
-import useRequestsPrivate from '~/hook/useRequestPrivate';
+import useRequestsPrivate from '~/hooks/useRequestPrivate';
 
 import styles from './Tutor.module.scss';
 import Clip from '../Advertisement/components/Video/Clip';

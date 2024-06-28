@@ -1,8 +1,8 @@
 import { Outlet } from 'react-router-dom';
 import { useState, useEffect, useContext } from 'react';
 
-import useRefreshToken from '~/hook/useRefreshToken';
-import { useAuth } from '~/hook/useAuth';
+import useRefreshToken from '~/hooks/useRefreshToken';
+import { useAuth } from '~/hooks/useAuth';
 import { ModalContext } from '~/components/ModalProvider';
 
 const PersistLogin = () => {

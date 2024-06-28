@@ -10,19 +10,19 @@ import Col from 'react-bootstrap/Col';
 
 import Image from '~/components/Image';
 import Class from '~/components/Class';
-import useRequestsPrivate from '~/hook/useRequestPrivate';
+import useRequestsPrivate from '~/hooks/useRequestPrivate';
 import images from '~/assets/images';
 import Button from '~/components/Button';
 import { requestsPrivate } from '~/utils/request';
 
-import styles from './Student.module.scss';
+import styles from './StudentProfile.module.scss';
 
 const cx = classNames.bind(styles);
 
 const STUDENTPROFILE = 'Students/GetStudentCurrent';
 const UPDATEPROFILE = 'Students/UpdateStudent';
 
-function Student() {
+function StudentProfile() {
     const method = localStorage.getItem('loginMethod');
     const axiosPrivate = useRequestsPrivate();
     const [fullName, setFullName] = useState('');
@@ -200,4 +200,4 @@ function Student() {
     );
 }
 
-export default Student;
+export default StudentProfile;
