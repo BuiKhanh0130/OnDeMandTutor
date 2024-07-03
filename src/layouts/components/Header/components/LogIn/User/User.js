@@ -3,7 +3,7 @@ import HeadlessTippy from '@tippyjs/react/headless';
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 
-import useLogout from '~/hook/useLogout';
+import useLogout from '~/hooks/useLogout';
 import Popper from '~/components/Popper';
 
 import styles from './User.module.scss';
@@ -18,6 +18,7 @@ function User({ children }) {
         await logout();
         navigate('/');
     };
+
     return (
         <HeadlessTippy
             interactive={true}

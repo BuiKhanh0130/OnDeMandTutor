@@ -9,31 +9,9 @@ import { ModalContext } from './components/ModalProvider';
 import PersistLogin from './components/Login/components/PersistLogin';
 import RequireAuth from './pages/RequireAuth/RequireAuth';
 
-// Configure Firebase.
-
 function App() {
-    const { handleUser, auth } = useContext(ModalContext);
-
-    const accessToken = localStorage.getItem('accessToken');
-
-    if (accessToken) handleUser();
-
-    // useEffect(() => {
-    //     const unregisterAuthObserver = firebase.auth().onAuthStateChanged(async (user) => {
-    //         if (!user) {
-    //             // user logs out, handle something here
-    //             console.log('User is not logged in');
-    //             return;
-    //         }
-
-    //         console.log('Logged in user: ', user.displayName);
-    //         const token = await user.getIdToken();
-    //         console.log('Logged in user token: ', token);
-    //     });
-
-    //     return () => unregisterAuthObserver();
-    // }, []);
-
+    const { auth } = useContext(ModalContext);
+    const accessToken = sessionStorage.getItem('accessToken');
     return (
         <Router>
             <div>
@@ -43,9 +21,8 @@ function App() {
                               let Page = route.component;
 
                               let Layout = DefaultLayout;
-                              
+
                               const role = route.role;
-                              
 
                               if (auth?.role === 'Tutor') {
                                   Layout = Tutor;
@@ -60,7 +37,7 @@ function App() {
                               }
 
                               return (
-                                  <Route element={<PersistLogin />}>
+                                  <Route key={index} element={<PersistLogin />}>
                                       <Route element={<RequireAuth reAuth allowedRoles={role} />}>
                                           <Route
                                               exact

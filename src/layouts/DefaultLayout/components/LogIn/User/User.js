@@ -7,7 +7,7 @@ import Popper from '~/components/Popper';
 import request from '~/utils/request';
 import { ModalContext } from '~/components/ModalProvider';
 
-import useLogout from '~/hook/useLogout';
+import useLogout from '~/hooks/useLogout';
 
 import styles from './User.module.scss';
 

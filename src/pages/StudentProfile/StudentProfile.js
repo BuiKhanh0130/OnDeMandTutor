@@ -10,20 +10,19 @@ import Col from 'react-bootstrap/Col';
 
 import Image from '~/components/Image';
 import Class from '~/components/Class';
-import useRequestsPrivate from '~/hook/useRequestPrivate';
+import useRequestsPrivate from '~/hooks/useRequestPrivate';
 import images from '~/assets/images';
 import Button from '~/components/Button';
 import { requestsPrivate } from '~/utils/request';
 
-import styles from './Student.module.scss';
+import styles from './StudentProfile.module.scss';
 
 const cx = classNames.bind(styles);
 
 const STUDENTPROFILE = 'Students/GetStudentCurrent';
 const UPDATEPROFILE = 'Students/UpdateStudent';
 
-function Student() {
-    const method = localStorage.getItem('loginMethod');
+function StudentProfile() {
     const axiosPrivate = useRequestsPrivate();
     const [fullName, setFullName] = useState('');
     const [age, setAge] = useState('');
@@ -33,8 +32,6 @@ function Student() {
     const [schoolName, setSchoolName] = useState('');
 
     useEffect(() => {
-        let isMounted = true;
-
         const controller = new AbortController();
 
         const getUsers = async () => {
@@ -42,8 +39,6 @@ function Student() {
                 const response = await axiosPrivate.get(STUDENTPROFILE, {
                     signal: controller.signal,
                 });
-                console.log(response?.data);
-
                 setFullName(response?.data?.fullName);
                 setAddress(response?.data?.address);
                 setPhoneNumber(response?.data?.phoneNumber);
@@ -58,7 +53,6 @@ function Student() {
         getUsers();
 
         return () => {
-            isMounted = false;
             controller.abort();
         };
     }, []);
@@ -200,4 +194,4 @@ function Student() {
     );
 }
 
-export default Student;
+export default StudentProfile;

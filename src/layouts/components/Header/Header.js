@@ -1,8 +1,6 @@
 import classNames from 'classnames/bind';
 import { Link } from 'react-router-dom';
-import { useContext, useEffect, useState } from 'react';
-import { doc, getDoc } from 'firebase/firestore';
-import { auth as Auth, db } from '~/firebase/firebase';
+import { useContext } from 'react';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Container from 'react-bootstrap/Container';
@@ -17,8 +15,6 @@ import Button from '~/components/Button';
 import User from './components/LogIn/User';
 import Notification from './components/LogIn/Notification';
 import { ModalContext } from '~/components/ModalProvider';
-// import { faBell } from '@fortawesome/free-solid-svg-icons';
-// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { NotificationIcon } from '~/components/Icons';
 
 import styles from './Header.module.scss';
@@ -26,23 +22,8 @@ import styles from './Header.module.scss';
 const cx = classNames.bind(styles);
 
 function Header() {
-    const [userDetails, setUserDetail] = useState(null);
     const context = useContext(ModalContext);
     const user = context.user;
-
-    useEffect(() => {
-        Auth.onAuthStateChanged(async (user) => {
-            if (user) {
-                const docRef = doc(db, 'Users', user.uid);
-                const docSnap = await getDoc(docRef);
-                if (docSnap.exists()) {
-                    setUserDetail(docSnap.data());
-                } else {
-                    console.log('User is not logged in');
-                }
-            }
-        });
-    });
 
     return (
         <div className={cx('wrapper')}>
@@ -60,19 +41,18 @@ function Header() {
 
                     {user ? (
                         <Col lg="2" className={cx('container__login-signup')}>
-                            <Link to={'/notifications'}>
-                                <Notification >
+                            <Notification>
+                                <a href="/notifications">
                                     <div className={cx('container__login-signup-noti')}>
                                         <NotificationIcon />
                                         <span className={cx('container__login-signup-number')}>2</span>
                                     </div>
-                                </Notification>
-                            </Link>
-
+                                </a>
+                            </Notification>
                             <User>
                                 <div className={cx('container__login-user')}>
                                     <Image
-                                        src={userDetails?.photo}
+                                        src={images.avatar}
                                         alt="NTP"
                                         className={cx('container__login-user-img')}
                                     ></Image>

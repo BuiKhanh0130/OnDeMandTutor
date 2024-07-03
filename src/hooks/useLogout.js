@@ -11,22 +11,15 @@ const useLogout = () => {
     const requestsPrivate = useRequestsPrivate();
 
     const logout = async () => {
-        const method = localStorage.getItem('loginMethod');
         try {
-            if (method === 'account') {
-                const response = await requestsPrivate.delete('/auth/signOut', {
-                    withCredentials: true,
-                });
-                if (response?.status) {
-                    setAuth({});
-                    handleHiddenUser();
-                    localStorage.removeItem('accessToken');
-                }
-            } else {
-                await auth.signOut();
+            const response = await requestsPrivate.delete('/auth/signOut', {
+                withCredentials: true,
+            });
+            await auth.signOut();
+            if (response?.status) {
                 setAuth({});
-                localStorage.removeItem('accessToken');
                 handleHiddenUser();
+                sessionStorage.removeItem('accessToken');
             }
         } catch (err) {
             console.error(err);
