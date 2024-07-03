@@ -60,14 +60,15 @@ function Header() {
 
                     {user ? (
                         <Col lg="2" className={cx('container__login-signup')}>
-                            <Notification>
-                                <a href='/notifications'>
-                                <div className={cx('container__login-signup-noti')}>
-                                    <NotificationIcon />
-                                    <span className={cx('container__login-signup-number')}>2</span>
-                                </div>
-                                </a>
-                            </Notification>
+                            <Link to={'/notifications'}>
+                                <Notification >
+                                    <div className={cx('container__login-signup-noti')}>
+                                        <NotificationIcon />
+                                        <span className={cx('container__login-signup-number')}>2</span>
+                                    </div>
+                                </Notification>
+                            </Link>
+
                             <User>
                                 <div className={cx('container__login-user')}>
                                     <Image
