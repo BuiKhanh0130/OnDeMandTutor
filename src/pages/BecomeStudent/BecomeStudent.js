@@ -10,6 +10,8 @@ import Button from '~/components/Button';
 
 import styles from './BecomeStudent.module.scss';
 
+const IMGBB = 'https://api.imgbb.com/1/upload?key=9c7d176f8c72a29fa6384fbb49cff7bc';
+
 const cx = classNames.bind(styles);
 
 const USER_REGEX = /^[a-zA-Z][a-zA-z0-9-_]{3,23}$/;
@@ -22,6 +24,9 @@ const REGISTER_URL = '/auth/signUp';
 function BecomeStudent() {
     const context = useContext(ModalContext);
     const navigate = useNavigate();
+    let file = '';
+
+    const [avatar, setAvatar] = useState('');
 
     const userRef = useRef();
     const errRef = useRef();
@@ -92,6 +97,8 @@ function BecomeStudent() {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
+        const form = new FormData();
+
         const v1 = USER_REGEX.test(user);
         const v2 = PWD_REGEX.test(pwd);
         const v3 = GMAIL_REGEX.test(gmail);
@@ -104,17 +111,29 @@ function BecomeStudent() {
         }
 
         try {
+            form.append('image', avatar);
+            const response = await requests.post(IMGBB, form);
+            console.log(response?.data);
+            if (response.status === 200) {
+                file = response?.data?.data?.display_url;
+            }
+        } catch (error) {
+            console.log(error);
+        }
+
+        try {
             const response = await requests.post(
                 REGISTER_URL,
                 JSON.stringify({
-                    fullName: fullName,
+                    fullName,
                     email: gmail,
                     userName: user,
                     password: pwd,
                     phoneNumber: phone,
-                    gender: gender,
+                    gender,
                     isActive: 1,
                     isAdmin: false,
+                    avatar: file,
                 }),
                 {
                     headers: { 'Content-Type': 'application/json' },
@@ -441,6 +460,16 @@ function BecomeStudent() {
                                 ></input>
                                 <label htmlFor="lady">Girl</label>
                             </div>
+                        </div>
+
+                        <div className={cx('form_row')}>
+                            <label htmlFor="myfile">Photo Certificate</label>
+                            <input
+                                type="file"
+                                id="myfile"
+                                name="myfile"
+                                onChange={(e) => setAvatar(e.target.files[0])}
+                            />
                         </div>
                         <Button className={cx('submit')}>Next</Button>
                     </form>

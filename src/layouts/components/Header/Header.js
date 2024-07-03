@@ -22,8 +22,8 @@ import styles from './Header.module.scss';
 const cx = classNames.bind(styles);
 
 function Header() {
-    const context = useContext(ModalContext);
-    const user = context.user;
+    const { user, avatar, handleActive, handleActiveSignUp } = useContext(ModalContext);
+    const alreadyLogin = user;
 
     return (
         <div className={cx('wrapper')}>
@@ -39,7 +39,7 @@ function Header() {
                         <Sidebar />
                     </Col>
 
-                    {user ? (
+                    {alreadyLogin ? (
                         <Col lg="2" className={cx('container__login-signup')}>
                             <Notification>
                                 <a href="/notifications">
@@ -52,8 +52,8 @@ function Header() {
                             <User>
                                 <div className={cx('container__login-user')}>
                                     <Image
-                                        src={images.avatar}
-                                        alt="NTP"
+                                        src={avatar.avatar}
+                                        alt={avatar.fullName}
                                         className={cx('container__login-user-img')}
                                     ></Image>
                                 </div>
@@ -61,13 +61,10 @@ function Header() {
                         </Col>
                     ) : (
                         <Col lg="2" className={cx('container__login-signup')}>
-                            <Button onClick={context.handleActive} className={cx('container__login-signup-login-btn')}>
+                            <Button onClick={handleActive} className={cx('container__login-signup-login-btn')}>
                                 LOG IN
                             </Button>
-                            <Button
-                                onClick={context.handleActiveSignUp}
-                                className={cx('container__login-signup-signup-btn')}
-                            >
+                            <Button onClick={handleActiveSignUp} className={cx('container__login-signup-signup-btn')}>
                                 SIGN UP
                             </Button>
                         </Col>
