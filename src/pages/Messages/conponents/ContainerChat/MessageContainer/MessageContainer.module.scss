@@ -1,0 +1,48 @@
+.container__mess-chatbox {
+}
+
+.container__mess-i {
+    display: flex;
+    justify-content: flex-end;
+    margin: 2px 0;
+
+    span {
+        font-size: 1.2rem;
+    }
+}
+
+.container__mess-i-item {
+    display: flex;
+    align-items: flex-end;
+    flex-direction: column;
+    background-color: #fff;
+    max-width: 400px;
+    padding: 10px 4px;
+    border-radius: 10px;
+}
+
+.container__mess-i-item span:nth-of-type(2) {
+    font-size: 0.8rem;
+}
+
+.container__mess-guess {
+    display: flex;
+    margin: 2px 0;
+
+    span {
+        font-size: 1.2rem;
+    }
+}
+
+.container__mess-guess-item {
+    display: flex;
+    flex-direction: column;
+    background-color: #fff;
+    max-width: 400px;
+    padding: 10px 4px;
+    border-radius: 10px;
+}
+
+.container__mess-guess-item span:nth-of-type(2) {
+    font-size: 0.8rem;
+}

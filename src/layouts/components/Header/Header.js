@@ -20,6 +20,7 @@ import { ModalContext } from '~/components/ModalProvider';
 import { NotificationIcon } from '~/components/Icons';
 
 import styles from './Header.module.scss';
+import NavMessage from '~/layouts/Admin/components/HeaderAdmin/Nav/NavMessage';
 
 const cx = classNames.bind(styles);
 
@@ -51,6 +52,7 @@ function Header() {
                                     </div>
                                 </a>
                             </Notification>
+                            <NavMessage />
                             <User>
                                 <div className={cx('container__login-user')}>
                                     <Image

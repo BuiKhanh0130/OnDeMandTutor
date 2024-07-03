@@ -14,71 +14,69 @@ function App() {
     const accessToken = localStorage.getItem('accessToken');
     return (
         <Router>
-            <div>
-                <Routes>
-                    {accessToken
-                        ? privateRoutes.map((route, index) => {
-                              let Page = route.component;
+            <Routes>
+                {accessToken
+                    ? privateRoutes.map((route, index) => {
+                          let Page = route.component;
 
-                              let Layout = DefaultLayout;
+                          let Layout = DefaultLayout;
 
-                              const role = route.role;
+                          const role = route.role;
 
-                              if (auth?.role === 'Tutor') {
-                                  Layout = Tutor;
-                              } else if (auth?.role === 'Admin') {
-                                  Layout = Admin;
-                              }
+                          if (auth?.role === 'Tutor') {
+                              Layout = Tutor;
+                          } else if (auth?.role === 'Admin') {
+                              Layout = Admin;
+                          }
 
-                              if (route.layout) {
-                                  Layout = route.layout;
-                              } else if (route.layout === null) {
-                                  Layout = Fragment;
-                              }
+                          if (route.layout) {
+                              Layout = route.layout;
+                          } else if (route.layout === null) {
+                              Layout = Fragment;
+                          }
 
-                              return (
-                                  <Route key={index} element={<PersistLogin />}>
-                                      <Route element={<RequireAuth reAuth allowedRoles={role} />}>
-                                          <Route
-                                              exact
-                                              key={index}
-                                              path={route.path}
-                                              element={
-                                                  <Layout>
-                                                      <Page></Page>
-                                                  </Layout>
-                                              }
-                                          ></Route>
-                                      </Route>
+                          return (
+                              <Route key={index} element={<PersistLogin />}>
+                                  <Route element={<RequireAuth reAuth allowedRoles={role} />}>
+                                      <Route
+                                          exact
+                                          key={index}
+                                          path={route.path}
+                                          element={
+                                              <Layout>
+                                                  <Page></Page>
+                                              </Layout>
+                                          }
+                                      ></Route>
                                   </Route>
-                              );
-                          })
-                        : publicRoutes.map((route, index) => {
-                              let Page = route.component;
+                              </Route>
+                          );
+                      })
+                    : publicRoutes.map((route, index) => {
+                          let Page = route.component;
 
-                              let Layout = DefaultLayout;
+                          let Layout = DefaultLayout;
 
-                              if (route.layout) {
-                                  Layout = route.layout;
-                              } else if (route.layout === null) {
-                                  Layout = Fragment;
-                              }
+                          if (route.layout) {
+                              Layout = route.layout;
+                          } else if (route.layout === null) {
+                              Layout = Fragment;
+                          }
 
-                              return (
-                                  <Route
-                                      exact
-                                      key={index}
-                                      path={route.path}
-                                      element={
-                                          <Layout>
-                                              <Page></Page>
-                                          </Layout>
-                                      }
-                                  ></Route>
-                              );
-                          })}
-                </Routes>
-            </div>
+                          return (
+                              <Route
+                                  exact
+                                  key={index}
+                                  path={route.path}
+                                  element={
+                                      <Layout>
+                                          <Page></Page>
+                                      </Layout>
+                                  }
+                              ></Route>
+                          );
+                      })}
+            </Routes>
         </Router>
     );
 }

@@ -26,7 +26,6 @@ import BecomeStudent from '~/pages/BecomeStudent';
 import LearnMore from '~/pages/LearnMore';
 import TipSuccess from '~/pages/TipSuccess';
 import Unauthorized from '~/pages/Unauthorized';
-import HeaderNotSideBar from '~/layouts/components/HeaderNotSideBar';
 import Messages from '~/pages/Messages';
 import Notification from '~/pages/Notification';
 import BecomeStudent2 from '~/pages/BecomeStudent2/BecomStudent2';
@@ -77,7 +76,7 @@ const privateRoutes = [
     { path: config.routes.dashboardTutor, component: DashboardTutor, role: ['Tutor'] },
     { path: config.routes.feedbackHistory, component: FeedbackHistory, role: ['Tutor', 'Student'] },
     { path: config.routes.unauthorized, component: Unauthorized, layout: null, role: ['Student', 'Tutor', 'Admin'] },
-    { path: config.routes.messages, component: Messages, role: ['Student', 'Tutor'] },
+    { path: config.routes.messages, component: Messages, layout: null, role: ['Student', 'Tutor'] },
     { path: config.routes.notification, component: Notification, role: ['Student', 'Tutor'] },
 ];
 

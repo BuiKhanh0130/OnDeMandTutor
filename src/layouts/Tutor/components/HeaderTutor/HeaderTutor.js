@@ -1,6 +1,5 @@
 import classNames from 'classnames/bind';
 import { Link } from 'react-router-dom';
-import { useContext } from 'react';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Container from 'react-bootstrap/Container';
@@ -11,10 +10,8 @@ import config from '~/config';
 import Image from '~/components/Image';
 import Sidebar from '../Sidebar/Sidebar';
 import images from '~/assets/images';
-import Button from '~/components/Button';
 import User from '~/layouts/DefaultLayout/components/LogIn/User';
 import Notification from '~/layouts/DefaultLayout/components/LogIn/Notification';
-import { ModalContext } from '~/components/ModalProvider';
 // import { faBell } from '@fortawesome/free-solid-svg-icons';
 // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { NotificationIcon } from '~/components/Icons';
@@ -24,7 +21,7 @@ import styles from './HeaderTutor.module.scss';
 
 const cx = classNames.bind(styles);
 
-function HeaderTutor(){
+function HeaderTutor() {
     // const formLogin = useContext(ModalContext);
 
     return (
@@ -41,27 +38,22 @@ function HeaderTutor(){
                         <Sidebar />
                     </Col>
 
-                        <Col lg="2" className={cx('container__login-signup')}>
-                            <Notification>
-                                <div className={cx('container__login-signup-noti')}>
-                                    <NotificationIcon />
-                                    <span className={cx('container__login-signup-number')}>2</span>
-                                </div>
-                            </Notification>
+                    <Col lg="2" className={cx('container__login-signup')}>
+                        <Notification>
+                            <div className={cx('container__login-signup-noti')}>
+                                <NotificationIcon />
+                                <span className={cx('container__login-signup-number')}>2</span>
+                            </div>
+                        </Notification>
 
-                            <NavMessage/>
-                            
-                            <User>
-                                <div className={cx('container__login-user')}>
-                                    <Image
-                                        src={images.tutor}
-                                        alt="NTP"
-                                        className={cx('container__login-user-img')}
-                                    ></Image>
-                                </div>
-                            </User>
-                        </Col>
+                        <NavMessage />
 
+                        <User>
+                            <div className={cx('container__login-user')}>
+                                <Image src={images.tutor} alt="NTP" className={cx('container__login-user-img')}></Image>
+                            </div>
+                        </User>
+                    </Col>
                 </Row>
             </Container>
         </div>

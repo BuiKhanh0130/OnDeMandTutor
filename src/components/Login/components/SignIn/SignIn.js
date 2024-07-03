@@ -18,7 +18,7 @@ const LOGIN_URL = 'auth/signIn';
 const cx = classNames.bind(styles);
 
 function SignIn({ item, onChangeUsername, onChangePassword }) {
-    const { setAuth, setActive, handleUser } = useContext(ModalContext);
+    const { setAuth, setActive, handleUser, setUserId } = useContext(ModalContext);
 
     const navigate = useNavigate();
     const location = useLocation();
@@ -51,7 +51,9 @@ function SignIn({ item, onChangeUsername, onChangePassword }) {
             const accessToken = response?.data?.token;
             const user = jwtDecode(accessToken);
             const role = user.UserRole;
+            const userID = user.UserId;
             setAuth({ userName, role, accessToken });
+            setUserId(userID);
             //reset user
             resetUser();
             localStorage.setItem('accessToken', JSON.stringify(response?.data));
