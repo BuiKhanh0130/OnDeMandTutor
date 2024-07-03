@@ -6,11 +6,9 @@ const useRefreshToken = () => {
     const { auth, setAuth } = useAuth();
 
     const refreshToken = async () => {
-        const accessToken = localStorage.getItem('accessToken');
+        const accessToken = sessionStorage.getItem('accessToken');
         const refreshToken = JSON.parse(accessToken).refreshToken;
-        console.log(refreshToken);
         const userId = jwtDecode(accessToken).UserId;
-        console.log(userId);
 
         try {
             const response = await requests.post(
@@ -24,7 +22,7 @@ const useRefreshToken = () => {
             setAuth((prev) => {
                 console.log('prev: ' + prev);
                 console.log(response?.data);
-                localStorage.setItem('accessToken', JSON.stringify(response?.data));
+                sessionStorage.setItem('accessToken', JSON.stringify(response?.data));
                 return { ...prev, role: jwtDecode(response?.data?.token).UserRole, accessToken: response?.data };
             });
             console.log('auth ', auth);

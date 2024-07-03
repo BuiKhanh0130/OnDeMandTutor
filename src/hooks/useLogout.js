@@ -19,7 +19,7 @@ const useLogout = () => {
             if (response?.status) {
                 setAuth({});
                 handleHiddenUser();
-                localStorage.removeItem('accessToken');
+                sessionStorage.removeItem('accessToken');
             }
         } catch (err) {
             console.error(err);

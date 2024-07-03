@@ -23,7 +23,6 @@ const STUDENTPROFILE = 'Students/GetStudentCurrent';
 const UPDATEPROFILE = 'Students/UpdateStudent';
 
 function StudentProfile() {
-    const method = localStorage.getItem('loginMethod');
     const axiosPrivate = useRequestsPrivate();
     const [fullName, setFullName] = useState('');
     const [age, setAge] = useState('');
@@ -33,8 +32,6 @@ function StudentProfile() {
     const [schoolName, setSchoolName] = useState('');
 
     useEffect(() => {
-        let isMounted = true;
-
         const controller = new AbortController();
 
         const getUsers = async () => {
@@ -42,8 +39,6 @@ function StudentProfile() {
                 const response = await axiosPrivate.get(STUDENTPROFILE, {
                     signal: controller.signal,
                 });
-                console.log(response?.data);
-
                 setFullName(response?.data?.fullName);
                 setAddress(response?.data?.address);
                 setPhoneNumber(response?.data?.phoneNumber);
@@ -58,7 +53,6 @@ function StudentProfile() {
         getUsers();
 
         return () => {
-            isMounted = false;
             controller.abort();
         };
     }, []);

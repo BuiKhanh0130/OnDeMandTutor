@@ -1,6 +1,6 @@
 import classNames from 'classnames/bind';
 import { Link } from 'react-router-dom';
-import { useContext, useState } from 'react';
+import { useContext } from 'react';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Container from 'react-bootstrap/Container';
@@ -15,8 +15,6 @@ import Button from '~/components/Button';
 import User from './components/LogIn/User';
 import Notification from './components/LogIn/Notification';
 import { ModalContext } from '~/components/ModalProvider';
-// import { faBell } from '@fortawesome/free-solid-svg-icons';
-// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { NotificationIcon } from '~/components/Icons';
 
 import styles from './Header.module.scss';

@@ -54,7 +54,7 @@ function SignIn({ item, onChangeUsername, onChangePassword }) {
             setAuth({ userName, role, accessToken });
             //reset user
             resetUser();
-            localStorage.setItem('accessToken', JSON.stringify(response?.data));
+            sessionStorage.setItem('accessToken', JSON.stringify(response?.data));
             setActive(false);
             handleUser();
             navigate(from, { replace: true });

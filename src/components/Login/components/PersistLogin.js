@@ -18,6 +18,7 @@ const PersistLogin = () => {
         const verifyRefreshToken = async () => {
             try {
                 await refresh();
+                handleUser();
             } catch (err) {
                 console.error(err);
             } finally {
@@ -28,16 +29,9 @@ const PersistLogin = () => {
     }, []);
 
     useEffect(() => {
-        if (method === 'google') {
-            setAuth({ userName: '', role: 'Student', accessToken: accessToken });
-            handleUser();
-        }
-    }, []);
-
-    useEffect(() => {
         console.log(`isLoading: ${isLoading}`);
         console.log(`aT: ${JSON.stringify(auth?.accessToken)}`);
-    }, [isLoading]);
+    }, [isLoading, auth?.accessToken]);
 
     return <>{isLoading ? <p>Loading...</p> : <Outlet />}</>;
 };
