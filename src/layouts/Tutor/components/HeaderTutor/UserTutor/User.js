@@ -36,7 +36,7 @@ function User({ children }) {
                         <div className={cx('container')}>
                             <ul className={cx('container__list')}>
                                 <li>
-                                    <Link to={`/student/${avatar.fullName}`}>My profile</Link>
+                                    <Link to={`/tutor/${avatar.fullName}`}>My profile</Link>
                                 </li>
                                 <li>
                                     <Link to="/transaction/history">Feedback</Link>

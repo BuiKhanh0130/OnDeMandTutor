@@ -4,7 +4,7 @@ const ModalContext = createContext();
 
 function ModalProvider({ children }) {
     const [user, setUser] = useState(false);
-    const [chat, setChat] = useState({});
+    const [avatar, setAvatar] = useState({});
     const [active, setActive] = useState(false);
     const [roomId, setRoomId] = useState('');
     const [auth, setAuth] = useState({});
@@ -41,8 +41,8 @@ function ModalProvider({ children }) {
         auth,
         setAuth,
         setActive,
-        chat,
-        setChat,
+        avatar,
+        setAvatar,
         userId,
         setUserId,
         activeSignUp,

@@ -1,8 +1,5 @@
 import classNames from 'classnames/bind';
-import { useContext, useEffect, useRef, useState } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
-import { doc, getDoc } from 'firebase/firestore';
-import { auth as Auth, db } from '~/firebase/firebase';
+import { useEffect, useState } from 'react';
 
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
@@ -11,7 +8,6 @@ import Col from 'react-bootstrap/Col';
 import Image from '~/components/Image';
 import Class from '~/components/Class';
 import useRequestsPrivate from '~/hooks/useRequestPrivate';
-import images from '~/assets/images';
 import Button from '~/components/Button';
 import { requestsPrivate } from '~/utils/request';
 
@@ -23,7 +19,6 @@ const STUDENTPROFILE = 'Students/GetStudentCurrent';
 const UPDATEPROFILE = 'Students/UpdateStudent';
 
 function StudentProfile() {
-    const method = localStorage.getItem('loginMethod');
     const axiosPrivate = useRequestsPrivate();
     const [fullName, setFullName] = useState('');
     const [age, setAge] = useState('');
@@ -31,10 +26,9 @@ function StudentProfile() {
     const [phoneNumber, setPhoneNumber] = useState('');
     const [address, setAddress] = useState('');
     const [schoolName, setSchoolName] = useState('');
+    const [avatar, setAvatar] = useState('');
 
     useEffect(() => {
-        let isMounted = true;
-
         const controller = new AbortController();
 
         const getUsers = async () => {
@@ -42,8 +36,7 @@ function StudentProfile() {
                 const response = await axiosPrivate.get(STUDENTPROFILE, {
                     signal: controller.signal,
                 });
-                console.log(response?.data);
-
+                setAvatar(response?.data?.avatar);
                 setFullName(response?.data?.fullName);
                 setAddress(response?.data?.address);
                 setPhoneNumber(response?.data?.phoneNumber);
@@ -58,7 +51,6 @@ function StudentProfile() {
         getUsers();
 
         return () => {
-            isMounted = false;
             controller.abort();
         };
     }, []);
@@ -66,7 +58,7 @@ function StudentProfile() {
     const handleUpdate = async () => {
         const response = await requestsPrivate.post(
             UPDATEPROFILE,
-            JSON.stringify({ fullName, gender, phoneNumber, avatar: '', schoolName, address, age, isParent: true }),
+            JSON.stringify({ fullName, gender, phoneNumber, avatar, schoolName, address, age, isParent: true }),
         );
     };
 
@@ -77,7 +69,7 @@ function StudentProfile() {
                     <Col lg="12" className={cx('container__profile')}>
                         <div className={cx('container__profile-banner')}></div>
                         <div className={cx('container__profile-student')}>
-                            <Image src={images?.avatar} alt="NT" />
+                            <Image src={avatar} alt={fullName} />
                             <p>{fullName}</p>
                         </div>
                     </Col>

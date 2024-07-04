@@ -11,7 +11,7 @@ import RequireAuth from './pages/RequireAuth/RequireAuth';
 
 function App() {
     const { auth } = useContext(ModalContext);
-    const accessToken = localStorage.getItem('accessToken');
+    const accessToken = sessionStorage.getItem('accessToken');
     return (
         <Router>
             <Routes>

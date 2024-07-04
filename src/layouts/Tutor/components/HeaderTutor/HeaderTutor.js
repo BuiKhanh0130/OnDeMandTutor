@@ -10,10 +10,9 @@ import config from '~/config';
 import Image from '~/components/Image';
 import Sidebar from '../Sidebar/Sidebar';
 import images from '~/assets/images';
-import User from '~/layouts/DefaultLayout/components/LogIn/User';
+import UserTutor from './UserTutor';
 import Notification from '~/layouts/DefaultLayout/components/LogIn/Notification';
-// import { faBell } from '@fortawesome/free-solid-svg-icons';
-// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { ModalContext } from '~/components/ModalProvider';
 import { NotificationIcon } from '~/components/Icons';
 import NavMessage from '~/layouts/Admin/components/HeaderAdmin/Nav/NavMessage';
 
@@ -22,7 +21,7 @@ import styles from './HeaderTutor.module.scss';
 const cx = classNames.bind(styles);
 
 function HeaderTutor() {
-    // const formLogin = useContext(ModalContext);
+    const { avatar } = useContext(ModalContext);
 
     return (
         <div className={cx('wrapper')}>
@@ -48,11 +47,15 @@ function HeaderTutor() {
 
                         <NavMessage />
 
-                        <User>
+                        <UserTutor>
                             <div className={cx('container__login-user')}>
-                                <Image src={images.tutor} alt="NTP" className={cx('container__login-user-img')}></Image>
+                                <Image
+                                    src={avatar.avatar}
+                                    alt={avatar.fullName}
+                                    className={cx('container__login-user-img')}
+                                ></Image>
                             </div>
-                        </User>
+                        </UserTutor>
                     </Col>
                 </Row>
             </Container>

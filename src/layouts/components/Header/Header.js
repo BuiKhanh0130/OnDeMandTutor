@@ -1,6 +1,6 @@
 import classNames from 'classnames/bind';
 import { Link } from 'react-router-dom';
-import { useContext, useState } from 'react';
+import { useContext } from 'react';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Container from 'react-bootstrap/Container';
@@ -15,8 +15,6 @@ import Button from '~/components/Button';
 import User from './components/LogIn/User';
 import Notification from './components/LogIn/Notification';
 import { ModalContext } from '~/components/ModalProvider';
-// import { faBell } from '@fortawesome/free-solid-svg-icons';
-// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { NotificationIcon } from '~/components/Icons';
 
 import styles from './Header.module.scss';
@@ -25,8 +23,8 @@ import NavMessage from '~/layouts/Admin/components/HeaderAdmin/Nav/NavMessage';
 const cx = classNames.bind(styles);
 
 function Header() {
-    const context = useContext(ModalContext);
-    const user = context.user;
+    const { user, avatar, handleActive, handleActiveSignUp } = useContext(ModalContext);
+    const alreadyLogin = user;
 
     return (
         <div className={cx('wrapper')}>
@@ -42,7 +40,7 @@ function Header() {
                         <Sidebar />
                     </Col>
 
-                    {user ? (
+                    {alreadyLogin ? (
                         <Col lg="2" className={cx('container__login-signup')}>
                             <Notification>
                                 <div className={cx('container__login-signup-noti')}>
@@ -56,8 +54,8 @@ function Header() {
                             <User>
                                 <div className={cx('container__login-user')}>
                                     <Image
-                                        src={images.avatar}
-                                        alt="NTP"
+                                        src={avatar.avatar}
+                                        alt={avatar.fullName}
                                         className={cx('container__login-user-img')}
                                     ></Image>
                                 </div>
@@ -65,13 +63,10 @@ function Header() {
                         </Col>
                     ) : (
                         <Col lg="2" className={cx('container__login-signup')}>
-                            <Button onClick={context.handleActive} className={cx('container__login-signup-login-btn')}>
+                            <Button onClick={handleActive} className={cx('container__login-signup-login-btn')}>
                                 LOG IN
                             </Button>
-                            <Button
-                                onClick={context.handleActiveSignUp}
-                                className={cx('container__login-signup-signup-btn')}
-                            >
+                            <Button onClick={handleActiveSignUp} className={cx('container__login-signup-signup-btn')}>
                                 SIGN UP
                             </Button>
                         </Col>

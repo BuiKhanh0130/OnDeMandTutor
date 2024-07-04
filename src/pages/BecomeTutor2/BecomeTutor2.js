@@ -3,7 +3,6 @@ import { useEffect, useRef, useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheck, faTimes } from '@fortawesome/free-solid-svg-icons';
-import axios from 'axios';
 
 import requests from '~/utils/request';
 import { ModalContext } from '~/components/ModalProvider';
@@ -46,8 +45,6 @@ function BecomeTutor2() {
     const [address, setAddress] = useState('');
     const [addressFocus, setAddressFocus] = useState(false);
 
-    const [selectedFile, setSelectedFile] = useState(null);
-
     const [errMsg, setErrMsg] = useState();
 
     useEffect(() => {
@@ -69,13 +66,12 @@ function BecomeTutor2() {
         }
         try {
             form.append('image', image);
-            const response = await axios.post(IMGBB, form);
+            const response = await requests.post(IMGBB, form);
             if (response.status === 200) {
                 file = response?.data?.data?.display_url;
             }
 
             try {
-                console.log(file);
                 const response = await requests.post(
                     REGISTER_URL,
                     JSON.stringify({
@@ -312,7 +308,7 @@ function BecomeTutor2() {
                         </div>
 
                         <div className={cx('form_row')}>
-                            <label for="myfile">Photo Certificate</label>
+                            <label htmlFor="myfile">Avatar</label>
                             <input
                                 type="file"
                                 id="myfile"
