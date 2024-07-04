@@ -39,12 +39,6 @@ const CreateClass = () => {
         subjectGroupId: subject,
     };
 
-    useEffect(() => {
-        console.log(name, description, hour, day, grade, subject, studentId);
-    }, [name, subject, description, grade, hour, day]);
-
-    // console.log(token);
-
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {

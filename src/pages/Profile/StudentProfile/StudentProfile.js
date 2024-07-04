@@ -9,7 +9,6 @@ import Image from '~/components/Image';
 import Class from '~/components/Class';
 import useRequestsPrivate from '~/hooks/useRequestPrivate';
 import Button from '~/components/Button';
-import { requestsPrivate } from '~/utils/request';
 
 import styles from './StudentProfile.module.scss';
 
@@ -53,13 +52,16 @@ function StudentProfile() {
         return () => {
             controller.abort();
         };
-    }, []);
+    }, [axiosPrivate]);
 
     const handleUpdate = async () => {
-        const response = await requestsPrivate.post(
+        const response = await axiosPrivate.post(
             UPDATEPROFILE,
             JSON.stringify({ fullName, gender, phoneNumber, avatar, schoolName, address, age, isParent: true }),
         );
+
+        if (response.status) {
+        }
     };
 
     return (

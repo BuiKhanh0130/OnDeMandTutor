@@ -3,11 +3,13 @@ import { useState, useEffect, useContext } from 'react';
 
 import useRefreshToken from '~/hooks/useRefreshToken';
 import { useAuth } from '~/hooks/useAuth';
+import { ModalContext } from '~/components/ModalProvider';
 
 const PersistLogin = () => {
     const [isLoading, setIsLoading] = useState(true);
     const refresh = useRefreshToken();
     const { auth } = useAuth();
+    const { handleUser } = useContext(ModalContext);
     // const [persist] = useLocalStorage('persist', false);
 
     useEffect(() => {
@@ -22,7 +24,7 @@ const PersistLogin = () => {
             }
         };
         !auth?.accessToken?.token ? verifyRefreshToken() : setIsLoading(false);
-    }, []);
+    }, [auth?.accessToken?.token, handleUser, refresh]);
 
     useEffect(() => {
         console.log(`isLoading: ${isLoading}`);

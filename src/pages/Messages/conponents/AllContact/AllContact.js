@@ -1,5 +1,5 @@
 import classNames from 'classnames/bind';
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import { Row, Col } from 'react-bootstrap';
 import { HubConnectionBuilder, LogLevel } from '@microsoft/signalr';
 
@@ -13,11 +13,11 @@ const USERS = 'ConversationAccount';
 const cx = classNames.bind(styles);
 
 function AllContact() {
-    const { conn, messages, roomId, setRoomId, setConnection, setMessage, setChat } = useContext(ModalContext);
+    const { conn, messages, roomId, setRoomId, setConnection, setMessage, setAvatar, setAvatarMessage } =
+        useContext(ModalContext);
     const useRequestPrivate = useRequestsPrivate();
-    const [room, setChatRoom] = useState('');
+    const errRef = useRef();
     const [rooms, setRooms] = useState([]);
-    const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
     useEffect(() => {
@@ -31,10 +31,8 @@ function AllContact() {
                     signal: controller.signal,
                 });
                 isMounted && setRooms(response.data);
-                setLoading(false);
             } catch (error) {
                 setError(error);
-                setLoading(false);
             }
         };
 
@@ -65,8 +63,6 @@ function AllContact() {
             await conn.start();
             await conn.invoke('JoinSpecificChatRoom', { username, chatRoom });
 
-            setChatRoom(chatRoom);
-
             setConnection(conn);
         } catch (e) {
             console.log(e);
@@ -80,7 +76,10 @@ function AllContact() {
 
     return (
         <Col lg="4" className={cx('wrapper')}>
-            <Row className={cx('container_user_item')}>
+            <p ref={errRef} className={error ? 'errMsg' : 'offscreen'} aria-live="assertive">
+                {error}
+            </p>
+            <Row className={cx('container_user-item')}>
                 {rooms.length > 0 &&
                     rooms.map((user, index) => {
                         return (
@@ -93,18 +92,13 @@ function AllContact() {
                                     setMessage([]);
                                     conn && stopChatRoom();
                                     joinChatRoom(user.name, user.conversationId);
-                                    setChat({ avatar: user.avatar, name: user.name });
+                                    setAvatarMessage({ avatar: user.avatar, name: user.name });
                                 }}
                             >
                                 <img alt="react" src={user.avatar}></img>
                                 <Row className={cx('user_item')}>
                                     <Col className={cx('content-left')}>
-                                        <Row>
-                                            <span>{user.name}</span>
-                                        </Row>
-                                        <Row>
-                                            <p>You: I want to contact more</p>
-                                        </Row>
+                                        <span>{user.name}</span>
                                     </Col>
                                 </Row>
                             </Col>

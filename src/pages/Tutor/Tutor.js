@@ -1,5 +1,5 @@
 import classNames from 'classnames/bind';
-import { useMemo, useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 
 import Container from 'react-bootstrap/Container';

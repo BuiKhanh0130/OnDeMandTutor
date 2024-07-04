@@ -27,7 +27,15 @@
 
 .container__mess-guess {
     display: flex;
+    align-items: center;
     margin: 2px 0;
+
+    img {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        margin-right: 10px;
+    }
 
     span {
         font-size: 1.2rem;

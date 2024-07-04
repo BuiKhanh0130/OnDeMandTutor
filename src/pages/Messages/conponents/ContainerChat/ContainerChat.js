@@ -2,7 +2,6 @@ import classNames from 'classnames/bind';
 import { useContext, useEffect, useRef, useState } from 'react';
 import { Row, Col } from 'react-bootstrap';
 
-import images from '~/assets/images';
 import useRequestsPrivate from '~/hooks/useRequestPrivate';
 import { ModalContext } from '~/components/ModalProvider';
 import MessageContainer from './MessageContainer';
@@ -16,7 +15,7 @@ const cx = classNames.bind(styles);
 const MESSAGES_URL = 'Message';
 
 function ContainerChat({ sendMessage }) {
-    const { messages, chat, roomId, setCreateClass } = useContext(ModalContext);
+    const { messages, avatarMessage, roomId, setCreateClass } = useContext(ModalContext);
     const axiosPrivate = useRequestsPrivate();
     const [allMsgs, setAllMsgs] = useState([]);
     const [content, setContent] = useState('');
@@ -74,8 +73,8 @@ function ContainerChat({ sendMessage }) {
         <Col lg="8" className={cx('container__mess_detail')}>
             <Row>
                 <Col lg="12" className={cx('container__mess_header')}>
-                    <img alt={chat?.name} src={chat?.avatar}></img>
-                    <span>{chat?.name}</span>
+                    <img alt={avatarMessage?.name} src={avatarMessage?.avatar}></img>
+                    <span>{avatarMessage?.name}</span>
                 </Col>
             </Row>
             <Row className={cx('container__mess-body')} ref={chatContainerRef}>

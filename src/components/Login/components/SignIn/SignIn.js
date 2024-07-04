@@ -18,7 +18,7 @@ const LOGIN_URL = 'auth/signIn';
 const cx = classNames.bind(styles);
 
 function SignIn({ item, onChangeUsername, onChangePassword }) {
-    const { setAuth, setActive, handleUser, setUserId } = useContext(ModalContext);
+    const { setAuth, setActive, handleUser, setUserId, setAvatar } = useContext(ModalContext);
     const navigate = useNavigate();
     const location = useLocation();
     const from = location.state?.from?.pathname || '/';

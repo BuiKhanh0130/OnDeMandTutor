@@ -2,6 +2,7 @@ import { useContext } from 'react';
 import classNames from 'classnames/bind';
 import { Col } from 'react-bootstrap';
 
+import Image from '~/components/Image';
 import { ModalContext } from '~/components/ModalProvider';
 
 import styles from './MessageContainer.module.scss';
@@ -9,7 +10,7 @@ import styles from './MessageContainer.module.scss';
 const cx = classNames.bind(styles);
 
 function MessageContainer({ allMsgs, messages }) {
-    const { userId } = useContext(ModalContext);
+    const { userId, avatarMessage } = useContext(ModalContext);
     return (
         <Col lg="12" className={cx('container__mess-chatbox')}>
             {allMsgs?.length > 0 &&
@@ -23,6 +24,7 @@ function MessageContainer({ allMsgs, messages }) {
                         </div>
                     ) : (
                         <div className={cx('container__mess-guess')}>
+                            <Image src={avatarMessage.avatar} alt={avatarMessage.fullName}></Image>
                             <div className={cx('container__mess-guess-item')}>
                                 <span>{allMsg.content}</span>
                                 <span>{allMsg.time}</span>

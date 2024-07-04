@@ -86,6 +86,8 @@ function TutorProfile() {
                 isActive: true,
             }),
         );
+        if (response.statusCode === 200) {
+        }
     };
 
     return (
