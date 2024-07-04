@@ -4,7 +4,7 @@ import requests from '~/utils/request';
 
 const useRefreshToken = () => {
     const { setAvatar, setAuth } = useAuth();
-
+  
     const refreshToken = async () => {
         const accessToken = sessionStorage.getItem('accessToken');
         const refreshToken = JSON.parse(accessToken).refreshToken;

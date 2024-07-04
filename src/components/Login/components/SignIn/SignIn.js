@@ -18,8 +18,7 @@ const LOGIN_URL = 'auth/signIn';
 const cx = classNames.bind(styles);
 
 function SignIn({ item, onChangeUsername, onChangePassword }) {
-    const { setAuth, setAvatar, setActive, handleUser } = useContext(ModalContext);
-
+    const { setAuth, setActive, handleUser, setUserId } = useContext(ModalContext);
     const navigate = useNavigate();
     const location = useLocation();
     const from = location.state?.from?.pathname || '/';
@@ -51,8 +50,10 @@ function SignIn({ item, onChangeUsername, onChangePassword }) {
             const accessToken = response?.data?.token;
             const user = jwtDecode(accessToken);
             const role = user.UserRole;
+            const userID = user.UserId;
             const avatar = user.Avatar;
             const fullName = user.FullName;
+            setUserId(userID);
             setAuth({ userName, role, accessToken });
             setAvatar({ avatar, fullName });
             //reset user

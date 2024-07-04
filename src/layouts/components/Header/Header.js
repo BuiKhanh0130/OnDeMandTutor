@@ -18,6 +18,7 @@ import { ModalContext } from '~/components/ModalProvider';
 import { NotificationIcon } from '~/components/Icons';
 
 import styles from './Header.module.scss';
+import NavMessage from '~/layouts/Admin/components/HeaderAdmin/Nav/NavMessage';
 
 const cx = classNames.bind(styles);
 
@@ -42,13 +43,14 @@ function Header() {
                     {alreadyLogin ? (
                         <Col lg="2" className={cx('container__login-signup')}>
                             <Notification>
-                                <a href="/notifications">
-                                    <div className={cx('container__login-signup-noti')}>
-                                        <NotificationIcon />
-                                        <span className={cx('container__login-signup-number')}>2</span>
-                                    </div>
-                                </a>
+                                <div className={cx('container__login-signup-noti')}>
+                                    <NotificationIcon />
+                                    <span className={cx('container__login-signup-number')}>2</span>
+                                </div>
                             </Notification>
+
+                            <NavMessage />
+
                             <User>
                                 <div className={cx('container__login-user')}>
                                     <Image

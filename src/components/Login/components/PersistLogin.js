@@ -3,15 +3,11 @@ import { useState, useEffect, useContext } from 'react';
 
 import useRefreshToken from '~/hooks/useRefreshToken';
 import { useAuth } from '~/hooks/useAuth';
-import { ModalContext } from '~/components/ModalProvider';
 
 const PersistLogin = () => {
     const [isLoading, setIsLoading] = useState(true);
     const refresh = useRefreshToken();
-    const { auth, setAuth } = useAuth();
-    const method = localStorage.getItem('loginMethod');
-    const accessToken = localStorage.getItem('accessToken');
-    const { handleUser } = useContext(ModalContext);
+    const { auth } = useAuth();
     // const [persist] = useLocalStorage('persist', false);
 
     useEffect(() => {

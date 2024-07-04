@@ -24,7 +24,6 @@ function Tutor() {
     const requestPrivate = useRequestsPrivate();
     const [userDetails, setUserDetails] = useState();
     const [userFeedbacks, setUserFeedbacks] = useState();
-    const [subjects, setSubjects] = useState('');
     const { state } = useLocation();
 
     console.log(`${FEEDBACKTUTOR}${state.key}`);
