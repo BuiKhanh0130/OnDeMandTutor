@@ -21,6 +21,13 @@ function ContainerChat({ sendMessage }) {
     const [allMsgs, setAllMsgs] = useState([]);
     const [content, setContent] = useState('');
     const inputRef = useRef();
+    const chatContainerRef = useRef(null);
+
+    useEffect(() => {
+        if (chatContainerRef.current) {
+            chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
+        }
+    }, [messages, allMsgs]);
 
     useEffect(() => {
         inputRef.current.focus();
@@ -71,7 +78,7 @@ function ContainerChat({ sendMessage }) {
                     <span>{chat?.name}</span>
                 </Col>
             </Row>
-            <Row className={cx('container__mess-body')}>
+            <Row className={cx('container__mess-body')} ref={chatContainerRef}>
                 <MessageContainer allMsgs={allMsgs} />
                 <MessageContainer messages={messages} />
             </Row>

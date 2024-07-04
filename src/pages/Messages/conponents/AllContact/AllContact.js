@@ -91,7 +91,7 @@ function AllContact() {
                                 onClick={() => {
                                     setRoomId(user.conversationId);
                                     setMessage([]);
-                                    stopChatRoom();
+                                    conn && stopChatRoom();
                                     joinChatRoom(user.name, user.conversationId);
                                     setChat({ avatar: user.avatar, name: user.name });
                                 }}
