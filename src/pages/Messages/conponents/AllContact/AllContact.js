@@ -13,8 +13,7 @@ const USERS = 'ConversationAccount';
 const cx = classNames.bind(styles);
 
 function AllContact() {
-    const { conn, messages, roomId, setRoomId, setConnection, setMessage, setAvatar, setAvatarMessage } =
-        useContext(ModalContext);
+    const { conn, messages, roomId, setRoomId, setConnection, setMessage, setAvatarMessage } = useContext(ModalContext);
     const useRequestPrivate = useRequestsPrivate();
     const errRef = useRef();
     const [rooms, setRooms] = useState([]);
@@ -81,10 +80,10 @@ function AllContact() {
             </p>
             <Row className={cx('container_user-item')}>
                 {rooms.length > 0 &&
-                    rooms.map((user, index) => {
+                    rooms.map((user) => {
                         return (
                             <Col
-                                key={index}
+                                key={user.conversationId}
                                 lg="12"
                                 className={cx('container_user_detail', { active: user.conversationId === roomId })}
                                 onClick={() => {
