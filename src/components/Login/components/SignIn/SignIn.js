@@ -108,7 +108,7 @@ function SignIn({ item, onChangeUsername, onChangePassword }) {
     return item.map((signIn, index, onSubmit) => {
         return (
             <Fragment key={index}>
-                <div classNaconme={cx('wrapper')}>
+                <div className={cx('wrapper')}>
                     <p ref={errRef} className={errMsg ? 'errMsg' : 'offscreen'} aria-live="assertive">
                         {errMsg}
                     </p>
