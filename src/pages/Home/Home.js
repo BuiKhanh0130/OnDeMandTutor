@@ -131,60 +131,6 @@ function Home() {
         [],
     );
 
-    const greatTutors = useMemo(
-        () => [
-            {
-                title: 'Your next great tutor',
-                summary: 'Enjoy one-on-one instruction from the nation of biggest network of independent experts.',
-                subjects: [
-                    {
-                        avatar: images.avatar,
-                        label: 'AMAZING TUTOR',
-                        content: `Tiffany has exceeded our expectations. She is knowledgeable, patient, and fun. All the lessons are thoughtfully prepared. And she has such a great personality! Our 5 year old son enjoys every lesson with her and he is actually engaged for the whole hour. I'm honestly impressed. She is the best!
-                Joanna, 16 lessons with Tiffany`,
-                        level: 'Elementary Reading Tutor',
-                    },
-                    {
-                        avatar: images.avatar,
-                        label: 'AMAZING TUTOR',
-                        content: `Tiffany has exceeded our expectations. She is knowledgeable, patient, and fun. All the lessons are thoughtfully prepared. And she has such a great personality! Our 5 year old son enjoys every lesson with her and he is actually engaged for the whole hour. I'm honestly impressed. She is the best!
-                Joanna, 16 lessons with Tiffany`,
-                        level: 'Elementary Reading Tutor',
-                    },
-                    {
-                        avatar: images.avatar,
-                        label: 'AMAZING TUTOR',
-                        content: `Tiffany has exceeded our expectations. She is knowledgeable, patient, and fun. All the lessons are thoughtfully prepared. And she has such a great personality! Our 5 year old son enjoys every lesson with her and he is actually engaged for the whole hour. I'm honestly impressed. She is the best!
-                Joanna, 16 lessons with Tiffany`,
-                        level: 'Elementary Reading Tutor',
-                    },
-                    {
-                        avatar: images.avatar,
-                        label: 'AMAZING TUTOR',
-                        content: `Tiffany has exceeded our expectations. She is knowledgeable, patient, and fun. All the lessons are thoughtfully prepared. And she has such a great personality! Our 5 year old son enjoys every lesson with her and he is actually engaged for the whole hour. I'm honestly impressed. She is the best!
-                Joanna, 16 lessons with Tiffany`,
-                        level: 'Elementary Reading Tutor',
-                    },
-                    {
-                        avatar: images.avatar,
-                        label: 'AMAZING TUTOR',
-                        content: `Tiffany has exceeded our expectations. She is knowledgeable, patient, and fun. All the lessons are thoughtfully prepared. And she has such a great personality! Our 5 year old son enjoys every lesson with her and he is actually engaged for the whole hour. I'm honestly impressed. She is the best!
-                Joanna, 16 lessons with Tiffany`,
-                        level: 'Elementary Reading Tutor',
-                    },
-                    {
-                        avatar: images.avatar,
-                        label: 'AMAZING TUTOR',
-                        content: `Tiffany has exceeded our expectations. She is knowledgeable, patient, and fun. All the lessons are thoughtfully prepared. And she has such a great personality! Our 5 year old son enjoys every lesson with her and he is actually engaged for the whole hour. I'm honestly impressed. She is the best!
-                Joanna, 16 lessons with Tiffany`,
-                        level: 'Elementary Reading Tutor',
-                    },
-                ],
-            },
-        ],
-        [],
-    );
-
     const applyTutor = useMemo(
         () => [
             {
@@ -205,7 +151,7 @@ function Home() {
                 <UniversityPanel universities={universities} />
                 <RentPanel rents={rents} />
                 <ApplyTutor applyTutor={applyTutor} />
-                <GreatPanel greatTutors={greatTutors} />
+                <GreatPanel />
             </Container>
         </div>
     );

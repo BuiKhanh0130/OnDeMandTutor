@@ -61,7 +61,7 @@ const privateRoutes = [
     { path: config.routes.account, component: Tutor, role: ['Tutor', 'Admin', 'Student'] },
     { path: config.routes.requestTutor, component: RequestTutor, role: ['Student'] },
     { path: config.routes.onlineTutoring, component: OnlineTutoring, role: ['Student', 'Admin'] },
-    { path: config.routes.forStudent, component: ForStudent, role: ['Student, Tutor'] },
+    { path: config.routes.forStudent, component: ForStudent, role: ['Student', 'Tutor'] },
     { path: config.routes.customerSay, component: CustomerSay, role: ['Student', 'Tutor'] },
     { path: config.routes.blog, component: Blog, role: ['Student', 'Tutor'] },
     { path: config.routes.advertisement, component: Advertisement, role: ['Tutor, Student'] },
