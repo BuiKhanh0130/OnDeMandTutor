@@ -26,6 +26,7 @@ const routes = {
     unauthorized: '/unauthorized',
     messages: '/messages',
     notification: '/notifications',
+    moderator: '/moderator',
 };
 
 export default routes;

@@ -52,7 +52,7 @@ function StudentProfile() {
         return () => {
             controller.abort();
         };
-    }, [axiosPrivate]);
+    }, []);
 
     const handleUpdate = async () => {
         const response = await axiosPrivate.post(

@@ -61,7 +61,10 @@ function SignIn({ item, onChangeUsername, onChangePassword }) {
             sessionStorage.setItem('accessToken', JSON.stringify(response?.data));
             setActive(false);
             handleUser();
-            navigate(from, { replace: true });
+
+            if (role === 'Moderator') {
+                navigate('/moderator');
+            }
         } catch (err) {
             if (!err?.response) {
                 setErrMsg('No Server Response');

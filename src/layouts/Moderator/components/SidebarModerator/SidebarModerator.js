@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 // import images from '~/assets/images'
-import styles from './SidebarTutor.module.scss';
+import styles from './SidebarModerator.module.scss';
 import classNames from 'classnames/bind';
 import { Link } from 'react-router-dom';
-import { UilEstate, UilClipboardAlt, UilUsersAlt, UilPackage, UilChart } from '@iconscout/react-unicons';
+import { UilEstate, UilClipboardAlt, UilUsersAlt, UilPackage, UilChart, UilSignOutAlt } from '@iconscout/react-unicons';
 
 const cx = classNames.bind(styles);
 
