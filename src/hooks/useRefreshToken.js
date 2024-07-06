@@ -3,12 +3,16 @@ import { jwtDecode } from 'jwt-decode';
 import requests from '~/utils/request';
 
 const useRefreshToken = () => {
-    const { auth, setAuth } = useAuth();
+    const { setAvatar, setAuth, setUserId } = useAuth();
 
     const refreshToken = async () => {
         const accessToken = sessionStorage.getItem('accessToken');
         const refreshToken = JSON.parse(accessToken).refreshToken;
         const userId = jwtDecode(accessToken).UserId;
+        const avatar = jwtDecode(accessToken).Avatar;
+        const fullName = jwtDecode(accessToken).FullName;
+        setUserId(userId);
+        setAvatar({ avatar, fullName });
 
         try {
             const response = await requests.post(
@@ -20,12 +24,9 @@ const useRefreshToken = () => {
                 },
             );
             setAuth((prev) => {
-                console.log('prev: ' + prev);
-                console.log(response?.data);
                 sessionStorage.setItem('accessToken', JSON.stringify(response?.data));
                 return { ...prev, role: jwtDecode(response?.data?.token).UserRole, accessToken: response?.data };
             });
-            console.log('auth ', auth);
             return response.data.token;
         } catch (error) {
             console.log(error);

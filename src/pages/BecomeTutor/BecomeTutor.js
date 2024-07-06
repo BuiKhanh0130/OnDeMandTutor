@@ -19,12 +19,17 @@ const PHONE_REGEX = /^[0-9]{10}$/;
 const FULLNAME_REGEX = /^[a-zA-Z\s]+$/;
 const REGISTER_URL = '/auth/signUp';
 
+const IMGBB = 'https://api.imgbb.com/1/upload?key=9c7d176f8c72a29fa6384fbb49cff7bc';
+
 function BecomeTutor() {
     const context = useContext(ModalContext);
     const navigate = useNavigate();
+    let file = '';
 
     const userRef = useRef();
     const errRef = useRef();
+
+    const [avatar, setAvatar] = useState('');
 
     const [user, setUser] = useState('');
     const [validName, setValidName] = useState(false);
@@ -96,6 +101,8 @@ function BecomeTutor() {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
+        const form = new FormData();
+
         const v1 = USER_REGEX.test(user);
         const v2 = PWD_REGEX.test(pwd);
         const v3 = GMAIL_REGEX.test(gmail);
@@ -108,17 +115,29 @@ function BecomeTutor() {
         }
 
         try {
+            form.append('image', avatar);
+            const response = await requests.post(IMGBB, form);
+            console.log(response?.data);
+            if (response.status === 200) {
+                file = response?.data?.data?.display_url;
+            }
+        } catch (error) {
+            console.log(error);
+        }
+
+        try {
             const response = await requests.post(
                 REGISTER_URL,
                 JSON.stringify({
-                    fullName: fullName,
+                    fullName,
                     email: gmail,
                     userName: user,
                     password: pwd,
                     phoneNumber: phone,
-                    gender: gender,
+                    gender,
                     isActive: 1,
                     isAdmin: true,
+                    avatar: file,
                 }),
                 {
                     headers: { 'Content-Type': 'application/json' },
@@ -141,22 +160,14 @@ function BecomeTutor() {
 
     return (
         <div className={cx('wrapper')}>
-            {/* {
-                <section>
-                    <h1>Success</h1>
-                    <p>
-                        <a href="/">Sign in</a>
-                    </p>
-                </section>
-            } */}
             <div className={cx('container')}>
                 <div className={cx('title')}>Register</div>
                 <div className={cx('currentForm')}>
                     <form className={cx('currentForm_content')} onSubmit={handleSubmit}>
+                        <p ref={errRef} className={errMsg ? 'errMsg' : 'offscreen'} aria-live="assertive">
+                            {errMsg}
+                        </p>
                         <div className={cx('form_row')}>
-                            <p ref={errRef} className={errMsg ? 'errMsg' : 'offscreen'} aria-live="assertive">
-                                {errMsg}
-                            </p>
                             <label htmlFor="userName">
                                 User name
                                 <span className={cx({ valid: validName, hide: !validName })}>
@@ -428,28 +439,6 @@ function BecomeTutor() {
                             </p>
                         </div>
 
-                        {/* <div className={cx('form_row')}>
-                            <label htmlFor="txtEducation">Education</label>
-                            <input
-                                type="text"
-                                id="txtEducation"
-                                name="txtEducation"
-                                className={cx('txtEducation')}
-                                placeholder="Graduate FPT University"
-                            ></input>
-                        </div> */}
-
-                        {/* <div className={cx('form_row')}>
-                            <label htmlFor="txtAddress">Address</label>
-                            <input
-                                type="text"
-                                id="txtAddress"
-                                name="txtAddress"
-                                className={cx('txtAddress')}
-                                placeholder="Lô E2a-7, Đường D1, Đ. D1, Long Thạnh Mỹ, Thành Phố Thủ Đức, Thành phố Hồ Chí Minh 700000"
-                            ></input>
-                        </div> */}
-
                         <div className={cx('form_row-radio')}>
                             <p>Gender</p>
                             <div className={cx('form_row-radio-content')}>
@@ -477,7 +466,15 @@ function BecomeTutor() {
                                 <label htmlFor="lady">Girl</label>
                             </div>
                         </div>
-
+                        <div className={cx('form_row')}>
+                            <label htmlFor="myfile">Photo Certificate</label>
+                            <input
+                                type="file"
+                                id="myfile"
+                                name="myfile"
+                                onChange={(e) => setAvatar(e.target.files[0])}
+                            />
+                        </div>
                         <Button className={cx('submit')}>Next</Button>
                     </form>
                 </div>

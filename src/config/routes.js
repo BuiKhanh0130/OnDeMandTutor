@@ -5,7 +5,8 @@ const routes = {
     findTutor: '/findTutor',
     forStudent: '/forStudent',
     customerSay: '/customerSay',
-    accountStudent: '/:nickname',
+    profileStudent: '/student/:nickname',
+    profileTutor: '/tutor/:nickname',
     requestTutor: '/requestTutor',
     advertisement: '/advertisement',
     onlineTutoring: '/onlineTutoring',
@@ -25,6 +26,7 @@ const routes = {
     unauthorized: '/unauthorized',
     messages: '/messages',
     notification: '/notifications',
+    classes: '/classes',
 };
 
 export default routes;

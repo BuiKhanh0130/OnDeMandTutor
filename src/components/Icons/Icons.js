@@ -290,8 +290,6 @@ export const NotificationIcon = ({ className, width = '1.6rem', height = '1.6rem
     </svg>
 );
 
-
-
 export const HomeIcon = ({ className, currentColor, width = '1.6rem', height = '1.6rem' }) => (
     <svg width={width} height={height} className={className} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512">
         <path
@@ -336,5 +334,18 @@ export const MoveIcon = ({ width = '1.6rem', height = '1.6rem', className }) => 
             d="M22.1086 20.3412C23.1028 19.2196 24.8972 19.2196 25.8914 20.3412L42.8955 39.5236C44.2806 41.0861 43.1324 43.5 41.004 43.5L6.99596 43.5C4.86764 43.5 3.71945 41.0861 5.10454 39.5235L22.1086 20.3412Z"
         ></path>
         <path d="M4.5 7.5C4.5 5.84315 5.84315 4.5 7.5 4.5L40.5 4.5C42.1569 4.5 43.5 5.84315 43.5 7.5C43.5 9.15685 42.1569 10.5 40.5 10.5L7.5 10.5C5.84315 10.5 4.5 9.15685 4.5 7.5Z"></path>
+    </svg>
+);
+
+export const SendIcon = ({ width = '1.4rem', height = '1.4rem', className }) => (
+    <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width={width}
+        height={height}
+        fill="Blue"
+        class="bi bi-send"
+        viewBox="0 0 16 16"
+    >
+        <path d="M15.854.146a.5.5 0 0 1 .11.54l-5.819 14.547a.75.75 0 0 1-1.329.124l-3.178-4.995L.643 7.184a.75.75 0 0 1 .124-1.33L15.314.037a.5.5 0 0 1 .54.11ZM6.636 10.07l2.761 4.338L14.13 2.576zm6.787-8.201L1.591 6.602l4.339 2.76z" />
     </svg>
 );

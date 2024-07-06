@@ -66,7 +66,7 @@
     top: 50px;
     left: 570px;
     width: 800px;
-    height: 400px;
+    min-height: 200px;
     background: rgb(237, 235, 235);
     border-radius: 4px;
     box-shadow: 0px 10px 20px #5e5f5f, 0px 0px 2px #171a1f;
@@ -102,7 +102,33 @@
 }
 
 .container__mess_chatbox{
-    height: 450px;
+    height: 200px;
+    width: 700px;
+    margin: auto;
+    margin-top: 20px;
+    .header_noti{
+        font-weight: bold;
+        font-size: 15px;
+        margin-bottom: 5px
+        }
+        p{
+            margin: 0; /* Remove default margin for cleaner layout */
+  line-height: 1.5;
+        }
+        a{
+            color: #337ab7; /* Use a blue color that's consistent with common link styles */
+  text-decoration: underline;
+        }
+
+        .body_noti{
+            height: 100px;
+            font-size: 15px;
+        }
+
+        .final_noti{
+            text-align: end;
+            font-size: 15px;
+        }
 }
 
 

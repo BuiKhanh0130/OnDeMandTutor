@@ -29,17 +29,21 @@ function FindTutor() {
     const [minValueRate, setMinValueRate] = useState();
     const [maxValueRate, setMaxValueRate] = useState();
     const [grade, setGrade] = useState('');
-    const [gender, setGender] = useState(null);
+    const [gender, setGender] = useState();
     const [fetchedGrades, setFetchedGrades] = useState([]);
     const [sort, setSort] = useState({});
     const [tutor, setTutors] = useState([]);
-    const [typeOfDegree, setTypeOfDegree] = useState();
+    const [typeOfDegree, setTypeOfDegree] = useState('');
     const [curPage, setcurPage] = useState(1);
     const [pagination, setPagination] = useState({
         page: 1,
-        limit: 3,
+        limit: 2,
         total: 1,
     });
+
+    useEffect(() =>{
+        console.log(searchValue, minValueRate, maxValueRate, grade, gender, fetchedGrades, sort, tutor, typeOfDegree, curPage);
+    }, [searchValue, minValueRate, maxValueRate, grade, gender, fetchedGrades, sort, tutor, typeOfDegree, curPage])
 
     useEffect(() => {
         window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -148,6 +152,7 @@ function FindTutor() {
                                     <strong>Grade:</strong>
                                 </label>
                                 <select id="grade" onChange={(e) => setGrade(e.target.value)}>
+                                    <option value={''}>All</option>
                                     {fetchedGrades.map((grade, index) => {
                                         return (
                                             <option key={index} value={grade.gradeId} style={{ textAlign: 'center' }}>
@@ -163,6 +168,7 @@ function FindTutor() {
                                     <strong>Gender:</strong>
                                 </label>
                                 <select id="gender" onChange={(e) => setGender(e.target.value)}>
+                                    {/* <option value={undefined}>All</option> */}
                                     <option value={true}>Male</option>
                                     <option value={false}>Female</option>
                                 </select>
@@ -178,6 +184,7 @@ function FindTutor() {
                                 className={cx('sidebar__items-role-level')}
                                 onChange={(e) => setTypeOfDegree(e.target.value)}
                             >
+                                <option value={''}>All</option>
                                 <option value="College">College</option>
                                 <option value="Associate Degree">Associate Degree</option>
                                 <option value="Bachelors Degree">Bachelors Degree</option>

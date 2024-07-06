@@ -8,9 +8,7 @@ import { ModalContext } from '~/components/ModalProvider';
 const PersistLogin = () => {
     const [isLoading, setIsLoading] = useState(true);
     const refresh = useRefreshToken();
-    const { auth, setAuth } = useAuth();
-    const method = localStorage.getItem('loginMethod');
-    const accessToken = localStorage.getItem('accessToken');
+    const { auth } = useAuth();
     const { handleUser } = useContext(ModalContext);
     // const [persist] = useLocalStorage('persist', false);
 
@@ -26,7 +24,7 @@ const PersistLogin = () => {
             }
         };
         !auth?.accessToken?.token ? verifyRefreshToken() : setIsLoading(false);
-    }, []);
+    }, [auth?.accessToken?.token, handleUser, refresh]);
 
     useEffect(() => {
         console.log(`isLoading: ${isLoading}`);

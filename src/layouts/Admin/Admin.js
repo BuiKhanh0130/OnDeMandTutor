@@ -9,7 +9,7 @@ function Admin({ children }) {
         <>
             <HeaderAdmin />
             <Sidebar />
-            {children ? children : <Main />}
+            <Main />
             <Footer />
         </>
     );

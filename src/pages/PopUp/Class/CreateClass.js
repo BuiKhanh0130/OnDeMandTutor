@@ -6,8 +6,7 @@ import classNames from 'classnames/bind';
 import { CloseIcon } from '~/components/Icons';
 import request from '~/utils/request';
 import useRequestsPrivate from '~/hooks/useRequestPrivate';
-import { ModalContext, ModalProvider } from '~/components/ModalProvider';
-import axios from 'axios';
+import { ModalContext } from '~/components/ModalProvider';
 
 const cx = classNames.bind(styles);
 
@@ -15,7 +14,8 @@ const SUBJECTGROUP_URL = 'SubjectGroup';
 const GRADE_URL = 'Grade';
 const CREATE_CLASS_URL = 'Classes/tutor/createClass';
 
-const CreateClass = ({ setIsOpenPopup }) => {
+const CreateClass = () => {
+    const { setCreateClass } = useContext(ModalContext);
     const requestsPrivate = useRequestsPrivate();
     const [name, setName] = useState('');
     const [subject, setSubject] = useState('S0009');
@@ -38,12 +38,6 @@ const CreateClass = ({ setIsOpenPopup }) => {
         studentId: studentId,
         subjectGroupId: subject,
     };
-
-    useEffect(() => {
-        console.log(name, description, hour, day, grade, subject, studentId);
-    }, [name, subject, description, grade, hour, day]);
-
-    // console.log(token);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -224,10 +218,9 @@ const CreateClass = ({ setIsOpenPopup }) => {
                                 <input type="submit" value="Submit"></input>
                             </div>
                         </form>
-                            <div onClick={() => setIsOpenPopup(false)}>
-                                <CloseIcon className={cx('close-icon')} />
-                            </div>
-                            
+                    </div>
+                    <div onClick={() => setCreateClass(false)}>
+                        <CloseIcon className={cx('close-icon')} />
                     </div>
                 </div>
             </div>

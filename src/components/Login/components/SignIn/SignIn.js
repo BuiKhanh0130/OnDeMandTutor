@@ -3,7 +3,7 @@ import { jwtDecode } from 'jwt-decode';
 import { Fragment, useContext, useEffect, useRef, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
-import { auth as Auth, db } from '~/firebase/firebase';
+import { auth as Auth } from '~/firebase/firebase';
 
 import Button from '~/components/Button';
 import { ModalContext } from '~/components/ModalProvider';
@@ -18,8 +18,7 @@ const LOGIN_URL = 'auth/signIn';
 const cx = classNames.bind(styles);
 
 function SignIn({ item, onChangeUsername, onChangePassword }) {
-    const { setAuth, setActive, handleUser } = useContext(ModalContext);
-
+    const { setAuth, setActive, handleUser, setUserId, setAvatar } = useContext(ModalContext);
     const navigate = useNavigate();
     const location = useLocation();
     const from = location.state?.from?.pathname || '/';
@@ -27,7 +26,7 @@ function SignIn({ item, onChangeUsername, onChangePassword }) {
     const userRef = useRef();
     const errRef = useRef();
 
-    const [userName, resetUser, userAttribs] = useInput('user', ''); //useState('');
+    const [userName, resetUser, userAttribs] = useInput('user', '');
     const [password, setPassword] = useState('');
     const [errMsg, setErrMsg] = useState('');
 
@@ -51,7 +50,12 @@ function SignIn({ item, onChangeUsername, onChangePassword }) {
             const accessToken = response?.data?.token;
             const user = jwtDecode(accessToken);
             const role = user.UserRole;
+            const userID = user.UserId;
+            const avatar = user.Avatar;
+            const fullName = user.FullName;
+            setUserId(userID);
             setAuth({ userName, role, accessToken });
+            setAvatar({ avatar, fullName });
             //reset user
             resetUser();
             sessionStorage.setItem('accessToken', JSON.stringify(response?.data));
