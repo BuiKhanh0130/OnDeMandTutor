@@ -30,6 +30,8 @@ import Unauthorized from '~/pages/Unauthorized';
 import Messages from '~/pages/Messages';
 import Notification from '~/pages/Notification';
 import BecomeStudent2 from '~/pages/BecomeStudent2/BecomStudent2';
+import MainDash from '~/layouts/Moderator/components/MainDash';
+import Moderator from '~/layouts/Moderator';
 
 const publicRoutes = [
     { path: config.routes.home, component: Home },
@@ -52,7 +54,7 @@ const publicRoutes = [
 ];
 
 const privateRoutes = [
-    { path: config.routes.home, component: Home, role: ['Student', 'Tutor'] },
+    { path: config.routes.home, component: Home, role: ['Student', 'Tutor', 'Moderator'] },
     { path: config.routes.main, component: Main, role: ['Admin'] },
     { path: config.routes.registrationTutor1, component: BecomeTutor, layout: Registration, role: ['Student'] },
     { path: config.routes.registrationTutor2, component: BecomeTutor2, layout: Registration, role: ['Student'] },
@@ -79,6 +81,7 @@ const privateRoutes = [
     { path: config.routes.unauthorized, component: Unauthorized, layout: null, role: ['Student', 'Tutor', 'Admin'] },
     { path: config.routes.messages, component: Messages, layout: null, role: ['Student', 'Tutor'] },
     { path: config.routes.notification, component: Notification, role: ['Student', 'Tutor'] },
+    { path: config.routes.moderator, component: MainDash, role: ['Moderator'], Layout: Moderator },
 ];
 
 export { publicRoutes, privateRoutes };
