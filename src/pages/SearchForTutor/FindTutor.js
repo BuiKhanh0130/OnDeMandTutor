@@ -98,6 +98,7 @@ function FindTutor() {
             const response = await request.get(`${TUTOR_URL}`, { params });
 
             setTutors(response.data);
+            console.log(response.data);
         } catch (error) {
             console.log(error.message);
         }
@@ -192,23 +193,6 @@ function FindTutor() {
                                 <option value="Doctoral Degree">Doctoral Degree</option>
                             </select>
                         </div>
-
-                        {/* <div className={cx('sidebar__items-availability')}>
-                            <p className={cx('sidebar__items-availability-title')}>Availability</p>
-                            {dayOfWeek.map((day, index) => {
-                                return (
-                                    <div key={index} className={cx('sidebar__items-availability-list')}>
-                                        <label htmlFor={day}>{day}</label>
-                                        <input
-                                            type="checkbox"
-                                            id={day}
-                                            value={day}
-                                            className="sidebar__items-availability-list-day"
-                                        ></input>
-                                    </div>
-                                );
-                            })}
-                        </div> */}
                     </form>
                 </Col>
                 <Col lg="9" className={cx('result')}>
