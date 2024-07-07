@@ -193,6 +193,23 @@ function FindTutor() {
                                 <option value="Doctoral Degree">Doctoral Degree</option>
                             </select>
                         </div>
+
+                        {/* <div className={cx('sidebar__items-availability')}>
+                            <p className={cx('sidebar__items-availability-title')}>Availability</p>
+                            {dayOfWeek.map((day, index) => {
+                                return (
+                                    <div key={index} className={cx('sidebar__items-availability-list')}>
+                                        <label htmlFor={day}>{day}</label>
+                                        <input
+                                            type="checkbox"
+                                            id={day}
+                                            value={day}
+                                            className="sidebar__items-availability-list-day"
+                                        ></input>
+                                    </div>
+                                );
+                            })}
+                        </div> */}
                     </form>
                 </Col>
                 <Col lg="9" className={cx('result')}>
@@ -225,7 +242,9 @@ function FindTutor() {
                             tutor.map((tutor, index) => {
                                 return (
                                     <div key={index} className={cx('result__wrapper-content')}>
-                                        <Link to={`account/${tutor.role}/${tutor.fullName}`}>
+                                        <Link to={`/account/tutor/${tutor.fullName}`}
+                                            state={{ key: tutor.tutorID }}
+                                        >
                                             <Row className={cx('result__profile')}>
                                                 <Col lg="2" className={cx('result__profile-img')}>
                                                     <Image
@@ -283,12 +302,15 @@ function FindTutor() {
                                                             Response Time: <strong>{5} minutes</strong>
                                                         </span>
                                                     </div>
+                                                 
                                                     <Button
                                                         orange
-                                                        // to={`account/${tutor.role}/${tutor.name}`}
                                                         className={cx('result__profile-generality-btn')}
                                                     >
-                                                        View {tutor.fullName} profile
+                                                        <Link to={`/account/tutor/${tutor.fullName}`}
+                                                            state={{ key: tutor.tutorID }}>
+                                                                View {tutor.fullName} profile
+                                                        </Link>
                                                     </Button>
                                                 </Col>
                                             </Row>

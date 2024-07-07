@@ -31,7 +31,7 @@ import Messages from '~/pages/Messages';
 import Notification from '~/pages/Notification';
 import BecomeStudent2 from '~/pages/BecomeStudent2/BecomStudent2';
 import Classes from '~/pages/Classes';
-import TutorDetail from '~/pages/TutorDetail';
+import RequestForm from '~/pages/RequestForm';
 
 const publicRoutes = [
     { path: config.routes.home, component: Home },
@@ -61,7 +61,6 @@ const privateRoutes = [
     { path: config.routes.findTutor, component: FindTutor, role: ['Student'] },
     { path: config.routes.requestTutor, component: RequestTutor, role: ['Student'] },
     { path: config.routes.account, component: Tutor, role: ['Tutor', 'Admin', 'Student'] },
-    { path: config.routes.tutorDetail, component: TutorDetail, role: ['Tutor', 'Admin', 'Student'] },
     { path: config.routes.requestTutor, component: RequestTutor, role: ['Student'] },
     { path: config.routes.onlineTutoring, component: OnlineTutoring, role: ['Student', 'Admin'] },
     { path: config.routes.forStudent, component: ForStudent, role: ['Student, Tutor'] },
@@ -83,6 +82,7 @@ const privateRoutes = [
     { path: config.routes.messages, component: Messages, layout: null, role: ['Student', 'Tutor'] },
     { path: config.routes.notification, component: Notification, role: ['Student', 'Tutor'] },
     { path: config.routes.classes, component: Classes, role: ['Student', 'Tutor'] },
+    { path: config.routes.requestForm, component: RequestForm, role: ['Student'] },
 ];
 
 export { publicRoutes, privateRoutes };
