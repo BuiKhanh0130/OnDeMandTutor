@@ -19,7 +19,6 @@ const MainDash = () => {
             const response = await requests.get(ALL_FORM_CREATE_CLASS_URL, {
                 signal: controller.signal,
             });
-            console.log(response.data);
             isMounted && setFormCreateClass(response.data);
         };
 
