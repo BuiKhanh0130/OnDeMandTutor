@@ -38,9 +38,9 @@ const Classes = () => {
 
     const firstClass = classes.length > 0 ? classes[0] : null;
     const events = [
-        { date: '2024-7-01', content: hour },
-        { date: '2024-7-05', content: hour },
-        { date: '2024-7-12', content: hour },
+        { date: '2024-7-01', time: hour },
+        { date: '2024-7-05', time: hour },
+        { date: '2024-7-12', time: hour },
       ];
 
     return (
@@ -91,7 +91,7 @@ const Classes = () => {
                                             </div>
                                         </Row>
                                         <Row>
-                                            <Calendar events={events} hour={hour}/>
+                                            <Calendar events={events}/>
                                         </Row>
                                     </Col>
                             </Row>

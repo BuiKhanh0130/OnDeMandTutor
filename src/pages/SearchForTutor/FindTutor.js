@@ -97,8 +97,8 @@ function FindTutor() {
         try {
             const response = await request.get(`${TUTOR_URL}`, { params });
 
-            setTutors(response.data);
-            console.log(response.data);
+            setTutors(response.data.listResult);
+            console.log(response.data.listResult);
         } catch (error) {
             console.log(error.message);
         }
