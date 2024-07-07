@@ -32,6 +32,8 @@ import Notification from '~/pages/Notification';
 import BecomeStudent2 from '~/pages/BecomeStudent2/BecomStudent2';
 import MainDash from '~/layouts/Moderator/components/MainDash';
 import Moderator from '~/layouts/Moderator';
+import Rehearsal from '~/layouts/Moderator/components/Rehearsal';
+import SendEmail from '~/layouts/Moderator/components/Rehearsal/SendEmail';
 
 const publicRoutes = [
     { path: config.routes.home, component: Home },
@@ -81,7 +83,8 @@ const privateRoutes = [
     { path: config.routes.unauthorized, component: Unauthorized, layout: null, role: ['Student', 'Tutor', 'Admin'] },
     { path: config.routes.messages, component: Messages, layout: null, role: ['Student', 'Tutor'] },
     { path: config.routes.notification, component: Notification, role: ['Student', 'Tutor'] },
-    { path: config.routes.moderator, component: MainDash, role: ['Moderator'], Layout: Moderator },
+    { path: config.routes.moderator, component: Rehearsal, role: ['Moderator'], layout: Moderator },
+    { path: config.routes.sendEmail, component: SendEmail, role: ['Moderator'], layout: Moderator },
 ];
 
 export { publicRoutes, privateRoutes };

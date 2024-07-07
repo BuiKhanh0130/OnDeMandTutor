@@ -12,7 +12,7 @@ const SidebarTutor = ({ index }) => {
         {
             icon: UilEstate,
             heading: 'Dashboard',
-            link: '/dashboardTutor',
+            link: '/moderator',
         },
         {
             icon: UilClipboardAlt,

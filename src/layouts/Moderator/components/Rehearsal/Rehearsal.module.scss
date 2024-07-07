@@ -1,0 +1,13 @@
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+
+    h1 {
+        margin-bottom: 20px;
+        font-size: 30px;
+        font-weight: bold;
+        // margin-bottom: 20px;
+        text-transform: uppercase;
+    }
+}
