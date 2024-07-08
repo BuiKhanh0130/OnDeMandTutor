@@ -7,7 +7,6 @@ import { Container, Row, Col } from 'react-bootstrap';
 
 import styles from './Cards.module.scss';
 import { useContext, useMemo } from 'react';
-import { NavLink } from 'react-router-dom';
 import Button from '~/components/Button';
 
 const cx = classNames.bind(styles);
@@ -17,14 +16,7 @@ function Cards() {
     const handleSendEmail = () => {
         setSendEmail(true);
     };
-    const cards = useMemo(
-        () => [
-            { tittle: 'Send Email', icon: EmailIcon, function: handleSendEmail },
-            { tittle: 'Ban Account', icon: BanIcon, link: '/' },
-            { tittle: 'Complaints', icon: ComplaintIcon, link: '/' },
-        ],
-        [],
-    );
+
     return (
         <Container className={cx('wrapper')}>
             <Row>
@@ -32,6 +24,18 @@ function Cards() {
                     <Button className={cx('container__card')} onClick={handleSendEmail}>
                         <span>Send Email</span>
                         <EmailIcon className={cx('container__card-icon')} />
+                    </Button>
+                </Col>
+                <Col lg="4">
+                    <Button className={cx('container__card')} onClick={handleSendEmail}>
+                        <span>Change status</span>
+                        <BanIcon className={cx('container__card-icon')} />
+                    </Button>
+                </Col>
+                <Col lg="4">
+                    <Button className={cx('container__card')} onClick={handleSendEmail}>
+                        <span>Complaints</span>
+                        <ComplaintIcon className={cx('container__card-icon')} />
                     </Button>
                 </Col>
             </Row>

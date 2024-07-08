@@ -1,14 +1,24 @@
 import classNames from 'classnames/bind';
 import HeadlessTippy from '@tippyjs/react/headless';
+import { useNavigate } from 'react-router-dom';
 
 import Popper from '~/components/Popper';
 import images from '~/assets/images';
+import { LogoutIcon } from '~/components/Icons';
+import useLogout from '~/hooks/useLogout';
 
 import styles from './NavAvatar.module.scss';
 
 const cx = classNames.bind(styles);
 
 function NavAvatar() {
+    const navigate = useNavigate();
+    const logout = useLogout();
+
+    const signOut = async () => {
+        await logout();
+        navigate('/');
+    };
     return (
         <HeadlessTippy
             interactive
@@ -17,39 +27,23 @@ function NavAvatar() {
             render={(attrs) => (
                 <Popper>
                     <ul className={cx('profile')}>
-                        <li className={cx('dropdown-header')}>
-                            <h6>David</h6>
-                            <span>Web Developer</span>
+                        <li className={cx('profile-item')}>
+                            <i className={cx('bi bi-person')}></i>
+                            <span>My profile</span>
                         </li>
                         <li>
                             <hr className={cx('dropdown-divider')}></hr>
                         </li>
                         <li className={cx('profile-item')}>
-                            <a className={cx('dropdown-item')} href="/">
-                                <i className={cx('bi bi-person')}></i>
-                                <span>My profile</span>
-                            </a>
+                            <i className={cx('bi bi-person')}></i>
+                            <span>My profile</span>
                         </li>
                         <li>
                             <hr className={cx('dropdown-divider')}></hr>
                         </li>
-                        <li className={cx('profile-item')}>
-                            <a className={cx('dropdown-item')} href="/">
-                                <i className={cx('bi bi-person')}></i>
-                                <span>My profile</span>
-                            </a>
-                        </li>
-                        <li>
-                            <hr className={cx('dropdown-divider')}></hr>
-                        </li>
-                        <li className={cx('profile-item')}>
-                            <a className={cx('dropdown-item')} href="/">
-                                <i className={cx('bi bi-person')}></i>
-                                <span>My profile</span>
-                            </a>
-                        </li>
-                        <li>
-                            <hr className={cx('dropdown-divider')}></hr>
+                        <li className={cx('profile-item')} onClick={signOut}>
+                            <LogoutIcon className={cx('logout-item')} />
+                            <span>Log out</span>
                         </li>
                     </ul>
                 </Popper>
