@@ -80,3 +80,22 @@
     font-size: 20px;
     text-align: center;
 }
+
+.container__mess_header{
+    width: 755px;
+    .class_name{
+        text-align: center;
+        font-size: 20px;
+        font-weight: bold;
+    }
+
+    .class_header{
+        span{
+            margin-left: 10px;
+            margin-top: 5px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+    }
+
+}

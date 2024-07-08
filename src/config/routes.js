@@ -11,6 +11,7 @@ const routes = {
     advertisement: '/advertisement',
     onlineTutoring: '/onlineTutoring',
     account: '/:account/:role/:accountName',
+    tutorDetail: '/:tutorId',
     registrationTutor1: '/registration/tutor/step1',
     registrationTutor2: '/registration/tutor/step2',
     registrationStudent1: '/registration/student/step1',
