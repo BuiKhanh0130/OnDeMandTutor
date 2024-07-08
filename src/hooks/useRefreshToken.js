@@ -14,17 +14,15 @@ const useRefreshToken = () => {
         setUserId(userId);
         setAvatar({ avatar, fullName });
 
+        console.log();
+
         try {
-            const response = await requests.post(
-                'auth/refresh-token',
-                JSON.stringify({ refreshToken: refreshToken, userId: userId }),
-                {
-                    headers: { 'Content-Type': 'application/json' },
-                    withCredentials: true,
-                },
-            );
+            const response = await requests.post('auth/refresh-token', JSON.stringify({ refreshToken, userId }), {
+                headers: { 'Content-Type': 'application/json' },
+                withCredentials: true,
+            });
+            sessionStorage.setItem('accessToken', JSON.stringify(response?.data));
             setAuth((prev) => {
-                sessionStorage.setItem('accessToken', JSON.stringify(response?.data));
                 return { ...prev, role: jwtDecode(response?.data?.token).UserRole, accessToken: response?.data };
             });
             return response.data.token;

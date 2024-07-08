@@ -26,8 +26,6 @@ function User({ children }) {
     return (
         <HeadlessTippy
             interactive={true}
-            // visible={true}
-            // offset={[0, 0]}
             appendTo={() => document.body}
             placement="bottom"
             render={(attrs) => (
