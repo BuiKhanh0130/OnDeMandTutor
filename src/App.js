@@ -8,100 +8,78 @@ import { DefaultLayout } from './layouts/DefaultLayout';
 import { ModalContext } from './components/ModalProvider';
 import PersistLogin from './components/Login/components/PersistLogin';
 import RequireAuth from './pages/RequireAuth/RequireAuth';
-
-// Configure Firebase.
+import Moderator from './layouts/Moderator';
 
 function App() {
-    const { handleUser, auth } = useContext(ModalContext);
-
-    const accessToken = localStorage.getItem('accessToken');
-
-    if (accessToken) handleUser();
-
-    // useEffect(() => {
-    //     const unregisterAuthObserver = firebase.auth().onAuthStateChanged(async (user) => {
-    //         if (!user) {
-    //             // user logs out, handle something here
-    //             console.log('User is not logged in');
-    //             return;
-    //         }
-
-    //         console.log('Logged in user: ', user.displayName);
-    //         const token = await user.getIdToken();
-    //         console.log('Logged in user token: ', token);
-    //     });
-
-    //     return () => unregisterAuthObserver();
-    // }, []);
-
+    const { auth } = useContext(ModalContext);
+    const accessToken = sessionStorage.getItem('accessToken');
     return (
         <Router>
-            <div>
-                <Routes>
-                    {accessToken
-                        ? privateRoutes.map((route, index) => {
-                              let Page = route.component;
+            <Routes>
+                {accessToken
+                    ? privateRoutes.map((route, index) => {
+                          let Page = route.component;
 
-                              let Layout = DefaultLayout;
-                              
-                              const role = route.role;
-                              
+                          let Layout = DefaultLayout;
 
-                              if (auth?.role === 'Tutor') {
-                                  Layout = Tutor;
-                              } else if (auth?.role === 'Admin') {
-                                  Layout = Admin;
-                              }
+                          const role = route.role;
 
-                              if (route.layout) {
-                                  Layout = route.layout;
-                              } else if (route.layout === null) {
-                                  Layout = Fragment;
-                              }
+                          if (auth?.role === 'Tutor') {
+                              Layout = Tutor;
+                          } else if (auth?.role === 'Admin') {
+                              Layout = Admin;
+                          } else if (auth?.role === 'Moderator') {
+                              Layout = Moderator;
+                          }
 
-                              return (
-                                  <Route element={<PersistLogin />}>
-                                      <Route element={<RequireAuth reAuth allowedRoles={role} />}>
-                                          <Route
-                                              exact
-                                              key={index}
-                                              path={route.path}
-                                              element={
-                                                  <Layout>
-                                                      <Page></Page>
-                                                  </Layout>
-                                              }
-                                          ></Route>
-                                      </Route>
+                          if (route.layout) {
+                              Layout = route.layout;
+                          } else if (route.layout === null) {
+                              Layout = Fragment;
+                          }
+
+                          return (
+                              <Route key={index} element={<PersistLogin />}>
+                                  <Route element={<RequireAuth reAuth allowedRoles={role} />}>
+                                      <Route
+                                          exact
+                                          key={index}
+                                          path={route.path}
+                                          element={
+                                              <Layout>
+                                                  <Page></Page>
+                                              </Layout>
+                                          }
+                                      ></Route>
                                   </Route>
-                              );
-                          })
-                        : publicRoutes.map((route, index) => {
-                              let Page = route.component;
+                              </Route>
+                          );
+                      })
+                    : publicRoutes.map((route, index) => {
+                          let Page = route.component;
 
-                              let Layout = DefaultLayout;
+                          let Layout = DefaultLayout;
 
-                              if (route.layout) {
-                                  Layout = route.layout;
-                              } else if (route.layout === null) {
-                                  Layout = Fragment;
-                              }
+                          if (route.layout) {
+                              Layout = route.layout;
+                          } else if (route.layout === null) {
+                              Layout = Fragment;
+                          }
 
-                              return (
-                                  <Route
-                                      exact
-                                      key={index}
-                                      path={route.path}
-                                      element={
-                                          <Layout>
-                                              <Page></Page>
-                                          </Layout>
-                                      }
-                                  ></Route>
-                              );
-                          })}
-                </Routes>
-            </div>
+                          return (
+                              <Route
+                                  exact
+                                  key={index}
+                                  path={route.path}
+                                  element={
+                                      <Layout>
+                                          <Page></Page>
+                                      </Layout>
+                                  }
+                              ></Route>
+                          );
+                      })}
+            </Routes>
         </Router>
     );
 }

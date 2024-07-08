@@ -12,10 +12,9 @@ import Image from '~/components/Image';
 import images from '~/assets/images';
 import Button from '~/components/Button';
 import { StarIcon } from '~/components/Icons';
-import useRequestsPrivate from '~/hook/useRequestPrivate';
 import request from '~/utils/request';
 
-import Paging from '~/components/Paging'
+import Paging from '~/components/Paging';
 
 import styles from './FindTutor.module.scss';
 
@@ -25,7 +24,6 @@ const GRADE_URL = 'Grade';
 const TUTOR_URL = 'Tutors';
 
 function FindTutor() {
-
     const [searchValue, setSearchValue] = useState('');
     const [minValueRate, setMinValueRate] = useState();
     const [maxValueRate, setMaxValueRate] = useState();
@@ -71,42 +69,38 @@ function FindTutor() {
                 break;
         }
     };
-            const params = {
-                Search: searchValue,
-                MaxRate: maxValueRate,
-                MinRate: minValueRate,
-                GradeId: grade,
-                Gender: gender,
-                TypeOfDegree: typeOfDegree,
-                pageIndex: curPage,
-                SortContent: {
-                sortTutorBy: sort.title,
-                sortTutorType: sort.sort
-                }
-            };
+    const params = {
+        Search: searchValue,
+        MaxRate: maxValueRate,
+        MinRate: minValueRate,
+        GradeId: grade,
+        Gender: gender,
+        TypeOfDegree: typeOfDegree,
+        pageIndex: curPage,
+        SortContent: {
+            sortTutorBy: sort.title,
+            sortTutorType: sort.sort,
+        },
+    };
 
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+        handleChange();
+    };
 
-            const handleSubmit = async (event) => {
-                event.preventDefault()
-                handleChange();
+    const handleChange = async () => {
+        try {
+            const response = await request.get(`${TUTOR_URL}`, { params });
+
+            setTutors(response.data);
+        } catch (error) {
+            console.log(error.message);
         }
+    };
 
-            const handleChange = async () => {
-            try {              
-                    const response = await request.get(`${TUTOR_URL}`, { params });
-
-                    setTutors(response.data);
-                }
-            catch (error) {
-                console.log(error.message);
-            }
-        }
-
-        useEffect(() => {
-
-            handleChange();
-
-        }, [maxValueRate, minValueRate, grade, gender, typeOfDegree, sort, curPage]);
+    useEffect(() => {
+        handleChange();
+    }, [maxValueRate, minValueRate, grade, gender, typeOfDegree, sort, curPage]);
 
     // const dayOfWeek = useMemo(() => ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'], []);
 
@@ -178,7 +172,11 @@ function FindTutor() {
                             <label htmlFor="levels" className={cx('sidebar__items-role-label')}>
                                 Type Of Degree
                             </label>
-                            <select id="levels" className={cx('sidebar__items-role-level')} onChange={e => setTypeOfDegree(e.target.value)}>
+                            <select
+                                id="levels"
+                                className={cx('sidebar__items-role-level')}
+                                onChange={(e) => setTypeOfDegree(e.target.value)}
+                            >
                                 <option value="College">College</option>
                                 <option value="Associate Degree">Associate Degree</option>
                                 <option value="Bachelors Degree">Bachelors Degree</option>
@@ -313,10 +311,7 @@ function FindTutor() {
                                 );
                             })}
 
-                                <Paging 
-                                pagination={pagination}
-                                curPage={curPage}
-                                setcurPage={setcurPage} />
+                        <Paging pagination={pagination} curPage={curPage} setcurPage={setcurPage} />
                     </Row>
                 </Col>
             </Row>

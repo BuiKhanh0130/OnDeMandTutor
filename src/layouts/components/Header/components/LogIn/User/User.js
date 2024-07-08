@@ -2,9 +2,11 @@ import classNames from 'classnames/bind';
 import HeadlessTippy from '@tippyjs/react/headless';
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
+import { useContext } from 'react';
 
-import useLogout from '~/hook/useLogout';
+import useLogout from '~/hooks/useLogout';
 import Popper from '~/components/Popper';
+import { ModalContext } from '~/components/ModalProvider';
 
 import styles from './User.module.scss';
 
@@ -13,11 +15,13 @@ const cx = classNames.bind(styles);
 function User({ children }) {
     const logout = useLogout();
     const navigate = useNavigate();
+    const { avatar } = useContext(ModalContext);
 
     const signOut = async () => {
         await logout();
         navigate('/');
     };
+
     return (
         <HeadlessTippy
             interactive={true}
@@ -31,7 +35,7 @@ function User({ children }) {
                         <div className={cx('container')}>
                             <ul className={cx('container__list')}>
                                 <li>
-                                    <Link to="/@NT">My profile</Link>
+                                    <Link to={`/student/${avatar.fullName}`}>My profile</Link>
                                 </li>
                                 <li>
                                     <Link to="/transaction/history">Transaction history</Link>

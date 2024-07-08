@@ -84,8 +84,6 @@
         border-radius: 50%;
     }
 }
-.greatTutorPanel__container-subjects-right {
-}
 
 .greatTutorPanel__container-subjects-right-label {
     font-size: 1.4rem;
@@ -96,6 +94,12 @@
     font-size: 1.2rem;
     line-height: 1.6rem;
     color: #6b6c6e;
+    height: 98px;
+    overflow: hidden;
+    display: -webkit-box; /* Sử dụng bố cục hộp linh hoạt */
+    -webkit-line-clamp: 6; /* Giới hạn số dòng hiển thị tối đa */
+    -webkit-box-orient: vertical; /* Định hướng nội dung theo chiều đứng */
+    text-overflow: ellipsis;
 }
 
 .greatTutorPanel__container-subjects-right-level {

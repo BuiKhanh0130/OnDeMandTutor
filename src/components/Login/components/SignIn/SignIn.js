@@ -3,33 +3,22 @@ import { jwtDecode } from 'jwt-decode';
 import { Fragment, useContext, useEffect, useRef, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
-import { doc, setDoc } from 'firebase/firestore';
-import { auth, db } from '~/firebase/firebase';
-
-// import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
+import { auth as Auth } from '~/firebase/firebase';
 
 import Button from '~/components/Button';
 import { ModalContext } from '~/components/ModalProvider';
 import config from '~/config';
 import request from '~/utils/request';
-import useInput from '~/hook/useInput';
-// import useToggle from '~/hook/useToggle';
+import useInput from '~/hooks/useInput';
 
 import styles from './SignIn.module.scss';
 
 const LOGIN_URL = 'auth/signIn';
 
-// const uiConfig = {
-//     signInFlow: 'redirect',
-//     signInSuccessUrl: '/',
-//     signInOptions: [firebase.auth.GoogleAuthProvider.PROVIDER_ID],
-// };
-
 const cx = classNames.bind(styles);
 
 function SignIn({ item, onChangeUsername, onChangePassword }) {
-    const { auth, setAuth, setActive, handleUser } = useContext(ModalContext);
-
+    const { setAuth, setActive, handleUser, setUserId, setAvatar } = useContext(ModalContext);
     const navigate = useNavigate();
     const location = useLocation();
     const from = location.state?.from?.pathname || '/';
@@ -37,24 +26,19 @@ function SignIn({ item, onChangeUsername, onChangePassword }) {
     const userRef = useRef();
     const errRef = useRef();
 
-    const [userName, resetUser, userAttribs] = useInput('user', ''); //useState('');
+    const [userName, resetUser, userAttribs] = useInput('user', '');
     const [password, setPassword] = useState('');
     const [errMsg, setErrMsg] = useState('');
-    // const [check, toggleCheck] = useToggle('persist', false);
 
     useEffect(() => {
         userRef.current.focus();
     }, []);
 
-    // const handleUsername = (e) => {
-    //     setUsername(e.target.value);
-    // };
-
     const handlePassword = (e) => {
         setPassword(e.target.value);
     };
 
-    //handle login
+    //handle login userName and password
     const handleSubmit = async (e) => {
         e.preventDefault();
 
@@ -62,24 +46,25 @@ function SignIn({ item, onChangeUsername, onChangePassword }) {
             const response = await request.post(LOGIN_URL, JSON.stringify({ userName, password }), {
                 headers: { 'Content-Type': 'application/json' },
                 withCredentials: true,
-            }); 
+            });
             const accessToken = response?.data?.token;
-            console.log(accessToken.token);
             const user = jwtDecode(accessToken);
-            const role = user.UserRole
-            // console.log(user);
-            setAuth({ userName, role, accessToken});
-            //set for next login
-            //setUsername('');
+            const role = user.UserRole;
+            const userID = user.UserId;
+            const avatar = user.Avatar;
+            const fullName = user.FullName;
+            setUserId(userID);
+            setAuth({ userName, role, accessToken });
+            setAvatar({ avatar, fullName });
+            //reset user
             resetUser();
-            setPassword('');
-            localStorage.setItem('loginMethod', 'account');
-            localStorage.setItem('accessToken', JSON.stringify(response?.data));
-            localStorage.setItem('role', JSON.stringify(role));
-            localStorage.setItem('token', JSON.stringify(accessToken));
+            sessionStorage.setItem('accessToken', JSON.stringify(response?.data));
             setActive(false);
             handleUser();
-            navigate(from, { replace: true });
+
+            if (role === 'Moderator') {
+                navigate('/moderator');
+            }
         } catch (err) {
             if (!err?.response) {
                 setErrMsg('No Server Response');
@@ -97,20 +82,24 @@ function SignIn({ item, onChangeUsername, onChangePassword }) {
     //handle login with google
     const signInWithGoogle = () => {
         const provider = new GoogleAuthProvider();
-        signInWithPopup(auth, provider).then(async (result) => {
-            const user = result.user;
-            if (result.user) {
-                localStorage.setItem('loginMethod', 'google');
-                setAuth({ userName, role: 'Student', accessToken: user.accessToken });
-                localStorage.setItem('accessToken', user.accessToken);
+        signInWithPopup(Auth, provider).then(async (result) => {
+            try {
+                const response = await request.post('auth/signInWithGoogle', JSON.stringify(result.user.email), {
+                    headers: { 'Content-Type': 'application/json' },
+                    withCredentials: true,
+                });
+                const accessToken = response?.data?.token;
+                const user = jwtDecode(accessToken);
+                const role = user.UserRole;
+                setAuth({ userName, role, accessToken });
+                //reset user
+                resetUser();
+                localStorage.setItem('accessToken', JSON.stringify(response?.data));
                 setActive(false);
                 handleUser();
                 navigate(from, { replace: true });
-                await setDoc(doc(db, 'Users', user.uid), {
-                    email: user.email,
-                    firstName: user.displayName,
-                    photo: user.photoURL,
-                });
+            } catch (error) {
+                console.log(error.message);
             }
         });
     };
@@ -161,7 +150,6 @@ function SignIn({ item, onChangeUsername, onChangePassword }) {
                         <img src={signIn.image} alt={signIn.label}></img>
                         <span>{signIn.label}</span>
                     </Button>
-                    {/* <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={firebase.auth()} /> */}
                     <div className={cx('login-license')}>
                         <p className={cx('login-license-content')}>
                             By continuing with an account located in Vietnam, you agree to our Terms of

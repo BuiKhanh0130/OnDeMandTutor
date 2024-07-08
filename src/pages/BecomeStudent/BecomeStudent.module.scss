@@ -90,33 +90,27 @@
 
 .form_row-radio {
     display: flex;
-    align-items: center;
+    width: 100%;
+    align-items: start;
     flex-direction: column;
-    width: 50%;
 
     p {
         font-size: 1.4rem;
-        margin-left: -32px;
+        font-weight: 700;
     }
 
     .form_row-radio-content {
         display: flex;
         align-items: center;
-        justify-content: center;
         width: 100%;
-        margin-top: 10px;
-        padding: 10px;
         font: inherit;
-        height: 44px;
+
         -webkit-appearance: none;
 
         label {
             margin-left: 6px;
             font-size: 1.4rem;
-        }
-
-        input {
-            margin-left: 40px;
+            margin-right: 10px;
         }
     }
 }

@@ -10,6 +10,8 @@ import Button from '~/components/Button';
 
 import styles from './BecomeStudent.module.scss';
 
+const IMGBB = 'https://api.imgbb.com/1/upload?key=9c7d176f8c72a29fa6384fbb49cff7bc';
+
 const cx = classNames.bind(styles);
 
 const USER_REGEX = /^[a-zA-Z][a-zA-z0-9-_]{3,23}$/;
@@ -22,6 +24,9 @@ const REGISTER_URL = '/auth/signUp';
 function BecomeStudent() {
     const context = useContext(ModalContext);
     const navigate = useNavigate();
+    let file = '';
+
+    const [avatar, setAvatar] = useState('');
 
     const userRef = useRef();
     const errRef = useRef();
@@ -37,10 +42,6 @@ function BecomeStudent() {
     const [matchPwd, setMatchPwd] = useState();
     const [validMatch, setValidMatch] = useState(false);
     const [matchFocus, setMatchFocus] = useState(false);
-
-    // const [cardId, setCardId] = useState('');
-    // const [validCardID, setValidCardId] = useState(false);
-    // const [cardFocus, setCardFocus] = useState(false);
 
     const [fullName, setFullName] = useState('');
     const [validFullName, setValidFullName] = useState(false);
@@ -74,11 +75,6 @@ function BecomeStudent() {
         setValidMatch(match);
     }, [pwd, matchPwd]);
 
-    // useEffect(() => {
-    //     const result = CARD_REGEX.test(cardId);
-    //     setValidCardId(result);
-    // }, [cardId]);
-
     useEffect(() => {
         const result = GMAIL_REGEX.test(gmail);
         setValidGmail(result);
@@ -101,12 +97,13 @@ function BecomeStudent() {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
+        const form = new FormData();
+
         const v1 = USER_REGEX.test(user);
         const v2 = PWD_REGEX.test(pwd);
         const v3 = GMAIL_REGEX.test(gmail);
         const v4 = PHONE_REGEX.test(phone);
         const v5 = FULLNAME_REGEX.test(fullName);
-        // const v3 = CARD_REGEX.test(cardId);
 
         if (!v1 || !v2 || !v3 || !v4 || !v5) {
             setErrMsg('Invalid entry');
@@ -114,17 +111,29 @@ function BecomeStudent() {
         }
 
         try {
+            form.append('image', avatar);
+            const response = await requests.post(IMGBB, form);
+            console.log(response?.data);
+            if (response.status === 200) {
+                file = response?.data?.data?.display_url;
+            }
+        } catch (error) {
+            console.log(error);
+        }
+
+        try {
             const response = await requests.post(
                 REGISTER_URL,
                 JSON.stringify({
-                    fullName: fullName,
+                    fullName,
                     email: gmail,
                     userName: user,
                     password: pwd,
                     phoneNumber: phone,
-                    gender: gender,
+                    gender,
                     isActive: 1,
-                    isAdmin: true,
+                    isAdmin: false,
+                    avatar: file,
                 }),
                 {
                     headers: { 'Content-Type': 'application/json' },
@@ -132,7 +141,7 @@ function BecomeStudent() {
                 },
             );
             context.setUserId(response?.data.userId);
-            navigate('/registration/tutor/step2');
+            navigate('/registration/student/step2');
         } catch (error) {
             if (!error?.response) {
                 setErrMsg('No server response');
@@ -146,14 +155,6 @@ function BecomeStudent() {
 
     return (
         <div className={cx('wrapper')}>
-            {/* {
-                <section>
-                    <h1>Success</h1>
-                    <p>
-                        <a href="/">Sign in</a>
-                    </p>
-                </section>
-            } */}
             <div className={cx('container')}>
                 <div className={cx('title')}>Register</div>
                 <div className={cx('currentForm')}>
@@ -433,28 +434,6 @@ function BecomeStudent() {
                             </p>
                         </div>
 
-                        {/* <div className={cx('form_row')}>
-                            <label htmlFor="txtEducation">Education</label>
-                            <input
-                                type="text"
-                                id="txtEducation"
-                                name="txtEducation"
-                                className={cx('txtEducation')}
-                                placeholder="Graduate FPT University"
-                            ></input>
-                        </div> */}
-
-                        {/* <div className={cx('form_row')}>
-                            <label htmlFor="txtAddress">Address</label>
-                            <input
-                                type="text"
-                                id="txtAddress"
-                                name="txtAddress"
-                                className={cx('txtAddress')}
-                                placeholder="Lô E2a-7, Đường D1, Đ. D1, Long Thạnh Mỹ, Thành Phố Thủ Đức, Thành phố Hồ Chí Minh 700000"
-                            ></input>
-                        </div> */}
-
                         <div className={cx('form_row-radio')}>
                             <p>Gender</p>
                             <div className={cx('form_row-radio-content')}>
@@ -481,6 +460,16 @@ function BecomeStudent() {
                                 ></input>
                                 <label htmlFor="lady">Girl</label>
                             </div>
+                        </div>
+
+                        <div className={cx('form_row')}>
+                            <label htmlFor="myfile">Photo Certificate</label>
+                            <input
+                                type="file"
+                                id="myfile"
+                                name="myfile"
+                                onChange={(e) => setAvatar(e.target.files[0])}
+                            />
                         </div>
                         <Button className={cx('submit')}>Next</Button>
                     </form>

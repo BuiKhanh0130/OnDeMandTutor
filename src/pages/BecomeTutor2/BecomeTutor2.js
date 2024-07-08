@@ -21,9 +21,9 @@ function BecomeTutor2() {
     const context = useContext(ModalContext);
     const navigate = useNavigate();
     const errRef = useRef();
+    let file = '';
 
     const [image, setImage] = useState(null);
-    const [file, setFile] = useState('');
     const [date, setDate] = useState('');
 
     const [cardId, setCardId] = useState('');
@@ -45,8 +45,6 @@ function BecomeTutor2() {
     const [address, setAddress] = useState('');
     const [addressFocus, setAddressFocus] = useState(false);
 
-    const [selectedFile, setSelectedFile] = useState(null);
-
     const [errMsg, setErrMsg] = useState();
 
     useEffect(() => {
@@ -60,10 +58,8 @@ function BecomeTutor2() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-
         const v = CARD_REGEX.test(cardId);
         const form = new FormData();
-
         if (!v) {
             setErrMsg('Invalid entry');
             return;
@@ -71,51 +67,48 @@ function BecomeTutor2() {
         try {
             form.append('image', image);
             const response = await requests.post(IMGBB, form);
-            console.log(response?.data?.data?.display_url);
             if (response.status === 200) {
-                setFile(response?.data?.data?.display_url);
+                file = response?.data?.data?.display_url;
+            }
+
+            try {
+                const response = await requests.post(
+                    REGISTER_URL,
+                    JSON.stringify({
+                        dob: date,
+                        education: education,
+                        typeOfDegree: typeOfDegree,
+                        cardId: cardId,
+                        hourlyRate: 0,
+                        photo: file,
+                        headline: headline,
+                        description: description,
+                        address: address,
+                        isActive: true,
+                        accountId: context.userId,
+                    }),
+                    {
+                        headers: { 'Content-Type': 'application/json' },
+                        withCredentials: true,
+                    },
+                );
+                context.setUserId('');
+                console.log(response.status);
+                if (response.status === 200) {
+                    context.setActive(true);
+                    navigate('/');
+                }
+            } catch (error) {
+                if (!error?.response) {
+                    setErrMsg('No server response');
+                } else if (error?.response?.status === 490) {
+                    setErrMsg('Username Taken');
+                } else {
+                    setErrMsg('Registration Failed');
+                }
             }
         } catch (error) {
             console.log(error);
-        }
-
-        try {
-            console.log(file);
-            const response = await requests.post(
-                REGISTER_URL,
-                JSON.stringify({
-                    dob: date,
-                    education: education,
-                    typeOfDegree: typeOfDegree,
-                    cardId: cardId,
-                    hourlyRate: 0,
-                    photo: file,
-                    headline: headline,
-                    description: description,
-                    address: address,
-                    isActive: true,
-                    accountId: context.userId,
-                }),
-                {
-                    headers: { 'Content-Type': 'application/json' },
-                    withCredentials: true,
-                },
-            );
-            context.setUserId('');
-            console.log(response?.data);
-            console.log(response.status);
-            if (response.status === 200) {
-                context.setActive(true);
-                navigate('/');
-            }
-        } catch (error) {
-            if (!error?.response) {
-                setErrMsg('No server response');
-            } else if (error?.response?.status === 490) {
-                setErrMsg('Username Taken');
-            } else {
-                setErrMsg('Registration Failed');
-            }
         }
     };
 
@@ -315,7 +308,7 @@ function BecomeTutor2() {
                         </div>
 
                         <div className={cx('form_row')}>
-                            <label for="myfile">Photo Certificate</label>
+                            <label htmlFor="myfile">Avatar</label>
                             <input
                                 type="file"
                                 id="myfile"

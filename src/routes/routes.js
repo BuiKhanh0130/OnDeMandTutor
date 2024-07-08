@@ -3,7 +3,8 @@ import config from '~/config';
 import Home from '~/pages/Home';
 import Blog from '~/pages/Blog';
 import Tutor from '~/pages/Tutor';
-import Student from '~/pages/StudentProfile';
+import StudentProfile from '~/pages/Profile/StudentProfile';
+import TutorProfile from '~/pages/Profile/TutorProfile';
 import AboutUs from '~/pages/AboutUs';
 import Payment from '~/pages/Pay';
 import History from '~/pages/History';
@@ -26,17 +27,19 @@ import BecomeStudent from '~/pages/BecomeStudent';
 import LearnMore from '~/pages/LearnMore';
 import TipSuccess from '~/pages/TipSuccess';
 import Unauthorized from '~/pages/Unauthorized';
-import HeaderNotSideBar from '~/layouts/components/HeaderNotSideBar';
 import Messages from '~/pages/Messages';
 import Notification from '~/pages/Notification';
-
+import BecomeStudent2 from '~/pages/BecomeStudent2/BecomStudent2';
+import MainDash from '~/layouts/Moderator/components/MainDash';
+import Moderator from '~/layouts/Moderator';
+import Rehearsal from '~/layouts/Moderator/components/Rehearsal';
 
 const publicRoutes = [
     { path: config.routes.home, component: Home },
     { path: config.routes.registrationTutor1, component: BecomeTutor, layout: Registration },
     { path: config.routes.registrationTutor2, component: BecomeTutor2, layout: Registration },
     { path: config.routes.registrationStudent1, component: BecomeStudent, layout: Registration },
-    { path: config.routes.registrationStudent2, component: BecomeStudent, layout: Registration },
+    { path: config.routes.registrationStudent2, component: BecomeStudent2, layout: Registration },
     { path: config.routes.findTutor, component: FindTutor },
     { path: config.routes.account, component: Tutor },
     { path: config.routes.onlineTutoring, component: OnlineTutoring },
@@ -45,7 +48,6 @@ const publicRoutes = [
     { path: config.routes.blog, component: Blog },
     { path: config.routes.advertisement, component: Advertisement },
     { path: config.routes.howItWork, component: HowItWork },
-    { path: config.routes.accountStudent, component: Student, layout: HeaderOnly },
     { path: config.routes.aboutUs, component: AboutUs },
     { path: config.routes.learnMore, component: LearnMore },
     { path: config.routes.tipSuccess, component: TipSuccess },
@@ -53,8 +55,8 @@ const publicRoutes = [
 ];
 
 const privateRoutes = [
-    { path: config.routes.home, component: Home, role: ['Student', 'Tutor'] },
-    { path: config.routes.main, component: Main, role: ['Tutor'] },
+    { path: config.routes.home, component: Home, role: ['Student', 'Tutor', 'Moderator'] },
+    { path: config.routes.main, component: Main, role: ['Admin'] },
     { path: config.routes.registrationTutor1, component: BecomeTutor, layout: Registration, role: ['Student'] },
     { path: config.routes.registrationTutor2, component: BecomeTutor2, layout: Registration, role: ['Student'] },
     { path: config.routes.findTutor, component: FindTutor, role: ['Student'] },
@@ -62,13 +64,13 @@ const privateRoutes = [
     { path: config.routes.account, component: Tutor, role: ['Tutor', 'Admin', 'Student'] },
     { path: config.routes.requestTutor, component: RequestTutor, role: ['Student'] },
     { path: config.routes.onlineTutoring, component: OnlineTutoring, role: ['Student', 'Admin'] },
-    { path: config.routes.forStudent, component: ForStudent, role: ['Student'] },
-    { path: config.routes.customerSay, component: CustomerSay, role: ['Student', 'Admin'] },
+    { path: config.routes.forStudent, component: ForStudent, role: ['Student', 'Tutor'] },
+    { path: config.routes.customerSay, component: CustomerSay, role: ['Student', 'Tutor'] },
     { path: config.routes.blog, component: Blog, role: ['Student', 'Tutor'] },
-    { path: config.routes.forStudent, component: ForStudent, role: ['Student'] },
     { path: config.routes.advertisement, component: Advertisement, role: ['Tutor, Student'] },
     { path: config.routes.howItWork, component: HowItWork, role: ['Student', 'Tutor'] },
-    { path: config.routes.accountStudent, component: Student, layout: HeaderOnly, role: ['Student'] },
+    { path: config.routes.profileStudent, component: StudentProfile, layout: HeaderOnly, role: ['Student'] },
+    { path: config.routes.profileTutor, component: TutorProfile, layout: HeaderOnly, role: ['Tutor'] },
     { path: config.routes.aboutUs, component: AboutUs, role: ['Student', 'Tutor'] },
     { path: config.routes.learnMore, component: LearnMore, role: ['Student', 'Tutor'] },
     { path: config.routes.transaction, component: Transaction, role: ['Student'] },
@@ -78,8 +80,10 @@ const privateRoutes = [
     { path: config.routes.dashboardTutor, component: DashboardTutor, role: ['Tutor'] },
     { path: config.routes.feedbackHistory, component: FeedbackHistory, role: ['Tutor', 'Student'] },
     { path: config.routes.unauthorized, component: Unauthorized, layout: null, role: ['Student', 'Tutor', 'Admin'] },
-    { path: config.routes.messages, component: Messages, role: ['Student', 'Tutor'] },
+    { path: config.routes.messages, component: Messages, layout: null, role: ['Student', 'Tutor'] },
     { path: config.routes.notification, component: Notification, role: ['Student', 'Tutor'] },
+    { path: config.routes.moderator, component: Rehearsal, role: ['Moderator'], layout: Moderator },
+    { path: config.routes.modeClass, component: MainDash, role: ['Moderator'], layout: Moderator },
 ];
 
 export { publicRoutes, privateRoutes };
