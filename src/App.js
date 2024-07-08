@@ -8,6 +8,7 @@ import { DefaultLayout } from './layouts/DefaultLayout';
 import { ModalContext } from './components/ModalProvider';
 import PersistLogin from './components/Login/components/PersistLogin';
 import RequireAuth from './pages/RequireAuth/RequireAuth';
+import Moderator from './layouts/Moderator';
 
 function App() {
     const { auth } = useContext(ModalContext);
@@ -27,6 +28,8 @@ function App() {
                               Layout = Tutor;
                           } else if (auth?.role === 'Admin') {
                               Layout = Admin;
+                          } else if (auth?.role === 'Moderator') {
+                              Layout = Moderator;
                           }
 
                           if (route.layout) {

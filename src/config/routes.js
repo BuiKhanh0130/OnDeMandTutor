@@ -26,6 +26,8 @@ const routes = {
     unauthorized: '/unauthorized',
     messages: '/messages',
     notification: '/notifications',
+    moderator: '/moderator',
+    modeClass: '/moderator/maindash',
     classes: '/classes',
 };
 
