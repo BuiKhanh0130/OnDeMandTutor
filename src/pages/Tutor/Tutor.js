@@ -11,7 +11,7 @@ import Image from '~/components/Image';
 import { StarIcon } from '~/components/Icons';
 import Button from '~/components/Button';
 import useRequestsPrivate from '~/hooks/useRequestPrivate';
-
+import { Link } from 'react-router-dom';
 import styles from './Tutor.module.scss';
 import Clip from '../Advertisement/components/Video/Clip';
 
@@ -27,6 +27,10 @@ function Tutor() {
     const { state } = useLocation();
 
     console.log(`${FEEDBACKTUTOR}${state.key}`);
+
+    useEffect(() => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }, []);
 
     useEffect(() => {
         let isMounted = true;
@@ -92,7 +96,13 @@ function Tutor() {
                             </div>
                             <div className={cx('container__tag-connect')}>
                                 <strong>Hourly Rate: ${userDetails?.hourlyRate}</strong>
-                                <Button orange>Contact {userDetails?.fullName}</Button>
+                                <Button orange>
+                                    <Link to={`/requestForm`}
+                                        state={{ key: state.key }}
+                                    >
+                                        Contact {userDetails?.fullName}
+                                    </Link>
+                                </Button>
                                 <span className={cx('container__tag-connect-respond')}>
                                     Respond time: <strong>7 minutes minutes</strong>
                                 </span>

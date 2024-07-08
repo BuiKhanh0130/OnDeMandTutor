@@ -29,6 +29,7 @@ const Classes = () => {
                 console.log(response.data);
                 console.log(`${response.data[0].classCalenders[0].timeStart}h-${response.data[0].classCalenders[0].timeEnd}h`);
                 setHour(`${response.data[0].classCalenders[0].timeStart}h - ${response.data[0].classCalenders[0].timeEnd}h`)
+
                 console.log(response.data);
             } catch (error) {
                 console.log(error);

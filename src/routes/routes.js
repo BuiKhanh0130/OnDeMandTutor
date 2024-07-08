@@ -34,6 +34,7 @@ import MainDash from '~/layouts/Moderator/components/MainDash';
 import Moderator from '~/layouts/Moderator';
 import Rehearsal from '~/layouts/Moderator/components/Rehearsal';
 import Classes from '~/pages/Classes';
+import RequestForm from '~/pages/RequestForm';
 import TutorDetail from '~/pages/TutorDetail';
 
 const publicRoutes = [
@@ -88,6 +89,7 @@ const privateRoutes = [
     { path: config.routes.moderator, component: Rehearsal, role: ['Moderator'], layout: Moderator },
     { path: config.routes.modeClass, component: MainDash, role: ['Moderator'], layout: Moderator },
     { path: config.routes.classes, component: Classes, role: ['Student', 'Tutor'] },
+    { path: config.routes.requestForm, component: RequestForm, role: ['Student'] },
 ];
 
 export { publicRoutes, privateRoutes };

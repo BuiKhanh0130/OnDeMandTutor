@@ -30,6 +30,7 @@ const routes = {
     moderator: '/moderator',
     modeClass: '/moderator/maindash',
     classes: '/classes',
+    requestForm: '/requestForm',
 };
 
 export default routes;
