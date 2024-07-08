@@ -49,6 +49,14 @@ function User({ children }) {
                                         <li>Transaction history</li>
                                     </Link>
 
+                                    <Link to="/classes">
+                                        <li>Your Classes</li>
+                                    </Link>
+                                
+                                    <Link to="/transaction/history">
+                                        <li>Transaction history</li>
+                                    </Link>
+
                                 <li onClick={signOut}>Log out</li>
                             </ul>
                         </div>

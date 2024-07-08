@@ -35,6 +35,7 @@ import Moderator from '~/layouts/Moderator';
 import Rehearsal from '~/layouts/Moderator/components/Rehearsal';
 import Classes from '~/pages/Classes';
 import RequestForm from '~/pages/RequestForm';
+import TutorDetail from '~/pages/TutorDetail';
 
 const publicRoutes = [
     { path: config.routes.home, component: Home },
@@ -64,6 +65,7 @@ const privateRoutes = [
     { path: config.routes.findTutor, component: FindTutor, role: ['Student'] },
     { path: config.routes.requestTutor, component: RequestTutor, role: ['Student'] },
     { path: config.routes.account, component: Tutor, role: ['Tutor', 'Admin', 'Student'] },
+    { path: config.routes.tutorDetail, component: TutorDetail, role: ['Tutor', 'Admin', 'Student'] },
     { path: config.routes.requestTutor, component: RequestTutor, role: ['Student'] },
     { path: config.routes.onlineTutoring, component: OnlineTutoring, role: ['Student', 'Admin'] },
     { path: config.routes.forStudent, component: ForStudent, role: ['Student', 'Tutor'] },
