@@ -126,7 +126,7 @@ const Notification = () => {
             </Row>
             <Row>
                     <Col lg='12' className={cx('container__mess_chatbox')}>
-                    <TableContainer component={Paper} style={{ boxShadow: '0px 13px 20px 0px #80808029' }}>
+                    {/* <TableContainer component={Paper} style={{ boxShadow: '0px 13px 20px 0px #80808029' }}>
                 <Table sx={{ minWidth: 650, minHeight: 200 }} aria-label="simple table">
                     <TableHead>
                         <TableRow>
@@ -153,15 +153,28 @@ const Notification = () => {
                             </TableRow>
                     </TableBody>
                 </Table>
-            </TableContainer>
-                        <Row className={cx('button_confirm')}>
+            </TableContainer> */}
+                        {/* <Row className={cx('button_confirm')}>
                             <div >
                                 <button className={cx("button_cancel")}>Cancel</button>
                             </div>
                             <div >
                                 <button onClick={handlePayment} className={cx("button_accept")}>Accept</button>
                             </div>
-                        </Row>
+                        </Row> */}
+
+                        <span className={cx('header_noti')}>Hello Mrs.Nhi,</span>
+
+                        <div className={cx('body_noti')}>
+                            <p>ThanhPhong has created a new class for you on OnDemand Tutor. The class is called "Math 12" and will be used to teach Math.
+                            </p>
+                            <a href="/classes">Click here</a><span>, complete the formalities to join your class!</span>
+                        </div>
+
+                        <div className={cx('final_noti')}>
+                            <p>Thank you for reading the announcement.</p>
+                            <p>Best regards.</p>
+                        </div>
                     </Col>
             </Row>
            

@@ -33,6 +33,7 @@ import BecomeStudent2 from '~/pages/BecomeStudent2/BecomStudent2';
 import MainDash from '~/layouts/Moderator/components/MainDash';
 import Moderator from '~/layouts/Moderator';
 import Rehearsal from '~/layouts/Moderator/components/Rehearsal';
+import Classes from '~/pages/Classes';
 
 const publicRoutes = [
     { path: config.routes.home, component: Home },
@@ -84,6 +85,7 @@ const privateRoutes = [
     { path: config.routes.notification, component: Notification, role: ['Student', 'Tutor'] },
     { path: config.routes.moderator, component: Rehearsal, role: ['Moderator'], layout: Moderator },
     { path: config.routes.modeClass, component: MainDash, role: ['Moderator'], layout: Moderator },
+    { path: config.routes.classes, component: Classes, role: ['Student', 'Tutor'] },
 ];
 
 export { publicRoutes, privateRoutes };
