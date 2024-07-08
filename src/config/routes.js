@@ -31,6 +31,7 @@ const routes = {
     modeClass: '/moderator/maindash',
     classes: '/classes',
     requestForm: '/requestForm',
+    requestOfTutor: '/requestOfTutor',
 };
 
 export default routes;

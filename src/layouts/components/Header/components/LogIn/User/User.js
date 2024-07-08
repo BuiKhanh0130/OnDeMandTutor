@@ -34,21 +34,11 @@ function User({ children }) {
                     <Popper>
                         <div className={cx('container')}>
                             <ul className={cx('container__list')}>
-                                <li>
-                                    <Link to={`/student/${avatar.fullName}`}>My profile</Link>
-                                </li>
-                                <li>
-                                    <Link to="/transaction/history">Transaction history</Link>
-                                </li>
-                                
-                                    <Link to="/classes">
-                                        <li>Your Classes</li>
-                                    </Link>
-                                
-                                    <Link to="/transaction/history">
-                                        <li>Transaction history</li>
-                                    </Link>
 
+                                    <Link to={`/student/${avatar.fullName}`}>
+                                        <li>My profile</li>
+                                    </Link>
+                                
                                     <Link to="/classes">
                                         <li>Your Classes</li>
                                     </Link>
