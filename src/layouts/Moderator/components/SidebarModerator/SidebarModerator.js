@@ -16,7 +16,8 @@ const SidebarTutor = ({ index }) => {
         },
         {
             icon: UilClipboardAlt,
-            heading: 'Lession',
+            heading: 'Classes',
+            link: '/moderator/maindash',
         },
         {
             icon: UilUsersAlt,

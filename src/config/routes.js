@@ -27,7 +27,7 @@ const routes = {
     messages: '/messages',
     notification: '/notifications',
     moderator: '/moderator',
-    sendEmail: '/moderator/sendEmail',
+    modeClass: '/moderator/maindash',
 };
 
 export default routes;

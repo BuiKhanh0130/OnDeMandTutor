@@ -27,6 +27,16 @@
     padding-left: 0;
 }
 
+.profile-item {
+    padding: 10px 0 10px 10px;
+    span {
+        font-size: 1.6rem;
+    }
+    &:hover {
+        cursor: pointer;
+    }
+}
+
 .dropdown-header {
     display: flex;
     padding-left: 18px;
@@ -64,4 +74,11 @@
 
 .dropdown-divider {
     border: 1px solid #919191;
+    margin: 0;
+}
+
+.logout-item {
+    width: 1.8rem;
+    height: 1.8rem;
+    margin-right: 14px;
 }
