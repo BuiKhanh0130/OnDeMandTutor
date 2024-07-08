@@ -20,7 +20,7 @@ import styles from './Table.module.scss';
 const cx = classNames.bind(styles);
 
 const LIST_TUTOR_INTERN_URL = 'Moderators/ShowListTutorInter';
-const BROWSER_FORM_CREATE_CLASS_URL = 'FormFindTutor/moderator/browserform';
+const BROWSER_FORM_TUTOR_INTERN_URL = 'Moderators/ChangeStatusTutor';
 
 export default function BasicTable({ name }) {
     const [status, setStatus] = useState(false);
@@ -44,7 +44,6 @@ export default function BasicTable({ name }) {
             const response = await requests.get(LIST_TUTOR_INTERN_URL, {
                 signal: controller.signal,
             });
-            console.log(response.data);
             setStatus(false);
             isMounted && setListTutor(response.data) && setLimitPageIndex(response.data.limitPage);
         };
@@ -79,7 +78,8 @@ export default function BasicTable({ name }) {
 
     const handleApiApprove = async () => {
         try {
-            const response = await requestPrivate.put(`${BROWSER_FORM_CREATE_CLASS_URL}?action=true`, approveList);
+            const response = await requestPrivate.post(BROWSER_FORM_TUTOR_INTERN_URL, approveList);
+            console.log(response.status);
             if (response.status) {
                 setStatus((prev) => !prev);
             }
@@ -88,16 +88,16 @@ export default function BasicTable({ name }) {
         }
     };
 
-    const handleApiReject = async () => {
-        try {
-            const response = await requestPrivate.put(`${BROWSER_FORM_CREATE_CLASS_URL}?action=false`, rejectList);
-            if (response.status) {
-                setStatus((prev) => !prev);
-            }
-        } catch (error) {
-            console.log(error);
-        }
-    };
+    // const handleApiReject = async () => {
+    //     try {
+    //         const response = await requestPrivate.put(`${BROWSER_FORM_CREATE_CLASS_URL}?action=false`, rejectList);
+    //         if (response.status) {
+    //             setStatus((prev) => !prev);
+    //         }
+    //     } catch (error) {
+    //         console.log(error);
+    //     }
+    // };
 
     return (
         <div className={cx('wrapper')}>
@@ -124,9 +124,7 @@ export default function BasicTable({ name }) {
                                             </Button>
                                         </TableCell>
                                         <TableCell align="left">
-                                            <Button className={cx('reject')} onClick={handleApiReject}>
-                                                Reject
-                                            </Button>
+                                            <Button className={cx('reject')}>Reject</Button>
                                         </TableCell>
                                     </TableRow>
                                 </TableHead>
@@ -151,15 +149,15 @@ export default function BasicTable({ name }) {
                                                 <TableCell align="left" className="Details">
                                                     <input
                                                         type="checkbox"
-                                                        value={row?.formId}
-                                                        onChange={(e) => handleApprove(e, row?.formId)}
+                                                        value={row?.accountId}
+                                                        onChange={(e) => handleApprove(e, row?.accountId)}
                                                     ></input>
                                                 </TableCell>
                                                 <TableCell align="left" className="Details">
                                                     <input
                                                         type="checkbox"
-                                                        value={row?.formId}
-                                                        onChange={(e) => handleReject(e, row?.formId)}
+                                                        value={row?.accountId}
+                                                        onChange={(e) => handleReject(e, row?.accountId)}
                                                     ></input>
                                                 </TableCell>
                                             </TableRow>
