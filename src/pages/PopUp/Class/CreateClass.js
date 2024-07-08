@@ -218,13 +218,14 @@ const CreateClass = () => {
                                 <input type="submit" value="Submit"></input>
                             </div>
                         </form>
+                 
                     </div>
                     <div onClick={() => setCreateClass(false)}>
                         <CloseIcon className={cx('close-icon')} />
                     </div>
                 </div>
             </div>
-        </div>
+            </div>
     );
 };
 

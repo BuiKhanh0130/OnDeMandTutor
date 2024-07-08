@@ -3,35 +3,60 @@ import classNames from 'classnames/bind'
 import { Container, Row, Col } from 'react-bootstrap'
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
 import axios from 'axios'
+import requests from '~/utils/request';
 
 
-
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState} from 'react'
 import Search from '~/components/Search';
 import images from '~/assets/images'
 const cx = classNames.bind(styles)
 
+const REQUEST_PAYMENT_URL = 'VnPay/create_payment_url'
+const RESPONSE_PAYMENT_URL = 'VnPay/payment_return'
+
 const Notification = () => {
-    const [price, setPrice] = useState(1000000);
+    const [price, setPrice] = useState(10000);
     const [subject, setSubject] = useState("Math 12");
     const [hour, setHour] = useState(5);
     const [day, setDay] = useState(5);
     const [description, setDescription] = useState('');
-    const [orderID, setOrderID] = useState('Order12356');
     const [message, setMessage] = useState('Vuilongthanhtoan');
+    const [paymentId, setPaymentId] = useState(localStorage.getItem('paymentid'));
 
-    const params = {
-        paymentId: orderID,
-        amount: price,
-        description: encodeURIComponent(message)
-    }
+    useEffect(() => {
+      const urlParams = new URLSearchParams(window.location.search); 
+      const paramsObject = {};
+
+      for (const [key, value] of urlParams.entries()) {
+        paramsObject[key] = value;
+      }
+      
+        const responsePayment = async () => {
+                try{
+                    const response = await requests.post(`${RESPONSE_PAYMENT_URL}/${paymentId}`, paramsObject);
+                    localStorage.removeItem('paymentid');
+                    if (response.data === '00') {
+                        window.location.href = 'http://localhost:3000'
+                    }
+                }catch(err){
+                    console.log(err);
+                }
+            }
+      responsePayment();
+    }, [paymentId]);
+
 
     const handlePayment = async () => {
         try {
-            const response = await axios.post('https://localhost:7262/api/VnPay/create_payment_url', params
+            const response = await requests.post(REQUEST_PAYMENT_URL, {
+                walletId: 'Phong1',
+                paymentDestinationId: '345951dc-4cba-4e4b-8c5b-4f54204f40b2',
+                amount: price,
+                description: encodeURIComponent(message)
+            }
             );
-            const { paymentUrl } = response.data;
-        window.location.href = paymentUrl;
+            localStorage.setItem('paymentid', response.data.paymentId)
+            window.location.href = response.data.paymentUrl;
         } catch (error) {
             console.log(error);
         }
@@ -149,3 +174,5 @@ const Notification = () => {
 }
 
 export default Notification
+
+
