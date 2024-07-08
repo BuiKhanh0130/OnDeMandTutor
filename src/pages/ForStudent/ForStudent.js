@@ -1,4 +1,5 @@
 import classNames from 'classnames/bind';
+import { useEffect, useState } from 'react';
 
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
@@ -7,6 +8,7 @@ import Col from 'react-bootstrap/Col';
 import config from '~/config';
 import images from '~/assets/images';
 import Image from '~/components/Image';
+import requests from '~/utils/request';
 import Button from '~/components/Button';
 import ExcellentTutor from './component/ExcellentTutor';
 
@@ -14,7 +16,30 @@ import styles from './ForStudent.module.scss';
 
 const cx = classNames.bind(styles);
 
+const TOP10_URL = 'SystemHandler/top10Tutor';
+
 function ForStudent() {
+    const [top10, setTop10] = useState([]);
+
+    //get top 10 tutor
+    useEffect(() => {
+        let isMount = true;
+        const controller = new AbortController();
+        const getTop10 = async () => {
+            const response = await requests.get(TOP10_URL, {
+                signal: controller.signal,
+            });
+            console.log(response.data);
+            isMount && setTop10(response.data);
+        };
+
+        getTop10();
+
+        return () => {
+            isMount = false;
+            controller.abort();
+        };
+    }, []);
     return (
         <div className={cx('wrapper')}>
             <Container>
@@ -38,13 +63,17 @@ function ForStudent() {
                 <Row className={cx('container__levels')}>
                     <Col lg="6" className={cx('container__tutors')}>
                         <div className={cx('slide-track')}>
-                            <ExcellentTutor />
-                            <ExcellentTutor />
-                            <ExcellentTutor />
-                            <ExcellentTutor />
-                            <ExcellentTutor />
-                            <ExcellentTutor />
-                            <ExcellentTutor />
+                            {top10.map((subject, index) => {
+                                return (
+                                    <ExcellentTutor
+                                        key={index}
+                                        fullName={subject.fullName}
+                                        headline={subject.headline}
+                                        subject={subject.subjectTutors}
+                                        hour={subject.totalHour}
+                                    />
+                                );
+                            })}
                         </div>
                     </Col>
                     <Col lg="6" className={cx('container__introduction-1')}>

@@ -30,8 +30,12 @@ import Unauthorized from '~/pages/Unauthorized';
 import Messages from '~/pages/Messages';
 import Notification from '~/pages/Notification';
 import BecomeStudent2 from '~/pages/BecomeStudent2/BecomStudent2';
+import MainDash from '~/layouts/Moderator/components/MainDash';
+import Moderator from '~/layouts/Moderator';
+import Rehearsal from '~/layouts/Moderator/components/Rehearsal';
 import Classes from '~/pages/Classes';
 import RequestForm from '~/pages/RequestForm';
+import TutorDetail from '~/pages/TutorDetail';
 
 const publicRoutes = [
     { path: config.routes.home, component: Home },
@@ -54,16 +58,17 @@ const publicRoutes = [
 ];
 
 const privateRoutes = [
-    { path: config.routes.home, component: Home, role: ['Student', 'Tutor'] },
+    { path: config.routes.home, component: Home, role: ['Student', 'Tutor', 'Moderator'] },
     { path: config.routes.main, component: Main, role: ['Admin'] },
     { path: config.routes.registrationTutor1, component: BecomeTutor, layout: Registration, role: ['Student'] },
     { path: config.routes.registrationTutor2, component: BecomeTutor2, layout: Registration, role: ['Student'] },
     { path: config.routes.findTutor, component: FindTutor, role: ['Student'] },
     { path: config.routes.requestTutor, component: RequestTutor, role: ['Student'] },
     { path: config.routes.account, component: Tutor, role: ['Tutor', 'Admin', 'Student'] },
+    { path: config.routes.tutorDetail, component: TutorDetail, role: ['Tutor', 'Admin', 'Student'] },
     { path: config.routes.requestTutor, component: RequestTutor, role: ['Student'] },
     { path: config.routes.onlineTutoring, component: OnlineTutoring, role: ['Student', 'Admin'] },
-    { path: config.routes.forStudent, component: ForStudent, role: ['Student, Tutor'] },
+    { path: config.routes.forStudent, component: ForStudent, role: ['Student', 'Tutor'] },
     { path: config.routes.customerSay, component: CustomerSay, role: ['Student', 'Tutor'] },
     { path: config.routes.blog, component: Blog, role: ['Student', 'Tutor'] },
     { path: config.routes.advertisement, component: Advertisement, role: ['Tutor, Student'] },
@@ -81,6 +86,8 @@ const privateRoutes = [
     { path: config.routes.unauthorized, component: Unauthorized, layout: null, role: ['Student', 'Tutor', 'Admin'] },
     { path: config.routes.messages, component: Messages, layout: null, role: ['Student', 'Tutor'] },
     { path: config.routes.notification, component: Notification, role: ['Student', 'Tutor'] },
+    { path: config.routes.moderator, component: Rehearsal, role: ['Moderator'], layout: Moderator },
+    { path: config.routes.modeClass, component: MainDash, role: ['Moderator'], layout: Moderator },
     { path: config.routes.classes, component: Classes, role: ['Student', 'Tutor'] },
     { path: config.routes.requestForm, component: RequestForm, role: ['Student'] },
 ];

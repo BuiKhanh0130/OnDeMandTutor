@@ -12,7 +12,6 @@ import Image from '~/components/Image';
 import images from '~/assets/images';
 import Button from '~/components/Button';
 import { StarIcon } from '~/components/Icons';
-import useRequestsPrivate from '~/hooks/useRequestPrivate';
 import request from '~/utils/request';
 
 import Paging from '~/components/Paging';
@@ -197,23 +196,6 @@ function FindTutor() {
                                 <option value="Doctoral Degree">Doctoral Degree</option>
                             </select>
                         </div>
-
-                        {/* <div className={cx('sidebar__items-availability')}>
-                            <p className={cx('sidebar__items-availability-title')}>Availability</p>
-                            {dayOfWeek.map((day, index) => {
-                                return (
-                                    <div key={index} className={cx('sidebar__items-availability-list')}>
-                                        <label htmlFor={day}>{day}</label>
-                                        <input
-                                            type="checkbox"
-                                            id={day}
-                                            value={day}
-                                            className="sidebar__items-availability-list-day"
-                                        ></input>
-                                    </div>
-                                );
-                            })}
-                        </div> */}
                     </form>
                 </Col>
                 <Col lg="9" className={cx('result')}>

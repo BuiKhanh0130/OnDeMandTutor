@@ -61,7 +61,10 @@ function SignIn({ item, onChangeUsername, onChangePassword }) {
             sessionStorage.setItem('accessToken', JSON.stringify(response?.data));
             setActive(false);
             handleUser();
-            navigate(from, { replace: true });
+
+            if (role === 'Moderator') {
+                navigate('/moderator');
+            }
         } catch (err) {
             if (!err?.response) {
                 setErrMsg('No Server Response');
@@ -108,7 +111,7 @@ function SignIn({ item, onChangeUsername, onChangePassword }) {
     return item.map((signIn, index, onSubmit) => {
         return (
             <Fragment key={index}>
-                <div classNaconme={cx('wrapper')}>
+                <div className={cx('wrapper')}>
                     <p ref={errRef} className={errMsg ? 'errMsg' : 'offscreen'} aria-live="assertive">
                         {errMsg}
                     </p>

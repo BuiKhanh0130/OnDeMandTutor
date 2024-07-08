@@ -11,6 +11,7 @@ const routes = {
     advertisement: '/advertisement',
     onlineTutoring: '/onlineTutoring',
     account: '/:account/:role/:accountName',
+    tutorDetail: '/:tutorId',
     registrationTutor1: '/registration/tutor/step1',
     registrationTutor2: '/registration/tutor/step2',
     registrationStudent1: '/registration/student/step1',
@@ -26,6 +27,8 @@ const routes = {
     unauthorized: '/unauthorized',
     messages: '/messages',
     notification: '/notifications',
+    moderator: '/moderator',
+    modeClass: '/moderator/maindash',
     classes: '/classes',
     requestForm: '/requestForm',
 };
