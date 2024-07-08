@@ -37,13 +37,13 @@ function FindTutor() {
     const [curPage, setcurPage] = useState(1);
     const [pagination, setPagination] = useState({
         page: 1,
-        limit: 2,
+        limit: 0,
         total: 1,
     });
 
-    useEffect(() =>{
-        console.log(searchValue, minValueRate, maxValueRate, grade, gender, fetchedGrades, sort, tutor, typeOfDegree, curPage);
-    }, [searchValue, minValueRate, maxValueRate, grade, gender, fetchedGrades, sort, tutor, typeOfDegree, curPage])
+    // useEffect(() =>{
+    //     console.log(searchValue, minValueRate, maxValueRate, grade, gender, fetchedGrades, sort, tutor, typeOfDegree, curPage);
+    // }, [searchValue, minValueRate, maxValueRate, grade, gender, fetchedGrades, sort, tutor, typeOfDegree, curPage])
 
     useEffect(() => {
         window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -98,7 +98,11 @@ function FindTutor() {
             const response = await request.get(`${TUTOR_URL}`, { params });
 
             setTutors(response.data.listResult);
-            console.log(response.data.listResult);
+            setPagination({
+                page: 1,
+                limit: response.data.limitPage,
+                total: 1,
+            })
         } catch (error) {
             console.log(error.message);
         }

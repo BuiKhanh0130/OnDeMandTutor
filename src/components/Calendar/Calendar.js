@@ -67,7 +67,7 @@ const Calendar = ({ events = []}) => {
             <tr key={index}>
               {week.map((day) => (
                 <td
-                  key={day.format('DD-MM-YYYY')}
+                  key={day.format('yyyy-MM-dd')}
                   className={
                     day.month() !== currentDate.month()
                       ? 'text-muted'

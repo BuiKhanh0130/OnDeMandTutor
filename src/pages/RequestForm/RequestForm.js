@@ -72,14 +72,17 @@ const RequestForm = () => {
     });
   };
 
-  const handleSelect = (ranges) => {
+ const handleSelect = (ranges) => {
     const { selection } = ranges;
-    setStartDate(selection.startDate);
-    setEndDate(selection.endDate);
-    setStartDateInput(selection.startDate ? format(selection.startDate, 'yyyy-MM-dd') : '');
-    setEndDateInput(selection.endDate ? format(selection.endDate, 'yyyy-MM-dd') : '');
-  };
-    
+    const startDateUTC = new Date(Date.UTC(selection.startDate.getFullYear(), selection.startDate.getMonth(), selection.startDate.getDate()));
+    const endDateUTC = new Date(Date.UTC(selection.endDate.getFullYear(), selection.endDate.getMonth(), selection.endDate.getDate()));
+
+    setStartDate(startDateUTC);
+    setEndDate(endDateUTC);
+    setStartDateInput(startDateUTC ? format(startDateUTC, 'yyyy-MM-dd') : '');
+    setEndDateInput(endDateUTC ? format(endDateUTC, 'yyyy-MM-dd') : '');
+};
+
     useEffect(() => {
         try {
             const Grades = async () => {
@@ -128,54 +131,44 @@ const RequestForm = () => {
     }, [requestPrivate, state.key]);
 
     useEffect(() => {
-        let isMounted = true;
-        const controller = new AbortController();
         const getCalendar = async () => {
             try {
-                const response = await requestPrivate.get(`${TUTOR_CALENDAR_URL}${state.key}`, {
-                    signal: controller.signal,
-                });
+                const response = await requestPrivate.get(`${TUTOR_CALENDAR_URL}${state.key}`);
                 console.log(response.data);
-                isMounted && setEvents(response.data);
+                setEvents(response.data);
             } catch (error) {
                 console.log(error);
             }
         };
         getCalendar();
+    }, [requestPrivate, state.key])
 
-        return () => {
-            isMounted = false;
-            controller.abort();
-        };
-    }, [requestPrivate, state.key]);
-
-    const handleSubmit = async (event) => {
-        event.preventDefault();
-        const params = {
-            tutorId: state.key,
-            gradeId: grade,
-            subjectGroupId: subject,
-            description,
-            dayStart: startDate,
-            dayEnd: endDate,
-            dayOfWeek: selectedDays.join(','),
-            timeStart: startTime,
-            timeEnd: endTime,
-        };
-
-        try {
-            const response = await requestPrivate.post(CREATE_REQUEST_URL, params, {
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            });
-            alert('Request sent successfully!');
-        } catch (error) {
-            console.log(error);
+        const handleSubmit = async (event) => {
+            event.preventDefault();
+            const params = {
+                tutorId: state.key,
+                gradeId: grade,
+                subjectGroupId: subject,
+                description,
+                dayStart: startDate,
+                dayEnd: endDate,
+                dayOfWeek: selectedDays.sort((a, b) => a - b).join(','),
+                timeStart: startTime,
+                timeEnd: endTime,
+            };
+    
+            try {
+                const response = await requestPrivate.post(CREATE_REQUEST_URL, params, {
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                });
+                alert('Request sent successfully!');
+            } catch (error) {
+                console.log(error);
+            }
         }
-    }
-
-
+    
   return (
     <div className={cx('wrapper')}>
             <Container className={cx('container')}>

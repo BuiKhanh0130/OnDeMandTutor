@@ -8,26 +8,40 @@ import Calendar from '~/components/Calendar/Calendar';
 
 const cx = classNames.bind(styles);
 
-const VIEW_CLASS_URL = 'Classes/student/viewClass';
+const VIEW_CLASS_LIST_URL = 'Classes/student/viewClassList';
+const VIEW_CLASS_DETAILS_URL = 'Classes/viewClassDetail';
 
 const Classes = () => {
     const [filter, setFilter] = useState(true);
     const [classes, setClasses] = useState([]);
-    const [calendar, setCalendar] = useState();
+    const [calendar, setCalendar] = useState([]);
     const [size, setSize] = useState(0);
     const [hour, setHour] = useState('');
+    const [classID, setClassID] = useState('');
+    const [paid, setPaid] = useState(true);
     const requestPrivate = useRequestsPrivate();
+
+       useEffect(() => {
+        const fetchClassesDetail = async () => {
+            try {
+                const response = await requestPrivate.get(`${VIEW_CLASS_DETAILS_URL}?classid=${classID}`);
+                setCalendar(response.data.calenders)
+                console.log(response.data.calenders);
+            } catch (error) {
+                console.log(error);
+            }
+        };
+        fetchClassesDetail();
+       }, [classID])
 
     useEffect(() => {
         const fetchClasses = async () => {
             try {
-                const response = await requestPrivate.get(`${VIEW_CLASS_URL}?action=${filter}`);
-                setClasses(response.data);
-                setSize(response.data.length);
-                setCalendar(response.data[0].classCalenders);
+                const response = await requestPrivate.get(`${VIEW_CLASS_LIST_URL}?status=${filter}&isApprove=true`);
+                setClasses(response.data.listResult);
+                setSize(response.data.listResult.length);
+                setClassID(response.data.listResult[0].classid)
                 console.log(response.data);
-                console.log(`${response.data[0].classCalenders[0].timeStart}h-${response.data[0].classCalenders[0].timeEnd}h`);
-                setHour(`${response.data[0].classCalenders[0].timeStart}h - ${response.data[0].classCalenders[0].timeEnd}h`)
             } catch (error) {
                 console.log(error);
             }
@@ -36,12 +50,9 @@ const Classes = () => {
         fetchClasses();
     }, [filter, requestPrivate]);
 
+     
+
     const firstClass = classes.length > 0 ? classes[0] : null;
-    const events = [
-        { date: '2024-7-01', time: hour },
-        { date: '2024-7-05', time: hour },
-        { date: '2024-7-12', time: hour },
-      ];
 
     return (
         <div className={cx('wrapper')}>
@@ -56,6 +67,7 @@ const Classes = () => {
                 <Row>
                     <Col lg="12" className={cx('container__filter')}>
                         <select onChange={e => setFilter(e.target.value === 'true')}>
+                            <option >Not Complete</option>
                             <option value={true}>In Process</option>
                             <option value={false}>Well Done</option>
                         </select>
@@ -91,7 +103,7 @@ const Classes = () => {
                                             </div>
                                         </Row>
                                         <Row>
-                                            <Calendar events={events}/>
+                                            <Calendar events={calendar}/>
                                         </Row>
                                     </Col>
                             </Row>
