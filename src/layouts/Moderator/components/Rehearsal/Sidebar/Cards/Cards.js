@@ -12,9 +12,13 @@ import Button from '~/components/Button';
 const cx = classNames.bind(styles);
 
 function Cards() {
-    const { setSendEmail } = useContext(ModalContext);
+    const { setSendEmail, setListTutor } = useContext(ModalContext);
     const handleSendEmail = () => {
         setSendEmail(true);
+    };
+
+    const handleListTutor = () => {
+        setListTutor(true);
     };
 
     return (
@@ -27,8 +31,8 @@ function Cards() {
                     </Button>
                 </Col>
                 <Col lg="4">
-                    <Button className={cx('container__card')} onClick={handleSendEmail}>
-                        <span>Change status</span>
+                    <Button className={cx('container__card')} onClick={handleListTutor}>
+                        <span>Tutor Intern</span>
                         <BanIcon className={cx('container__card-icon')} />
                     </Button>
                 </Col>

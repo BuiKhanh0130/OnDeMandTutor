@@ -8,7 +8,7 @@ const MainDash = () => {
     return (
         <div className={cx('MainDash')}>
             <h1>Dashboard</h1>
-            <Table />
+            <Table name={'Browse classes'} />
         </div>
     );
 };
