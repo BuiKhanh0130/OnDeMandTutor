@@ -8,28 +8,19 @@ import styles from './ExcellentTutor.module.scss';
 
 const cx = classNames.bind(styles);
 
-function ExcellentTutor() {
+function ExcellentTutor({ fullName, headline, subject, hour }) {
     return (
         <div className={cx('slide')}>
             <div className={cx('container__tutors-card')}>
                 <Image src={images.avatar} alt="ntp"></Image>
 
-                <strong>Nguyen Phong</strong>
+                <strong>{fullName}</strong>
 
-                <div className={cx('container__tutors-icons')}>
-                    <StarIcon className={cx('container__tutors-icons-item')} />
-                    <StarIcon className={cx('container__tutors-icons-item')} />
-                    <StarIcon className={cx('container__tutors-icons-item')} />
-                    <StarIcon className={cx('container__tutors-icons-item')} />
-                    <StarIcon className={cx('container__tutors-icons-item')} />
-                </div>
+                <div className={cx('container__tutors-icons')}>{subject.join('/')}</div>
 
-                <span>$40/h</span>
+                <span>{hour} hour</span>
 
-                <p>
-                    I am certified to teach k-12 Mathematics, Social Studies, and Spanish. Before that, I taught at
-                    University of Maine Orono as a TA for two years.
-                </p>
+                <p>{headline}</p>
             </div>
         </div>
     );

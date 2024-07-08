@@ -1,0 +1,31 @@
+.requestTutor__container-header {
+    margin: 20px 0;
+
+    h1 {
+        font-weight: 800;
+        font-size: 3rem;
+    }
+
+    p {
+        font-size: 1.6rem;
+    }
+}
+
+.requestTutor__container-rule {
+    border-top: 1px solid var(--light-gray);
+    padding-top: 10px;
+    p {
+        font-size: 1.4rem;
+        color: var(--text-blur-color);
+    }
+}
+
+.requestTutor__container-rule-dcs {
+    display: flex;
+
+    svg {
+        margin-top: 4px;
+        margin-right: 10px;
+        color: #17b541;
+    }
+}

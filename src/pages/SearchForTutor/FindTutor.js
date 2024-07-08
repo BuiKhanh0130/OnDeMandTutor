@@ -12,7 +12,6 @@ import Image from '~/components/Image';
 import images from '~/assets/images';
 import Button from '~/components/Button';
 import { StarIcon } from '~/components/Icons';
-import useRequestsPrivate from '~/hooks/useRequestPrivate';
 import request from '~/utils/request';
 
 import Paging from '~/components/Paging';

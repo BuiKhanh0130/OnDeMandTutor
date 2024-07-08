@@ -1,0 +1,81 @@
+.MuiTableRow-root > * {
+    padding: 10px;
+}
+
+.MuiTableRow-root.MuiTableRow-head > * {
+    font-weight: bold !important;
+    font-size: 15px !important;
+}
+
+.MuiPaper-root {
+    width: 100% !important;
+}
+
+.MuiTableCell-root {
+    text-align: center !important;
+}
+
+.Table td,
+th {
+    border: none !important;
+    font-size: 12px !important;
+}
+
+.Table:first-child {
+    border-radius: 0.7rem !important;
+}
+.status {
+    padding: 8px;
+    border-radius: 9px;
+    width: 62px !important;
+}
+
+.Details {
+    color: #00b5ff !important;
+}
+
+.Table h3 {
+    font-size: 18px;
+    font-weight: bold;
+    margin-top: 30px;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+}
+
+@media screen and (max-width: 1200px) {
+    .Table {
+        width: 170%;
+        margin-top: 2rem;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .Table {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 23rem;
+    }
+}
+
+.approve {
+    padding: 10px;
+    color: var(--white);
+
+    &:hover {
+        background-color: var(--hover);
+    }
+}
+
+.reject {
+    background-color: #da1010;
+    padding: 10px;
+    color: var(--white);
+    width: 76px;
+    border-radius: 10px;
+
+    &:hover {
+        background-color: var(--hover);
+    }
+}
