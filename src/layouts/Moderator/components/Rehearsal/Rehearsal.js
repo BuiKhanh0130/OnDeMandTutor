@@ -6,17 +6,18 @@ import Sidebar from './Sidebar';
 import styles from './Rehearsal.module.scss';
 import { useContext } from 'react';
 import SendEmail from './SendEmail';
+import ListTutorIntern from './ListTutorIntern';
 
 const cx = classNames.bind(styles);
 
 function Rehearsal({ children }) {
-    const { sendEmail } = useContext(ModalContext);
+    const { sendEmail, listTutor } = useContext(ModalContext);
     return (
         <div className={cx('wrapper')}>
             <h1>Dashboard</h1>
             <Sidebar />
-            {children}
             {sendEmail && <SendEmail />}
+            {listTutor && <ListTutorIntern />}
         </div>
     );
 }
