@@ -1,5 +1,5 @@
 import classNames from 'classnames/bind';
-import { useMemo, useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 
 import Container from 'react-bootstrap/Container';
@@ -24,7 +24,6 @@ function Tutor() {
     const requestPrivate = useRequestsPrivate();
     const [userDetails, setUserDetails] = useState();
     const [userFeedbacks, setUserFeedbacks] = useState();
-    const [subjects, setSubjects] = useState('');
     const { state } = useLocation();
 
     console.log(`${FEEDBACKTUTOR}${state.key}`);

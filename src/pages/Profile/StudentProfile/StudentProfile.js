@@ -1,8 +1,5 @@
 import classNames from 'classnames/bind';
-import { useContext, useEffect, useRef, useState } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
-import { doc, getDoc } from 'firebase/firestore';
-import { auth as Auth, db } from '~/firebase/firebase';
+import { useEffect, useState } from 'react';
 
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
@@ -11,9 +8,7 @@ import Col from 'react-bootstrap/Col';
 import Image from '~/components/Image';
 import Class from '~/components/Class';
 import useRequestsPrivate from '~/hooks/useRequestPrivate';
-import images from '~/assets/images';
 import Button from '~/components/Button';
-import { requestsPrivate } from '~/utils/request';
 
 import styles from './StudentProfile.module.scss';
 
@@ -30,6 +25,7 @@ function StudentProfile() {
     const [phoneNumber, setPhoneNumber] = useState('');
     const [address, setAddress] = useState('');
     const [schoolName, setSchoolName] = useState('');
+    const [avatar, setAvatar] = useState('');
 
     useEffect(() => {
         const controller = new AbortController();
@@ -39,6 +35,7 @@ function StudentProfile() {
                 const response = await axiosPrivate.get(STUDENTPROFILE, {
                     signal: controller.signal,
                 });
+                setAvatar(response?.data?.avatar);
                 setFullName(response?.data?.fullName);
                 setAddress(response?.data?.address);
                 setPhoneNumber(response?.data?.phoneNumber);
@@ -58,10 +55,13 @@ function StudentProfile() {
     }, []);
 
     const handleUpdate = async () => {
-        const response = await requestsPrivate.post(
+        const response = await axiosPrivate.post(
             UPDATEPROFILE,
-            JSON.stringify({ fullName, gender, phoneNumber, avatar: '', schoolName, address, age, isParent: true }),
+            JSON.stringify({ fullName, gender, phoneNumber, avatar, schoolName, address, age, isParent: true }),
         );
+
+        if (response.status) {
+        }
     };
 
     return (
@@ -71,7 +71,7 @@ function StudentProfile() {
                     <Col lg="12" className={cx('container__profile')}>
                         <div className={cx('container__profile-banner')}></div>
                         <div className={cx('container__profile-student')}>
-                            <Image src={images?.avatar} alt="NT" />
+                            <Image src={avatar} alt={fullName} />
                             <p>{fullName}</p>
                         </div>
                     </Col>

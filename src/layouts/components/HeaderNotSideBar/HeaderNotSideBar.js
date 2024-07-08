@@ -1,5 +1,6 @@
 import classNames from 'classnames/bind';
 import { Link } from 'react-router-dom';
+import { useContext } from 'react';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Container from 'react-bootstrap/Container';
@@ -11,12 +12,14 @@ import images from '~/assets/images';
 import User from '../Header/components/LogIn/User';
 import Notification from '../Header/components/LogIn/Notification';
 import { NotificationIcon, BackIcon } from '~/components/Icons';
+import { ModalContext } from '~/components/ModalProvider';
 
 import styles from './HeaderNotSideBar.module.scss';
 
 const cx = classNames.bind(styles);
 
 function HeaderNotSideBar() {
+    const { avatar } = useContext(ModalContext);
     return (
         <div className={cx('wrapper')}>
             <Container className={cx('container')}>
@@ -43,8 +46,8 @@ function HeaderNotSideBar() {
                         <User>
                             <div className={cx('container__login-user')}>
                                 <Image
-                                    src={images.avatar}
-                                    alt="NTP"
+                                    src={avatar.avatar}
+                                    alt={avatar.fullName}
                                     className={cx('container__login-user-img')}
                                 ></Image>
                             </div>
