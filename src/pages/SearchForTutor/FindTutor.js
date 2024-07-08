@@ -102,8 +102,6 @@ function FindTutor() {
         handleChange();
     }, [maxValueRate, minValueRate, grade, gender, typeOfDegree, sort, curPage]);
 
-    // const dayOfWeek = useMemo(() => ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'], []);
-
     useEffect(() => {
         try {
             const Grades = async () => {
@@ -158,8 +156,8 @@ function FindTutor() {
                             </div>
 
                             <div className={cx('sidebar__items-gender')}>
-                                <label htmlFor="gender" style={{ fontWeight: 'bold', marginRight: '10px' }}>
-                                    <strong>Gender:</strong>
+                                <label htmlFor="gender">
+                                    <strong>Gender</strong>
                                 </label>
                                 <select id="gender" onChange={(e) => setGender(e.target.value)}>
                                     <option value={true}>Male</option>
@@ -184,23 +182,6 @@ function FindTutor() {
                                 <option value="Doctoral Degree">Doctoral Degree</option>
                             </select>
                         </div>
-
-                        {/* <div className={cx('sidebar__items-availability')}>
-                            <p className={cx('sidebar__items-availability-title')}>Availability</p>
-                            {dayOfWeek.map((day, index) => {
-                                return (
-                                    <div key={index} className={cx('sidebar__items-availability-list')}>
-                                        <label htmlFor={day}>{day}</label>
-                                        <input
-                                            type="checkbox"
-                                            id={day}
-                                            value={day}
-                                            className="sidebar__items-availability-list-day"
-                                        ></input>
-                                    </div>
-                                );
-                            })}
-                        </div> */}
                     </form>
                 </Col>
                 <Col lg="9" className={cx('result')}>
