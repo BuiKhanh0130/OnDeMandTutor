@@ -40,7 +40,7 @@ function User({ children }) {
                                 <li>
                                     <Link to="/transaction/history">Transaction history</Link>
                                 </li>
-                                
+
                                     <Link to="/classes">
                                         <li>Your Classes</li>
                                     </Link>

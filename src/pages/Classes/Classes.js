@@ -16,6 +16,7 @@ const Classes = () => {
     const [calendar, setCalendar] = useState();
     const [size, setSize] = useState(0);
     const [hour, setHour] = useState('');
+    const [size, setSize] = useState(0);
     const requestPrivate = useRequestsPrivate();
 
     useEffect(() => {
@@ -28,6 +29,7 @@ const Classes = () => {
                 console.log(response.data);
                 console.log(`${response.data[0].classCalenders[0].timeStart}h-${response.data[0].classCalenders[0].timeEnd}h`);
                 setHour(`${response.data[0].classCalenders[0].timeStart}h - ${response.data[0].classCalenders[0].timeEnd}h`)
+                console.log(response.data);
             } catch (error) {
                 console.log(error);
             }
@@ -97,6 +99,16 @@ const Classes = () => {
                             </Row>
                         </Col>
                     ) : (<div className={cx('container__noclass')}>
+                        <Row>
+                           
+                                <Col lg='12' className={cx('container__mess_header')}>
+                                    <img alt="react" src={firstClass.studentAvatar}></img>
+                                    <Row>
+                                        <span>{firstClass.tutorName}</span>
+                                    </Row>
+                                </Col>
+                        </Row>
+                    </Col>) : (<div className={cx('container__noclass')}>
                         <span>There are currently no classes available.</span>
                     </div> )}
                 </Row>
