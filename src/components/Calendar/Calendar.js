@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import dayjs from 'dayjs';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-const Calendar = ({ events, hour}) => {
+const Calendar = ({ events = []}) => {
   const [currentDate, setCurrentDate] = useState(dayjs());
 
   const startOfMonth = currentDate.startOf('month');
@@ -36,21 +36,21 @@ const Calendar = ({ events, hour}) => {
   };
 
   const getEventForDay = (day) => {
-    const event = events.find(event => dayjs(event.date).isSame(day, 'day'));
-    return event ? event.content : '';
+    const event = events.find(event => dayjs(event.bookDay).isSame(day, 'day'));
+    return event ? event.time : '';
+  };
+
+  const hasEvent = (day) => {
+    return events.some(event => dayjs(event.bookDay).isSame(day, 'day'));
   };
 
   return (
     <div className="container">
       <div className="d-flex justify-content-between align-items-center my-3">
-        <button className="btn btn-primary" onClick={handlePrevMonth}>
-          Previous
-        </button>
-        <h2>{currentDate.format('MMMM YYYY')}</h2>
-        <button className="btn btn-primary" onClick={handleNextMonth}>
-          Next
-        </button>
-        <button className="btn btn-secondary" onClick={handleToday}>
+        <i className='bi bi-caret-left-fill' style={{border: '1px solid black', borderRadius: '5px', width: '20px', height: '20px', padding: '3px'}} onClick={handlePrevMonth}></i>
+        <span style={{fontSize: '18px', fontWeight: 'bold'}}>{currentDate.format('MMMM YYYY')}</span>
+        <i className='bi bi-caret-right-fill' style={{border: '1px solid black', borderRadius: '5px', width: '20px', height: '20px', padding: '3px'}} onClick={handleNextMonth}></i>
+        <button className="btn btn-secondary" style={{backgroundColor: '#ed6d20'}} onClick={handleToday}>
           Today
         </button>
       </div>
@@ -67,14 +67,16 @@ const Calendar = ({ events, hour}) => {
             <tr key={index}>
               {week.map((day) => (
                 <td
-                  key={day.format('DD-MM-YYYY')}
+                  key={day.format('yyyy-MM-dd')}
                   className={
                     day.month() !== currentDate.month()
                       ? 'text-muted'
-                      : day.isSame(dayjs(), 'day')
-                      ? 'bg-primary text-white'
                       : ''
                   }
+                  style={{
+                    backgroundColor: day.isSame(dayjs(), 'day') ? '#ed6d20' : hasEvent(day) ? '#fef4e0' : '#fff',
+                    color: day.isSame(dayjs(), 'day') ? '#fff' : ''
+                  }}
                 >
                   <div>{day.date()}</div>
                   <div>{events ? getEventForDay(day) : ""}</div>

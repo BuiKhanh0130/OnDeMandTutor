@@ -5,7 +5,7 @@
 
 
 .container__form{
-    padding: 20px 10px 60px;
+    padding: 20px 10px 30px;
     padding-top: 10px;
     background-color: #fff;
     margin: auto;
@@ -65,7 +65,7 @@
     border: 1px solid #c4c1c1;
     border-radius: 5px;
     height: 200px;
-    margin-bottom: 20px;
+    margin-bottom: 30px;
     textarea{
         background: transparent;
     padding: 7px;
@@ -76,7 +76,6 @@
     scrollbar-gutter: stable;
     scrollbar-width: thin;
     scrollbar-color: #d8d6d6 transparent;
-    // border: 1px solid #e9573f !important;
     min-height: 115px;
     font-size: 14px;
     }
@@ -100,7 +99,7 @@
 }
 
 .container__form_time{
-    h2{
+    h2, span{
         font-family: inherit;
         font-size: 20px;
         line-height: 25px;
@@ -143,6 +142,70 @@
 }
 
 .Date_Range{
+    margin-top: 40px;
+    display: flex; 
+    justify-content: center;
+    // gap: 50px;
+    align-items: center;
+  .select_day{
     text-align: center;
-    margin-top: 20px;
+    font-size: 15px;
+    font-weight: bold;
+    width: 380px;
+  }
+}
+
+.select_day button {
+    margin: 5px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    cursor: pointer;
+    gap: 10px;
+    background-color: #fef4e0;
+  }
+  
+  .select_day button.selected {
+    background-color: #ed6d20;
+    color: white;
+  }
+
+  .select_time {
+    margin: 20px;
+    text-align: center;
+    span{
+    font-size: 15px;
+    font-weight: bold;
+    width: 380px;
+    }
+    .start_end_hour{
+        display: flex;
+        justify-content: center;
+        gap: 10px; 
+        margin-top: 10px;
+    }
+  }
+
+  .calendar_tutor{
+    margin-top: 30px;
+    margin-bottom: 30px;
+  }
+
+ 
+  .container_submit{
+    text-align: center;
+    .button_submit{
+        margin-bottom: 10px;
+    height: 30px;
+    width: 100px;
+    font-size: 1.4rem;
+    background-color: var(--orange);
+    border-radius: 4px;
+    color: var(--white);
+
+    &:hover {
+        background-color: var(--hover);
+    }   
+    }
+    
 }

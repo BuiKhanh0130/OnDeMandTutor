@@ -52,8 +52,8 @@ function Tutor() {
                 const response = await requestPrivate.get(`${FEEDBACKTUTOR}${state.key}`, {
                     signal: controller.signal,
                 });
-                console.log(response?.data);
-                isMounted && setUserFeedbacks(response.data);
+                console.log(response?.data.listResult);
+                isMounted && setUserFeedbacks(response.data.listResult);
             } catch (error) {
                 console.log(error);
             }
