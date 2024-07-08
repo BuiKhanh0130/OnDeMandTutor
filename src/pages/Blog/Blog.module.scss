@@ -4,6 +4,7 @@
 
 .container__hero {
     padding: 20px 0;
+    border-bottom: 1px solid #e0dede;
 }
 
 .container__card {
@@ -31,12 +32,19 @@
     }
 }
 
+.container__form-control-portfolio-items {
+    min-width: 200px;
+    strong {
+    }
+}
+
 .container__form-control-submit {
     height: 30px;
     width: 120px;
     background-color: var(--orange);
     margin-left: auto;
     margin-top: 10px;
+    color: var(--white);
 
     &:hover {
         background-color: var(--hover);
@@ -60,6 +68,11 @@
         font-size: 1.6rem;
         font-size: 700;
         margin-top: 10px;
+    }
+
+    span {
+        font-size: 1rem;
+        color: car(--text-color);
     }
 }
 
