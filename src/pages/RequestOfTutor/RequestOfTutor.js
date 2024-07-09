@@ -13,8 +13,8 @@ import Popup from './Popup';
 
 const cx = classNames.bind(styles);
 
-const FORM_REQUEST_URL = 'FormRequestTutor/tutorViewForm';
-const HANDLE_FORM_URL = 'FormRequestTutor/handleBrowserForm'
+const FORM_REQUEST_URL = 'FormRequestTutor/viewForm';
+const HANDLE_FORM_URL = 'FormRequestTutor/handleBrowserForm';
 
 function RequestOfTutor() {
     const [forms, setForms] = useState([]);
@@ -25,21 +25,34 @@ function RequestOfTutor() {
     const [form, setForm] = useState(null);
     const [selected, setSelected] = useState('');
     const [sameFormNum, setSameFormNum] = useState(0);
+    const [filter, setFilter] = useState('pending'); 
     const requestPrivate = useRequestsPrivate();
 
-    useEffect(() => {
-        const fetchForm = async() =>{
+    const handleActionComplete = () => {
+        let FORM_REQUEST_URL = 'FormRequestTutor/viewForm';
+
+        if (filter === 'approved') {
+            FORM_REQUEST_URL += '?status=true';
+        }
+        if (filter === 'rejected') {
+            FORM_REQUEST_URL += '?status=false';
+        }
+        const fetchForm = async () => {
             try {
                 const response = await requestPrivate.get(FORM_REQUEST_URL);
                 setForms(response.data.listResult);
-                setLimitPage(response.data.limitPage)
+                setLimitPage(response.data.limitPage);
                 console.log(response.data);
             } catch (error) {
                 console.error('Error:', error);
             }
-        }
+        };
         fetchForm();
-    }, [requestPrivate]);
+    };
+
+    useEffect(() => {
+        handleActionComplete();
+    }, [filter, requestPrivate]);
 
     const handleReject = (form) => {
         setSelected('Reject');
@@ -54,14 +67,14 @@ function RequestOfTutor() {
         setModalContent('Are you sure you want to apply for this request?');
         setShowModal(true);
 
-        const fetchSameForm = async() =>{
+        const fetchSameForm = async () => {
             try {
                 const response = await requestPrivate.get(`${HANDLE_FORM_URL}?formId=${form.formId}&action=true`);
                 setSameFormNum(response.data);
             } catch (error) {
                 console.error('Error:', error);
             }
-        }
+        };
 
         fetchSameForm();
     };
@@ -69,6 +82,15 @@ function RequestOfTutor() {
     return (
         <div className={cx('wrapper')}>
             <Container className={cx('container')}>
+                <header className={cx('header')}>
+                    <h1>Your Students' Requests</h1>
+                    <p>Discover new tutors, connect with potential students, and share your passion for learning.</p>
+                </header>
+                <div className={cx('filter-buttons')}>
+                    <button className={cx({ active: filter === 'pending' })} onClick={() => setFilter('pending')}>Pending</button>
+                    <button className={cx({ active: filter === 'approved' })} onClick={() => setFilter('approved')}>Approved</button>
+                    <button className={cx({ active: filter === 'rejected' })} onClick={() => setFilter('rejected')}>Rejected</button>
+                </div>
                 {forms.map((form, index) => {
                     return (
                         <Row key={index} className={cx('container__hero')}>
@@ -106,16 +128,16 @@ function RequestOfTutor() {
                             </Col>
 
                             <Col lg="4" className={cx('container_avatar')}>
-                                <Image src={form.avatar || images.avatar} alt={form.fullName} />
+                                <Image src={form.avatar || images.avatarDefault} alt={form.fullName} />
                                 <p>{form.fullName}</p>
-                                <div className={cx('container_avatar-buttons')}>
+                                {filter === 'pending' ? (<div className={cx('container_avatar-buttons')}>
                                     <button className={cx('container_avatar-button', 'reject')} onClick={() => handleReject(form)}>
                                         Reject
                                     </button>
                                     <button className={cx('container_avatar-button')} onClick={() => handleApply(form)}>
                                         Apply
                                     </button>
-                                </div>
+                                </div>) : ''}
                             </Col>
                         </Row>
                     );
@@ -123,9 +145,14 @@ function RequestOfTutor() {
             </Container>
 
             {showModal && (
-                <Popup setShowModal={setShowModal} 
-                modalContent={modalContent} selected={selected} 
-                form={form} sameFormNum={sameFormNum}/>
+                <Popup 
+                    setShowModal={setShowModal} 
+                    modalContent={modalContent} 
+                    selected={selected} 
+                    form={form} 
+                    sameFormNum={sameFormNum}
+                    onActionComplete={handleActionComplete}
+                />
             )}
         </div>
     );

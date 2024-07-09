@@ -14,6 +14,7 @@ import 'react-date-range/dist/styles.css';
 import 'react-date-range/dist/theme/default.css';
 import Calendar from '~/components/Calendar/Calendar';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import images from '~/assets/images';
 
 const GRADE_URL = 'Grade';
 const PROFILE_TUTOR_URL = 'Tutors/Id/';
@@ -168,7 +169,7 @@ const RequestForm = () => {
                         <form onSubmit={handleSubmit}>
                             <div className={cx('container__form_header')}>
                                 <h1>Send a message to {userDetails?.fullName}</h1>
-                                <img alt={userDetails?.fullName} src={userDetails?.avatar} />
+                                <img alt={userDetails?.fullName} src={userDetails?.avatar || images.avatarDefaultTutor} />
                             </div>
 
                             <div>
@@ -219,7 +220,7 @@ const RequestForm = () => {
                             </div>
 
                             <div className={cx('container__form_time')}>
-                                <h2>Your tutor's schedule</h2>
+                                <h2>{userDetails?.fullName}'s schedule</h2>
                             </div>
 
                             <div className={cx('calendar_tutor')}>

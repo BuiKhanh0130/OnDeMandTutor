@@ -94,7 +94,7 @@ function CustomerSay() {
                                                 state={{ key: `T000${index}` }}
                                             >
                                                 {comment.tutor}
-                                            </Link>{' '}
+                                            </Link>
                                             from Ha Noi, Viet Nam
                                         </p>
                                     </div>
