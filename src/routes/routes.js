@@ -37,6 +37,7 @@ import Classes from '~/pages/Classes';
 import RequestForm from '~/pages/RequestForm';
 import TutorDetail from '~/pages/TutorDetail';
 import MyPost from '~/pages/MyPost';
+import Error from '~/pages/Error';
 
 const publicRoutes = [
     { path: config.routes.home, component: Home },
@@ -87,11 +88,12 @@ const privateRoutes = [
     { path: config.routes.unauthorized, component: Unauthorized, layout: null, role: ['Student', 'Tutor', 'Admin'] },
     { path: config.routes.messages, component: Messages, layout: null, role: ['Student', 'Tutor'] },
     { path: config.routes.notification, component: Notification, role: ['Student', 'Tutor'] },
-    { path: config.routes.moderator, component: Rehearsal, role: ['Moderator'], layout: Moderator },
-    { path: config.routes.modeClass, component: MainDash, role: ['Moderator'], layout: Moderator },
+    { path: config.routes.moderator, component: Rehearsal, layout: Moderator, role: ['Moderator'] },
+    { path: config.routes.modeClass, component: MainDash, layout: Moderator, role: ['Moderator'] },
     { path: config.routes.classes, component: Classes, role: ['Student', 'Tutor'] },
     { path: config.routes.requestForm, component: RequestForm, role: ['Student'] },
     { path: config.routes.myPost, component: MyPost, role: ['Student'] },
+    { path: config.routes.error, component: Error, layout: null, role: ['Student'] },
 ];
 
 export { publicRoutes, privateRoutes };

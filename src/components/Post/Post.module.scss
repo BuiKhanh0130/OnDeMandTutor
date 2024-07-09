@@ -89,6 +89,13 @@
     }
 }
 
+.container__tutor-error {
+    font-size: 1.8rem;
+    padding: 10px;
+    background-color: var(--hover);
+    color: var(--white);
+}
+
 .container_tutor-rehearsal {
     display: flex;
     justify-content: space-between;

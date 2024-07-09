@@ -32,6 +32,7 @@ const routes = {
     classes: '/classes',
     requestForm: '/requestForm',
     myPost: '/myblog',
+    error: '/error',
 };
 
 export default routes;

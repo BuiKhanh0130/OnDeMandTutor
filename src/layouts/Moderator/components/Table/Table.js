@@ -130,7 +130,7 @@ export default function BasicTable({ name }) {
                                     </TableRow>
                                 </TableHead>
                                 <TableBody style={{ color: 'white' }}>
-                                    {formCreateClass.length > 0 &&
+                                    {formCreateClass?.length > 0 &&
                                         formCreateClass?.map((row, index) => (
                                             <TableRow
                                                 key={index}

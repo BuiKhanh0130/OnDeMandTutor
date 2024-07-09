@@ -5,6 +5,7 @@ import { Container, Row, Col } from 'react-bootstrap';
 import Search from '~/components/Search';
 import useRequestsPrivate from '~/hooks/useRequestPrivate';
 import Calendar from '~/components/Calendar/Calendar';
+import { Button } from 'bootstrap';
 
 const cx = classNames.bind(styles);
 
@@ -58,7 +59,7 @@ const Classes = () => {
         fetchClasses();
     }, [filter, requestPrivate]);
 
-    const firstClass = classes.length > 0 ? classes[0] : null;
+    const firstClass = classes?.length > 0 ? classes[0] : null;
 
     return (
         <div className={cx('wrapper')}>
@@ -82,13 +83,13 @@ const Classes = () => {
                 </Row>
                 <Row>
                     <Col lg="4" className={cx('container__class')}>
-                        {classes.map((classs, index) => (
+                        {classes?.map((classs, index) => (
                             <Col key={index} lg="12" className={cx('container__class_detail')}>
                                 <div className={cx('container__class-header')}>
-                                    <span>{classs.className}</span>
+                                    <span>{classs?.className}</span>
                                 </div>
                                 <div className={cx('container__class-body')}>
-                                    <span>Subject: {classs.subjectName}</span>
+                                    <span>Subject: {classs?.subjectName}</span>
                                 </div>
                             </Col>
                         ))}
@@ -99,13 +100,13 @@ const Classes = () => {
                                 <Col lg="12" className={cx('container__mess_header')}>
                                     <Row>
                                         <div className={cx('class_header')}>
-                                            <img alt="react" src={firstClass.studentAvatar}></img>
-                                            <span>{firstClass.tutorName}</span>
+                                            <img alt="react" src={firstClass?.studentAvatar}></img>
+                                            <span>{firstClass?.tutorName}</span>
                                         </div>
                                     </Row>
                                     <Row>
                                         <div className={cx('class_name')}>
-                                            <span>{firstClass.className}</span>
+                                            <span>{firstClass?.className}</span>
                                         </div>
                                     </Row>
                                     <Row>
@@ -118,9 +119,9 @@ const Classes = () => {
                         <div className={cx('container__noclass')}>
                             <Row>
                                 <Col lg="12" className={cx('container__mess_header')}>
-                                    <img alt="react" src={firstClass.studentAvatar}></img>
+                                    <img alt="react" src={firstClass?.studentAvatar}></img>
                                     <Row>
-                                        <span>{firstClass.tutorName}</span>
+                                        <span>{firstClass?.tutorName}</span>
                                     </Row>
                                 </Col>
                             </Row>

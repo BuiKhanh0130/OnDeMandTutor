@@ -7,8 +7,11 @@ import Col from 'react-bootstrap/Col';
 import images from '~/assets/images';
 import Image from '~/components/Image';
 import Button from '~/components/Button';
+import { ModalContext } from '../ModalProvider';
 
 import styles from './Post.module.scss';
+import { useContext } from 'react';
+import Complaint from '~/pages/Complaint';
 
 const cx = classNames.bind(styles);
 
@@ -22,8 +25,15 @@ function Post({
     handleDeleteForm,
     disable,
     syntax,
+    error,
 }) {
     console.log(idForm);
+    const { complaint, setComplaint } = useContext(ModalContext);
+
+    const handleComplaint = () => {
+        setComplaint(true);
+    };
+
     return (
         <Container>
             {listClasses?.length > 0 &&
@@ -110,6 +120,14 @@ function Post({
                                         <Button
                                             className={cx('container__form-control-delete')}
                                             onClick={() => {
+                                                handleComplaint(classItem?.formId);
+                                            }}
+                                        >
+                                            Complaint
+                                        </Button>
+                                        <Button
+                                            className={cx('container__form-control-delete')}
+                                            onClick={() => {
                                                 handleDeleteForm(classItem?.formId);
                                             }}
                                         >
@@ -132,6 +150,10 @@ function Post({
                                 <Image src={images.avatar} alt="NTP"></Image>
                                 <p>{classItem.fullName}</p>
                                 <span>{classItem.createDay}</span>
+                            </Col>
+                        ) : error && idForm === classItem?.formId ? (
+                            <Col key={index} lg="4">
+                                <p className={cx('container__tutor-error')}>{error}</p>
                             </Col>
                         ) : (
                             <Col key={index} lg="4">
@@ -167,6 +189,7 @@ function Post({
                         )}
                     </Row>
                 ))}
+            {complaint && <Complaint />}
         </Container>
     );
 }

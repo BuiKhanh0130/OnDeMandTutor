@@ -3,19 +3,20 @@ import { createContext, useState } from 'react';
 const ModalContext = createContext();
 
 function ModalProvider({ children }) {
+    const [auth, setAuth] = useState({});
     const [user, setUser] = useState(false);
+    const [conn, setConnection] = useState();
+    const [roomId, setRoomId] = useState('');
     const [avatar, setAvatar] = useState({});
+    const [userId, setUserId] = useState('');
+    const [messages, setMessage] = useState([]);
+    const [active, setActive] = useState(false);
     const [sendEmail, setSendEmail] = useState(false);
     const [listTutor, setListTutor] = useState(false);
-    const [avatarMessage, setAvatarMessage] = useState({});
-    const [active, setActive] = useState(false);
-    const [roomId, setRoomId] = useState('');
-    const [auth, setAuth] = useState({});
-    const [userId, setUserId] = useState('');
-    const [conn, setConnection] = useState();
-    const [messages, setMessage] = useState([]);
-    const [activeSignUp, setActiveSignUp] = useState(false);
     const [createClass, setCreateClass] = useState(false);
+    const [avatarMessage, setAvatarMessage] = useState({});
+    const [activeSignUp, setActiveSignUp] = useState(false);
+    const [complaint, setComplaint] = useState(false);
 
     const handleActive = () => {
         setActive(true);
@@ -60,6 +61,8 @@ function ModalProvider({ children }) {
         setSendEmail,
         setConnection,
         messages,
+        complaint,
+        setComplaint,
         setMessage,
         createClass,
         setCreateClass,
