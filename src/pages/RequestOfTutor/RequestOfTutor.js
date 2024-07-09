@@ -13,7 +13,7 @@ import Popup from './Popup';
 
 const cx = classNames.bind(styles);
 
-const FORM_REQUEST_URL = 'FormRequestTutor/viewForm';
+// const FORM_REQUEST_URL = 'FormRequestTutor/viewForm';
 const HANDLE_FORM_URL = 'FormRequestTutor/handleBrowserForm';
 
 function RequestOfTutor() {
@@ -91,7 +91,7 @@ function RequestOfTutor() {
                     <button className={cx({ active: filter === 'approved' })} onClick={() => setFilter('approved')}>Approved</button>
                     <button className={cx({ active: filter === 'rejected' })} onClick={() => setFilter('rejected')}>Rejected</button>
                 </div>
-                {forms.map((form, index) => {
+                {forms[0] ? forms.map((form, index) => {
                     return (
                         <Row key={index} className={cx('container__hero')}>
                             <Col lg="8" className={cx('container__card')}>
@@ -141,7 +141,9 @@ function RequestOfTutor() {
                             </Col>
                         </Row>
                     );
-                })}
+                }) : (<div className={cx('container_norequest')}>
+                            <span>There are currently no request available.</span>
+                </div>) }
             </Container>
 
             {showModal && (

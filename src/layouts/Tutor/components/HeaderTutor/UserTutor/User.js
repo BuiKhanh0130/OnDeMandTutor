@@ -46,7 +46,7 @@ function User({ children }) {
                                 </li>
 
                                 <li>
-                                    <Link to="/transaction/history">Wallet</Link>
+                                    <Link to="/wallet">Wallet</Link>
                                 </li>
                                 <li onClick={signOut}>Log out</li>
                             </ul>
