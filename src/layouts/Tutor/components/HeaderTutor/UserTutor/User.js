@@ -36,9 +36,15 @@ function User({ children }) {
                                 <li>
                                     <Link to={`/tutor/${avatar.fullName}`}>My profile</Link>
                                 </li>
+
+                                <Link to="/requestOfTutor">
+                                    <li>Request's Student</li>
+                                </Link>
+
                                 <li>
                                     <Link to="/transaction/history">Feedback</Link>
                                 </li>
+
                                 <li>
                                     <Link to="/transaction/history">Wallet</Link>
                                 </li>

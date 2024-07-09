@@ -37,6 +37,7 @@ import Classes from '~/pages/Classes';
 import RequestForm from '~/pages/RequestForm';
 import TutorDetail from '~/pages/TutorDetail';
 import MyPost from '~/pages/MyPost';
+import RequestOfTutor from '~/pages/RequestOfTutor';
 
 const publicRoutes = [
     { path: config.routes.home, component: Home },
@@ -92,6 +93,7 @@ const privateRoutes = [
     { path: config.routes.classes, component: Classes, role: ['Student', 'Tutor'] },
     { path: config.routes.requestForm, component: RequestForm, role: ['Student'] },
     { path: config.routes.myPost, component: MyPost, role: ['Student'] },
+    { path: config.routes.requestOfTutor, component: RequestOfTutor, role: ['Tutor'] },
 ];
 
 export { publicRoutes, privateRoutes };

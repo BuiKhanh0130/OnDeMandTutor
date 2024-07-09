@@ -1,7 +1,6 @@
-import React from 'react';
+import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import classNames from 'classnames/bind';
 import styles from './RequestForm.module.scss';
-import { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
@@ -15,90 +14,84 @@ import 'react-date-range/dist/styles.css';
 import 'react-date-range/dist/theme/default.css';
 import Calendar from '~/components/Calendar/Calendar';
 import 'bootstrap/dist/css/bootstrap.min.css';
+
 const GRADE_URL = 'Grade';
-
-const cx = classNames.bind(styles);
-
 const PROFILE_TUTOR_URL = 'Tutors/Id/';
 const SUBJECTGROUP_URL = 'SubjectGroup';
 const TUTOR_CALENDAR_URL = 'Classes/showTutorCalender?tutorId=';
 const CREATE_REQUEST_URL = 'FormRequestTutor/createForm';
 
+const cx = classNames.bind(styles);
+
 const RequestForm = () => {
+
     const requestPrivate = useRequestsPrivate();
-    const [userDetails, setUserDetails] = useState();
     const { state } = useLocation();
-    const [grade, setGrade] = useState('G0012');
+    const [formData, setFormData] = useState({
+        grade: 'G0012',
+        subject: 'S0009',
+        description: '',
+        startDate: new Date(),
+        endDate: null,
+        startDateInput: '',
+        endDateInput: '',
+        selectedDays: [],
+        startTime: '',
+        endTime: '',
+    });
+    const [userDetails, setUserDetails] = useState();
     const [fetchedGrades, setFetchedGrades] = useState([]);
     const [listSubject, setListSubject] = useState([]);
-    const [subject, setSubject] = useState('S0009');
-    const [description, setDescription] = useState('');
-    const [startDate, setStartDate] = useState(new Date());
-    const [endDate, setEndDate] = useState(null);
-    const [startDateInput, setStartDateInput] = useState();
-    const [endDateInput, setEndDateInput] = useState();
-    const [selectedDays, setSelectedDays] = useState([]);
-    const [startTime, setStartTime] = useState('');
-    const [endTime, setEndTime] = useState('');
     const [events, setEvents] = useState([]);
-
-    useEffect(() => {
-        console.log(subject, grade, description, startDateInput, endDateInput, selectedDays, startTime, endTime);
-    }, [subject, grade, description, startDateInput, endDateInput, selectedDays, startTime, endTime]);
 
     useEffect(() => {
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }, []);
 
-    const times = Array.from({ length: 24 }, (_, i) => i + 1);
+    const times = useMemo(() => Array.from({ length: 24 }, (_, i) => i + 1), []);
 
-    const handleStartTimeChange = (event) => {
-        setStartTime(event.target.value);
-    };
+    const handleInputChange = useCallback((e) => {
+        const { name, value } = e.target;
+        setFormData((prevData) => ({ ...prevData, [name]: value }));
+    }, []);
 
-    const handleEndTimeChange = (event) => {
-        setEndTime(event.target.value);
-    };
+    const handleDayClick = useCallback((day) => {
+        setFormData((prevData) => ({
+            ...prevData,
+            selectedDays: prevData.selectedDays.includes(day)
+                ? prevData.selectedDays.filter((d) => d !== day)
+                : [...prevData.selectedDays, day],
+        }));
+    }, []);
 
-    const handleDayClick = (day) => {
-        setSelectedDays((prevSelectedDays) => {
-            if (prevSelectedDays.includes(day)) {
-                return prevSelectedDays.filter((d) => d !== day);
-            } else {
-                return [...prevSelectedDays, day];
-            }
-        });
-    };
-
-    const handleSelect = (ranges) => {
+    const handleSelect = useCallback((ranges) => {
         const { selection } = ranges;
-        const startDateUTC = new Date(
-            Date.UTC(selection.startDate.getFullYear(), selection.startDate.getMonth(), selection.startDate.getDate()),
-        );
-        const endDateUTC = new Date(
-            Date.UTC(selection.endDate.getFullYear(), selection.endDate.getMonth(), selection.endDate.getDate()),
-        );
+        const startDateUTC = new Date(Date.UTC(selection.startDate.getFullYear(), selection.startDate.getMonth(), selection.startDate.getDate()));
+        const endDateUTC = new Date(Date.UTC(selection.endDate.getFullYear(), selection.endDate.getMonth(), selection.endDate.getDate()));
 
-        setStartDate(startDateUTC);
-        setEndDate(endDateUTC);
-        setStartDateInput(startDateUTC ? format(startDateUTC, 'yyyy-MM-dd') : '');
-        setEndDateInput(endDateUTC ? format(endDateUTC, 'yyyy-MM-dd') : '');
-    };
-
-    useEffect(() => {
-        try {
-            const Grades = async () => {
-                const response = await request.get(GRADE_URL);
-                setFetchedGrades(response.data);
-            };
-            Grades();
-        } catch (error) {
-            console.log(error);
-        }
+        setFormData((prevData) => ({
+            ...prevData,
+            startDate: startDateUTC,
+            endDate: endDateUTC,
+            startDateInput: startDateUTC ? format(startDateUTC, 'yyyy-MM-dd') : '',
+            endDateInput: endDateUTC ? format(endDateUTC, 'yyyy-MM-dd') : '',
+        }));
     }, []);
 
     useEffect(() => {
-        const GetSubject = async () => {
+        const fetchGrades = async () => {
+            try {
+                const response = await request.get(GRADE_URL);
+                setFetchedGrades(response.data);
+            } catch (error) {
+                console.log(error);
+            }
+        };
+        fetchGrades();
+    }, []);
+
+    useEffect(() => {
+        const fetchSubjects = async () => {
             try {
                 const response = await request.get(SUBJECTGROUP_URL);
                 setListSubject(response.data);
@@ -106,24 +99,23 @@ const RequestForm = () => {
                 console.log(error);
             }
         };
-        GetSubject();
+        fetchSubjects();
     }, []);
 
     useEffect(() => {
         let isMounted = true;
         const controller = new AbortController();
-        const getTutor = async () => {
+        const fetchTutorDetails = async () => {
             try {
                 const response = await requestPrivate.get(`${PROFILE_TUTOR_URL}${state.key}`, {
                     signal: controller.signal,
                 });
-                console.log(response.data);
-                isMounted && setUserDetails(response.data);
+                if (isMounted) setUserDetails(response.data);
             } catch (error) {
                 console.log(error);
             }
         };
-        getTutor();
+        fetchTutorDetails();
 
         return () => {
             isMounted = false;
@@ -132,34 +124,33 @@ const RequestForm = () => {
     }, [requestPrivate, state?.key]);
 
     useEffect(() => {
-        const getCalendar = async () => {
+        const fetchCalendar = async () => {
             try {
                 const response = await requestPrivate.get(`${TUTOR_CALENDAR_URL}${state.key}`);
-                console.log(response.data);
                 setEvents(response.data);
             } catch (error) {
                 console.log(error);
             }
         };
-        getCalendar();
-    }, [requestPrivate, state?.key]);
+        fetchCalendar();
+    }, [requestPrivate, state.key]);
 
     const handleSubmit = async (event) => {
         event.preventDefault();
         const params = {
             tutorId: state.key,
-            gradeId: grade,
-            subjectGroupId: subject,
-            description,
-            dayStart: startDate,
-            dayEnd: endDate,
-            dayOfWeek: selectedDays.sort((a, b) => a - b).join(','),
-            timeStart: startTime,
-            timeEnd: endTime,
+            gradeId: formData.grade,
+            subjectGroupId: formData.subject,
+            description: formData.description,
+            dayStart: formData.startDate,
+            dayEnd: formData.endDate,
+            dayOfWeek: formData.selectedDays.sort((a, b) => a - b).join(','),
+            timeStart: formData.startTime,
+            timeEnd: formData.endTime,
         };
 
         try {
-            const response = await requestPrivate.post(CREATE_REQUEST_URL, params, {
+            await requestPrivate.post(CREATE_REQUEST_URL, params, {
                 headers: {
                     'Content-Type': 'application/json',
                 },
@@ -174,14 +165,11 @@ const RequestForm = () => {
         <div className={cx('wrapper')}>
             <Container className={cx('container')}>
                 <Row>
-                    <Col lg="7" className={cx('container__form')}>
+                    <Col lg='7' className={cx('container__form')}>
                         <form onSubmit={handleSubmit}>
                             <div className={cx('container__form_header')}>
                                 <h1>Send a message to {userDetails?.fullName}</h1>
-                                <img
-                                    alt={userDetails?.fullName}
-                                    src="https://scontent.fsgn2-5.fna.fbcdn.net/v/t39.30808-6/434995303_973446541139151_763263780124831767_n.jpg?_nc_cat=104&ccb=1-7&_nc_sid=6ee11a&_nc_eui2=AeGEaab2DIhXQnKqPsXKwNHBI-ox7j02aOYj6jHuPTZo5rbae5KwOXQXTUcwYIa9_UkRdY0hKrnN4U5xRJOclAFl&_nc_ohc=Tifi1Tg3J60Q7kNvgHntohg&_nc_ht=scontent.fsgn2-5.fna&oh=00_AYBYRCiwZsXk9IZKglxlkUS1dCu0fYEqYSkKjCeqKmXffg&oe=668F74F5"
-                                ></img>
+                                <img alt={userDetails?.fullName} src={userDetails?.avatar} />
                             </div>
 
                             <div>
@@ -191,7 +179,7 @@ const RequestForm = () => {
                             <div className={cx('container__form_body')}>
                                 <h2>Tell {userDetails?.fullName} about your goals for tutoring</h2>
                                 <p>
-                                    <span>Lession type: Online</span>
+                                    <span>Lesson type: Online</span>
                                     <span>Hourly rate: ${userDetails?.hourlyRate}</span>
                                 </p>
                             </div>
@@ -199,7 +187,7 @@ const RequestForm = () => {
                             <div className={cx('container__form_info')}>
                                 <div className={cx('subject_grade')}>
                                     <label htmlFor="subjects">Subject: </label>
-                                    <select id="subjects" name="subjects" onChange={(e) => setSubject(e.target.value)}>
+                                    <select id="subjects" name="subject" onChange={handleInputChange} value={formData.subject}>
                                         {listSubject.map((subject, index) => (
                                             <option key={index} value={subject.subjectGroupId}>
                                                 {subject.subjectName}
@@ -208,7 +196,7 @@ const RequestForm = () => {
                                     </select>
 
                                     <label htmlFor="grades">Grade: </label>
-                                    <select id="grades" name="grades" onChange={(e) => setGrade(e.target.value)}>
+                                    <select id="grades" name="grade" onChange={handleInputChange} value={formData.grade}>
                                         {fetchedGrades.map((grade, index) => (
                                             <option key={index} value={grade.gradeId}>
                                                 {grade.number}
@@ -224,9 +212,10 @@ const RequestForm = () => {
                                 <div className={cx('container__form_input')}>
                                     <textarea
                                         placeholder='ex. "Hi, I have a big exam coming up..."'
-                                        onChange={(e) => setDescription(e.target.value)}
-                                        value={description}
-                                    ></textarea>
+                                        name="description"
+                                        onChange={handleInputChange}
+                                        value={formData.description}
+                                    />
                                 </div>
                             </div>
 
@@ -248,7 +237,7 @@ const RequestForm = () => {
                                         editableDateInputs={true}
                                         onChange={handleSelect}
                                         moveRangeOnFirstSelection={false}
-                                        ranges={[{ startDate, endDate, key: 'selection' }]}
+                                        ranges={[{ startDate: formData.startDate, endDate: formData.endDate, key: 'selection' }]}
                                         minDate={new Date()}
                                     />
                                 </div>
@@ -256,60 +245,50 @@ const RequestForm = () => {
                                     <div>
                                         <span>Select the days you will study</span>
                                     </div>
-                                    {['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thurday', 'Friday', 'Saturday'].map(
-                                        (day, index) => (
-                                            <button
-                                                key={index}
-                                                onClick={() => handleDayClick(index)}
-                                                className={cx({ selected: selectedDays.includes(index) })}
-                                            >
-                                                {day}
-                                            </button>
-                                        ),
-                                    )}
+                                    {['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'].map((day, index) => (
+                                        <button
+                                            key={index}
+                                            onClick={() => handleDayClick(index)}
+                                            className={cx({ selected: formData.selectedDays.includes(index) })}
+                                        >
+                                            {day}
+                                        </button>
+                                    ))}
+                                </div>
 
-                                    <div className={cx('select_time')}>
-                                        <div>
-                                            <span>Select the start and end hour</span>
-                                            <div className={cx('start_end_hour')}>
-                                                <label>
-                                                    <select
-                                                        value={startTime}
-                                                        onChange={handleStartTimeChange}
-                                                        className="form-select"
-                                                    >
-                                                        <option value="">Start Hour</option>
-                                                        {times.map((time) => (
+                                <div className={cx('select_time')}>
+                                    <div>
+                                        <span>Select the start and end hour</span>
+                                        <div className={cx('start_end_hour')}>
+                                            <label>
+                                                <select name="startTime" value={formData.startTime} onChange={handleInputChange} className="form-select">
+                                                    <option value="">Start Hour</option>
+                                                    {times.map((time) => (
+                                                        <option key={time} value={time}>
+                                                            {time}h
+                                                        </option>
+                                                    ))}
+                                                </select>
+                                            </label>
+                                            <label>
+                                                <select name="endTime" value={formData.endTime} onChange={handleInputChange} className="form-select">
+                                                    <option value="">End Hour</option>
+                                                    {times
+                                                        .filter((time) => time > formData.startTime)
+                                                        .map((time) => (
                                                             <option key={time} value={time}>
                                                                 {time}h
                                                             </option>
                                                         ))}
-                                                    </select>
-                                                </label>
-                                                <label>
-                                                    <select
-                                                        value={endTime}
-                                                        onChange={handleEndTimeChange}
-                                                        className="form-select"
-                                                    >
-                                                        <option value="">End Hour</option>
-                                                        {times
-                                                            .filter((time) => time > startTime)
-                                                            .map((time) => (
-                                                                <option key={time} value={time}>
-                                                                    {time}h
-                                                                </option>
-                                                            ))}
-                                                    </select>
-                                                </label>
-                                            </div>
+                                                </select>
+                                            </label>
                                         </div>
                                     </div>
                                 </div>
                             </div>
 
                             <div className={cx('container_submit')}>
-                                <input className={cx('button_submit')} type="submit" value="Submit"></input>
+                                <input className={cx('button_submit')} type="submit" value="Submit" />
                             </div>
                         </form>
                     </Col>
@@ -318,5 +297,6 @@ const RequestForm = () => {
         </div>
     );
 };
+       
 
 export default RequestForm;
