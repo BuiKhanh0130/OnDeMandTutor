@@ -7,7 +7,6 @@ import Col from 'react-bootstrap/Col';
 
 import images from '~/assets/images';
 import Image from '~/components/Image';
-import Button from '~/components/Button';
 import styles from './RequestOfTutor.module.scss';
 import useRequestsPrivate from '~/hooks/useRequestPrivate';
 import Popup from './Popup';
@@ -15,6 +14,7 @@ import Popup from './Popup';
 const cx = classNames.bind(styles);
 
 const FORM_REQUEST_URL = 'FormRequestTutor/tutorViewForm';
+const HANDLE_FORM_URL = 'FormRequestTutor/handleBrowserForm'
 
 function RequestOfTutor() {
     const [forms, setForms] = useState([]);
@@ -22,6 +22,9 @@ function RequestOfTutor() {
     const [currentPage, setCurrentPage] = useState(1);
     const [showModal, setShowModal] = useState(false);
     const [modalContent, setModalContent] = useState('');
+    const [form, setForm] = useState(null);
+    const [selected, setSelected] = useState('');
+    const [sameFormNum, setSameFormNum] = useState(0);
     const requestPrivate = useRequestsPrivate();
 
     useEffect(() => {
@@ -30,6 +33,7 @@ function RequestOfTutor() {
                 const response = await requestPrivate.get(FORM_REQUEST_URL);
                 setForms(response.data.listResult);
                 setLimitPage(response.data.limitPage)
+                console.log(response.data);
             } catch (error) {
                 console.error('Error:', error);
             }
@@ -37,17 +41,30 @@ function RequestOfTutor() {
         fetchForm();
     }, [requestPrivate]);
 
-    const handleReject = () => {
+    const handleReject = (form) => {
+        setSelected('Reject');
+        setForm(form);
         setModalContent('Are you sure you want to reject this request?');
         setShowModal(true);
     };
-
-    const handleApply = () => {
+    
+    const handleApply = (form) => {
+        setSelected('Apply');
+        setForm(form);
         setModalContent('Are you sure you want to apply for this request?');
         setShowModal(true);
-    };
 
-   
+        const fetchSameForm = async() =>{
+            try {
+                const response = await requestPrivate.get(`${HANDLE_FORM_URL}?formId=${form.formId}&action=true`);
+                setSameFormNum(response.data);
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        }
+
+        fetchSameForm();
+    };
 
     return (
         <div className={cx('wrapper')}>
@@ -92,10 +109,10 @@ function RequestOfTutor() {
                                 <Image src={form.avatar || images.avatar} alt={form.fullName} />
                                 <p>{form.fullName}</p>
                                 <div className={cx('container_avatar-buttons')}>
-                                    <button className={cx('container_avatar-button', 'reject')} onClick={handleReject}>
+                                    <button className={cx('container_avatar-button', 'reject')} onClick={() => handleReject(form)}>
                                         Reject
                                     </button>
-                                    <button className={cx('container_avatar-button')} onClick={handleApply}>
+                                    <button className={cx('container_avatar-button')} onClick={() => handleApply(form)}>
                                         Apply
                                     </button>
                                 </div>
@@ -106,7 +123,9 @@ function RequestOfTutor() {
             </Container>
 
             {showModal && (
-                <Popup setShowModal={setShowModal} modalContent={modalContent}/>
+                <Popup setShowModal={setShowModal} 
+                modalContent={modalContent} selected={selected} 
+                form={form} sameFormNum={sameFormNum}/>
             )}
         </div>
     );
