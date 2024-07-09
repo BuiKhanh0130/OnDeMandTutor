@@ -1,6 +1,6 @@
-import React from 'react'
-import classNames from 'classnames/bind'
-import styles from './RequestForm.module.scss'
+import React from 'react';
+import classNames from 'classnames/bind';
+import styles from './RequestForm.module.scss';
 import { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import Container from 'react-bootstrap/Container';
@@ -11,21 +11,20 @@ import { Link } from 'react-router-dom';
 import request from '~/utils/request';
 import { DateRange } from 'react-date-range';
 import { format } from 'date-fns';
-import 'react-date-range/dist/styles.css'; 
+import 'react-date-range/dist/styles.css';
 import 'react-date-range/dist/theme/default.css';
 import Calendar from '~/components/Calendar/Calendar';
 import 'bootstrap/dist/css/bootstrap.min.css';
 const GRADE_URL = 'Grade';
 
-const cx = classNames.bind(styles)
+const cx = classNames.bind(styles);
 
 const PROFILE_TUTOR_URL = 'Tutors/Id/';
 const SUBJECTGROUP_URL = 'SubjectGroup';
-const TUTOR_CALENDAR_URL = 'Classes/showTutorCalender?tutorId='
-const CREATE_REQUEST_URL = 'FormRequestTutor/createForm'
+const TUTOR_CALENDAR_URL = 'Classes/showTutorCalender?tutorId=';
+const CREATE_REQUEST_URL = 'FormRequestTutor/createForm';
 
 const RequestForm = () => {
-
     const requestPrivate = useRequestsPrivate();
     const [userDetails, setUserDetails] = useState();
     const { state } = useLocation();
@@ -36,17 +35,16 @@ const RequestForm = () => {
     const [description, setDescription] = useState('');
     const [startDate, setStartDate] = useState(new Date());
     const [endDate, setEndDate] = useState(null);
-    const [startDateInput, setStartDateInput] = useState()
-    const [endDateInput, setEndDateInput] = useState()
+    const [startDateInput, setStartDateInput] = useState();
+    const [endDateInput, setEndDateInput] = useState();
     const [selectedDays, setSelectedDays] = useState([]);
     const [startTime, setStartTime] = useState('');
     const [endTime, setEndTime] = useState('');
     const [events, setEvents] = useState([]);
 
-
-    useEffect(()=>{
+    useEffect(() => {
         console.log(subject, grade, description, startDateInput, endDateInput, selectedDays, startTime, endTime);
-    }, [subject, grade, description, startDateInput, endDateInput, selectedDays, startTime, endTime])
+    }, [subject, grade, description, startDateInput, endDateInput, selectedDays, startTime, endTime]);
 
     useEffect(() => {
         window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -56,32 +54,36 @@ const RequestForm = () => {
 
     const handleStartTimeChange = (event) => {
         setStartTime(event.target.value);
-      };
-    
-      const handleEndTimeChange = (event) => {
+    };
+
+    const handleEndTimeChange = (event) => {
         setEndTime(event.target.value);
-      };
+    };
 
-  const handleDayClick = (day) => {
-    setSelectedDays((prevSelectedDays) => {
-      if (prevSelectedDays.includes(day)) {
-        return prevSelectedDays.filter((d) => d !== day);
-      } else {
-        return [...prevSelectedDays, day];
-      }
-    });
-  };
+    const handleDayClick = (day) => {
+        setSelectedDays((prevSelectedDays) => {
+            if (prevSelectedDays.includes(day)) {
+                return prevSelectedDays.filter((d) => d !== day);
+            } else {
+                return [...prevSelectedDays, day];
+            }
+        });
+    };
 
- const handleSelect = (ranges) => {
-    const { selection } = ranges;
-    const startDateUTC = new Date(Date.UTC(selection.startDate.getFullYear(), selection.startDate.getMonth(), selection.startDate.getDate()));
-    const endDateUTC = new Date(Date.UTC(selection.endDate.getFullYear(), selection.endDate.getMonth(), selection.endDate.getDate()));
+    const handleSelect = (ranges) => {
+        const { selection } = ranges;
+        const startDateUTC = new Date(
+            Date.UTC(selection.startDate.getFullYear(), selection.startDate.getMonth(), selection.startDate.getDate()),
+        );
+        const endDateUTC = new Date(
+            Date.UTC(selection.endDate.getFullYear(), selection.endDate.getMonth(), selection.endDate.getDate()),
+        );
 
-    setStartDate(startDateUTC);
-    setEndDate(endDateUTC);
-    setStartDateInput(startDateUTC ? format(startDateUTC, 'yyyy-MM-dd') : '');
-    setEndDateInput(endDateUTC ? format(endDateUTC, 'yyyy-MM-dd') : '');
-};
+        setStartDate(startDateUTC);
+        setEndDate(endDateUTC);
+        setStartDateInput(startDateUTC ? format(startDateUTC, 'yyyy-MM-dd') : '');
+        setEndDateInput(endDateUTC ? format(endDateUTC, 'yyyy-MM-dd') : '');
+    };
 
     useEffect(() => {
         try {
@@ -95,7 +97,6 @@ const RequestForm = () => {
         }
     }, []);
 
-  
     useEffect(() => {
         const GetSubject = async () => {
             try {
@@ -128,7 +129,7 @@ const RequestForm = () => {
             isMounted = false;
             controller.abort();
         };
-    }, [requestPrivate, state.key]);
+    }, [requestPrivate, state?.key]);
 
     useEffect(() => {
         const getCalendar = async () => {
@@ -141,47 +142,50 @@ const RequestForm = () => {
             }
         };
         getCalendar();
-    }, [requestPrivate, state.key])
+    }, [requestPrivate, state?.key]);
 
-        const handleSubmit = async (event) => {
-            event.preventDefault();
-            const params = {
-                tutorId: state.key,
-                gradeId: grade,
-                subjectGroupId: subject,
-                description,
-                dayStart: startDate,
-                dayEnd: endDate,
-                dayOfWeek: selectedDays.sort((a, b) => a - b).join(','),
-                timeStart: startTime,
-                timeEnd: endTime,
-            };
-    
-            try {
-                const response = await requestPrivate.post(CREATE_REQUEST_URL, params, {
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                });
-                alert('Request sent successfully!');
-            } catch (error) {
-                console.log(error);
-            }
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+        const params = {
+            tutorId: state.key,
+            gradeId: grade,
+            subjectGroupId: subject,
+            description,
+            dayStart: startDate,
+            dayEnd: endDate,
+            dayOfWeek: selectedDays.sort((a, b) => a - b).join(','),
+            timeStart: startTime,
+            timeEnd: endTime,
+        };
+
+        try {
+            const response = await requestPrivate.post(CREATE_REQUEST_URL, params, {
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+            alert('Request sent successfully!');
+        } catch (error) {
+            console.log(error);
         }
-    
-  return (
-    <div className={cx('wrapper')}>
+    };
+
+    return (
+        <div className={cx('wrapper')}>
             <Container className={cx('container')}>
-                <Row >
-                    <Col lg='7' className={cx('container__form')}>
+                <Row>
+                    <Col lg="7" className={cx('container__form')}>
                         <form onSubmit={handleSubmit}>
                             <div className={cx('container__form_header')}>
                                 <h1>Send a message to {userDetails?.fullName}</h1>
-                                <img alt={userDetails?.fullName} src='https://scontent.fsgn2-5.fna.fbcdn.net/v/t39.30808-6/434995303_973446541139151_763263780124831767_n.jpg?_nc_cat=104&ccb=1-7&_nc_sid=6ee11a&_nc_eui2=AeGEaab2DIhXQnKqPsXKwNHBI-ox7j02aOYj6jHuPTZo5rbae5KwOXQXTUcwYIa9_UkRdY0hKrnN4U5xRJOclAFl&_nc_ohc=Tifi1Tg3J60Q7kNvgHntohg&_nc_ht=scontent.fsgn2-5.fna&oh=00_AYBYRCiwZsXk9IZKglxlkUS1dCu0fYEqYSkKjCeqKmXffg&oe=668F74F5'></img>
+                                <img
+                                    alt={userDetails?.fullName}
+                                    src="https://scontent.fsgn2-5.fna.fbcdn.net/v/t39.30808-6/434995303_973446541139151_763263780124831767_n.jpg?_nc_cat=104&ccb=1-7&_nc_sid=6ee11a&_nc_eui2=AeGEaab2DIhXQnKqPsXKwNHBI-ox7j02aOYj6jHuPTZo5rbae5KwOXQXTUcwYIa9_UkRdY0hKrnN4U5xRJOclAFl&_nc_ohc=Tifi1Tg3J60Q7kNvgHntohg&_nc_ht=scontent.fsgn2-5.fna&oh=00_AYBYRCiwZsXk9IZKglxlkUS1dCu0fYEqYSkKjCeqKmXffg&oe=668F74F5"
+                                ></img>
                             </div>
 
                             <div>
-                                <hr className={cx('line_break')}/>
+                                <hr className={cx('line_break')} />
                             </div>
 
                             <div className={cx('container__form_body')}>
@@ -194,8 +198,7 @@ const RequestForm = () => {
 
                             <div className={cx('container__form_info')}>
                                 <div className={cx('subject_grade')}>
-
-                                <label htmlFor="subjects">Subject: </label>
+                                    <label htmlFor="subjects">Subject: </label>
                                     <select id="subjects" name="subjects" onChange={(e) => setSubject(e.target.value)}>
                                         {listSubject.map((subject, index) => (
                                             <option key={index} value={subject.subjectGroupId}>
@@ -215,94 +218,105 @@ const RequestForm = () => {
                                 </div>
 
                                 <div>
-                                    <hr className={cx('line_break')}/>
+                                    <hr className={cx('line_break')} />
                                 </div>
 
                                 <div className={cx('container__form_input')}>
-                                    <textarea placeholder='ex. "Hi, I have a big exam coming up..."'
-                                    onChange={(e) => setDescription(e.target.value)}
-                                    value={description}
-                                    >
-                                    </textarea>
+                                    <textarea
+                                        placeholder='ex. "Hi, I have a big exam coming up..."'
+                                        onChange={(e) => setDescription(e.target.value)}
+                                        value={description}
+                                    ></textarea>
                                 </div>
                             </div>
 
                             <div className={cx('container__form_time')}>
-                                        <h2>Your tutor's schedule</h2>
+                                <h2>Your tutor's schedule</h2>
                             </div>
 
                             <div className={cx('calendar_tutor')}>
-                                    <Calendar events={events}/>
+                                <Calendar events={events} />
                             </div>
 
                             <div className={cx('container__form_time')}>
-                                        <h2>When would you like to meet?</h2>
+                                <h2>When would you like to meet?</h2>
                             </div>
 
                             <div className={cx('Date_Range')}>
                                 <div>
                                     <DateRange
-                                    editableDateInputs={true}
-                                    onChange={handleSelect}
-                                    moveRangeOnFirstSelection={false}
-                                    ranges={[{ startDate, endDate, key: 'selection' }]}
-                                    minDate={new Date()}
+                                        editableDateInputs={true}
+                                        onChange={handleSelect}
+                                        moveRangeOnFirstSelection={false}
+                                        ranges={[{ startDate, endDate, key: 'selection' }]}
+                                        minDate={new Date()}
                                     />
                                 </div>
                                 <div className={cx('select_day')}>
-                                        <div>
-                                        <span>Select the days you will study</span>
-                                        </div>
-                                        {['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thurday', 'Friday', 'Saturday'].map((day, index) => (
-                                        
-                                            <button key={index}
-                                            onClick={() => handleDayClick(index)}
-                                            className={cx({ selected: selectedDays.includes(index) })}
-                                            >{day}</button>
-                                        
-                                        ))}
-
-                                <div className={cx('select_time')}>
                                     <div>
-                                        <span>Select the start and end hour</span>
-                                        <div className={cx('start_end_hour')}>
-                                            <label>
-                                            <select value={startTime} onChange={handleStartTimeChange} className="form-select">
-                                                <option value="">Start Hour</option>
-                                                {times.map((time) => (
-                                                <option key={time} value={time}>
-                                                    {time}h
-                                                </option>
-                                                ))}
-                                            </select>
-                                            </label>
-                                            <label>
-                                            <select value={endTime} onChange={handleEndTimeChange} className="form-select">
-                                                <option value="">End Hour</option>
-                                                {times
-                                                .filter((time) => time > startTime)
-                                                .map((time) => (
-                                                    <option key={time} value={time}>
-                                                    {time}h
-                                                    </option>
-                                                ))}
-                                            </select>
-                                            </label>
-                                        </div>
+                                        <span>Select the days you will study</span>
+                                    </div>
+                                    {['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thurday', 'Friday', 'Saturday'].map(
+                                        (day, index) => (
+                                            <button
+                                                key={index}
+                                                onClick={() => handleDayClick(index)}
+                                                className={cx({ selected: selectedDays.includes(index) })}
+                                            >
+                                                {day}
+                                            </button>
+                                        ),
+                                    )}
+
+                                    <div className={cx('select_time')}>
+                                        <div>
+                                            <span>Select the start and end hour</span>
+                                            <div className={cx('start_end_hour')}>
+                                                <label>
+                                                    <select
+                                                        value={startTime}
+                                                        onChange={handleStartTimeChange}
+                                                        className="form-select"
+                                                    >
+                                                        <option value="">Start Hour</option>
+                                                        {times.map((time) => (
+                                                            <option key={time} value={time}>
+                                                                {time}h
+                                                            </option>
+                                                        ))}
+                                                    </select>
+                                                </label>
+                                                <label>
+                                                    <select
+                                                        value={endTime}
+                                                        onChange={handleEndTimeChange}
+                                                        className="form-select"
+                                                    >
+                                                        <option value="">End Hour</option>
+                                                        {times
+                                                            .filter((time) => time > startTime)
+                                                            .map((time) => (
+                                                                <option key={time} value={time}>
+                                                                    {time}h
+                                                                </option>
+                                                            ))}
+                                                    </select>
+                                                </label>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
 
-                            <div className={cx('container_submit')}>                    
+                            <div className={cx('container_submit')}>
                                 <input className={cx('button_submit')} type="submit" value="Submit"></input>
-                            </div>      
-                        </form>                  
+                            </div>
+                        </form>
                     </Col>
                 </Row>
             </Container>
-    </div>
-  )
-}
+        </div>
+    );
+};
 
-export default RequestForm
+export default RequestForm;
