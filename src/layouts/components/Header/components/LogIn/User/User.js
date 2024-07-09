@@ -37,11 +37,6 @@ function User({ children }) {
                                 <li>
                                     <Link to={`/student/${avatar.fullName}`}>My profile</Link>
                                 </li>
-                       
-                                  
-                                    <Link to="/transaction/history">
-                                        <li>Transaction history</li>
-                                    </Link>
 
                                 <Link to="/classes">
                                     <li>Your Classes</li>
@@ -51,6 +46,9 @@ function User({ children }) {
                                     <li>My Post</li>
                                 </Link>
 
+                                <Link to="/transaction/history">
+                                    <li>Transaction history</li>
+                                </Link>
 
                                 <li onClick={signOut}>Log out</li>
                             </ul>

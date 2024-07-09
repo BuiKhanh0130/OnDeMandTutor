@@ -26,14 +26,14 @@
 .container__card {
     display: flex;
     flex-direction: column;
-    gap: 8px; /* Reduced gap for better spacing */
+    gap: 8px; 
     flex: 1;
 }
 
 .container__form-control {
     display: flex;
     flex-direction: column;
-    gap: 8px; /* Reduced gap for better spacing */
+    gap: 8px; 
 }
 
 .container__form-control-info {
@@ -45,7 +45,7 @@
 }
 
 .container__form-control-info strong {
-    margin-right: 5px; /* Adjusted margin for better spacing */
+    margin-right: 5px; 
 }
 
 .container_avatar {
@@ -75,25 +75,62 @@
 }
 
 .container_avatar-button {
-    background-color: #4CAF50; /* Green color for Apply button */
+    background-color: #4CAF50;
     color: #fff;
     border: none;
-    padding: 8px 16px; /* Reduced padding for smaller button size */
+    padding: 8px 16px; 
     border-radius: 4px;
     cursor: pointer;
     transition: background-color 0.3s ease;
+    :hover {
+        background-color: #45a049;
+    }
 }
 
-.container_avatar-button:hover {
-    background-color: #45a049;
-}
 
 .container_avatar-button.reject {
-    background-color: #f44336; /* Red color for Reject button */
+    background-color: #f44336; 
+    :hover {
+        background-color: #e53935;
+    }
 }
 
-.container_avatar-button.reject:hover {
-    background-color: #e53935;
+.header{
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 2rem;
+    font-weight: bold;
+    color: #333;
+    
+    h1{
+        font-weight: bold;
+        font-size: 40px;
+        text-transform: uppercase;
+        text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+        color: rgb(237, 109, 32);
+    }
 }
 
-/* Modal styles */
+.filter-buttons {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.filter-buttons button {
+    margin: 0 10px;
+    padding: 10px 20px;
+    border: none;
+    background-color: #f5f5f5;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.filter-buttons button.active {
+    background-color: #d56a43;
+    color: #fff;
+}
+
+.filter-buttons button:hover {
+    background-color: #ddd;
+}
