@@ -6,22 +6,24 @@ import useRequestsPrivate from '~/hooks/useRequestPrivate';
 const cx = classNames.bind(styles)
 const TUTOR_BROWSER_FORM_URL = 'FormRequestTutor/tutorBrowserForm'
 
+
 const Popup = ({setShowModal, modalContent, selected, form, sameFormNum}) => {
+
     const requestPrivate = useRequestsPrivate();
 
-
-        console.log(form, selected);
     const handleConfirm = () => {
         if (selected === 'Apply') {
             const BrowserForm = async () => {
                 try {
                     const response = await requestPrivate.put(`${TUTOR_BROWSER_FORM_URL}?formId=${form.formId}&action=true`);
-                    console.log(response.data)
                 } catch (error) {
                     console.log(error);
                 }
             }
             BrowserForm();
+
+
+
         }else{
             const BrowserForm = async () => {
                 try {
@@ -39,6 +41,7 @@ const Popup = ({setShowModal, modalContent, selected, form, sameFormNum}) => {
     const handleCancel = () => {
         setShowModal(false);
     };
+
   return (
         <div className={cx('modal')}>
             <div className={cx('modal-content')}>

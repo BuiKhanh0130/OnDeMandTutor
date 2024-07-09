@@ -63,8 +63,9 @@ const Classes = () => {
                 }
 
                 const response = await requestPrivate.get(API_URL);
-                setClasses(response.data.listResult);
-                setSize(response.data.listResult.length);
+                console.log(response.data);
+                // setClasses(response.data.listResult);
+                // setSize(response.data.listResult.length);
                 if (response.data.listResult.length > 0) {
                     setClassID(response.data.listResult[0].classid);
                 }
@@ -81,7 +82,8 @@ const Classes = () => {
         setClassID(classid);
     };
 
-    const selectedClass = useMemo(() => classes.find(classs => classs.classid === classID), [classes, classID]);
+    const selectedClass = useMemo(() => classes ? classes.find(classs => classs.classid === classID) : null
+    , [classes, classID]);
 
     return (
         <div className={cx('wrapper')}>
@@ -105,7 +107,7 @@ const Classes = () => {
                 </Row>
                 <Row>
                     <Col lg='4' className={cx('container__class')}>
-                        {classes.map((classs, index) => (
+                        {/* { classes.map((classs, index) => (
                             <Col key={index} lg="12" className={cx('container__class_detail')} onClick={() => handleClassClick(classs.classid)}>
                                 <div className={cx('container__class-header')}>
                                     <span>{classs.className}</span>
@@ -114,9 +116,9 @@ const Classes = () => {
                                     <span>Subject: {classs.subjectName}</span> 
                                 </div>
                             </Col>
-                        ))}
+                        ))} */}
                     </Col>
-                    {selectedClass ? (
+                    {/* {selectedClass ? (
                         <Col lg='8' className={cx('container__mess_detail')}>
                             <Row>
                                 <Col lg='12' className={cx('container__mess_header')}>
@@ -141,7 +143,7 @@ const Classes = () => {
                         <div className={cx('container__noclass')}>
                             <span>There are currently no classes available.</span>
                         </div>
-                    )}
+                    )} */}
                 </Row>
             </Container>
         </div>
