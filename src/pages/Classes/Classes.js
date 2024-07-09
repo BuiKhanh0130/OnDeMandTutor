@@ -104,14 +104,14 @@ const Classes = () => {
                     </Col>
                 </Row>
                 <Row>
-                    <Col lg='4' className={cx('container__class')}>
+                    <Col lg="4" className={cx('container__class')}>
                         {classes.map((classs, index) => (
                             <Col key={index} lg="12" className={cx('container__class_detail')} onClick={() => handleClassClick(classs.classid)}>
                                 <div className={cx('container__class-header')}>
                                     <span>{classs.className}</span>
                                 </div>
                                 <div className={cx('container__class-body')}>
-                                    <span>Subject: {classs.subjectName}</span> 
+                                    <span>Subject: {classs.subjectName}</span>
                                 </div>
                             </Col>
                         ))}
