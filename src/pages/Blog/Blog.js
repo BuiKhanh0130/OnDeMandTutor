@@ -24,11 +24,12 @@ function Blog() {
     const [pageIndex, setPageIndex] = useState(1);
     const [limitPageIndex, setLimitPageIndex] = useState(1);
     const [gender, setGender] = useState();
-    const [sort, setSort] = useState();
     const [subject, setSubject] = useState('');
     const [hourlyRate, setHourlyRate] = useState();
     const [gradeId, setGradeId] = useState('');
     const [typeOfDegree, setTypeOfDegree] = useState('');
+    const [sortPostBy, setSortPostBy] = useState(0);
+    const [sortPostType, setSortPostType] = useState(1);
 
     const debouncedValueSubject = useDebounce(subject, 500);
     const debouncedValueHourlyRate = useDebounce(hourlyRate, 500);
@@ -38,25 +39,43 @@ function Blog() {
     useEffect(() => {
         let isMounted = true;
         const controller = new AbortController();
+        let url = FORM_FIND_TUTOR_URL;
+        if (
+            debouncedValueSubject ||
+            debouncedValueHourlyRate ||
+            debouncedGradeId ||
+            debouncedTypeOfDegree ||
+            pageIndex ||
+            sortPostBy
+        ) {
+            const params = new URLSearchParams();
+            if (debouncedValueSubject) {
+                params.append('Search', debouncedValueSubject);
+            }
+            if (debouncedValueHourlyRate) {
+                params.append('HourlyRate', debouncedValueHourlyRate);
+            }
+            if (debouncedGradeId) {
+                params.append('GradeId', debouncedGradeId);
+            }
+            if (gender) {
+                params.append('Gender', gender);
+            }
+            if (debouncedTypeOfDegree) {
+                params.append('TypeOfDegree', debouncedTypeOfDegree);
+            }
+            if (sortPostBy) {
+                params.append('SortContent.sortPostBy', sortPostBy);
+            }
+            if (sortPostType) {
+                params.append('SortContent.sortPostType', sortPostType);
+            }
+            url += `?${params.toString()}`;
+        }
         const getFormClass = async () => {
-            const response = await requestPrivate.get(
-                FORM_FIND_TUTOR_URL,
-                {
-                    Search: debouncedValueSubject,
-                    HourlyRate: debouncedValueHourlyRate,
-                    GradeId: debouncedGradeId,
-                    Gender: gender,
-                    TypeOfDegree: debouncedTypeOfDegree,
-                    pageIndex,
-                    SortContent: {
-                        sortTutorBy: sort?.title,
-                        sortTutorType: sort?.sort,
-                    },
-                },
-                {
-                    signal: controller.signal,
-                },
-            );
+            const response = await requestPrivate.get(url, {
+                signal: controller.signal,
+            });
             isMounted && setListClasses(response.data.listResult) && setLimitPageIndex(response.data.limitPage);
 
             return () => {
@@ -66,7 +85,14 @@ function Blog() {
         };
 
         getFormClass();
-    }, [debouncedValueSubject, debouncedValueHourlyRate, debouncedGradeId, gender, debouncedTypeOfDegree, sort]);
+    }, [
+        debouncedValueSubject,
+        debouncedValueHourlyRate,
+        debouncedGradeId,
+        gender,
+        debouncedTypeOfDegree,
+        sortPostType,
+    ]);
 
     const handleApply = async (id) => {
         const response = await requestPrivate.post(APPLY_POST_URL, id);
@@ -78,10 +104,10 @@ function Blog() {
     const handleSelectSort = (e) => {
         switch (e.target.value) {
             case 'Soonest':
-                setSort({ title: 2, sort: 1 });
+                setSortPostType(1);
                 break;
             case 'Latest':
-                setSort({ title: 2, sort: 2 });
+                setSortPostType(2);
                 break;
             default:
                 break;
@@ -141,27 +167,10 @@ function Blog() {
                         </div>
                     </Col>
                     <Col lg="9">
-                        <Row className={cx('result__total')}>
-                            <Col className={cx('result__total-number')}>
-                                <p>
-                                    <strong>3,335 pirates 1 tutors </strong>fit your choices
-                                </p>
-                            </Col>
-                            <Col className={cx('result__total-sort')}>
-                                <form action="GET" className={cx('result__total-sort-form')}>
-                                    <label htmlFor="sort">
-                                        <strong>Sort</strong>
-                                    </label>
-                                    <select id="sort" onChange={handleSelectSort}>
-                                        <option value="Soonest">Soonest</option>
-                                        <option value="Latest">Latest</option>
-                                    </select>
-                                </form>
-                            </Col>
-                        </Row>
                         <Post
                             handleApply={handleApply}
                             listClasses={listClasses}
+                            handleSelectSort={handleSelectSort}
                             disable={disable}
                             syntax={'applyPost'}
                         ></Post>

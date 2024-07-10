@@ -11,6 +11,7 @@ import styles from './BecomeStudent2.module.scss';
 const cx = classNames.bind(styles);
 
 const REGISTER_URL = '/auth/student-signUp';
+const CREATEWALLET_URL = 'wallet/create_wallet';
 
 function BecomeStudent2() {
     const context = useContext(ModalContext);
@@ -50,11 +51,9 @@ function BecomeStudent2() {
                     withCredentials: true,
                 },
             );
-            context.setUserId('');
             console.log(response.status);
             if (response.status === 200) {
-                context.setActive(true);
-                navigate('/');
+                handleCreateWallet();
             }
         } catch (error) {
             if (!error?.response) {
@@ -65,6 +64,20 @@ function BecomeStudent2() {
                 setErrMsg('Registration Failed');
             }
         }
+    };
+
+    const handleCreateWallet = async () => {
+        try {
+            const response = await requests.post(CREATEWALLET_URL, JSON.stringify({ id: context.userId }), {
+                headers: { 'Content-Type': 'application/json' },
+                withCredentials: true,
+            });
+
+            if (response.status === 200) {
+                context.setActive(true);
+                navigate('/');
+            }
+        } catch (error) {}
     };
 
     return (

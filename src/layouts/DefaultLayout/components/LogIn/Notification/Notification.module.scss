@@ -1,5 +1,6 @@
 .container {
     max-width: 285px;
+    min-width: 210px;
 }
 
 .container__tag {
@@ -7,12 +8,23 @@
     border-bottom: 1px solid var(--line-border);
 
     p {
-        margin: 0;
+        margin-bottom: 5px;
+        font-size: 1.4rem;
     }
 
     &:hover {
         background-color: var(--line-border);
         cursor: pointer;
+    }
+}
+
+.container__tag-author {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    span {
+        font-size: 0.8rem;
     }
 }
 

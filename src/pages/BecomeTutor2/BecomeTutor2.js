@@ -19,8 +19,7 @@ const CARD_REGEX = /^[0-9]{10}$/;
 const REGISTER_URL = '/auth/tutor-signUp';
 
 function BecomeTutor2() {
-    const context = useContext(ModalContext);
-    const navigate = useNavigate();
+    const { chooseSubject, setChooseSubject, userId, setTutorId } = useContext(ModalContext);
     const errRef = useRef();
     let file = '';
 
@@ -86,17 +85,17 @@ function BecomeTutor2() {
                         description: description,
                         address: address,
                         isActive: true,
-                        accountId: context.userId,
+                        accountId: userId,
                     }),
                     {
                         headers: { 'Content-Type': 'application/json' },
                         withCredentials: true,
                     },
                 );
-                context.setUserId('');
+                setTutorId(response.data);
+
                 if (response.status === 200) {
-                    context.setActive(true);
-                    navigate('/');
+                    setChooseSubject(true);
                 }
             } catch (error) {
                 if (!error?.response) {
@@ -317,7 +316,7 @@ function BecomeTutor2() {
                             />
                         </div>
 
-                        <Subject />
+                        {chooseSubject && <Subject />}
 
                         <Button className={cx('submit')}>Submit</Button>
                     </form>
