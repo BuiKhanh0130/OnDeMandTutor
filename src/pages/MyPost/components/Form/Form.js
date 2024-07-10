@@ -1,20 +1,22 @@
 import classNames from 'classnames/bind';
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect, useMemo, useContext } from 'react';
 
 import Col from 'react-bootstrap/Col';
 
 import Button from '~/components/Button';
 import request from '~/utils/request';
+import { ModalContext } from '~/components/ModalProvider';
 import useRequestsPrivate from '~/hooks/useRequestPrivate';
 
 import styles from './Form.module.scss';
+import { CloseIcon } from '~/components/Icons';
 
 const cx = classNames.bind(styles);
 
 //URL
 const SUBJECT_GROUP_URL = 'SubjectGroup';
 const GRADE_URL = 'Grade';
-const CREATE_FROM_URL = 'FormFindTutor/student/createform';
+const UPDATE_FROM_URL = 'FormFindTutor/student/updateform';
 
 //expression regex
 const POSITIVEREGEX = /^[0-9]+$/;
@@ -24,16 +26,22 @@ function isValidDate(dateString) {
     return date instanceof Date && !isNaN(date);
 }
 
-function Form() {
-    const dayOfWeeks = useMemo(() => ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thurday', 'Friday', 'Saturday'], []);
+function Form({ item }) {
+    const { setUpdateForm } = useContext(ModalContext);
+
     const hours = useMemo(
         () => [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24],
         [],
     );
+    const dayOfWeeks = useMemo(() => ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thurday', 'Friday', 'Saturday'], []);
     const degrees = useMemo(
         () => ['College', 'Associate Degree', 'Bachelors Degree', 'Masters Degree', 'Doctoral Degree'],
         [],
     );
+
+    console.log(item);
+
+    const formId = item?.formId;
 
     const [tittle, setTittle] = useState('');
     const [gradeId, setGradeId] = useState('');
@@ -61,6 +69,52 @@ function Form() {
 
     const requestsPrivate = useRequestsPrivate();
 
+    //updated
+    useEffect(() => {
+        setTittle(item.title);
+        if (item.tutorGender === false) {
+            setTutorGender(0);
+        } else {
+            setTutorGender(1);
+        }
+        let selectedGender = document.getElementById('gender');
+        selectedGender.value = tutorGender;
+
+        setSubjectGroupId(item.subjectGroupId);
+        let selectedSubjectId = document.getElementById('subjects');
+        selectedSubjectId.value = subjectGroupId;
+
+        setDayStart(item.dayStart);
+        setDayEnd(item.dayEnd);
+        // selectedDays(item.dayOfWeek);
+
+        setTimeStart(item.timeStart);
+        let selectedTimeStart = document.getElementById('timeStart');
+        console.log(timeStart);
+        selectedTimeStart.value = timeStart;
+
+        setTimeEnd(item.timeStart);
+        let selectedTimeEnd = document.getElementById('timeEnd');
+        selectedTimeEnd.value = timeEnd;
+
+        setMinValueRate(item?.minHourlyRate);
+        setMaxValueRate(item?.maxHourlyRate);
+
+        setDescribeTutor(item.description);
+    }, []);
+
+    //get date
+    useEffect(() => {
+        const startDateInput = document.getElementById('dayStart');
+        const endDateInput = document.getElementById('dayEnd');
+        if (item) {
+            let targetDate = new Date(item.dayStart);
+            let target1Date = new Date(item.dayEnd);
+            startDateInput.value = targetDate.toISOString().slice(0, 10);
+            endDateInput.value = target1Date.toISOString().slice(0, 10);
+        }
+    }, []);
+
     //check minHourlyRate
     useEffect(() => {
         if (minHourlyRate) {
@@ -78,18 +132,18 @@ function Form() {
     }, [maxHourlyRate]);
 
     //check minHourlyRate && maxHourlyRate
-    useEffect(() => {
-        if (minHourlyRate && maxHourlyRate && minHourlyRate >= maxHourlyRate) {
-            alert('Max hour rate must be greater than min hourly rate');
-        }
-    }, [minHourlyRate, maxHourlyRate]);
+    // useEffect(() => {
+    //     if (minHourlyRate && maxHourlyRate && minHourlyRate >= maxHourlyRate) {
+    //         alert('Max hour rate must be greater than min hourly rate');
+    //     }
+    // }, [minHourlyRate, maxHourlyRate]);
 
     //check time
-    useEffect(() => {
-        if (timeStart >= timeEnd) {
-            alert('Time start must be less than time end');
-        }
-    }, [timeStart, timeEnd]);
+    // useEffect(() => {
+    //     if (timeStart >= timeEnd) {
+    //         alert('Time start must be less than time end');
+    //     }
+    // }, [timeStart, timeEnd]);
 
     //Get subjects
     useEffect(() => {
@@ -137,20 +191,20 @@ function Form() {
         events.preventDefault();
 
         try {
-            const response = await requestsPrivate.post(
-                CREATE_FROM_URL,
+            const response = await requestsPrivate.put(
+                UPDATE_FROM_URL,
                 JSON.stringify({
-                    gradeId,
-                    subjectGroupId,
-                    tittle,
+                    formId,
                     dayStart,
                     dayEnd,
-                    dayOfWeek: selectedDays,
+                    dayOfWeek: selectedDays.sort((a, b) => a - b).join(','),
                     timeStart,
                     timeEnd,
+                    tittle,
                     minHourlyRate,
                     maxHourlyRate,
-                    typeOfDegree,
+                    gradeId,
+                    subjectGroupId,
                     describeTutor,
                     tutorGender,
                 }),
@@ -165,18 +219,18 @@ function Form() {
     };
 
     //disable btn if user had't filled all fields
-    useEffect(() => {
-        const minPrice = !isNaN(minHourlyRate);
-        const maxPrice = !isNaN(maxHourlyRate);
-        const tittleEmpty = tittle.trim !== '';
-        const descriptionEmpty = describeTutor.trim !== '';
-        const dayStartEmpty = isValidDate(dayStart);
-        const dayEndEmpty = isValidDate(dayEnd);
+    // useEffect(() => {
+    //     const minPrice = !isNaN(minHourlyRate);
+    //     const maxPrice = !isNaN(maxHourlyRate);
+    //     const tittleEmpty = tittle.trim !== '';
+    //     const descriptionEmpty = describeTutor.trim !== '';
+    //     const dayStartEmpty = isValidDate(dayStart);
+    //     const dayEndEmpty = isValidDate(dayEnd);
 
-        if (minPrice && maxPrice && tittleEmpty && descriptionEmpty && dayStartEmpty && dayEndEmpty) {
-            setIsValidForm(true);
-        }
-    }, [minHourlyRate, maxHourlyRate, tittle, dayStart, dayEnd, describeTutor]);
+    //     if (minPrice && maxPrice && tittleEmpty && descriptionEmpty && dayStartEmpty && dayEndEmpty) {
+    //         setIsValidForm(true);
+    //     }
+    // }, [minHourlyRate, maxHourlyRate, tittle, dayStart, dayEnd, describeTutor]);
 
     //check day start and day end
     useEffect(() => {
@@ -210,6 +264,14 @@ function Form() {
         }
     };
 
+    useEffect(() => {
+        let selectField = document.getElementById('subjects');
+
+        if (selectField.value === item.subjectId) {
+            selectField.value = item.subjectId;
+        }
+    });
+
     const handleDayClick = (day) => {
         setSelectedDays((prevSelectedDays) => {
             if (prevSelectedDays.includes(day)) {
@@ -218,6 +280,10 @@ function Form() {
                 return [...prevSelectedDays, day];
             }
         });
+    };
+
+    const handleClose = () => {
+        setUpdateForm(false);
     };
 
     return (
@@ -254,8 +320,8 @@ function Form() {
                     <div className={cx('requestTutor__container-gender')}>
                         <label htmlFor="gender">Gender</label>
                         <select id="gender" name="gender" onChange={handleGender}>
-                            <option value={0}>Lady</option>
-                            <option value={1}>Gentlemen</option>
+                            <option value={0}>Female</option>
+                            <option value={1}>Male</option>
                         </select>
                     </div>
                 </div>
@@ -289,13 +355,14 @@ function Form() {
 
                 <div className={cx('requestTutor__container-hour')}>
                     <div className={cx('requestTutor__container-hour-item')}>
-                        <label htmlFor="timeStart">Min price ($)</label>
+                        <label htmlFor="minPrice">Min price ($)</label>
                         <input
                             type="number"
-                            id="timeEnd"
+                            id="minPrice"
                             name="minHourlyRate"
                             aria-invalid={validMinHourlyRate ? 'false' : 'true'}
                             aria-describedby="uidmin"
+                            value={minHourlyRate}
                             onChange={(e) => {
                                 setMinValueRate(e.target.value);
                             }}
@@ -322,6 +389,7 @@ function Form() {
                             name="maxHourlyRate"
                             aria-invalid={validMaxHourlyRate ? 'false' : 'true'}
                             aria-describedby="uidmax"
+                            value={maxHourlyRate}
                             onChange={(e) => {
                                 setMaxValueRate(e.target.value);
                             }}
@@ -350,7 +418,7 @@ function Form() {
                                 hours.map((hour, index) => {
                                     return (
                                         <option key={index} value={hour}>
-                                            {hour} hour
+                                            {hour}
                                         </option>
                                     );
                                 })}
@@ -359,8 +427,8 @@ function Form() {
                     <div>
                         <label htmlFor="timeEnd">Time End</label>
                         <select
-                            id="timeStart"
-                            name="timeStart"
+                            id="timeEnd"
+                            name="timeEnd"
                             onChange={(e) => {
                                 setTimeEnd(e.target.value);
                             }}
@@ -431,9 +499,12 @@ function Form() {
                     ></textarea>
                 </div>
                 <div className={cx('requestTutor__container-btn')}>
-                    <Button className={cx('requestTutor__container-submit', { disabled: !isValidForm })}>Submit</Button>
+                    <Button className={cx('requestTutor__container-submit', { disabled: !isValidForm })}>Update</Button>
                 </div>
             </form>
+            <div onClick={handleClose} className={cx('closeIcon')}>
+                <CloseIcon />
+            </div>
         </Col>
     );
 }

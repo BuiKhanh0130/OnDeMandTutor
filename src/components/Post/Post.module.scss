@@ -6,7 +6,7 @@
 .container__card {
     background-color: var(--white);
     border-radius: 6px;
-    padding: 10px 60px;
+    padding: 10px;
     margin-bottom: 10px;
 }
 
@@ -140,5 +140,49 @@
     &:hover {
         background-color: var(--hover);
         cursor: pointer;
+    }
+}
+
+.result__total {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.result__total-number {
+    margin-top: 20px;
+    p {
+        font-size: 2.2rem;
+    }
+}
+
+.result__total-sort {
+    .result__total-sort-form {
+        display: flex;
+        align-items: center;
+        justify-content: end;
+    }
+    label {
+        font-size: 2.2rem;
+        margin-right: 4px;
+    }
+
+    select {
+        padding: 8px;
+        border: 1px solid var(--line-border);
+        border-radius: 2px;
+
+        &:hover {
+            cursor: pointer;
+        }
+    }
+
+    option {
+        color: #1d1b1a;
+
+        &:hover {
+            cursor: pointer;
+            background-color: var(--light-gray);
+        }
     }
 }
