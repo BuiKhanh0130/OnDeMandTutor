@@ -84,7 +84,7 @@ function RequestOfTutor() {
             <Container className={cx('container')}>
                 <header className={cx('header')}>
                     <h1>Your Students' Requests</h1>
-                    <p>Discover new tutors, connect with potential students, and share your passion for learning.</p>
+                    <p>Discover, connect with potential students, and share your passion for learning.</p>
                 </header>
                 <div className={cx('filter-buttons')}>
                     <button className={cx({ active: filter === 'pending' })} onClick={() => setFilter('pending')}>Pending</button>

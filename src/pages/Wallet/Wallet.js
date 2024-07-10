@@ -1,38 +1,86 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import classNames from 'classnames/bind';
 import styles from './Wallet.module.scss';
 import Image from '~/components/Image'; 
-import { Container, Row, Col } from 'react-bootstrap';
+import { Container, Row, Col, Button} from 'react-bootstrap';
 import { ModalContext } from '~/components/ModalProvider';
-import requests from '~/utils/request';
+import useRequestsPrivate from '~/hooks/useRequestPrivate';
+import { FaEdit } from 'react-icons/fa';
 
 const cx = classNames.bind(styles);
-const WALLET_URL = 'wallet/getwallet/'
+const WALLET_URL = 'wallet/getwallet/';
+const UPDATE_WALLET_URL = 'wallet/update_wallet';
+const WITHDRAW_URL = 'wallet/withdraw/';
+
+const formatDate = (dateString) => {
+    const options = { year: 'numeric', month: '2-digit', day: '2-digit' };
+    const date = new Date(dateString);
+    return date.toLocaleDateString('en-CA', options);
+};
+
+const formatCurrency = (amount) => {
+    return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'VND' }).format(amount);
+};
 
 const Wallet = () => {
-    const {avatar, userId} = useContext(ModalContext);
+    const { avatar, userId } = useContext(ModalContext);
     const [walletData, setWalletData] = useState(null);
+    const [bankName, setBankName] = useState('');
+    const [bankNumber, setBankNumber] = useState('');
+    const [isEditingBankName, setIsEditingBankName] = useState(false);
+    const [isEditingBankNumber, setIsEditingBankNumber] = useState(false);
+    const [transactionData, setTransactionData] = useState([]);
+    const requestPrivate = useRequestsPrivate();
 
-    useEffect(()=>{
+    
+
+    useEffect(() => {
         const fetchWallet = async () => {
             try {
-                const response = await requests.post(`${WALLET_URL}${userId}`);
+                const response = await requestPrivate.get(`${WALLET_URL}`);
                 console.log(response.data);
                 setWalletData(response.data);
+                setBankName(response.data.bankName);
+                setBankNumber(response.data.bankNumber);
             } catch (error) {
-                
+                console.log(error);
+            }
+        };
+
+        const fetchTransaction = async () =>{
+            try {
+                const response = await requestPrivate.get('transaction/get_transaction');
+                console.log(response.data);
+                setTransactionData(response.data)
+            } catch (error) {
+                console.log(error);
             }
         }
         fetchWallet();
-    }, [userId])
-    
-    console.log(avatar, userId);
+        fetchTransaction();
+    }, [userId]);
 
-    const transactions = [
-        { id: 1, date: '2023-10-01', amount: -100, description: 'Payment to ABC' },
-        { id: 2, date: '2023-10-02', amount: 200, description: 'Received from XYZ' },
-        { id: 3, date: '2023-10-03', amount: -50, description: 'Payment to DEF' },
-    ];
+    const handleUpdate = async () => {
+        try {
+            const response = await requestPrivate.put(`${UPDATE_WALLET_URL}?BankName=${bankName}&BankNumber=${bankNumber}`);
+            console.log(response.data);
+            setWalletData(response.data);
+            setIsEditingBankName(false);
+            setIsEditingBankNumber(false);
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    const handleWithdraw = async () => {
+        try {
+            const response = await requestPrivate.post(`${WITHDRAW_URL}`);
+            console.log(response.data);
+            setWalletData(response.data);
+        } catch (error) {
+            console.log(error);
+        }
+    };
 
     return (
         <div className={cx('wrapper')}>
@@ -43,28 +91,88 @@ const Wallet = () => {
                             <Image src={avatar.avatar} alt="Avatar" className={cx('avatar')} />
                             <div className={cx('wallet-info')}>
                                 <h2>Customer: {avatar.fullName}</h2>
-                                <p>Created on: {walletData?.createDay}</p>
+                                <p>Created on: {walletData?.createDay ? formatDate(walletData.createDay) : 'N/A'}</p>
                             </div>
                         </div>
                         <div className={cx('wallet-details')}>
-                            <p><strong>Balance:</strong> {walletData?.balance} VND</p>
-                            <p><strong>Bank Name:</strong> {walletData?.bankName}</p>
-                            <p><strong>Bank Number:</strong> {walletData?.bankNumber}</p>
+                            <p><strong>Balance:</strong> {walletData?.balance ? formatCurrency(walletData.balance) : 'Loading...'} VND</p>
+
+                            <div>
+                                <p>
+                                    <strong>Bank Name: </strong>
+                                        {isEditingBankName ? (
+                                            <input
+                                                type="text"
+                                                value={bankName}
+                                                onChange={(e) => setBankName(e.target.value)}
+                                            />
+                                        ) : (
+                                            <span>{bankName}</span>
+                                        )}
+                                        <FaEdit
+                                            className={cx('edit-icon')}
+                                            onClick={() => setIsEditingBankName(!isEditingBankName)}
+                                        />
+                                </p>
+
+                                <p>
+                                    <strong>Bank Number: </strong>
+                                        {isEditingBankNumber ? (
+                                            <input
+                                                type="text"
+                                                value={bankNumber}
+                                                onChange={(e) => setBankNumber(e.target.value)}
+                                            />
+                                        ) : (
+                                            <span>{bankNumber}</span>
+                                        )}
+                                        <FaEdit
+                                            className={cx('edit-icon')}
+                                            onClick={() => setIsEditingBankNumber(!isEditingBankNumber)}
+                                        />
+                                </p>
+                                        <div className={cx('button_update')} >
+                                            <Button onClick={handleUpdate}>Update</Button>
+                                        </div>
+                            </div>
+                            <p className={cx('note')}>*Note: Please make sure your information is updated correctly.</p>
+
+                            <div className={cx('button_withdraw')}>
+                                <Button  onClick={handleWithdraw}>Withdraw</Button>
+                            </div>
                         </div>
                     </Col>
+
                     <Col lg='8'>
-                        <div className={cx('wallet-transaction')}>
+                        <div className={cx('wallet_transaction')}>
                             <h3>Transaction History</h3>
-                            {transactions.length > 0 ? (
-                                <ul className={cx('transaction-list')}>
-                                    {transactions.map(transaction => (
-                                        <li key={transaction.id} className={cx('transaction-item')}>
-                                            <p><strong>Date:</strong> {transaction.date}</p>
-                                            <p><strong>Amount:</strong> {transaction.amount > 0 ? `+${transaction.amount}` : transaction.amount}</p>
-                                            <p><strong>Description:</strong> {transaction.description}</p>
-                                        </li>
-                                    ))}
-                                </ul>
+                            {transactionData.length > 0 ? (
+                                <div className={cx('transaction_list')}>
+                                    <table className={cx('transaction_table')}>
+                                        <thead>
+                                            <tr>
+                                                <th>Date</th>
+                                                <th>Amount</th>
+                                                <th>Description</th>
+                                                <th>Card Type</th>
+                                                <th>Bank Transaction No</th>
+                                                <th>Status</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {transactionData.map(transaction => (
+                                                <tr key={transaction.id}>
+                                                    <td>{formatDate(transaction.tranDate)}</td>
+                                                    <td>{transaction.amount > 0 ? `+${transaction.amount}` : transaction.amount}</td>
+                                                    <td>{transaction.description}</td>
+                                                    <td>{transaction.cardType}</td>
+                                                    <td>{transaction.bankTranNo}</td>
+                                                    <td>{transaction.isValid === true ? 'Success' : 'Fail'}</td>
+                                                </tr>
+                                            ))}
+                                        </tbody>
+                                    </table>
+                                </div>
                             ) : (
                                 <p>No transaction history found.</p>
                             )}
@@ -77,5 +185,3 @@ const Wallet = () => {
 };
 
 export default Wallet;
-
-

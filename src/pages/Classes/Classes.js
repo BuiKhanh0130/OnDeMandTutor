@@ -13,6 +13,7 @@ const cx = classNames.bind(styles);
 const VIEW_CLASS_LIST_URL = 'Classes/student/viewClassList';
 const VIEW_CLASS_DETAILS_URL = 'Classes/viewClassDetail';
 const STUDENT_BROWSERCLASS_URL = 'Classes/student/browseClass';
+const CONVERSATION_URL = 'ConversationAccount'
 const REQUEST_PAYMENT_URL = 'VnPay/create_payment_url';
 const RESPONSE_PAYMENT_URL = 'VnPay/payment_return';
 const WALLETID_ADMIN = '1bada450-d90c-4e14-b410-21ab37f00091';
@@ -27,8 +28,10 @@ const Classes = () => {
     const [message, setMessage] = useState('Vuilongthanhtoan');
     const [paymentId, setPaymentId] = useState(localStorage.getItem('paymentid'));
     const [price, setPrice] = useState(200000);
+    const [userId, setUserId] = useState('');
 
     const requestPrivate = useRequestsPrivate();
+
 
     const handleChangeSelect = useCallback((value) => {
         let status = null;
@@ -74,9 +77,11 @@ const Classes = () => {
 
             const response = await requestPrivate.get(API_URL);
             setClasses(response.data.listResult);
+            console.log(response.data.listResult);
             setSize(response.data.listResult.length);
             if (response.data.listResult.length > 0) {
                 setClassID(response.data.listResult[0].classid);
+                setUserId(response.data.listResult[0].userId);
             }
         } catch (error) {
             console.error('Error fetching classes:', error);
@@ -105,11 +110,21 @@ const Classes = () => {
                 }
             }
 
+            const createConversation = async () => {
+                try {
+                    await requestPrivate.post(`${CONVERSATION_URL}?userId=${userId}`);
+                    // fetchClasses();
+                } catch (err) {
+                    console.error('Error during browser class:', err);
+                }
+            }
+
             try {
                 const response = await requests.post(`${RESPONSE_PAYMENT_URL}/${paymentId}`, paramsObject);
                 localStorage.removeItem('paymentid');
                 if (response.data === '00') {
                     browserClass();
+                    createConversation();
                 } else {
                     console.error('Payment was not successful:', response.data);
                 }
@@ -119,7 +134,7 @@ const Classes = () => {
         };
 
         responsePayment();
-    }, [paymentId, classID, fetchClasses]);
+    }, [userId ,requestPrivate ,paymentId, classID, fetchClasses]);
 
     const fetchClassesDetail = useCallback(async (classID) => {
         try {
@@ -142,6 +157,7 @@ const Classes = () => {
 
     const handleClassClick = (classs) => {
         setClassID(classs.classid);
+        setUserId(classs.userId)
         setPrice(classs.price);
         fetchClassesDetail(classs.classid); 
     };
@@ -150,6 +166,8 @@ const Classes = () => {
         () => classes.find(classs => classs.classid === classID),
         [classes, classID]
     );
+
+    console.log(userId);
 
     return (
         <div className={cx('wrapper')}>
