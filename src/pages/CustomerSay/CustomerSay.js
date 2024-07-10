@@ -91,7 +91,7 @@ function CustomerSay() {
                                             <strong>{comment.author}</strong> reviews{' '}
                                             <Link
                                                 to={`/account/tutor/${comment.tutor}`}
-                                                state={{ key: `T000${index}` }}
+                                                state={{ key: `48d7cecf-2b77-4e5a-925e-9991ed38a8c4` }}
                                             >
                                                 {comment.tutor}
                                             </Link>

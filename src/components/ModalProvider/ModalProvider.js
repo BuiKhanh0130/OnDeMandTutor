@@ -19,6 +19,7 @@ function ModalProvider({ children }) {
     const [createClass, setCreateClass] = useState(false);
     const [updateForm, setUpdateForm] = useState(false);
     const [chooseSubject, setChooseSubject] = useState(false);
+    const [generateClass, setGenerateClass] = useState(false);
 
     const handleActive = () => {
         setActive(true);
@@ -50,6 +51,7 @@ function ModalProvider({ children }) {
         setActive,
         tutorId,
         avatar,
+        generateClass,
         setAvatar,
         avatarMessage,
         setAvatarMessage,
@@ -71,6 +73,7 @@ function ModalProvider({ children }) {
         updateForm,
         setUpdateForm,
         setChooseSubject,
+        setGenerateClass,
         handleUser,
         setTutorId,
         handleHiddenUser,
