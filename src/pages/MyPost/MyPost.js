@@ -4,9 +4,9 @@ import { useContext, useEffect, useState } from 'react';
 import Post from '~/components/Post';
 import { ModalContext } from '~/components/ModalProvider';
 import useRequestsPrivate from '~/hooks/useRequestPrivate';
+import UpdateForm from './components/UpdateForm';
 
 import styles from './MyPost.module.scss';
-import UpdateForm from './components/UpdateForm';
 
 const cx = classNames.bind(styles);
 
@@ -14,9 +14,11 @@ const VIEW_FORM_LIST_URL = 'FormFindTutor/student/viewformlist';
 const VIEW_APLLY_LIST_URL = 'FormFindTutor/student/viewApplyList';
 const BROWSE_TUTOR_URL = 'FormFindTutor/student/browsertutor';
 const DELETE_FORM_URL = 'FormFindTutor/student/deleteform';
+const NOTIFICATION_URL = 'Notification/createNotification';
 
 function MyPost() {
     const requestPrivate = useRequestsPrivate();
+
     const [listResult, setListResult] = useState([]);
     const [listTutor, setListTutor] = useState([]);
     const [idForm, setIdForm] = useState('');
@@ -24,7 +26,7 @@ function MyPost() {
     const [statusForm, setStatusForm] = useState();
     const [isActive, setIsActive] = useState();
     const [itemUpdate, setItemUpdate] = useState();
-    const { updateForm, setUpdateForm } = useContext(ModalContext);
+    const { updateForm, avatar, setUpdateForm } = useContext(ModalContext);
 
     console.log(statusForm, isActive);
 
@@ -73,8 +75,27 @@ function MyPost() {
         try {
             const response = await requestPrivate.put(`${BROWSE_TUTOR_URL}?formId=${formId}&tutorId=${tutorId}`);
             if (response.status === 200) {
-                window.alert('Apply successfully');
+                console.log(tutorId);
+                createNotification(tutorId);
+                window.alert('Browse successfully');
             }
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    const createNotification = async (tutorId) => {
+        try {
+            const response = await requestPrivate.post(
+                NOTIFICATION_URL,
+                JSON.stringify({
+                    title: 'Has been approved',
+                    description: `${avatar.fullName} has been approved you become their tutor`,
+                    url: '',
+                    accountId: tutorId,
+                }),
+            );
+            console.log(response.status);
         } catch (error) {
             console.log(error);
         }

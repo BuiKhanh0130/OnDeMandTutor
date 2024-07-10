@@ -145,7 +145,7 @@ function Form() {
                     tittle,
                     dayStart,
                     dayEnd,
-                    dayOfWeek: selectedDays,
+                    dayOfWeek: selectedDays.sort((a, b) => a - b).join(','),
                     timeStart,
                     timeEnd,
                     minHourlyRate,
@@ -408,13 +408,13 @@ function Form() {
                     </div>
                     <div className={cx('requestTutor__container-dayOfWeek-item')}>
                         {dayOfWeeks.map((day, index) => (
-                            <button
+                            <div
                                 key={index}
                                 onClick={() => handleDayClick(index)}
-                                className={cx({ selected: selectedDays.includes(index) })}
+                                className={cx('requestTutor__container-dayOfWeek-item-selected', {selected: selectedDays.includes(index)})}
                             >
                                 {day}
-                            </button>
+                            </div>
                         ))}
                     </div>
                 </div>

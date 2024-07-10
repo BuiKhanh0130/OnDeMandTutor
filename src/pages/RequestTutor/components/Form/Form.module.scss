@@ -201,7 +201,7 @@
 .requestTutor__container-dayOfWeek-item {
     display: flex;
     justify-content: space-between;
-    button {
+    .requestTutor__container-dayOfWeek-item-selected {
         margin: 5px 0;
         padding: 4px;
         border-radius: 10px;
