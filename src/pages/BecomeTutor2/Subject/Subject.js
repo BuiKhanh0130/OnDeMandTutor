@@ -10,20 +10,22 @@ import styles from './Subject.module.scss';
 
 const cx = classNames.bind(styles);
 
+const CREATEWALLET_URL = 'wallet/create_wallet';
+
 //URL
 const SUBJECT_GROUP_URL = 'SubjectGroup';
 const GRADE_URL = 'Grade';
 const REGISTER_URL = 'Tutors/RegistrateTutorSubject';
 
 function Subject() {
-    const { tutorId, setChooseSubject, setActive } = useContext(ModalContext);
+    const { userId, setChooseSubject, tutorId, setActive } = useContext(ModalContext);
     const navigate = useNavigate();
     const [subjectGroupId, setSubjectGroupId] = useState('');
     const [subjects, setSubjects] = useState([]);
     const [gradeId, setGradeId] = useState([]);
     const [grades, setGrades] = useState([]);
 
-    console.log(gradeId);
+    console.log(tutorId);
     //Get subjects
     useEffect(() => {
         let isMounted = true;
@@ -46,6 +48,20 @@ function Subject() {
             controller.abort();
         };
     }, []);
+
+    const handleCreateWallet = async () => {
+        try {
+            const response = await requests.post(CREATEWALLET_URL, JSON.stringify({ id: userId }), {
+                headers: { 'Content-Type': 'application/json' },
+                withCredentials: true,
+            });
+
+            if (response.status === 200) {
+                setActive(true);
+                navigate('/');
+            }
+        } catch (error) {}
+    };
 
     //Get Grade
     useEffect(() => {
@@ -73,12 +89,18 @@ function Subject() {
 
     const handleSubmit = async () => {
         try {
-            const response = await requests.post(REGISTER_URL, JSON.stringify({ tutorId, subjectGroupId, gradeId }));
+            const response = await requests.post(
+                REGISTER_URL,
+                JSON.stringify({ tutorId: tutorId, subjectGroupId, gradeId }),
+                {
+                    headers: { 'Content-Type': 'application/json' },
+                    withCredentials: true,
+                },
+            );
 
             if (response.status === 200) {
                 setChooseSubject(false);
-                setActive(true);
-                navigate('/');
+                handleCreateWallet();
             }
         } catch (error) {
             console.log(error);

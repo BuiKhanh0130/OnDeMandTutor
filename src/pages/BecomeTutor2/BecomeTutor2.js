@@ -1,5 +1,6 @@
 import classNames from 'classnames/bind';
 import { useEffect, useRef, useState, useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheck, faTimes } from '@fortawesome/free-solid-svg-icons';
 
@@ -18,7 +19,7 @@ const CARD_REGEX = /^[0-9]{10}$/;
 const REGISTER_URL = '/auth/tutor-signUp';
 
 function BecomeTutor2() {
-    const { chooseSubject, setChooseSubject, setUserId, userId, setTutorId } = useContext(ModalContext);
+    const { chooseSubject, setChooseSubject, userId, setTutorId } = useContext(ModalContext);
     const errRef = useRef();
     let file = '';
 
@@ -91,7 +92,6 @@ function BecomeTutor2() {
                         withCredentials: true,
                     },
                 );
-                setUserId('');
                 setTutorId(response.data);
 
                 if (response.status === 200) {
