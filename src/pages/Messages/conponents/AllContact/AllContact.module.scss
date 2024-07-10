@@ -26,18 +26,23 @@
     justify-content: center;
     margin-left: 10px;
 
-    span {
-        font-size: 1.6rem;
-        font-weight: 700;
-    }
-
     p {
         margin-bottom: 0;
     }
 }
 
+.content-left-user {
+    font-size: 1.6rem;
+}
+
+.content-left-lastMessage {
+    color: #cfe6e6;
+    font-size: 1.2rem;
+}
+
 .active {
     background-color: #709ae3;
+    font-size: 0.8rem;
 }
 
 .container_user_detail:hover {

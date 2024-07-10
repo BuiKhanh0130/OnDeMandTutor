@@ -12,10 +12,11 @@ import Header from '~/layouts/components/Header';
 const cx = classNames.bind(styles);
 
 const Messages = () => {
-    const { createClass, roomId, conn } = useContext(ModalContext);
+    const { roomId, conn } = useContext(ModalContext);
 
     const sendMessage = async (message) => {
         try {
+            console.log(message);
             await conn.invoke('SendMessage', message);
         } catch (e) {
             console.log(e);
@@ -30,7 +31,6 @@ const Messages = () => {
                 <Row>
                     <AllContact />
                     {roomId && <ContainerChat sendMessage={sendMessage} />}
-                    {createClass && <CreateClass />}
                 </Row>
             </Container>
         </div>

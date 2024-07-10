@@ -34,17 +34,17 @@ function MessageContainer({ allMsgs, messages }) {
                 })}
             {messages?.length > 0 &&
                 messages.map((messages, index) => {
-                    return userId === messages.msg.accountId ? (
+                    return userId === messages.msg.userId ? (
                         <div className={cx('container__mess-i')}>
                             <div className={cx('container__mess-i-item')}>
-                                <span>{messages.msg.description}</span>
+                                <span>{messages.msg.content}</span>
                                 <span>{messages.msg.time}</span>
                             </div>
                         </div>
                     ) : (
                         <div className={cx('container__mess-guess')}>
                             <div className={cx('container__mess-guess-item')}>
-                                <span>{messages.msg.description}</span>
+                                <span>{messages.msg.content}</span>
                                 <span>{messages.msg.time}</span>
                             </div>
                         </div>

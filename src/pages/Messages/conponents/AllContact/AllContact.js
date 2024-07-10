@@ -97,7 +97,8 @@ function AllContact() {
                                 <img alt="react" src={user.avatar}></img>
                                 <Row className={cx('user_item')}>
                                     <Col className={cx('content-left')}>
-                                        <span>{user.name}</span>
+                                        <span className={cx('content-left-user')}>{user.name}</span>
+                                        <span className={cx('content-left-lastMessage')}>{user.lastMessage}</span>
                                     </Col>
                                 </Row>
                             </Col>
