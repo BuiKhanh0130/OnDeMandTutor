@@ -1,10 +1,12 @@
 import classNames from 'classnames/bind';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 
 import Post from '~/components/Post';
+import { ModalContext } from '~/components/ModalProvider';
 import useRequestsPrivate from '~/hooks/useRequestPrivate';
 
 import styles from './MyPost.module.scss';
+import UpdateForm from './components/UpdateForm';
 
 const cx = classNames.bind(styles);
 
@@ -19,11 +21,29 @@ function MyPost() {
     const [listTutor, setListTutor] = useState([]);
     const [idForm, setIdForm] = useState('');
     const [status, setStatus] = useState(false);
+    const [statusForm, setStatusForm] = useState();
+    const [isActive, setIsActive] = useState();
+    const [itemUpdate, setItemUpdate] = useState();
+    const { updateForm, setUpdateForm } = useContext(ModalContext);
+
+    console.log(statusForm, isActive);
+
     useEffect(() => {
         let isMounted = true;
         const controller = new AbortController();
+        let url = VIEW_FORM_LIST_URL;
+        if (statusForm || isActive) {
+            const params = new URLSearchParams();
+            if (statusForm) {
+                params.append('status', statusForm);
+            }
+            if (isActive) {
+                params.append('isActive', isActive);
+            }
+            url += `?${params.toString()}`;
+        }
         const getAllMyPosts = async () => {
-            const response = await requestPrivate.get(VIEW_FORM_LIST_URL, { signal: controller.signal });
+            const response = await requestPrivate.get(url, { signal: controller.signal });
             setStatus(false);
             isMounted && setListResult(response.data.listResult);
         };
@@ -34,13 +54,12 @@ function MyPost() {
             isMounted = false;
             controller.abort();
         };
-    }, [status]);
+    }, [status, statusForm, isActive]);
 
     const handleViewList = async (id) => {
         let isMounted = true;
         const controller = new AbortController();
         const response = await requestPrivate.get(`${VIEW_APLLY_LIST_URL}?formId=${id}`, { signal: controller.signal });
-        console.log(response.data);
         setIdForm(id);
         isMounted && setListTutor(response.data);
 
@@ -73,6 +92,27 @@ function MyPost() {
         }
     };
 
+    const handleForm = (value) => {
+        console.log(value);
+        if (value === 'Not yet approved') {
+            setStatusForm();
+            setIsActive();
+        } else if (value === 'Has been approved') {
+            setStatusForm(true);
+            setIsActive();
+        } else {
+            setStatusForm(true);
+            setIsActive(true);
+        }
+    };
+
+    const handleUpdateForm = (item) => {
+        setUpdateForm(true);
+        setItemUpdate(item);
+    };
+
+    console.log(itemUpdate);
+
     return (
         <div className={cx('wrapper')}>
             <Post
@@ -82,7 +122,10 @@ function MyPost() {
                 idForm={idForm}
                 handleBrowseTutor={handleBrowseTutor}
                 handleDeleteForm={handleDeleteForm}
+                handleForm={handleForm}
+                handleUpdateForm={handleUpdateForm}
             ></Post>
+            {updateForm && <UpdateForm formId={idForm} item={itemUpdate} />}
         </div>
     );
 }

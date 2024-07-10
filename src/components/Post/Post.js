@@ -20,12 +20,34 @@ function Post({
     handleViewList,
     handleBrowseTutor,
     handleDeleteForm,
+    handleUpdateForm,
+    handleForm,
     disable,
     syntax,
 }) {
-    console.log(idForm);
     return (
         <Container>
+            <Row className={cx('result__total')}>
+                <Col className={cx('result__total-number')}>
+                    <p>
+                        <strong>{listClasses?.length} form </strong>fit your choices
+                    </p>
+                </Col>
+                <Col className={cx('result__total-sort')}>
+                    <form action="GET" className={cx('result__total-sort-form')}>
+                        <label htmlFor="sort">
+                            <strong>Sort</strong>
+                        </label>
+                        <select id="sort" onChange={(e) => handleForm(e.target.value)}>
+                            {/* <option value="best">Best match</option> */}
+                            <option value="Not yet approved">Not yet approved</option>
+                            <option value="Has been approved">Has been approved</option>
+                            <option value="Approved tutor">Approved tutor</option>
+                            {/* <option value="experience">Experience</option> */}
+                        </select>
+                    </form>
+                </Col>
+            </Row>
             {listClasses?.length > 0 &&
                 listClasses.map((classItem, index) => (
                     <Row key={index} className={cx('container__hero')}>
@@ -107,14 +129,28 @@ function Post({
                                     )
                                 ) : (
                                     <div className={cx('container__form-control-btn')}>
-                                        <Button
-                                            className={cx('container__form-control-delete')}
-                                            onClick={() => {
-                                                handleDeleteForm(classItem?.formId);
-                                            }}
-                                        >
-                                            Delete
-                                        </Button>
+                                        {classItem?.status ? (
+                                            <></>
+                                        ) : (
+                                            <>
+                                                <Button
+                                                    className={cx('container__form-control-delete')}
+                                                    onClick={() => {
+                                                        handleDeleteForm(classItem?.formId);
+                                                    }}
+                                                >
+                                                    Delete
+                                                </Button>
+                                                <Button
+                                                    className={cx('container__form-control-delete')}
+                                                    onClick={() => {
+                                                        handleUpdateForm(classItem);
+                                                    }}
+                                                >
+                                                    Update
+                                                </Button>
+                                            </>
+                                        )}
                                         <Button
                                             className={cx('container__form-control-submit')}
                                             onClick={() => {

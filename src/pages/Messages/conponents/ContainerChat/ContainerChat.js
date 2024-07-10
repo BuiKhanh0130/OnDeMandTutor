@@ -15,12 +15,14 @@ const cx = classNames.bind(styles);
 const MESSAGES_URL = 'Message';
 
 function ContainerChat({ sendMessage }) {
-    const { messages, avatarMessage, roomId, setCreateClass } = useContext(ModalContext);
+    const { messages, avatarMessage, roomId } = useContext(ModalContext);
     const axiosPrivate = useRequestsPrivate();
     const [allMsgs, setAllMsgs] = useState([]);
     const [content, setContent] = useState('');
     const inputRef = useRef();
     const chatContainerRef = useRef(null);
+
+    console.log(messages);
 
     useEffect(() => {
         if (chatContainerRef.current) {
@@ -94,15 +96,6 @@ function ContainerChat({ sendMessage }) {
                         onKeyDown={handleKeyDown}
                     />
                     <SendIcon onClick={handleSubmit} />
-                    <Button
-                        transparent
-                        className={cx('container__type-message-btn')}
-                        onClick={() => {
-                            setCreateClass(true);
-                        }}
-                    >
-                        Create class
-                    </Button>
                 </Col>
             </Row>
         </Col>

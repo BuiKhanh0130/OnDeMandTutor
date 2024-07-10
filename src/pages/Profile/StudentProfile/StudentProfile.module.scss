@@ -33,6 +33,27 @@
     }
 }
 
+.container__profile-student-camera {
+    position: absolute;
+    bottom: -74px;
+    left: 156px;
+
+    &:hover {
+        cursor: pointer;
+    }
+}
+
+.container__profile-student-icon {
+    position: relative;
+}
+
+.container__profile-student-input {
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: none;
+}
+
 .container__user {
     margin-top: 60px;
     padding: 40px 0;

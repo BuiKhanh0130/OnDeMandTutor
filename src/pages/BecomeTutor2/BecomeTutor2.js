@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheck, faTimes } from '@fortawesome/free-solid-svg-icons';
 
 import requests from '~/utils/request';
+import Subject from '~/pages/BecomeTutor2/Subject';
 import { ModalContext } from '~/components/ModalProvider';
 import Button from '~/components/Button';
 
@@ -93,7 +94,6 @@ function BecomeTutor2() {
                     },
                 );
                 context.setUserId('');
-                console.log(response.status);
                 if (response.status === 200) {
                     context.setActive(true);
                     navigate('/');
@@ -316,6 +316,8 @@ function BecomeTutor2() {
                                 onChange={(e) => setImage(e.target.files[0])}
                             />
                         </div>
+
+                        <Subject />
 
                         <Button className={cx('submit')}>Submit</Button>
                     </form>
