@@ -21,10 +21,12 @@ function Post({
     handleBrowseTutor,
     handleDeleteForm,
     handleUpdateForm,
+    handleSelectSort,
     handleForm,
     disable,
     syntax,
 }) {
+    console.log(listTutor);
     return (
         <Container>
             <Row className={cx('result__total')}>
@@ -33,20 +35,34 @@ function Post({
                         <strong>{listClasses?.length} form </strong>fit your choices
                     </p>
                 </Col>
-                <Col className={cx('result__total-sort')}>
-                    <form action="GET" className={cx('result__total-sort-form')}>
-                        <label htmlFor="sort">
-                            <strong>Sort</strong>
-                        </label>
-                        <select id="sort" onChange={(e) => handleForm(e.target.value)}>
-                            {/* <option value="best">Best match</option> */}
-                            <option value="Not yet approved">Not yet approved</option>
-                            <option value="Has been approved">Has been approved</option>
-                            <option value="Approved tutor">Approved tutor</option>
-                            {/* <option value="experience">Experience</option> */}
-                        </select>
-                    </form>
-                </Col>
+                {syntax === 'applyPost' ? (
+                    <Col className={cx('result__total-sort')}>
+                        <form action="GET" className={cx('result__total-sort-form')}>
+                            <label htmlFor="sort">
+                                <strong>Sort</strong>
+                            </label>
+                            <select id="sort" onChange={handleSelectSort}>
+                                <option value="Soonest">Soonest</option>
+                                <option value="Latest">Latest</option>
+                            </select>
+                        </form>
+                    </Col>
+                ) : (
+                    <Col className={cx('result__total-sort')}>
+                        <form action="GET" className={cx('result__total-sort-form')}>
+                            <label htmlFor="sort">
+                                <strong>Sort</strong>
+                            </label>
+                            <select id="sort" onChange={(e) => handleForm(e.target.value)}>
+                                {/* <option value="best">Best match</option> */}
+                                <option value="Not yet approved">Not yet approved</option>
+                                <option value="Has been approved">Has been approved</option>
+                                <option value="Approved tutor">Approved tutor</option>
+                                {/* <option value="experience">Experience</option> */}
+                            </select>
+                        </form>
+                    </Col>
+                )}
             </Row>
             {listClasses?.length > 0 &&
                 listClasses.map((classItem, index) => (
@@ -192,7 +208,7 @@ function Post({
                                                 className={cx('container_tutor-approve')}
                                                 onClick={() => {
                                                     <p>{tutor.tutorName}</p>;
-                                                    handleBrowseTutor(idForm, tutor.tutorId);
+                                                    handleBrowseTutor(idForm, tutor.userIdTutor);
                                                 }}
                                             >
                                                 Approve
