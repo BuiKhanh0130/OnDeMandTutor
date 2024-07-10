@@ -32,8 +32,6 @@ const Wallet = () => {
     const [transactionData, setTransactionData] = useState([]);
     const requestPrivate = useRequestsPrivate();
 
-    
-
     useEffect(() => {
         const fetchWallet = async () => {
             try {

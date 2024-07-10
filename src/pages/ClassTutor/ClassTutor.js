@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useCallback, useMemo, useContext } from 'react';
 import classNames from 'classnames/bind';
-import styles from './Classes.module.scss';
+import styles from './ClassTutor.module.scss';
 import { Container, Row, Col } from 'react-bootstrap';
 import useRequestsPrivate from '~/hooks/useRequestPrivate';
 import Calendar from '~/components/Calendar/Calendar';
@@ -12,14 +12,10 @@ import { ModalContext } from '~/components/ModalProvider';
 
 const cx = classNames.bind(styles);
 
-const VIEW_CLASS_LIST_URL = 'Classes/student/viewClassList';
+const VIEW_CLASS_LIST_URL = 'Classes/tutor/viewClassList';
 const VIEW_CLASS_DETAILS_URL = 'Classes/viewClassDetail';
-const STUDENT_BROWSERCLASS_URL = 'Classes/student/browseClass';
+// const STUDENT_BROWSERCLASS_URL = 'Classes/student/browseClass';
 const CONVERSATION_URL = 'ConversationAccount'
-const REQUEST_PAYMENT_URL = 'VnPay/create_payment_url';
-const RESPONSE_PAYMENT_URL = 'VnPay/payment_return';
-const WALLETID_ADMIN = '1bada450-d90c-4e14-b410-21ab37f00091';
-const VNPAYID = 'ce5ebcf3-d4fb-49a7-bca6-1ce10dd76d3f';
 
 const Classes = () => {
     const { auth } = useContext(ModalContext);
@@ -28,12 +24,6 @@ const Classes = () => {
     const [size, setSize] = useState(0);
     const [classID, setClassID] = useState('');
     const [filterParams, setFilterParams] = useState({ status: null, isApprove: true });
-    const [message, setMessage] = useState('Vuilongthanhtoan');
-    const [paymentId, setPaymentId] = useState(localStorage.getItem('paymentid'));
-    const [price, setPrice] = useState(200000);
-    const [userId, setUserId] = useState('');
-    const role = auth.role
-    console.log(role);
 
     const requestPrivate = useRequestsPrivate();
 
@@ -52,21 +42,6 @@ const Classes = () => {
         setFilterParams({ status, isApprove });
     }, []);
 
-    const handlePayment = useCallback(async () => {
-        try {
-            const response = await requests.post(REQUEST_PAYMENT_URL, {
-                walletId: WALLETID_ADMIN,
-                paymentDestinationId: VNPAYID,
-                amount: price,
-                description: encodeURIComponent(message)
-            });
-            localStorage.setItem('paymentid', response.data.paymentId);
-            setPaymentId(response.data.paymentId); 
-            window.location.href = response.data.paymentUrl;
-        } catch (error) {
-            console.error('Error during payment request:', error);
-        }
-    }, [price, message]);
 
     const fetchClasses = useCallback(async () => {
         try {
@@ -86,60 +61,13 @@ const Classes = () => {
             setSize(response.data.listResult.length);
             if (response.data.listResult.length > 0) {
                 setClassID(response.data.listResult[0].classid);
-                setUserId(response.data.listResult[0].userId);
             }
         } catch (error) {
             console.error('Error fetching classes:', error);
         }
     }, [filterParams, requestPrivate]);
 
-    useEffect(() => {
-        const urlParams = new URLSearchParams(window.location.search);
-        const paramsObject = {};
 
-        for (const [key, value] of urlParams.entries()) {
-            paramsObject[key] = value;
-        }
-
-        const responsePayment = async () => {
-            if (!paymentId) {
-                return;
-            }
-
-            const browserClass = async () => {
-                try {
-                    await requests.put(`${STUDENT_BROWSERCLASS_URL}?classId=${classID}&action=true`);
-                    fetchClasses();
-                } catch (err) {
-                    console.error('Error during browser class:', err);
-                }
-            }
-
-            const createConversation = async () => {
-                try {
-                    await requestPrivate.post(`${CONVERSATION_URL}?userId=${userId}`);
-                    // fetchClasses();
-                } catch (err) {
-                    console.error('Error during browser class:', err);
-                }
-            }
-
-            try {
-                const response = await requests.post(`${RESPONSE_PAYMENT_URL}/${paymentId}`, paramsObject);
-                localStorage.removeItem('paymentid');
-                if (response.data === '00') {
-                    browserClass();
-                    createConversation();
-                } else {
-                    console.error('Payment was not successful:', response.data);
-                }
-            } catch (err) {
-                console.error('Error during payment response handling:', err);
-            }
-        };
-
-        responsePayment();
-    }, [userId ,requestPrivate ,paymentId, classID, fetchClasses]);
 
     const fetchClassesDetail = useCallback(async (classID) => {
         try {
@@ -162,8 +90,6 @@ const Classes = () => {
 
     const handleClassClick = (classs) => {
         setClassID(classs.classid);
-        setUserId(classs.userId)
-        setPrice(classs.price);
         fetchClassesDetail(classs.classid); 
     };
 
@@ -232,7 +158,7 @@ const Classes = () => {
                                         <Calendar events={calendar} />
                                     </Row>
 
-                                    <Row>
+                                    {/* <Row>
                                         {filterParams.status === null && filterParams.isApprove === null ? (
                                             <div className={cx('container_avatar-buttons')}>
                                                 <button className={cx('container_avatar-button', 'reject')}>
@@ -243,7 +169,7 @@ const Classes = () => {
                                                 </button>
                                             </div>
                                         ) : ''}
-                                    </Row>
+                                    </Row> */}
                                 </Col>
                             </Row>
                         </Col>
