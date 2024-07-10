@@ -8,11 +8,12 @@ import { ModalContext } from '~/components/ModalProvider';
 import { ScrollToTop } from '~/components/ScrollToTop';
 
 import styles from './DefaultLayout.module.scss';
+import CreateClass from '~/pages/GenerateClass/GenerateClass';
 
 const cx = classNames.bind(styles);
 
 function DefaultLayout({ children }) {
-    const Login_Signup = useContext(ModalContext);
+    const { active, activeSignUp, handleHiddenActive } = useContext(ModalContext);
     return (
         <div className={cx('wrapper')}>
             <div className={cx('container')}>
@@ -21,8 +22,8 @@ function DefaultLayout({ children }) {
                 <ScrollToTop />
                 <Footer />
             </div>
-            {Login_Signup.active && <Login onHide={Login_Signup.handleHiddenActive} state={'Log In'}></Login>}
-            {Login_Signup.activeSignUp && <Login onHide={Login_Signup.handleHiddenActive} state={'Register'}></Login>}
+            {active && <Login onHide={handleHiddenActive} state={'Log In'}></Login>}
+            {activeSignUp && <Login onHide={handleHiddenActive} state={'Register'}></Login>}
         </div>
     );
 }

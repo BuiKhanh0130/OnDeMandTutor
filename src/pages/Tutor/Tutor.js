@@ -97,9 +97,7 @@ function Tutor() {
                             <div className={cx('container__tag-connect')}>
                                 <strong>Hourly Rate: ${userDetails?.hourlyRate}</strong>
                                 <Button orange>
-                                    <Link to={`/requestForm`}
-                                        state={{ key: state.key }}
-                                    >
+                                    <Link to={`/requestForm`} state={{ key: state.key }}>
                                         Contact {userDetails?.fullName}
                                     </Link>
                                 </Button>
