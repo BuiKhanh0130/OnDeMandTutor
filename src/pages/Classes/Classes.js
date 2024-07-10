@@ -9,20 +9,20 @@ import images from '~/assets/images';
 import requests from '~/utils/request';
 import { ModalContext } from '~/components/ModalProvider';
 
-
 const cx = classNames.bind(styles);
 
 const VIEW_CLASS_LIST_URL = 'Classes/student/viewClassList';
 const VIEW_CLASS_DETAILS_URL = 'Classes/viewClassDetail';
 const STUDENT_BROWSERCLASS_URL = 'Classes/student/browseClass';
-const CONVERSATION_URL = 'ConversationAccount'
+const CONVERSATION_URL = 'ConversationAccount';
+const CREATE_NOTIFICATION_URL = 'Notification/createNotification';
 const REQUEST_PAYMENT_URL = 'VnPay/create_payment_url';
 const RESPONSE_PAYMENT_URL = 'VnPay/payment_return';
 const WALLETID_ADMIN = '1bada450-d90c-4e14-b410-21ab37f00091';
 const VNPAYID = 'ce5ebcf3-d4fb-49a7-bca6-1ce10dd76d3f';
 
 const Classes = () => {
-    const { auth } = useContext(ModalContext);
+    const { avatar } = useContext(ModalContext);
     const [classes, setClasses] = useState([]);
     const [calendar, setCalendar] = useState([]);
     const [size, setSize] = useState(0);
@@ -32,11 +32,8 @@ const Classes = () => {
     const [paymentId, setPaymentId] = useState(localStorage.getItem('paymentid'));
     const [price, setPrice] = useState(200000);
     const [userId, setUserId] = useState('');
-    const role = auth.role
-    console.log(role);
 
     const requestPrivate = useRequestsPrivate();
-
 
     const handleChangeSelect = useCallback((value) => {
         let status = null;
@@ -82,7 +79,6 @@ const Classes = () => {
 
             const response = await requestPrivate.get(API_URL);
             setClasses(response.data.listResult);
-            console.log(response.data.listResult);
             setSize(response.data.listResult.length);
             if (response.data.listResult.length > 0) {
                 setClassID(response.data.listResult[0].classid);
@@ -93,53 +89,35 @@ const Classes = () => {
         }
     }, [filterParams, requestPrivate]);
 
+    const handlePaymentResponse = useCallback(async (paramsObject) => {
+        if (!paymentId) return;
+
+        try {
+            const response = await requests.post(`${RESPONSE_PAYMENT_URL}/${paymentId}`, paramsObject);
+            localStorage.removeItem('paymentid');
+            if (response.data === '00') {
+                await requests.put(`${STUDENT_BROWSERCLASS_URL}?classId=${classID}&action=true`);
+                await requestPrivate.post(`${CONVERSATION_URL}?userId=${userId}`);
+                await requestPrivate.post(CREATE_NOTIFICATION_URL, {
+                    title: `${avatar.fullName} has accepted your class on OnDemandTutor.`,
+                    description: 'Follow them and start your lesson!',
+                    url: '/classTutor',
+                    accountId: userId
+                });
+                fetchClasses();
+            } else {
+                console.error('Payment was not successful:', response.data);
+            }
+        } catch (err) {
+            console.error('Error during payment response handling:', err);
+        }
+    }, [paymentId, classID, userId, avatar.fullName, fetchClasses, requestPrivate]);
+
     useEffect(() => {
         const urlParams = new URLSearchParams(window.location.search);
-        const paramsObject = {};
-
-        for (const [key, value] of urlParams.entries()) {
-            paramsObject[key] = value;
-        }
-
-        const responsePayment = async () => {
-            if (!paymentId) {
-                return;
-            }
-
-            const browserClass = async () => {
-                try {
-                    await requests.put(`${STUDENT_BROWSERCLASS_URL}?classId=${classID}&action=true`);
-                    fetchClasses();
-                } catch (err) {
-                    console.error('Error during browser class:', err);
-                }
-            }
-
-            const createConversation = async () => {
-                try {
-                    await requestPrivate.post(`${CONVERSATION_URL}?userId=${userId}`);
-                    // fetchClasses();
-                } catch (err) {
-                    console.error('Error during browser class:', err);
-                }
-            }
-
-            try {
-                const response = await requests.post(`${RESPONSE_PAYMENT_URL}/${paymentId}`, paramsObject);
-                localStorage.removeItem('paymentid');
-                if (response.data === '00') {
-                    browserClass();
-                    createConversation();
-                } else {
-                    console.error('Payment was not successful:', response.data);
-                }
-            } catch (err) {
-                console.error('Error during payment response handling:', err);
-            }
-        };
-
-        responsePayment();
-    }, [userId ,requestPrivate ,paymentId, classID, fetchClasses]);
+        const paramsObject = Object.fromEntries(urlParams.entries());
+        handlePaymentResponse(paramsObject);
+    }, [handlePaymentResponse]);
 
     const fetchClassesDetail = useCallback(async (classID) => {
         try {
@@ -162,7 +140,7 @@ const Classes = () => {
 
     const handleClassClick = (classs) => {
         setClassID(classs.classid);
-        setUserId(classs.userId)
+        setUserId(classs.userId);
         setPrice(classs.price);
         fetchClassesDetail(classs.classid); 
     };

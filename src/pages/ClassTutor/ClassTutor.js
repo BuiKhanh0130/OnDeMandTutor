@@ -103,7 +103,7 @@ const Classes = () => {
             <Container className={cx('container')}>
                 <Row>
                     <Col lg="12" className={cx('container__title')}>
-                        <h1>Student Classes</h1>
+                        <h1>Tutor Classes</h1>
                     </Col>
                 </Row>
 
@@ -158,18 +158,6 @@ const Classes = () => {
                                         <Calendar events={calendar} />
                                     </Row>
 
-                                    {/* <Row>
-                                        {filterParams.status === null && filterParams.isApprove === null ? (
-                                            <div className={cx('container_avatar-buttons')}>
-                                                <button className={cx('container_avatar-button', 'reject')}>
-                                                    Reject
-                                                </button>
-                                                <button className={cx('container_avatar-button')} onClick={handlePayment}>
-                                                    Apply
-                                                </button>
-                                            </div>
-                                        ) : ''}
-                                    </Row> */}
                                 </Col>
                             </Row>
                         </Col>

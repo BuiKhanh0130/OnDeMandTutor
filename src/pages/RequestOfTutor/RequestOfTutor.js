@@ -13,7 +13,6 @@ import Popup from './Popup';
 
 const cx = classNames.bind(styles);
 
-// const FORM_REQUEST_URL = 'FormRequestTutor/viewForm';
 const HANDLE_FORM_URL = 'FormRequestTutor/handleBrowserForm';
 
 function RequestOfTutor() {
