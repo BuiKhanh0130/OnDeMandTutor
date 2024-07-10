@@ -48,12 +48,9 @@ function Form() {
     const [typeOfDegree, setTypeOfDegree] = useState('College');
     const [describeTutor, setDescribeTutor] = useState('');
     const [selectedDays, setSelectedDays] = useState([]);
-
     const [grades, setGrades] = useState([]);
     const [subjects, setSubjects] = useState([]);
-
     const [isValidForm, setIsValidForm] = useState(false);
-
     const [validMinHourlyRate, setValidMinHourlyRate] = useState(false);
     const [minHourlyRateFocus, setValidMinHourlyRateFocus] = useState(false);
     const [validMaxHourlyRate, setValidMaxHourlyRate] = useState(true);
@@ -113,6 +110,7 @@ function Form() {
         };
     }, []);
 
+    //Get Grade
     useEffect(() => {
         let isMounted = true;
         const controller = new AbortController();
@@ -430,6 +428,7 @@ function Form() {
                         value={describeTutor}
                     ></textarea>
                 </div>
+
                 <div className={cx('requestTutor__container-btn')}>
                     <Button className={cx('requestTutor__container-submit', { disabled: !isValidForm })}>Submit</Button>
                 </div>

@@ -1,5 +1,5 @@
 import classNames from 'classnames/bind';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
@@ -9,15 +9,20 @@ import Image from '~/components/Image';
 import Class from '~/components/Class';
 import useRequestsPrivate from '~/hooks/useRequestPrivate';
 import Button from '~/components/Button';
+import { CameraIcon } from '~/components/Icons';
+import requests from '~/utils/request';
 
 import styles from './StudentProfile.module.scss';
 
 const cx = classNames.bind(styles);
 
+const IMGBB = 'https://api.imgbb.com/1/upload?key=9c7d176f8c72a29fa6384fbb49cff7bc';
 const STUDENTPROFILE = 'Students/GetStudentCurrent';
 const UPDATEPROFILE = 'Students/UpdateStudent';
 
 function StudentProfile() {
+    const imgRef = useRef();
+    let file = '';
     const axiosPrivate = useRequestsPrivate();
     const [fullName, setFullName] = useState('');
     const [age, setAge] = useState('');
@@ -25,7 +30,7 @@ function StudentProfile() {
     const [phoneNumber, setPhoneNumber] = useState('');
     const [address, setAddress] = useState('');
     const [schoolName, setSchoolName] = useState('');
-    const [avatar, setAvatar] = useState('');
+    const [avatar, setAvatar] = useState();
 
     useEffect(() => {
         const controller = new AbortController();
@@ -55,13 +60,39 @@ function StudentProfile() {
     }, []);
 
     const handleUpdate = async () => {
-        const response = await axiosPrivate.post(
-            UPDATEPROFILE,
-            JSON.stringify({ fullName, gender, phoneNumber, avatar, schoolName, address, age, isParent: true }),
-        );
+        const form = new FormData();
+        try {
+            form.append('image', avatar);
+            const response = await requests.post(IMGBB, form);
+            if (response.status === 200) {
+                file = response?.data?.data?.display_url;
+                console.log(file);
+            }
 
-        if (response.status) {
-        }
+            try {
+                const response = await axiosPrivate.post(
+                    UPDATEPROFILE,
+                    JSON.stringify({
+                        fullName,
+                        gender,
+                        phoneNumber,
+                        avatar: file,
+                        schoolName,
+                        address,
+                        age,
+                        isParent: true,
+                    }),
+                );
+
+                if (response.status) {
+                    window.location.reload();
+                }
+            } catch (error) {}
+        } catch (error) {}
+    };
+
+    const triggerFileInput = () => {
+        document.getElementById('file-input').click();
     };
 
     return (
@@ -71,8 +102,17 @@ function StudentProfile() {
                     <Col lg="12" className={cx('container__profile')}>
                         <div className={cx('container__profile-banner')}></div>
                         <div className={cx('container__profile-student')}>
-                            <Image src={avatar} alt={fullName} />
+                            <Image src={avatar} alt={fullName} ref={imgRef} />
                             <p>{fullName}</p>
+                        </div>
+                        <div className={cx('container__profile-student-camera')} onClick={triggerFileInput}>
+                            <CameraIcon className={cx('container__profile-student-icon')} />
+                            <input
+                                type="file"
+                                id="file-input"
+                                className={cx('container__profile-student-input')}
+                                onChange={(e) => setAvatar(e.target.files[0])}
+                            ></input>
                         </div>
                     </Col>
                 </Row>

@@ -1,5 +1,5 @@
 import classNames from 'classnames/bind';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
@@ -8,16 +8,22 @@ import Col from 'react-bootstrap/Col';
 import Image from '~/components/Image';
 import useRequestsPrivate from '~/hooks/useRequestPrivate';
 import Button from '~/components/Button';
-import { requestsPrivate } from '~/utils/request';
+import requests, { requestsPrivate } from '~/utils/request';
+import { ModalContext } from '~/components/ModalProvider';
 
 import styles from './TutorProfile.module.scss';
+import { CameraIcon } from '~/components/Icons';
 
 const cx = classNames.bind(styles);
 
+const IMGBB = 'https://api.imgbb.com/1/upload?key=9c7d176f8c72a29fa6384fbb49cff7bc';
 const TUTORPROFILE = 'Tutors/GetTutorCurrent';
 const UPDATEPROFILE = 'Tutors/UpdateTutor';
 
 function TutorProfile() {
+    const imgRef = useRef();
+    const [file, setFile] = useState();
+    const [avatar, setAvatar] = useState();
     const axiosPrivate = useRequestsPrivate();
     const [fullName, setFullName] = useState('');
     const [education, setEducation] = useState('');
@@ -30,7 +36,6 @@ function TutorProfile() {
     const [gender, setGender] = useState(true);
     const [phoneNumber, setPhoneNumber] = useState('');
     const [address, setAddress] = useState('');
-    const [avatar, setAvatar] = useState('');
     const [photo, setPhoto] = useState('');
 
     useEffect(() => {
@@ -67,27 +72,47 @@ function TutorProfile() {
     }, [axiosPrivate]);
 
     const handleUpdate = async () => {
-        const response = await requestsPrivate.post(
-            UPDATEPROFILE,
-            JSON.stringify({
-                fullName,
-                gender,
-                phoneNumber,
-                avatar,
-                dob,
-                education,
-                typeOfDegree,
-                cardId,
-                hourlyRate,
-                photo,
-                headline,
-                description,
-                address,
-                isActive: true,
-            }),
-        );
-        if (response.statusCode === 200) {
-        }
+        try {
+            const response = await requestsPrivate.post(
+                UPDATEPROFILE,
+                JSON.stringify({
+                    fullName,
+                    gender,
+                    phoneNumber,
+                    avatar: file,
+                    dob,
+                    education,
+                    typeOfDegree,
+                    cardId,
+                    hourlyRate,
+                    photo,
+                    headline,
+                    description,
+                    address,
+                    isActive: true,
+                }),
+            );
+            if (response.status) {
+                window.location.reload();
+            }
+        } catch (error) {}
+    };
+
+    const triggerFileInput = () => {
+        document.getElementById('file-input').click();
+    };
+
+    const handleAvatar = async (e) => {
+        setAvatar(e.target.files[0]);
+        const form = new FormData();
+        try {
+            form.append('image', avatar);
+            const response = await requests.post(IMGBB, form);
+            if (response.status === 200) {
+                setFile(response?.data?.data?.display_url);
+                console.log(file);
+            }
+        } catch (error) {}
     };
 
     return (
@@ -96,8 +121,17 @@ function TutorProfile() {
                 <Row>
                     <Col lg="12" className={cx('container__profile')}>
                         <div className={cx('container__profile-banner')}></div>
+                        <div className={cx('container__profile-student-camera')} onClick={triggerFileInput}>
+                            <CameraIcon className={cx('container__profile-student-icon')} />
+                            <input
+                                type="file"
+                                id="file-input"
+                                className={cx('container__profile-student-input')}
+                                onChange={handleAvatar}
+                            ></input>
+                        </div>
                         <div className={cx('container__profile-student')}>
-                            <Image src={avatar} alt={fullName} />
+                            <Image src={file ? file : avatar} alt={fullName} ref={imgRef} />
                             <p>{fullName}</p>
                         </div>
                     </Col>
