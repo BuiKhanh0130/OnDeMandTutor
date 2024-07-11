@@ -10,6 +10,7 @@ function ModalProvider({ children }) {
     const [avatarMessage, setAvatarMessage] = useState({});
     const [active, setActive] = useState(false);
     const [roomId, setRoomId] = useState('');
+    const [formId, setFormId] = useState('');
     const [auth, setAuth] = useState({});
     const [userId, setUserId] = useState('');
     const [tutorId, setTutorId] = useState('');
@@ -59,6 +60,7 @@ function ModalProvider({ children }) {
         setUserId,
         activeSignUp,
         roomId,
+        formId,
         setRoomId,
         conn,
         listTutor,
@@ -68,6 +70,7 @@ function ModalProvider({ children }) {
         setConnection,
         messages,
         setMessage,
+        setFormId,
         createClass,
         setCreateClass,
         updateForm,
