@@ -8,12 +8,13 @@ import { ModalContext } from '~/components/ModalProvider';
 import ContainerChat from './conponents/ContainerChat';
 import CreateClass from '~/pages/PopUp/Class';
 import Header from '~/layouts/components/Header';
+import HeaderTutor from '~/layouts/Tutor/components/HeaderTutor';
 
 const cx = classNames.bind(styles);
 
 const Messages = () => {
-    const { roomId, conn } = useContext(ModalContext);
-
+    const { roomId, conn, auth } = useContext(ModalContext);
+    const Layer = auth.role === 'Tutor' ? HeaderTutor : Header
     const sendMessage = async (message) => {
         try {
             console.log(message);
@@ -25,7 +26,7 @@ const Messages = () => {
 
     return (
         <div className={cx('wrapper')}>
-            <Header />
+            <Layer />
             <Container className={cx('container')}>
                 <span className={cx('container__msg')}>Messages</span>
                 <Row>

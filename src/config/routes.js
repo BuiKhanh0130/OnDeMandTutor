@@ -35,6 +35,9 @@ const routes = {
     requestOfTutor: '/requestOfTutor',
     generateClass: '/generateClass',
     myApplyFormTutor: '/myApplyFormTutor',
+    wallet: '/wallet',
+    classTutor: '/classTutor',
+    requestOfStudent: '/requestOfStudent',
 };
 
 export default routes;

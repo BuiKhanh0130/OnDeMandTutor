@@ -40,6 +40,10 @@ import MyPost from '~/pages/MyPost';
 import RequestOfTutor from '~/pages/RequestOfTutor';
 import GenerateClass from '~/pages/GenerateClass';
 import MyApplyPost from '~/pages/MyApplyPost';
+import Wallet from '~/pages/Wallet';
+import ClassTutor from '~/pages/ClassTutor';
+import RequestOfStudent from '~/pages/RequestOfStudent';
+
 
 const publicRoutes = [
     { path: config.routes.home, component: Home },
@@ -92,12 +96,15 @@ const privateRoutes = [
     { path: config.routes.notification, component: Notification, role: ['Student', 'Tutor'] },
     { path: config.routes.moderator, component: Rehearsal, role: ['Moderator'], layout: Moderator },
     { path: config.routes.modeClass, component: MainDash, role: ['Moderator'], layout: Moderator },
-    { path: config.routes.classes, component: Classes, role: ['Student', 'Tutor'] },
+    { path: config.routes.classes, component: Classes, role: ['Student'] },
+    { path: config.routes.classTutor, component: ClassTutor, role: ['Tutor'] },
     { path: config.routes.requestForm, component: RequestForm, role: ['Student'] },
     { path: config.routes.myPost, component: MyPost, role: ['Student'] },
     { path: config.routes.requestOfTutor, component: RequestOfTutor, role: ['Tutor'] },
     { path: config.routes.generateClass, component: GenerateClass, role: ['Tutor'] },
     { path: config.routes.myApplyFormTutor, component: MyApplyPost, role: ['Tutor'] },
+    { path: config.routes.wallet, component: Wallet, role: ['Tutor', 'Student', 'Moderator'] },
+    { path: config.routes.requestOfStudent, component: RequestOfStudent, role: ['Student'] },
 ];
 
 export { publicRoutes, privateRoutes };

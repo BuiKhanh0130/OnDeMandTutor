@@ -5,6 +5,8 @@ import { useLocation } from 'react-router-dom';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
+import Modal from 'react-bootstrap/Modal';
+import Button from 'react-bootstrap/Button';
 import useRequestsPrivate from '~/hooks/useRequestPrivate';
 import { Link } from 'react-router-dom';
 import request from '~/utils/request';
@@ -13,7 +15,6 @@ import { format } from 'date-fns';
 import 'react-date-range/dist/styles.css';
 import 'react-date-range/dist/theme/default.css';
 import Calendar from '~/components/Calendar/Calendar';
-import 'bootstrap/dist/css/bootstrap.min.css';
 import images from '~/assets/images';
 
 const GRADE_URL = 'Grade';
@@ -25,7 +26,6 @@ const CREATE_REQUEST_URL = 'FormRequestTutor/createForm';
 const cx = classNames.bind(styles);
 
 const RequestForm = () => {
-
     const requestPrivate = useRequestsPrivate();
     const { state } = useLocation();
     const [formData, setFormData] = useState({
@@ -44,6 +44,7 @@ const RequestForm = () => {
     const [fetchedGrades, setFetchedGrades] = useState([]);
     const [listSubject, setListSubject] = useState([]);
     const [events, setEvents] = useState([]);
+    const [showModal, setShowModal] = useState(false);
 
     useEffect(() => {
         window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -136,8 +137,18 @@ const RequestForm = () => {
         fetchCalendar();
     }, [requestPrivate, state.key]);
 
+    const validateForm = () => {
+        const { description, startDate, endDate, selectedDays, startTime, endTime } = formData;
+        return description && startDate && endDate && selectedDays.length > 0 && startTime && endTime;
+    };
+
     const handleSubmit = async (event) => {
         event.preventDefault();
+        if (!validateForm()) {
+            alert('Please fill in all required fields.');
+            return;
+        }
+
         const params = {
             tutorId: state.key,
             gradeId: formData.grade,
@@ -151,16 +162,24 @@ const RequestForm = () => {
         };
 
         try {
-            await requestPrivate.post(CREATE_REQUEST_URL, params, {
+            const response = await requestPrivate.post(CREATE_REQUEST_URL, params, {
                 headers: {
                     'Content-Type': 'application/json',
                 },
             });
-            alert('Request sent successfully!');
+            console.log(response.data);
+
+            if (response.data) {
+                setShowModal(true);
+            }else{
+                alert('The calendar is invalid. Please try again.');
+            }
         } catch (error) {
             console.log(error);
         }
     };
+
+    const handleCloseModal = () => setShowModal(false);
 
     return (
         <div className={cx('wrapper')}>
@@ -248,6 +267,7 @@ const RequestForm = () => {
                                     </div>
                                     {['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'].map((day, index) => (
                                         <button
+                                            type="button"
                                             key={index}
                                             onClick={() => handleDayClick(index)}
                                             className={cx({ selected: formData.selectedDays.includes(index) })}
@@ -295,9 +315,20 @@ const RequestForm = () => {
                     </Col>
                 </Row>
             </Container>
+
+            <Modal show={showModal} onHide={handleCloseModal}>
+                <Modal.Header closeButton>
+                    <Modal.Title>Success</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>Your request has been sent successfully!</Modal.Body>
+                <Modal.Footer>
+                    <Button variant="secondary" onClick={handleCloseModal}>
+                        Close
+                    </Button>
+                </Modal.Footer>
+            </Modal>
         </div>
     );
 };
-       
 
 export default RequestForm;

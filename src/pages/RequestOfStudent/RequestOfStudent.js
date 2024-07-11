@@ -7,15 +7,14 @@ import Col from 'react-bootstrap/Col';
 
 import images from '~/assets/images';
 import Image from '~/components/Image';
-import styles from './RequestOfTutor.module.scss';
+import styles from './RequestOfStudent.module.scss';
 import useRequestsPrivate from '~/hooks/useRequestPrivate';
-import Popup from './Popup';
 
 const cx = classNames.bind(styles);
 
 const HANDLE_FORM_URL = 'FormRequestTutor/handleBrowserForm';
 
-function RequestOfTutor() {
+function RequestOfStudent() {
     const [forms, setForms] = useState([]);
     const [limitPage, setLimitPage] = useState(0); 
     const [currentPage, setCurrentPage] = useState(1);
@@ -82,8 +81,7 @@ function RequestOfTutor() {
         <div className={cx('wrapper')}>
             <Container className={cx('container')}>
                 <header className={cx('header')}>
-                    <h1>Your Students' Requests</h1>
-                    <p>Discover, connect with potential students, and share your passion for learning.</p>
+                    <h1>Your Requests</h1>
                 </header>
                 <div className={cx('filter-buttons')}>
                     <button className={cx({ active: filter === 'pending' })} onClick={() => setFilter('pending')}>Pending</button>
@@ -129,14 +127,6 @@ function RequestOfTutor() {
                             <Col lg="4" className={cx('container_avatar')}>
                                 <Image src={form.avatar || images.avatarDefault} alt={form.fullName} />
                                 <p>{form.fullName}</p>
-                                {filter === 'pending' ? (<div className={cx('container_avatar-buttons')}>
-                                    <button className={cx('container_avatar-button', 'reject')} onClick={() => handleReject(form)}>
-                                        Reject
-                                    </button>
-                                    <button className={cx('container_avatar-button')} onClick={() => handleApply(form)}>
-                                        Apply
-                                    </button>
-                                </div>) : ''}
                             </Col>
                         </Row>
                     );
@@ -145,18 +135,8 @@ function RequestOfTutor() {
                 </div>) }
             </Container>
 
-            {showModal && (
-                <Popup 
-                    setShowModal={setShowModal} 
-                    modalContent={modalContent} 
-                    selected={selected} 
-                    form={form} 
-                    sameFormNum={sameFormNum}
-                    onActionComplete={handleActionComplete}
-                />
-            )}
         </div>
     );
 }
 
-export default RequestOfTutor;
+export default RequestOfStudent;

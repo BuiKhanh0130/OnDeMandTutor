@@ -42,12 +42,16 @@ function User({ children }) {
                                     <li>Your Classes</li>
                                 </Link>
 
+                                <Link to="/requestOfStudent">
+                                    <li>Forms</li>
+                                </Link>
+
                                 <Link to="/myblog">
                                     <li>My Post</li>
                                 </Link>
 
-                                <Link to="/transaction/history">
-                                    <li>Transaction history</li>
+                                <Link to="/wallet">
+                                    <li>Wallet</li>
                                 </Link>
 
                                 <li onClick={signOut}>Log out</li>

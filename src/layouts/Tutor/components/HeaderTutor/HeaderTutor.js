@@ -39,7 +39,7 @@ function HeaderTutor() {
                     </Col>
 
                     <Col lg="2" className={cx('container__login-signup')}>
-                        <Link to={'/notifications'}>
+                        <Link to={config.routes.notification}>
                             <Notification>
                                 <div className={cx('container__login-signup-noti')}>
                                     <NotificationIcon />
