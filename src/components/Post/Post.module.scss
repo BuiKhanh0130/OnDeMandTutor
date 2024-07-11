@@ -116,6 +116,15 @@
     }
 }
 
+.container_createClass {
+    padding: 10px;
+    color: var(--white);
+
+    &:hover {
+        background-color: var(--hover);
+    }
+}
+
 .container_tutor-dsc {
     margin-left: 4px;
     p {

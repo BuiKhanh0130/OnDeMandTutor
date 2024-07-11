@@ -9,6 +9,8 @@ import Image from '~/components/Image';
 import Button from '~/components/Button';
 
 import styles from './Post.module.scss';
+import { useContext } from 'react';
+import { ModalContext } from '../ModalProvider';
 
 const cx = classNames.bind(styles);
 
@@ -22,11 +24,12 @@ function Post({
     handleDeleteForm,
     handleUpdateForm,
     handleSelectSort,
+    handleGenerateClass,
     handleForm,
     disable,
     syntax,
 }) {
-    console.log(listTutor);
+    const { setFormId } = useContext(ModalContext);
     return (
         <Container>
             <Row className={cx('result__total')}>
@@ -44,6 +47,18 @@ function Post({
                             <select id="sort" onChange={handleSelectSort}>
                                 <option value="Soonest">Soonest</option>
                                 <option value="Latest">Latest</option>
+                            </select>
+                        </form>
+                    </Col>
+                ) : syntax === 'applyForm' ? (
+                    <Col className={cx('result__total-sort')}>
+                        <form action="GET" className={cx('result__total-sort-form')}>
+                            <label htmlFor="sort">
+                                <strong>Sort</strong>
+                            </label>
+                            <select id="sort" onChange={(e) => handleForm(e.target.value)}>
+                                <option value="Approve">Approve</option>
+                                <option value="Not Approve">Not Approve</option>
                             </select>
                         </form>
                     </Col>
@@ -143,10 +158,19 @@ function Post({
                                             Apply
                                         </Button>
                                     )
+                                ) : syntax === 'applyForm' ? (
+                                    <></>
                                 ) : (
                                     <div className={cx('container__form-control-btn')}>
                                         {classItem?.status ? (
-                                            <></>
+                                            <Button
+                                                className={cx('container__form-control-delete')}
+                                                onClick={() => {
+                                                    handleUpdateForm(classItem);
+                                                }}
+                                            >
+                                                Update
+                                            </Button>
                                         ) : (
                                             <>
                                                 <Button
@@ -184,6 +208,19 @@ function Post({
                                 <Image src={images.avatar} alt="NTP"></Image>
                                 <p>{classItem.fullName}</p>
                                 <span>{classItem.createDay}</span>
+                            </Col>
+                        ) : syntax === 'applyForm' ? (
+                            <Col key={index} lg="4">
+                                <Button
+                                    to={'/generateClass'}
+                                    onClick={() => {
+                                        setFormId(classItem?.formId);
+                                    }}
+                                    orange
+                                    className={cx('container_createClass')}
+                                >
+                                    Crate class
+                                </Button>
                             </Col>
                         ) : (
                             <Col key={index} lg="4">

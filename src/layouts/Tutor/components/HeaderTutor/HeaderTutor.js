@@ -38,14 +38,15 @@ function HeaderTutor() {
                         <Sidebar />
                     </Col>
 
-
                     <Col lg="2" className={cx('container__login-signup')}>
-                        <Notification>
-                            <div className={cx('container__login-signup-noti')}>
-                                <NotificationIcon />
-                                <span className={cx('container__login-signup-number')}>2</span>
-                            </div>
-                        </Notification>
+                        <Link to={'/notifications'}>
+                            <Notification>
+                                <div className={cx('container__login-signup-noti')}>
+                                    <NotificationIcon />
+                                    <span className={cx('container__login-signup-number')}>2</span>
+                                </div>
+                            </Notification>
+                        </Link>
 
                         <NavMessage />
 

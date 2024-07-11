@@ -34,6 +34,7 @@ const routes = {
     myPost: '/myblog',
     requestOfTutor: '/requestOfTutor',
     generateClass: '/generateClass',
+    myApplyFormTutor: '/myApplyFormTutor',
 };
 
 export default routes;
