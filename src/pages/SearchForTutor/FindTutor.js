@@ -1,5 +1,5 @@
 import classNames from 'classnames/bind';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import MultiRangeSlider from './component/MultiRangeSliderInput';
 
@@ -40,10 +40,6 @@ function FindTutor() {
         total: 1,
     });
 
-    // useEffect(() =>{
-    //     console.log(searchValue, minValueRate, maxValueRate, grade, gender, fetchedGrades, sort, tutor, typeOfDegree, curPage);
-    // }, [searchValue, minValueRate, maxValueRate, grade, gender, fetchedGrades, sort, tutor, typeOfDegree, curPage])
-
     useEffect(() => {
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }, []);
@@ -73,6 +69,7 @@ function FindTutor() {
                 break;
         }
     };
+
     const params = {
         Search: searchValue,
         MaxRate: maxValueRate,
@@ -81,10 +78,8 @@ function FindTutor() {
         Gender: gender,
         TypeOfDegree: typeOfDegree,
         pageIndex: curPage,
-        SortContent: {
-            sortTutorBy: sort.title,
-            sortTutorType: sort.sort,
-        },
+        'SortContent.sortTutorBy' : sort.title,
+        'SortContent.sortTutorType' : sort.sort,
     };
 
     const handleSubmit = async (event) => {
@@ -95,13 +90,13 @@ function FindTutor() {
     const handleChange = async () => {
         try {
             const response = await request.get(`${TUTOR_URL}`, { params });
-
+            console.log(params);
             setTutors(response.data.listResult);
             setPagination({
                 page: 1,
                 limit: response.data.limitPage,
                 total: 1,
-            })
+            });
         } catch (error) {
             console.log(error.message);
         }
@@ -286,7 +281,6 @@ function FindTutor() {
                                                             Response Time: <strong>{5} minutes</strong>
                                                         </span>
                                                     </div>
-                                                 
                                                     <Button
                                                         orange
                                                         className={cx('result__profile-generality-btn')}
@@ -309,7 +303,9 @@ function FindTutor() {
                                 );
                             })}
 
-                        <Paging pagination={pagination} curPage={curPage} setcurPage={setcurPage} />
+                        {pagination.limit > 1 && (
+                            <Paging pagination={pagination} curPage={curPage} setcurPage={setcurPage} />
+                        )}
                     </Row>
                 </Col>
             </Row>

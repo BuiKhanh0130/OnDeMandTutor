@@ -99,8 +99,8 @@ const Classes = () => {
                 await requests.put(`${STUDENT_BROWSERCLASS_URL}?classId=${classID}&action=true`);
                 await requestPrivate.post(`${CONVERSATION_URL}?userId=${userId}`);
                 await requestPrivate.post(CREATE_NOTIFICATION_URL, {
-                    title: `${avatar.fullName} has accepted your class on OnDemandTutor.`,
-                    description: 'Follow them and start your lesson!',
+                    title: `${avatar.fullName} has accepted your class.`,
+                    description: 'follow them and start your lesson!',
                     url: '/classTutor',
                     accountId: userId
                 });
@@ -112,6 +112,22 @@ const Classes = () => {
             console.error('Error during payment response handling:', err);
         }
     }, [paymentId, classID, userId, avatar.fullName, fetchClasses, requestPrivate]);
+
+    const handleReject = useCallback(async () => {
+        try {
+                await requests.put(`${STUDENT_BROWSERCLASS_URL}?classId=${classID}&action=false`);
+                await requestPrivate.post(CREATE_NOTIFICATION_URL, {
+                    title: `${avatar.fullName} has rejected your class.`,
+                    description: 'may be we are not compatible!',
+                    url: '/classTutor',
+                    accountId: userId
+                });
+                fetchClasses();
+            } 
+         catch (err) {
+            console.error('Error during payment response handling:', err);
+        }
+    }, [ classID, userId, avatar.fullName, fetchClasses, requestPrivate]);
 
     useEffect(() => {
         const urlParams = new URLSearchParams(window.location.search);
@@ -213,7 +229,7 @@ const Classes = () => {
                                     <Row>
                                         {filterParams.status === null && filterParams.isApprove === null ? (
                                             <div className={cx('container_avatar-buttons')}>
-                                                <button className={cx('container_avatar-button', 'reject')}>
+                                                <button className={cx('container_avatar-button', 'reject')} onClick={handleReject}>
                                                     Reject
                                                 </button>
                                                 <button className={cx('container_avatar-button')} onClick={handlePayment}>

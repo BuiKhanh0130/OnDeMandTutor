@@ -1,29 +1,27 @@
 import * as React from 'react';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
 import request from '~/utils/request';
-import { useEffect } from 'react';
-import { useState } from 'react';
-import {FaStar} from "react-icons/fa"
+import { useEffect, useState } from 'react';
+import { FaStar } from "react-icons/fa";
 
 const Feedback_URL = 'Feedbacks/';
 
 function TableFeeback() {
-    const createData = (name, trackingId, date, status) => ({ name, trackingId, date, status });
     const [id, setId] = useState('T0010');
-
     const [feedbacks, setFeedbacks] = useState([]);
 
     useEffect(() => {
         const GetFeedbackById = async () => {
             try {
                 const response = await request.get(Feedback_URL + id);
-                setFeedbacks(response.data);
+                    setFeedbacks(response.data.listResult);
+                    console.log(response.data);
             } catch (error) {
-                console.log(error);
+                console.error('Error fetching feedbacks:', error);
             }
         };
         GetFeedbackById();
-    }, []);
+    }, [id]);
 
     const makeStyle = (status) => {
         if (status === 'Well Done') {
@@ -66,17 +64,15 @@ function TableFeeback() {
                                 <TableCell align="left">
                                     <span>
                                         <div className="star">
-                                            {[...Array(5)].map((rating, index) => {
-                                                return (
-                                                    <span key={index}>
-                                                        <FaStar
-                                                            aria-readonly
-                                                            color={row.start >= index + 1 ? '#FDB515' : '#B2BEB5'}
-                                                            size={18}
-                                                        />
-                                                    </span>
-                                                );
-                                            })}
+                                            {[...Array(5)].map((rating, index) => (
+                                                <span key={index}>
+                                                    <FaStar
+                                                        aria-readonly
+                                                        color={row.start >= index + 1 ? '#FDB515' : '#B2BEB5'}
+                                                        size={18}
+                                                    />
+                                                </span>
+                                            ))}
                                         </div>
                                     </span>
                                 </TableCell>
