@@ -36,6 +36,7 @@ const routes = {
     generateClass: '/generateClass',
     wallet: '/wallet',
     classTutor: '/classTutor',
+    requestOfStudent: '/requestOfStudent',
 };
 
 export default routes;
