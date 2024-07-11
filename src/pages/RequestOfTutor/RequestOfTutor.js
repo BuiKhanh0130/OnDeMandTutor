@@ -13,7 +13,6 @@ import Popup from './Popup';
 
 const cx = classNames.bind(styles);
 
-const FORM_REQUEST_URL = 'FormRequestTutor/viewForm';
 const HANDLE_FORM_URL = 'FormRequestTutor/handleBrowserForm';
 
 function RequestOfTutor() {
@@ -84,14 +83,14 @@ function RequestOfTutor() {
             <Container className={cx('container')}>
                 <header className={cx('header')}>
                     <h1>Your Students' Requests</h1>
-                    <p>Discover new tutors, connect with potential students, and share your passion for learning.</p>
+                    <p>Discover, connect with potential students, and share your passion for learning.</p>
                 </header>
                 <div className={cx('filter-buttons')}>
                     <button className={cx({ active: filter === 'pending' })} onClick={() => setFilter('pending')}>Pending</button>
                     <button className={cx({ active: filter === 'approved' })} onClick={() => setFilter('approved')}>Approved</button>
                     <button className={cx({ active: filter === 'rejected' })} onClick={() => setFilter('rejected')}>Rejected</button>
                 </div>
-                {forms.map((form, index) => {
+                {forms[0] ? forms.map((form, index) => {
                     return (
                         <Row key={index} className={cx('container__hero')}>
                             <Col lg="8" className={cx('container__card')}>
@@ -141,7 +140,9 @@ function RequestOfTutor() {
                             </Col>
                         </Row>
                     );
-                })}
+                }) : (<div className={cx('container_norequest')}>
+                            <span>There are currently no request available.</span>
+                </div>) }
             </Container>
 
             {showModal && (

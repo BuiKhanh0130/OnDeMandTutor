@@ -26,7 +26,7 @@ function App() {
 
                           if (auth?.role === 'Tutor') {
                               Layout = Tutor;
-                          } else if (auth?.role === 'Admin') {
+                          } else if (auth?.role === 'Administrator') {
                               Layout = Admin;
                           } else if (auth?.role === 'Moderator') {
                               Layout = Moderator;

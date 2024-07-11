@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useCallback, useMemo, useContext } from 'react';
 import classNames from 'classnames/bind';
-import styles from './Classes.module.scss';
+import styles from './ClassTutor.module.scss';
 import { Container, Row, Col } from 'react-bootstrap';
 import useRequestsPrivate from '~/hooks/useRequestPrivate';
 import Calendar from '~/components/Calendar/Calendar';
@@ -9,31 +9,24 @@ import images from '~/assets/images';
 import requests from '~/utils/request';
 import { ModalContext } from '~/components/ModalProvider';
 
+
 const cx = classNames.bind(styles);
 
-const VIEW_CLASS_LIST_URL = 'Classes/student/viewClassList';
+const VIEW_CLASS_LIST_URL = 'Classes/tutor/viewClassList';
 const VIEW_CLASS_DETAILS_URL = 'Classes/viewClassDetail';
-const STUDENT_BROWSERCLASS_URL = 'Classes/student/browseClass';
-const CONVERSATION_URL = 'ConversationAccount';
-const CREATE_NOTIFICATION_URL = 'Notification/createNotification';
-const REQUEST_PAYMENT_URL = 'VnPay/create_payment_url';
-const RESPONSE_PAYMENT_URL = 'VnPay/payment_return';
-const WALLETID_ADMIN = '1bada450-d90c-4e14-b410-21ab37f00091';
-const VNPAYID = 'ce5ebcf3-d4fb-49a7-bca6-1ce10dd76d3f';
+// const STUDENT_BROWSERCLASS_URL = 'Classes/student/browseClass';
+const CONVERSATION_URL = 'ConversationAccount'
 
 const Classes = () => {
-    const { avatar } = useContext(ModalContext);
+    const { auth } = useContext(ModalContext);
     const [classes, setClasses] = useState([]);
     const [calendar, setCalendar] = useState([]);
     const [size, setSize] = useState(0);
     const [classID, setClassID] = useState('');
     const [filterParams, setFilterParams] = useState({ status: null, isApprove: true });
-    const [message, setMessage] = useState('Vuilongthanhtoan');
-    const [paymentId, setPaymentId] = useState(localStorage.getItem('paymentid'));
-    const [price, setPrice] = useState(200000);
-    const [userId, setUserId] = useState('');
 
     const requestPrivate = useRequestsPrivate();
+
 
     const handleChangeSelect = useCallback((value) => {
         let status = null;
@@ -49,21 +42,6 @@ const Classes = () => {
         setFilterParams({ status, isApprove });
     }, []);
 
-    const handlePayment = useCallback(async () => {
-        try {
-            const response = await requests.post(REQUEST_PAYMENT_URL, {
-                walletId: WALLETID_ADMIN,
-                paymentDestinationId: VNPAYID,
-                amount: price,
-                description: encodeURIComponent(message)
-            });
-            localStorage.setItem('paymentid', response.data.paymentId);
-            setPaymentId(response.data.paymentId); 
-            window.location.href = response.data.paymentUrl;
-        } catch (error) {
-            console.error('Error during payment request:', error);
-        }
-    }, [price, message]);
 
     const fetchClasses = useCallback(async () => {
         try {
@@ -79,45 +57,17 @@ const Classes = () => {
 
             const response = await requestPrivate.get(API_URL);
             setClasses(response.data.listResult);
+            console.log(response.data.listResult);
             setSize(response.data.listResult.length);
             if (response.data.listResult.length > 0) {
                 setClassID(response.data.listResult[0].classid);
-                setUserId(response.data.listResult[0].userId);
             }
         } catch (error) {
             console.error('Error fetching classes:', error);
         }
     }, [filterParams, requestPrivate]);
 
-    const handlePaymentResponse = useCallback(async (paramsObject) => {
-        if (!paymentId) return;
 
-        try {
-            const response = await requests.post(`${RESPONSE_PAYMENT_URL}/${paymentId}`, paramsObject);
-            localStorage.removeItem('paymentid');
-            if (response.data === '00') {
-                await requests.put(`${STUDENT_BROWSERCLASS_URL}?classId=${classID}&action=true`);
-                await requestPrivate.post(`${CONVERSATION_URL}?userId=${userId}`);
-                await requestPrivate.post(CREATE_NOTIFICATION_URL, {
-                    title: `${avatar.fullName} has accepted your class on OnDemandTutor.`,
-                    description: 'Follow them and start your lesson!',
-                    url: '/classTutor',
-                    accountId: userId
-                });
-                fetchClasses();
-            } else {
-                console.error('Payment was not successful:', response.data);
-            }
-        } catch (err) {
-            console.error('Error during payment response handling:', err);
-        }
-    }, [paymentId, classID, userId, avatar.fullName, fetchClasses, requestPrivate]);
-
-    useEffect(() => {
-        const urlParams = new URLSearchParams(window.location.search);
-        const paramsObject = Object.fromEntries(urlParams.entries());
-        handlePaymentResponse(paramsObject);
-    }, [handlePaymentResponse]);
 
     const fetchClassesDetail = useCallback(async (classID) => {
         try {
@@ -140,8 +90,6 @@ const Classes = () => {
 
     const handleClassClick = (classs) => {
         setClassID(classs.classid);
-        setUserId(classs.userId);
-        setPrice(classs.price);
         fetchClassesDetail(classs.classid); 
     };
 
@@ -155,7 +103,7 @@ const Classes = () => {
             <Container className={cx('container')}>
                 <Row>
                     <Col lg="12" className={cx('container__title')}>
-                        <h1>Student Classes</h1>
+                        <h1>Tutor Classes</h1>
                     </Col>
                 </Row>
 
@@ -210,18 +158,6 @@ const Classes = () => {
                                         <Calendar events={calendar} />
                                     </Row>
 
-                                    <Row>
-                                        {filterParams.status === null && filterParams.isApprove === null ? (
-                                            <div className={cx('container_avatar-buttons')}>
-                                                <button className={cx('container_avatar-button', 'reject')}>
-                                                    Reject
-                                                </button>
-                                                <button className={cx('container_avatar-button')} onClick={handlePayment}>
-                                                    Apply
-                                                </button>
-                                            </div>
-                                        ) : ''}
-                                    </Row>
                                 </Col>
                             </Row>
                         </Col>

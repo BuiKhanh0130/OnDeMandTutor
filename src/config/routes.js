@@ -34,6 +34,8 @@ const routes = {
     myPost: '/myblog',
     requestOfTutor: '/requestOfTutor',
     generateClass: '/generateClass',
+    wallet: '/wallet',
+    classTutor: '/classTutor',
 };
 
 export default routes;

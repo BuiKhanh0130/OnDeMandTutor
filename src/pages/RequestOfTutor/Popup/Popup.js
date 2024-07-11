@@ -6,6 +6,7 @@ import useRequestsPrivate from '~/hooks/useRequestPrivate';
 const cx = classNames.bind(styles);
 const TUTOR_BROWSER_FORM_URL = 'FormRequestTutor/tutorBrowserForm';
 const CREATE_CLASS_URL = 'Classes/createClass';
+const CREATE_NOTIFICATION_URL = 'Notification/createNotification'
 
 const Popup = ({ setShowModal, modalContent, selected, form, sameFormNum, onActionComplete }) => {
     const requestPrivate = useRequestsPrivate();
@@ -19,6 +20,21 @@ const Popup = ({ setShowModal, modalContent, selected, form, sameFormNum, onActi
                     console.log(error);
                 }
             };
+
+            const CreateNotification = async () => {
+                const param = {
+                    title: `${form.fullName} created has created a new class for you on OnDemand Tutor.`,
+                    description: 'complete the formalities to join your class!',
+                    url: '/classes',
+                    accountId: form.userIdStudent
+                }
+                try {
+                     await requestPrivate.post(CREATE_NOTIFICATION_URL, param);
+                 
+                } catch (error) {
+                    console.log(error);
+                }
+            }
 
             const CreateClass = async () => {
                 const params = {
@@ -41,6 +57,7 @@ const Popup = ({ setShowModal, modalContent, selected, form, sameFormNum, onActi
 
             await BrowserForm();
             await CreateClass();
+            await CreateNotification();
         } else {
             const BrowserForm = async () => {
                 try {
@@ -53,7 +70,7 @@ const Popup = ({ setShowModal, modalContent, selected, form, sameFormNum, onActi
             await BrowserForm();
         }
         setShowModal(false);
-        onActionComplete(); // Call the callback function to update the parent state
+        onActionComplete(); 
     };
 
     const handleCancel = () => {
