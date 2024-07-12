@@ -6,19 +6,17 @@ import useRequestsPrivate from '~/hooks/useRequestPrivate';
 import Calendar from '~/components/Calendar/Calendar';
 import Image from '~/components/Image';
 import images from '~/assets/images';
-import requests from '~/utils/request';
+import Button from '~/components/Button';
 import { ModalContext } from '~/components/ModalProvider';
-
+import Complaint from '../Complaint';
 
 const cx = classNames.bind(styles);
 
 const VIEW_CLASS_LIST_URL = 'Classes/tutor/viewClassList';
 const VIEW_CLASS_DETAILS_URL = 'Classes/viewClassDetail';
-// const STUDENT_BROWSERCLASS_URL = 'Classes/student/browseClass';
-const CONVERSATION_URL = 'ConversationAccount'
 
 const Classes = () => {
-    const { auth } = useContext(ModalContext);
+    const { complaint, setComplaint } = useContext(ModalContext);
     const [classes, setClasses] = useState([]);
     const [calendar, setCalendar] = useState([]);
     const [size, setSize] = useState(0);
@@ -27,6 +25,7 @@ const Classes = () => {
 
     const requestPrivate = useRequestsPrivate();
 
+    console.log(classes);
 
     const handleChangeSelect = useCallback((value) => {
         let status = null;
@@ -41,7 +40,6 @@ const Classes = () => {
 
         setFilterParams({ status, isApprove });
     }, []);
-
 
     const fetchClasses = useCallback(async () => {
         try {
@@ -67,16 +65,17 @@ const Classes = () => {
         }
     }, [filterParams, requestPrivate]);
 
-
-
-    const fetchClassesDetail = useCallback(async (classID) => {
-        try {
-            const response = await requestPrivate.get(`${VIEW_CLASS_DETAILS_URL}?classid=${classID}`);
-            setCalendar(response.data.calenders);
-        } catch (error) {
-            console.error('Error fetching class details:', error);
-        }
-    }, [requestPrivate]);
+    const fetchClassesDetail = useCallback(
+        async (classID) => {
+            try {
+                const response = await requestPrivate.get(`${VIEW_CLASS_DETAILS_URL}?classid=${classID}`);
+                setCalendar(response.data.calenders);
+            } catch (error) {
+                console.error('Error fetching class details:', error);
+            }
+        },
+        [requestPrivate],
+    );
 
     useEffect(() => {
         if (classID) {
@@ -90,13 +89,14 @@ const Classes = () => {
 
     const handleClassClick = (classs) => {
         setClassID(classs.classid);
-        fetchClassesDetail(classs.classid); 
+        fetchClassesDetail(classs.classid);
     };
 
-    const selectedClass = useMemo(
-        () => classes.find(classs => classs.classid === classID),
-        [classes, classID]
-    );
+    const selectedClass = useMemo(() => classes.find((classs) => classs.classid === classID), [classes, classID]);
+
+    const handleComplaint = () => {
+        setComplaint(true);
+    };
 
     return (
         <div className={cx('wrapper')}>
@@ -113,7 +113,7 @@ const Classes = () => {
 
                 <Row>
                     <Col lg="12" className={cx('container__filter')}>
-                        <select onChange={e => handleChangeSelect(e.target.value)}>
+                        <select onChange={(e) => handleChangeSelect(e.target.value)}>
                             <option value="In Process">In Process</option>
                             <option value="NotComplete">Unpaid Class</option>
                             <option value="Well Done">Well Done</option>
@@ -122,30 +122,52 @@ const Classes = () => {
                     </Col>
                 </Row>
                 <Row>
-                    <Col lg='4' className={cx('container__class')}>
+                    <Col lg="4" className={cx('container__class')}>
                         {classes.map((classs, index) => (
-                            <div key={index} className={cx('container__class_detail')} onClick={() => handleClassClick(classs)}>
+                            <div
+                                key={index}
+                                className={cx('container__class_detail')}
+                                onClick={() => handleClassClick(classs)}
+                            >
                                 <div className={cx('container__class-header')}>
-                                    <Image src={classs.avatar} alt={classs.subjectName} className={cx('class-avatar')} />
+                                    <Image
+                                        src={classs.avatar}
+                                        alt={classs.subjectName}
+                                        className={cx('class-avatar')}
+                                    />
                                     <span>{classs.subjectName}</span>
                                 </div>
                                 <div className={cx('container__class-body')}>
-                                    <p><strong>Created On:</strong> {classs.createday}</p>
-                                    <p><strong>Start Date:</strong> {classs.dayStart}</p>
-                                    <p><strong>End Date:</strong> {classs.dayEnd}</p>
-                                    <p><strong>Description:</strong> {classs.description}</p>
-                                    <p><strong>Price:</strong> {classs.price}</p>
+                                    <p>
+                                        <strong>Created On:</strong> {classs.createday}
+                                    </p>
+                                    <p>
+                                        <strong>Start Date:</strong> {classs.dayStart}
+                                    </p>
+                                    <p>
+                                        <strong>End Date:</strong> {classs.dayEnd}
+                                    </p>
+                                    <p>
+                                        <strong>Description:</strong> {classs.description}
+                                    </p>
+                                    <p>
+                                        <strong>Price:</strong> {classs.price}
+                                    </p>
                                 </div>
                             </div>
                         ))}
                     </Col>
                     {selectedClass ? (
-                        <Col lg='8' className={cx('container__mess_detail')}>
+                        <Col lg="8" className={cx('container__mess_detail')}>
                             <Row>
-                                <Col lg='12' className={cx('container__mess_header')}>
+                                <Col lg="12" className={cx('container__mess_header')}>
                                     <Row>
                                         <div className={cx('class_header')}>
-                                            <Image src={images.avatarDefaultTutor || selectedClass.avatar} alt={selectedClass.subjectName} className={cx('class-avatar')} />
+                                            <Image
+                                                src={images.avatarDefaultTutor || selectedClass.avatar}
+                                                alt={selectedClass.subjectName}
+                                                className={cx('class-avatar')}
+                                            />
                                             <span>{selectedClass.subjectName}</span>
                                         </div>
                                     </Row>
@@ -157,7 +179,6 @@ const Classes = () => {
                                     <Row>
                                         <Calendar events={calendar} />
                                     </Row>
-
                                 </Col>
                             </Row>
                         </Col>
@@ -166,6 +187,15 @@ const Classes = () => {
                             <span>There are currently no classes available.</span>
                         </div>
                     )}
+                </Row>
+                <Row className={cx('complaint')}>
+                    <Button to="/viewComplaint" state={{ classID }} orange className={cx('container__viewComplaint')}>
+                        View Complaint
+                    </Button>
+                    <Button onClick={handleComplaint} transparent className={cx('container__complaint')}>
+                        Complaint
+                    </Button>
+                    {complaint && <Complaint classId={classID} />}
                 </Row>
             </Container>
         </div>

@@ -1,3 +1,5 @@
+import ViewComplaint from '~/pages/ViewComplaint';
+
 const routes = {
     home: '/',
     blog: '/blog',
@@ -38,6 +40,7 @@ const routes = {
     wallet: '/wallet',
     classTutor: '/classTutor',
     requestOfStudent: '/requestOfStudent',
+    viewComplaint: '/viewComplaint',
 };
 
 export default routes;

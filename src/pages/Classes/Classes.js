@@ -18,8 +18,8 @@ const CONVERSATION_URL = 'ConversationAccount';
 const CREATE_NOTIFICATION_URL = 'Notification/createNotification';
 const REQUEST_PAYMENT_URL = 'VnPay/create_payment_url';
 const RESPONSE_PAYMENT_URL = 'VnPay/payment_return';
-const WALLETID_ADMIN = '1bada450-d90c-4e14-b410-21ab37f00091';
-const VNPAYID = 'ce5ebcf3-d4fb-49a7-bca6-1ce10dd76d3f';
+const WALLETID_ADMIN = '8ee95b26-10f3-420d-97fc-69707124e1c8';
+const VNPAYID = '2eb657de-2fd4-425e-8a21-bf786372bb60';
 
 const Classes = () => {
     const { avatar } = useContext(ModalContext);
@@ -55,10 +55,10 @@ const Classes = () => {
                 walletId: WALLETID_ADMIN,
                 paymentDestinationId: VNPAYID,
                 amount: price,
-                description: encodeURIComponent(message)
+                description: encodeURIComponent(message),
             });
             localStorage.setItem('paymentid', response.data.paymentId);
-            setPaymentId(response.data.paymentId); 
+            setPaymentId(response.data.paymentId);
             window.location.href = response.data.paymentUrl;
         } catch (error) {
             console.error('Error during payment request:', error);
@@ -89,45 +89,47 @@ const Classes = () => {
         }
     }, [filterParams, requestPrivate]);
 
-    const handlePaymentResponse = useCallback(async (paramsObject) => {
-        if (!paymentId) return;
+    const handlePaymentResponse = useCallback(
+        async (paramsObject) => {
+            if (!paymentId) return;
 
-        try {
-            const response = await requests.post(`${RESPONSE_PAYMENT_URL}/${paymentId}`, paramsObject);
-            localStorage.removeItem('paymentid');
-            if (response.data === '00') {
-                await requests.put(`${STUDENT_BROWSERCLASS_URL}?classId=${classID}&action=true`);
-                await requestPrivate.post(`${CONVERSATION_URL}?userId=${userId}`);
-                await requestPrivate.post(CREATE_NOTIFICATION_URL, {
-                    title: `${avatar.fullName} has accepted your class.`,
-                    description: 'follow them and start your lesson!',
-                    url: '/classTutor',
-                    accountId: userId
-                });
-                fetchClasses();
-            } else {
-                console.error('Payment was not successful:', response.data);
+            try {
+                const response = await requests.post(`${RESPONSE_PAYMENT_URL}/${paymentId}`, paramsObject);
+                localStorage.removeItem('paymentid');
+                if (response.data === '00') {
+                    await requests.put(`${STUDENT_BROWSERCLASS_URL}?classId=${classID}&action=true`);
+                    await requestPrivate.post(`${CONVERSATION_URL}?userId=${userId}`);
+                    await requestPrivate.post(CREATE_NOTIFICATION_URL, {
+                        title: `${avatar.fullName} has accepted your class.`,
+                        description: 'follow them and start your lesson!',
+                        url: '/classTutor',
+                        accountId: userId,
+                    });
+                    fetchClasses();
+                } else {
+                    console.error('Payment was not successful:', response.data);
+                }
+            } catch (err) {
+                console.error('Error during payment response handling:', err);
             }
-        } catch (err) {
-            console.error('Error during payment response handling:', err);
-        }
-    }, [paymentId, classID, userId, avatar.fullName, fetchClasses, requestPrivate]);
+        },
+        [paymentId, classID, userId, avatar.fullName, fetchClasses, requestPrivate],
+    );
 
     const handleReject = useCallback(async () => {
         try {
-                await requests.put(`${STUDENT_BROWSERCLASS_URL}?classId=${classID}&action=false`);
-                await requestPrivate.post(CREATE_NOTIFICATION_URL, {
-                    title: `${avatar.fullName} has rejected your class.`,
-                    description: 'may be we are not compatible!',
-                    url: '/classTutor',
-                    accountId: userId
-                });
-                fetchClasses();
-            } 
-         catch (err) {
+            await requests.put(`${STUDENT_BROWSERCLASS_URL}?classId=${classID}&action=false`);
+            await requestPrivate.post(CREATE_NOTIFICATION_URL, {
+                title: `${avatar.fullName} has rejected your class.`,
+                description: 'may be we are not compatible!',
+                url: '/classTutor',
+                accountId: userId,
+            });
+            fetchClasses();
+        } catch (err) {
             console.error('Error during payment response handling:', err);
         }
-    }, [ classID, userId, avatar.fullName, fetchClasses, requestPrivate]);
+    }, [classID, userId, avatar.fullName, fetchClasses, requestPrivate]);
 
     useEffect(() => {
         const urlParams = new URLSearchParams(window.location.search);
@@ -135,14 +137,17 @@ const Classes = () => {
         handlePaymentResponse(paramsObject);
     }, [handlePaymentResponse]);
 
-    const fetchClassesDetail = useCallback(async (classID) => {
-        try {
-            const response = await requestPrivate.get(`${VIEW_CLASS_DETAILS_URL}?classid=${classID}`);
-            setCalendar(response.data.calenders);
-        } catch (error) {
-            console.error('Error fetching class details:', error);
-        }
-    }, [requestPrivate]);
+    const fetchClassesDetail = useCallback(
+        async (classID) => {
+            try {
+                const response = await requestPrivate.get(`${VIEW_CLASS_DETAILS_URL}?classid=${classID}`);
+                setCalendar(response.data.calenders);
+            } catch (error) {
+                console.error('Error fetching class details:', error);
+            }
+        },
+        [requestPrivate],
+    );
 
     useEffect(() => {
         if (classID) {
@@ -158,13 +163,10 @@ const Classes = () => {
         setClassID(classs.classid);
         setUserId(classs.userId);
         setPrice(classs.price);
-        fetchClassesDetail(classs.classid); 
+        fetchClassesDetail(classs.classid);
     };
 
-    const selectedClass = useMemo(
-        () => classes.find(classs => classs.classid === classID),
-        [classes, classID]
-    );
+    const selectedClass = useMemo(() => classes.find((classs) => classs.classid === classID), [classes, classID]);
 
     return (
         <div className={cx('wrapper')}>
@@ -181,7 +183,7 @@ const Classes = () => {
 
                 <Row>
                     <Col lg="12" className={cx('container__filter')}>
-                        <select onChange={e => handleChangeSelect(e.target.value)}>
+                        <select onChange={(e) => handleChangeSelect(e.target.value)}>
                             <option value="In Process">In Process</option>
                             <option value="NotComplete">Unpaid Class</option>
                             <option value="Well Done">Well Done</option>
@@ -190,30 +192,52 @@ const Classes = () => {
                     </Col>
                 </Row>
                 <Row>
-                    <Col lg='4' className={cx('container__class')}>
+                    <Col lg="4" className={cx('container__class')}>
                         {classes.map((classs, index) => (
-                            <div key={index} className={cx('container__class_detail')} onClick={() => handleClassClick(classs)}>
+                            <div
+                                key={index}
+                                className={cx('container__class_detail')}
+                                onClick={() => handleClassClick(classs)}
+                            >
                                 <div className={cx('container__class-header')}>
-                                    <Image src={classs.avatar} alt={classs.subjectName} className={cx('class-avatar')} />
+                                    <Image
+                                        src={classs.avatar}
+                                        alt={classs.subjectName}
+                                        className={cx('class-avatar')}
+                                    />
                                     <span>{classs.subjectName}</span>
                                 </div>
                                 <div className={cx('container__class-body')}>
-                                    <p><strong>Created On:</strong> {classs.createday}</p>
-                                    <p><strong>Start Date:</strong> {classs.dayStart}</p>
-                                    <p><strong>End Date:</strong> {classs.dayEnd}</p>
-                                    <p><strong>Description:</strong> {classs.description}</p>
-                                    <p><strong>Price:</strong> {classs.price}</p>
+                                    <p>
+                                        <strong>Created On:</strong> {classs.createday}
+                                    </p>
+                                    <p>
+                                        <strong>Start Date:</strong> {classs.dayStart}
+                                    </p>
+                                    <p>
+                                        <strong>End Date:</strong> {classs.dayEnd}
+                                    </p>
+                                    <p>
+                                        <strong>Description:</strong> {classs.description}
+                                    </p>
+                                    <p>
+                                        <strong>Price:</strong> {classs.price}
+                                    </p>
                                 </div>
                             </div>
                         ))}
                     </Col>
                     {selectedClass ? (
-                        <Col lg='8' className={cx('container__mess_detail')}>
+                        <Col lg="8" className={cx('container__mess_detail')}>
                             <Row>
-                                <Col lg='12' className={cx('container__mess_header')}>
+                                <Col lg="12" className={cx('container__mess_header')}>
                                     <Row>
                                         <div className={cx('class_header')}>
-                                            <Image src={images.avatarDefaultTutor || selectedClass.avatar} alt={selectedClass.subjectName} className={cx('class-avatar')} />
+                                            <Image
+                                                src={images.avatarDefaultTutor || selectedClass.avatar}
+                                                alt={selectedClass.subjectName}
+                                                className={cx('class-avatar')}
+                                            />
                                             <span>{selectedClass.subjectName}</span>
                                         </div>
                                     </Row>
@@ -229,14 +253,22 @@ const Classes = () => {
                                     <Row>
                                         {filterParams.status === null && filterParams.isApprove === null ? (
                                             <div className={cx('container_avatar-buttons')}>
-                                                <button className={cx('container_avatar-button', 'reject')} onClick={handleReject}>
+                                                <button
+                                                    className={cx('container_avatar-button', 'reject')}
+                                                    onClick={handleReject}
+                                                >
                                                     Reject
                                                 </button>
-                                                <button className={cx('container_avatar-button')} onClick={handlePayment}>
+                                                <button
+                                                    className={cx('container_avatar-button')}
+                                                    onClick={handlePayment}
+                                                >
                                                     Apply
                                                 </button>
                                             </div>
-                                        ) : ''}
+                                        ) : (
+                                            ''
+                                        )}
                                     </Row>
                                 </Col>
                             </Row>

@@ -19,8 +19,11 @@ function ModalProvider({ children }) {
     const [activeSignUp, setActiveSignUp] = useState(false);
     const [createClass, setCreateClass] = useState(false);
     const [updateForm, setUpdateForm] = useState(false);
+    const [complaint, setComplaint] = useState(false);
     const [chooseSubject, setChooseSubject] = useState(false);
     const [generateClass, setGenerateClass] = useState(false);
+    const [complaintModerator, setComplaintModerator] = useState(false);
+    const [responseComplaint, setResponseComplaint] = useState(false);
 
     const handleActive = () => {
         setActive(true);
@@ -52,12 +55,17 @@ function ModalProvider({ children }) {
         setActive,
         tutorId,
         avatar,
+        complaint,
+        setComplaint,
         generateClass,
         setAvatar,
         avatarMessage,
         setAvatarMessage,
         userId,
+        responseComplaint,
         setUserId,
+        complaintModerator,
+        setComplaintModerator,
         activeSignUp,
         roomId,
         formId,
@@ -65,6 +73,7 @@ function ModalProvider({ children }) {
         conn,
         listTutor,
         setListTutor,
+        setResponseComplaint,
         sendEmail,
         setSendEmail,
         setConnection,

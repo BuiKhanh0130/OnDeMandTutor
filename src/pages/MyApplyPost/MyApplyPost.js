@@ -22,6 +22,7 @@ function MyApplyPost() {
             params.append('isApprove', isApprove);
             url += `?${params.toString()}`;
         }
+        console.log(url);
         const viewApplyForm = async () => {
             try {
                 const response = await requestPrivate.get(url, { signal: controller.signal });
@@ -35,20 +36,20 @@ function MyApplyPost() {
         return () => {
             controller.abort();
         };
-    }, []);
+    }, [isApprove]);
 
     const handleForm = (value) => {
         console.log(value);
         if (value === 'Approve') {
-            setIsApprove(true);
-        } else {
             setIsApprove(false);
+        } else {
+            setIsApprove(true);
         }
     };
 
     return (
         <div className={cx('wrapper')}>
-            <Post handleForm={handleForm} syntax={'applyForm'} listClasses={listResult}></Post>
+            <Post handleForm={handleForm} syntax={'applyForm'} listClasses={listResult} isApprove={isApprove}></Post>
         </div>
     );
 }

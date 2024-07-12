@@ -26,8 +26,6 @@ function Tutor() {
     const [userFeedbacks, setUserFeedbacks] = useState();
     const { state } = useLocation();
 
-    console.log(`${FEEDBACKTUTOR}${state.key}`);
-
     useEffect(() => {
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }, []);

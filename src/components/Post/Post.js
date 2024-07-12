@@ -27,6 +27,7 @@ function Post({
     handleGenerateClass,
     handleForm,
     disable,
+    isApprove,
     syntax,
 }) {
     const { setFormId } = useContext(ModalContext);
@@ -209,7 +210,7 @@ function Post({
                                 <p>{classItem.fullName}</p>
                                 <span>{classItem.createDay}</span>
                             </Col>
-                        ) : syntax === 'applyForm' ? (
+                        ) : syntax === 'applyForm' && isApprove === false ? (
                             <Col key={index} lg="4">
                                 <Button
                                     to={'/generateClass'}
@@ -219,7 +220,7 @@ function Post({
                                     orange
                                     className={cx('container_createClass')}
                                 >
-                                    Crate class
+                                    Create class
                                 </Button>
                             </Col>
                         ) : (
