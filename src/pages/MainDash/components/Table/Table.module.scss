@@ -59,23 +59,11 @@ th {
     }
 }
 
-.approve {
-    padding: 10px;
-    color: var(--white);
+.table_body-details {
+    text-decoration: underline;
+    color: #00b5ff;
 
     &:hover {
-        background-color: var(--hover);
-    }
-}
-
-.reject {
-    background-color: #da1010;
-    padding: 10px;
-    color: var(--white);
-    width: 76px;
-    border-radius: 10px;
-
-    &:hover {
-        background-color: var(--hover);
+        cursor: pointer;
     }
 }

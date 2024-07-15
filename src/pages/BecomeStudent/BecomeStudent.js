@@ -9,6 +9,7 @@ import { ModalContext } from '~/components/ModalProvider';
 import Button from '~/components/Button';
 
 import styles from './BecomeStudent.module.scss';
+import { InvalidIcon, ValidIcon } from '~/components/Icons';
 
 const IMGBB = 'https://api.imgbb.com/1/upload?key=9c7d176f8c72a29fa6384fbb49cff7bc';
 
@@ -166,7 +167,7 @@ function BecomeStudent() {
                             <label htmlFor="userName">
                                 User name
                                 <span className={cx({ valid: validName, hide: !validName })}>
-                                    <FontAwesomeIcon icon={faCheck}></FontAwesomeIcon>
+                                    <ValidIcon />
                                 </span>
                                 <span
                                     className={cx({
@@ -174,7 +175,7 @@ function BecomeStudent() {
                                         invalid: !validName && user,
                                     })}
                                 >
-                                    <FontAwesomeIcon icon={faTimes}></FontAwesomeIcon>
+                                    <InvalidIcon />
                                 </span>
                             </label>
                             <input
@@ -203,10 +204,10 @@ function BecomeStudent() {
                                     offscreen: !(userFocus && user && !validName),
                                 })}
                             >
-                                <p>
+                                <span>
                                     4 to 24 characters. Must begin with a letter. Letters, numbers, underscores, hyphens
                                     allowed
-                                </p>
+                                </span>
                             </p>
                         </div>
 
@@ -214,7 +215,7 @@ function BecomeStudent() {
                             <label htmlFor="password">
                                 Password
                                 <span className={cx({ valid: validPwd, hide: !validPwd })}>
-                                    <FontAwesomeIcon icon={faCheck}></FontAwesomeIcon>
+                                    <ValidIcon />
                                 </span>
                                 <span
                                     className={cx({
@@ -222,7 +223,7 @@ function BecomeStudent() {
                                         invalid: !validPwd && pwd,
                                     })}
                                 >
-                                    <FontAwesomeIcon icon={faTimes}></FontAwesomeIcon>
+                                    <InvalidIcon />
                                 </span>
                             </label>
 
@@ -251,10 +252,10 @@ function BecomeStudent() {
                                     offscreen: !(pwdFocus && pwd && !validPwd),
                                 })}
                             >
-                                <p>
+                                <span>
                                     8 to 24 characters. Must include uppercase and lowercase letters, a number and a
                                     special character. Allowed special characters are allowed
-                                </p>
+                                </span>
                             </p>
                         </div>
 
@@ -262,7 +263,7 @@ function BecomeStudent() {
                             <label htmlFor="txtRePassword">
                                 Confirm Password
                                 <span className={cx({ valid: validMatch, hide: !validMatch })}>
-                                    <FontAwesomeIcon icon={faCheck}></FontAwesomeIcon>
+                                    <ValidIcon />
                                 </span>
                                 <span
                                     className={cx({
@@ -270,7 +271,7 @@ function BecomeStudent() {
                                         invalid: !validMatch && pwd,
                                     })}
                                 >
-                                    <FontAwesomeIcon icon={faTimes}></FontAwesomeIcon>
+                                    <InvalidIcon />
                                 </span>
                             </label>
                             <input
@@ -298,7 +299,7 @@ function BecomeStudent() {
                                     offscreen: !(matchFocus && matchPwd && !validMatch),
                                 })}
                             >
-                                <p>Password is not matched</p>
+                                <span>Password is not matched</span>
                             </p>
                         </div>
 
@@ -306,7 +307,7 @@ function BecomeStudent() {
                             <label htmlFor="txtFullName">
                                 Full Name
                                 <span className={cx({ valid: validFullName, hide: !validFullName })}>
-                                    <FontAwesomeIcon icon={faCheck}></FontAwesomeIcon>
+                                    <ValidIcon />
                                 </span>
                                 <span
                                     className={cx({
@@ -314,7 +315,7 @@ function BecomeStudent() {
                                         invalid: !validFullName && fullName,
                                     })}
                                 >
-                                    <FontAwesomeIcon icon={faTimes}></FontAwesomeIcon>
+                                    <InvalidIcon />
                                 </span>
                             </label>
                             <input
@@ -342,7 +343,7 @@ function BecomeStudent() {
                                     offscreen: !(FullNameFocus && !validFullName && fullName),
                                 })}
                             >
-                                <p>Full name must not be contained numbers and special characters</p>
+                                <span>Full name must not be contained numbers and special characters</span>
                             </p>
                         </div>
 
@@ -350,7 +351,7 @@ function BecomeStudent() {
                             <label htmlFor="email">
                                 Email
                                 <span className={cx({ valid: validGmail, hide: !validGmail })}>
-                                    <FontAwesomeIcon icon={faCheck}></FontAwesomeIcon>
+                                    <ValidIcon />
                                 </span>
                                 <span
                                     className={cx({
@@ -358,7 +359,7 @@ function BecomeStudent() {
                                         invalid: !validGmail && gmail,
                                     })}
                                 >
-                                    <FontAwesomeIcon icon={faTimes}></FontAwesomeIcon>
+                                    <InvalidIcon />
                                 </span>
                             </label>
                             <input
@@ -386,7 +387,7 @@ function BecomeStudent() {
                                     offscreen: !(gmailFocus && gmail && !validGmail),
                                 })}
                             >
-                                <p>Syntax: "Hello@gmail.com";</p>
+                                <span>Syntax: "Hello@gmail.com";</span>
                             </p>
                         </div>
 
@@ -394,7 +395,7 @@ function BecomeStudent() {
                             <label htmlFor="phoneNumber">
                                 Phone
                                 <span className={cx({ valid: validPhone, hide: !validPhone })}>
-                                    <FontAwesomeIcon icon={faCheck}></FontAwesomeIcon>
+                                    <ValidIcon />
                                 </span>
                                 <span
                                     className={cx({
@@ -402,7 +403,7 @@ function BecomeStudent() {
                                         invalid: !validPhone && phone,
                                     })}
                                 >
-                                    <FontAwesomeIcon icon={faTimes}></FontAwesomeIcon>
+                                    <InvalidIcon />
                                 </span>
                             </label>
                             <input
@@ -447,7 +448,7 @@ function BecomeStudent() {
                                         setGender(true);
                                     }}
                                 ></input>
-                                <label htmlFor="gentlemen">Boy</label>
+                                <label htmlFor="gentlemen">Male</label>
                                 <input
                                     type="radio"
                                     className={cx('gender')}
@@ -458,19 +459,10 @@ function BecomeStudent() {
                                         setGender(false);
                                     }}
                                 ></input>
-                                <label htmlFor="lady">Girl</label>
+                                <label htmlFor="lady">Female</label>
                             </div>
                         </div>
 
-                        <div className={cx('form_row')}>
-                            <label htmlFor="myfile">Photo Certificate</label>
-                            <input
-                                type="file"
-                                id="myfile"
-                                name="myfile"
-                                onChange={(e) => setAvatar(e.target.files[0])}
-                            />
-                        </div>
                         <Button className={cx('submit')}>Next</Button>
                     </form>
                 </div>

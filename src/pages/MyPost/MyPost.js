@@ -1,5 +1,6 @@
 import classNames from 'classnames/bind';
 import { useContext, useEffect, useState } from 'react';
+import Modal from 'react-bootstrap/Modal';
 
 import Post from '~/components/Post';
 import { ModalContext } from '~/components/ModalProvider';
@@ -19,6 +20,12 @@ const NOTIFICATION_URL = 'Notification/createNotification';
 function MyPost() {
     const requestPrivate = useRequestsPrivate();
 
+    const [curPage, setcurPage] = useState(1);
+    const [pagination, setPagination] = useState({
+        page: 1,
+        limit: 0,
+        total: 1,
+    });
     const [listResult, setListResult] = useState([]);
     const [listTutor, setListTutor] = useState([]);
     const [idForm, setIdForm] = useState('');
@@ -27,26 +34,38 @@ function MyPost() {
     const [isActive, setIsActive] = useState();
     const [itemUpdate, setItemUpdate] = useState();
     const { updateForm, avatar, setUpdateForm } = useContext(ModalContext);
+    const [showModal, setShowModal] = useState(false);
+    const [syntax, setSyntax] = useState('');
 
-    console.log(statusForm, isActive);
-
+    //get list tutor
     useEffect(() => {
         let isMounted = true;
         const controller = new AbortController();
         let url = VIEW_FORM_LIST_URL;
-        if (statusForm || isActive) {
+        if (statusForm || isActive || curPage) {
             const params = new URLSearchParams();
-            if (statusForm) {
+            if (statusForm !== undefined) {
                 params.append('status', statusForm);
             }
-            if (isActive) {
+            if (isActive !== undefined) {
                 params.append('isActive', isActive);
             }
+            if (curPage) {
+                params.append('pageIndex', curPage);
+            }
             url += `?${params.toString()}`;
+
+            console.log(url);
         }
+
         const getAllMyPosts = async () => {
             const response = await requestPrivate.get(url, { signal: controller.signal });
             setStatus(false);
+            setPagination({
+                page: 1,
+                limit: response.data.limitPage,
+                total: 1,
+            });
             isMounted && setListResult(response.data.listResult);
         };
 
@@ -56,12 +75,15 @@ function MyPost() {
             isMounted = false;
             controller.abort();
         };
-    }, [status, statusForm, isActive]);
+    }, [status, statusForm, isActive, curPage, requestPrivate]);
 
+    //get list tutor apply to course
     const handleViewList = async (id) => {
         let isMounted = true;
         const controller = new AbortController();
-        const response = await requestPrivate.get(`${VIEW_APLLY_LIST_URL}?formId=${id}`, { signal: controller.signal });
+        const response = await requestPrivate.get(`${VIEW_APLLY_LIST_URL}?formId=${id}/pageIndex${curPage}`, {
+            signal: controller.signal,
+        });
         setIdForm(id);
         isMounted && setListTutor(response.data);
 
@@ -71,19 +93,28 @@ function MyPost() {
         };
     };
 
+    //Browse tutor by student
     const handleBrowseTutor = async (formId, tutorId) => {
         try {
-            const response = await requestPrivate.put(`${BROWSE_TUTOR_URL}?formId=${formId}&tutorId=${tutorId}`);
+            const response = await requestPrivate.put(
+                `${BROWSE_TUTOR_URL}?action=${true}&formId=${formId}&tutorId=${tutorId}`,
+                {
+                    data: {},
+                },
+            );
             if (response.status === 200) {
-                console.log(tutorId);
+                setStatus(true);
                 createNotification(tutorId);
-                window.alert('Browse successfully');
+                setShowModal(true);
+                setTimeout(() => {
+                    setShowModal(false);
+                }, 3000);
             }
         } catch (error) {
             console.log(error);
         }
     };
-
+    //create notification
     const createNotification = async (tutorId) => {
         try {
             const response = await requestPrivate.post(
@@ -100,11 +131,10 @@ function MyPost() {
             console.log(error);
         }
     };
-
+    //delete form
     const handleDeleteForm = async (formId) => {
         try {
             const response = await requestPrivate.delete(`${DELETE_FORM_URL}?id=${formId}`);
-            console.log(response.status);
             if (response.status === 200) {
                 setStatus(true);
             }
@@ -112,7 +142,7 @@ function MyPost() {
             console.log(error);
         }
     };
-
+    //filter form
     const handleForm = (value) => {
         console.log(value);
         if (value === 'Not yet approved') {
@@ -121,22 +151,27 @@ function MyPost() {
         } else if (value === 'Has been approved') {
             setStatusForm(true);
             setIsActive();
+        } else if (value === 'Not approved') {
+            setStatusForm(false);
+            setIsActive();
         } else {
             setStatusForm(true);
             setIsActive(true);
+            setSyntax('Approved tutor');
         }
     };
-
+    //update form
     const handleUpdateForm = (item) => {
         setUpdateForm(true);
         setItemUpdate(item);
     };
 
-    console.log(itemUpdate);
-
     return (
         <div className={cx('wrapper')}>
             <Post
+                pagination={pagination}
+                curPage={curPage}
+                setcurPage={setcurPage}
                 listClasses={listResult}
                 handleViewList={handleViewList}
                 listTutor={listTutor}
@@ -145,8 +180,16 @@ function MyPost() {
                 handleDeleteForm={handleDeleteForm}
                 handleForm={handleForm}
                 handleUpdateForm={handleUpdateForm}
+                syntax={syntax}
             ></Post>
             {updateForm && <UpdateForm formId={idForm} item={itemUpdate} />}
+
+            <Modal show={showModal}>
+                <Modal.Header closeButton>
+                    <Modal.Title>Success</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>Your had applied this tutor successfully. Please tutor response</Modal.Body>
+            </Modal>
         </div>
     );
 }

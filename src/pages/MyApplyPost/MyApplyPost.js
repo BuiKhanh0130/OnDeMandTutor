@@ -22,7 +22,7 @@ function MyApplyPost() {
             params.append('isApprove', isApprove);
             url += `?${params.toString()}`;
         }
-        console.log(url);
+
         const viewApplyForm = async () => {
             try {
                 const response = await requestPrivate.get(url, { signal: controller.signal });

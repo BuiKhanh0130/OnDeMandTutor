@@ -21,8 +21,11 @@ function Blog() {
     const requestPrivate = useRequestsPrivate();
     const [listClasses, setListClasses] = useState([]);
     const [disable, setDisable] = useState([]);
-    const [pageIndex, setPageIndex] = useState(1);
-    const [limitPageIndex, setLimitPageIndex] = useState(1);
+    const [pagination, setPagination] = useState({
+        page: 1,
+        limit: 0,
+        total: 1,
+    });
     const [gender, setGender] = useState();
     const [subject, setSubject] = useState('');
     const [hourlyRate, setHourlyRate] = useState();
@@ -30,7 +33,7 @@ function Blog() {
     const [typeOfDegree, setTypeOfDegree] = useState('');
     const [sortPostBy, setSortPostBy] = useState(0);
     const [sortPostType, setSortPostType] = useState(1);
-
+    const [curPage, setcurPage] = useState(1);
     const debouncedValueSubject = useDebounce(subject, 500);
     const debouncedValueHourlyRate = useDebounce(hourlyRate, 500);
     const debouncedGradeId = useDebounce(gradeId, 500);
@@ -45,7 +48,7 @@ function Blog() {
             debouncedValueHourlyRate ||
             debouncedGradeId ||
             debouncedTypeOfDegree ||
-            pageIndex ||
+            curPage ||
             sortPostBy
         ) {
             const params = new URLSearchParams();
@@ -70,14 +73,18 @@ function Blog() {
             if (sortPostType) {
                 params.append('SortContent.sortPostType', sortPostType);
             }
+            if (curPage) {
+                params.append('pageIndex', curPage);
+            }
             url += `?${params.toString()}`;
+            console.log(url);
         }
         const getFormClass = async () => {
             const response = await requestPrivate.get(url, {
                 signal: controller.signal,
             });
-            isMounted && setListClasses(response.data.listResult) && setLimitPageIndex(response.data.limitPage);
-
+            isMounted && setListClasses(response.data.listResult);
+            setPagination((prev) => ({ ...prev, limit: response.data.limitPage }));
             return () => {
                 isMounted = false;
                 controller.abort();
@@ -92,6 +99,9 @@ function Blog() {
         gender,
         debouncedTypeOfDegree,
         sortPostType,
+        curPage,
+        sortPostBy,
+        requestPrivate,
     ]);
 
     const handleApply = async (id) => {
@@ -174,7 +184,9 @@ function Blog() {
                             disable={disable}
                             syntax={'applyPost'}
                         ></Post>
-                        <Paging pagination={limitPageIndex} curPage={pageIndex} setcurPage={setPageIndex} />
+                        {pagination.limit > 1 && (
+                            <Paging pagination={pagination} curPage={curPage} setcurPage={setcurPage} />
+                        )}
                     </Col>
                 </Row>
             </Container>

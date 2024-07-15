@@ -30,9 +30,9 @@ import Unauthorized from '~/pages/Unauthorized';
 import Messages from '~/pages/Messages';
 import Notification from '~/pages/Notification';
 import BecomeStudent2 from '~/pages/BecomeStudent2/BecomStudent2';
-import MainDash from '~/layouts/Moderator/components/MainDash';
+import MainDash from '~/pages/MainDash';
 import Moderator from '~/layouts/Moderator';
-import Rehearsal from '~/layouts/Moderator/components/Rehearsal';
+import Rehearsal from '~/pages/Rehearsal';
 import Classes from '~/pages/Classes';
 import RequestForm from '~/pages/RequestForm';
 import TutorDetail from '~/pages/TutorDetail';
@@ -44,6 +44,7 @@ import Wallet from '~/pages/Wallet';
 import ClassTutor from '~/pages/ClassTutor';
 import RequestOfStudent from '~/pages/RequestOfStudent';
 import ViewComplaint from '~/pages/ViewComplaint';
+import Successful from '~/pages/Successful';
 
 const publicRoutes = [
     { path: config.routes.home, component: Home },
@@ -106,6 +107,7 @@ const privateRoutes = [
     { path: config.routes.wallet, component: Wallet, role: ['Tutor', 'Student', 'Moderator'] },
     { path: config.routes.requestOfStudent, component: RequestOfStudent, role: ['Student'] },
     { path: config.routes.viewComplaint, component: ViewComplaint, layout: 'null', role: ['Student', 'Tutor'] },
+    { path: config.routes.success, component: Successful, layout: 'null', role: ['Student', 'Tutor'] },
 ];
 
 export { publicRoutes, privateRoutes };

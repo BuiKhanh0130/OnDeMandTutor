@@ -1,6 +1,5 @@
 import classNames from 'classnames/bind';
 import { useEffect, useRef, useState, useContext } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheck, faTimes } from '@fortawesome/free-solid-svg-icons';
 
@@ -8,14 +7,17 @@ import requests from '~/utils/request';
 import Subject from '~/pages/BecomeTutor2/Subject';
 import { ModalContext } from '~/components/ModalProvider';
 import Button from '~/components/Button';
+import { InvalidIcon, ValidIcon } from '~/components/Icons';
 
 import styles from './BecomeTutor2.module.scss';
+import useDebounce from '~/hooks/useDebounce';
 
 const IMGBB = 'https://api.imgbb.com/1/upload?key=9c7d176f8c72a29fa6384fbb49cff7bc';
 
 const cx = classNames.bind(styles);
 
 const CARD_REGEX = /^[0-9]{10}$/;
+const HOURLYRATE_REGEX = /^[1-9][0-9]*$/;
 const REGISTER_URL = '/auth/tutor-signUp';
 
 function BecomeTutor2() {
@@ -29,6 +31,14 @@ function BecomeTutor2() {
     const [cardId, setCardId] = useState('');
     const [validCardID, setValidCardId] = useState(false);
     const [cardFocus, setCardFocus] = useState(false);
+
+    const [hourlyRate, setHourlyRate] = useState(1);
+    const [validHourlyRate, setValidHourly] = useState(false);
+    const [hourlyRateFocus, setHourlyRateFocus] = useState(false);
+
+    const deboundedHourlyRate = useDebounce(hourlyRate, 500);
+
+    console.log(deboundedHourlyRate);
 
     const [typeOfDegree, setTypeOfDegree] = useState('');
     const [typeOfDegreeFocus, setTypeOfDegreeFocus] = useState(false);
@@ -53,14 +63,22 @@ function BecomeTutor2() {
     }, [cardId]);
 
     useEffect(() => {
+        const result = HOURLYRATE_REGEX.test(deboundedHourlyRate);
+        setValidHourly(result);
+    }, [deboundedHourlyRate]);
+
+    useEffect(() => {
         setErrMsg('');
-    }, [cardId]);
+    }, [cardId, deboundedHourlyRate]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         const v = CARD_REGEX.test(cardId);
+        const v1 = HOURLYRATE_REGEX.test(hourlyRate);
+        console.log(hourlyRate);
+        console.log(v, v1);
         const form = new FormData();
-        if (!v) {
+        if (!v && !v1) {
             setErrMsg('Invalid entry');
             return;
         }
@@ -79,12 +97,12 @@ function BecomeTutor2() {
                         education: education,
                         typeOfDegree: typeOfDegree,
                         cardId: cardId,
-                        hourlyRate: 0,
+                        hourlyRate,
                         photo: file,
                         headline: headline,
                         description: description,
                         address: address,
-                        isActive: true,
+                        isActive: false,
                         accountId: userId,
                     }),
                     {
@@ -93,7 +111,6 @@ function BecomeTutor2() {
                     },
                 );
                 setTutorId(response.data);
-
                 if (response.status === 200) {
                     setChooseSubject(true);
                 }
@@ -117,6 +134,9 @@ function BecomeTutor2() {
                 <div className={cx('title')}>Register</div>
                 <div className={cx('currentForm')}>
                     <form className={cx('currentForm_content')} onSubmit={handleSubmit}>
+                        <p ref={errRef} className={errMsg ? 'errMsg' : 'offscreen'} aria-live="assertive">
+                            {errMsg}
+                        </p>
                         <div className={cx('form_row-birth')}>
                             <label htmlFor="dateOfBirth">Date of birth</label>
                             <input
@@ -132,14 +152,11 @@ function BecomeTutor2() {
                         </div>
 
                         <div className={cx('form_row')}>
-                            <p ref={errRef} className={errMsg ? 'errMsg' : 'offscreen'} aria-live="assertive">
-                                {errMsg}
-                            </p>
                             <div className={cx('form_row')}>
                                 <label htmlFor="txtCardId">
                                     Card Id
                                     <span className={cx({ valid: validCardID, hide: !validCardID })}>
-                                        <FontAwesomeIcon icon={faCheck}></FontAwesomeIcon>
+                                        <ValidIcon />
                                     </span>
                                     <span
                                         className={cx({
@@ -147,7 +164,7 @@ function BecomeTutor2() {
                                             invalid: !validCardID && cardId,
                                         })}
                                     >
-                                        <FontAwesomeIcon icon={faTimes}></FontAwesomeIcon>
+                                        <InvalidIcon />
                                     </span>
                                 </label>
                                 <input
@@ -174,7 +191,7 @@ function BecomeTutor2() {
                                         offscreen: !(cardFocus && cardId && !validCardID),
                                     })}
                                 >
-                                    <p>Card ID must be 11 number</p>
+                                    <span>Card ID must be 10 number</span>
                                 </p>
                             </div>
                         </div>
@@ -231,7 +248,6 @@ function BecomeTutor2() {
 
                         <div className={cx('form_row')}>
                             <label htmlFor="headline">Head line</label>
-
                             <input
                                 type="text"
                                 id="headline"
@@ -279,6 +295,42 @@ function BecomeTutor2() {
                                     setDescriptionFocus(false);
                                 }}
                             ></input>
+                        </div>
+
+                        <div className={cx('form_row')}>
+                            <label htmlFor="judgePrice">Judge price</label>
+                            <input
+                                type="number"
+                                id="judgePrice"
+                                name="judgePrice"
+                                className={cx('txtRePassword')}
+                                autoComplete="off"
+                                aria-describedby="uidnote"
+                                value={hourlyRate}
+                                onChange={(e) => {
+                                    console.log(e.target.value);
+                                    const hourlyRate = e.target.value;
+                                    if (hourlyRate.startsWith(' ')) {
+                                        return;
+                                    }
+                                    setHourlyRate(e.target.value);
+                                }}
+                                onFocus={() => {
+                                    setHourlyRateFocus(true);
+                                }}
+                                onBlur={() => {
+                                    setHourlyRateFocus(false);
+                                }}
+                            ></input>
+                            <p
+                                id="uidnote"
+                                className={cx({
+                                    instructions: hourlyRateFocus && hourlyRate && !validHourlyRate,
+                                    offscreen: !(hourlyRateFocus && hourlyRate && !validHourlyRate),
+                                })}
+                            >
+                                <span>Price must be positive not negative integers</span>
+                            </p>
                         </div>
 
                         <div className={cx('form_row')}>

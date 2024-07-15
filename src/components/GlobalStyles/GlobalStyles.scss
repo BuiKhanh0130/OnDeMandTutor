@@ -103,14 +103,18 @@ a {
     background-color: transparent;
     max-width: 382px;
     color: red;
+    margin-top: 10px;
+    font-size: 1.4rem;
 
     p {
         margin-bottom: 0px;
     }
 }
 
-.valid {
+.valid,
+.invalid {
     display: inline-block;
+    margin-left: 10px;
 }
 
 .hide {

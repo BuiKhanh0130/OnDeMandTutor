@@ -1,7 +1,7 @@
 import classNames from 'classnames/bind';
 
 import styles from './Moderator.module.scss';
-import HeaderModerator from './HeaderModerator';
+import HeaderModerator from './components/HeaderModerator';
 import SidebarModerator from './components/SidebarModerator';
 
 const cx = classNames.bind(styles);

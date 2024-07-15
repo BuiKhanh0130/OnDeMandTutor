@@ -1,0 +1,32 @@
+.wrapper {
+    width: 1200px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+
+.background {
+}
+
+.title {
+    margin-bottom: 20px;
+    font-size: 8rem;
+}
+
+.goback {
+    width: 600px;
+    height: 60px;
+    font-size: 3rem;
+    color: var(--white);
+
+    &:hover {
+        background-color: var(--hover);
+    }
+}

@@ -1,6 +1,6 @@
 import styles from './MainDash.module.scss';
 import classNames from 'classnames/bind';
-import Table from '../Table';
+import Table from './components/Table';
 
 const cx = classNames.bind(styles);
 

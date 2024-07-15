@@ -4,14 +4,17 @@
     align-items: center;
     flex-direction: column;
     margin: 20px 0;
-    width: 540px;
+    width: 640px;
+    height: 90vh;
+    overflow-y: scroll;
+    overflow-x: hidden;
     background-color: var(--white);
     box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px,
         rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
 }
 
 .requestTutor__container-body {
-    width: 503px;
+    width: 617px;
 }
 
 .requestTutor__container-subject,
@@ -85,10 +88,25 @@
 
 .requestTutor__container-submit {
     margin-bottom: 10px;
+    margin-left: 10px;
     height: 30px;
     width: 100px;
     font-size: 1.4rem;
     background-color: var(--orange);
+    border-radius: 4px;
+    color: var(--white);
+
+    &:hover {
+        background-color: var(--hover);
+    }
+}
+
+.requestTutor__container-cancel {
+    margin-bottom: 10px;
+    height: 30px;
+    width: 100px;
+    font-size: 1.4rem;
+    background-color: red;
     border-radius: 4px;
     color: var(--white);
 
@@ -136,6 +154,7 @@
 .requestTutor__container-hour {
     display: flex;
     padding: 5px 0;
+    justify-content: space-between;
     label {
         min-width: 120px;
         font-size: 1.4rem;
@@ -191,23 +210,46 @@
     }
 }
 
+.requestTutor__container-date {
+    display: flex;
+}
+
 .requestTutor__container-dayOfWeek {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    padding-left: 10px;
+    min-width: 300px;
     span {
-        font-size: 1.4rem;
+        font-size: 1.6rem;
         font-weight: 700;
     }
+}
+
+.requestTutor__container-dayOfWeek-label {
+    display: flex;
+    align-items: center;
+    height: 62px;
+    background-color: rgb(239, 242, 247);
+    padding: 0 20px;
 }
 
 .requestTutor__container-dayOfWeek-item {
     display: flex;
     justify-content: space-between;
-    button {
-        margin: 5px 0;
-        padding: 4px;
+    flex-direction: column;
+    margin: 22px 0 0 0;
+
+    .requestTutor__container-dayOfWeek-item-selected {
+        display: flex;
+        justify-content: center;
+        padding: 10px;
         border-radius: 10px;
+        font-size: 1.4rem;
 
         &:hover {
             background-color: var(--hover);
+            cursor: pointer;
         }
     }
 }
@@ -223,9 +265,14 @@
 
 .disabled {
     background-color: #f29b6fed;
+
+    &:hover {
+        cursor: none;
+        background-color: #f29b6fed;
+    }
 }
 
-.closeIcon {
+.requestTutor__container-close {
     position: absolute;
     top: 0;
     right: -30px;

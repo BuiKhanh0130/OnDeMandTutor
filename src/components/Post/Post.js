@@ -1,16 +1,14 @@
 import classNames from 'classnames/bind';
-
-import Container from 'react-bootstrap/Container';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
+import { useContext } from 'react';
+import { Container, Row, Col } from 'react-bootstrap';
 
 import images from '~/assets/images';
 import Image from '~/components/Image';
 import Button from '~/components/Button';
+import Paging from '../Paging';
+import { ModalContext } from '../ModalProvider';
 
 import styles from './Post.module.scss';
-import { useContext } from 'react';
-import { ModalContext } from '../ModalProvider';
 
 const cx = classNames.bind(styles);
 
@@ -29,8 +27,12 @@ function Post({
     disable,
     isApprove,
     syntax,
+    pagination,
+    curPage,
+    setcurPage,
 }) {
     const { setFormId } = useContext(ModalContext);
+    console.log(curPage);
     return (
         <Container>
             <Row className={cx('result__total')}>
@@ -70,11 +72,10 @@ function Post({
                                 <strong>Sort</strong>
                             </label>
                             <select id="sort" onChange={(e) => handleForm(e.target.value)}>
-                                {/* <option value="best">Best match</option> */}
                                 <option value="Not yet approved">Not yet approved</option>
                                 <option value="Has been approved">Has been approved</option>
+                                <option value="Not approved">Not approved</option>
                                 <option value="Approved tutor">Approved tutor</option>
-                                {/* <option value="experience">Experience</option> */}
                             </select>
                         </form>
                     </Col>
@@ -125,18 +126,22 @@ function Post({
                                 <div className={cx('container__form-control-portfolio')}>
                                     <div className={cx('container__form-control-portfolio-items')}>
                                         <strong>Start: </strong>
-                                        <span> {classItem?.timeStart}</span>
+                                        <span> {classItem?.timeStart} hour</span>
                                     </div>
                                     <div className={cx('')}>
                                         <strong>End: </strong>
-                                        <span> {classItem?.timeEnd}</span>
+                                        <span> {classItem?.timeEnd} hour</span>
                                     </div>
                                 </div>
 
                                 <div className={cx('container__form-control-portfolio')}>
-                                    <div className={cx('')}>
+                                    <div className={cx('container__form-control-portfolio-items')}>
                                         <strong>Day of week: </strong>
                                         <span> {classItem?.dayOfWeek}</span>
+                                    </div>
+                                    <div className={cx('')}>
+                                        <strong>Tutor Gender: </strong>
+                                        <span> {classItem?.tutorGender === true ? 'Male' : 'Female'}</span>
                                     </div>
                                 </div>
 
@@ -163,14 +168,32 @@ function Post({
                                     <></>
                                 ) : (
                                     <div className={cx('container__form-control-btn')}>
-                                        {classItem?.status ? (
+                                        {classItem?.status && classItem?.isActived ? (
                                             <Button
-                                                className={cx('container__form-control-delete')}
+                                                className={cx('container__form-control-submit')}
                                                 onClick={() => {
-                                                    handleUpdateForm(classItem);
+                                                    handleViewList(classItem?.formId);
                                                 }}
                                             >
-                                                Update
+                                                View My Tutor
+                                            </Button>
+                                        ) : classItem?.status && classItem?.isActived === null ? (
+                                            <Button
+                                                className={cx('container__form-control-submit')}
+                                                onClick={() => {
+                                                    handleViewList(classItem?.formId);
+                                                }}
+                                            >
+                                                View All Tutor
+                                            </Button>
+                                        ) : !classItem?.status && classItem?.isActived === null ? (
+                                            <Button
+                                                className={cx('container__form-control-submit')}
+                                                onClick={() => {
+                                                    handleViewList(classItem?.formId);
+                                                }}
+                                            >
+                                                Reason
                                             </Button>
                                         ) : (
                                             <>
@@ -183,23 +206,23 @@ function Post({
                                                     Delete
                                                 </Button>
                                                 <Button
-                                                    className={cx('container__form-control-delete')}
+                                                    className={cx('container__form-control-update')}
                                                     onClick={() => {
                                                         handleUpdateForm(classItem);
                                                     }}
                                                 >
                                                     Update
                                                 </Button>
+                                                <Button
+                                                    className={cx('container__form-control-submit')}
+                                                    onClick={() => {
+                                                        handleViewList(classItem?.formId);
+                                                    }}
+                                                >
+                                                    View All Tutor
+                                                </Button>
                                             </>
                                         )}
-                                        <Button
-                                            className={cx('container__form-control-submit')}
-                                            onClick={() => {
-                                                handleViewList(classItem?.formId);
-                                            }}
-                                        >
-                                            View All Tutor
-                                        </Button>
                                     </div>
                                 )}
                             </div>
@@ -223,12 +246,34 @@ function Post({
                                     Create class
                                 </Button>
                             </Col>
+                        ) : syntax === 'Approved tutor' ? (
+                            <Col key={index} lg="4">
+                                {listTutor?.length > 0 &&
+                                    idForm === classItem?.formId &&
+                                    listTutor.map((tutor, index) => (
+                                        <div key={index} className={cx('container_tutor-rehearsal')}>
+                                            <Button
+                                                to={`/account/tutor/${tutor.tutorId}`}
+                                                state={{ key: tutor.tutorId }}
+                                                className={cx('container_tutor')}
+                                            >
+                                                <Image src={images.avatar} alt="NTP"></Image>
+                                                <div className={cx('container_tutor-dsc')}>
+                                                    <span>
+                                                        <p>{tutor.tutorName}</p>
+                                                        <span>{tutor.dayApply}</span>
+                                                    </span>
+                                                </div>
+                                            </Button>
+                                        </div>
+                                    ))}
+                            </Col>
                         ) : (
                             <Col key={index} lg="4">
                                 {listTutor?.length > 0 &&
                                     idForm === classItem?.formId &&
-                                    listTutor.map((tutor, key) => (
-                                        <div className={cx('container_tutor-rehearsal')}>
+                                    listTutor.map((tutor, index) => (
+                                        <div key={index} className={cx('container_tutor-rehearsal')}>
                                             <Button
                                                 to={`/account/tutor/${tutor.tutorId}`}
                                                 state={{ key: tutor.tutorId }}
@@ -257,6 +302,7 @@ function Post({
                         )}
                     </Row>
                 ))}
+            {pagination.limit > 1 && <Paging pagination={pagination} curPage={curPage} setcurPage={setcurPage} />}
         </Container>
     );
 }

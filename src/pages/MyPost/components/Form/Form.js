@@ -1,5 +1,8 @@
 import classNames from 'classnames/bind';
-import { useState, useEffect, useMemo, useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useState, useEffect, useMemo, useCallback, useContext } from 'react';
+import { DateRange } from 'react-date-range';
+import { format } from 'date-fns';
 
 import Col from 'react-bootstrap/Col';
 
@@ -9,7 +12,6 @@ import { ModalContext } from '~/components/ModalProvider';
 import useRequestsPrivate from '~/hooks/useRequestPrivate';
 
 import styles from './Form.module.scss';
-import { CloseIcon } from '~/components/Icons';
 
 const cx = classNames.bind(styles);
 
@@ -21,47 +23,56 @@ const UPDATE_FROM_URL = 'FormFindTutor/student/updateform';
 //expression regex
 const POSITIVEREGEX = /^[0-9]+$/;
 
-function isValidDate(dateString) {
-    const date = new Date(dateString);
-    return date instanceof Date && !isNaN(date);
-}
-
 function Form({ item }) {
     const { setUpdateForm } = useContext(ModalContext);
-
-    const hours = useMemo(
-        () => [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24],
-        [],
-    );
-    const dayOfWeeks = useMemo(() => ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thurday', 'Friday', 'Saturday'], []);
+    const navigate = useNavigate();
+    //hard data
+    const [numberOfWeeks, setNumberOfWeeks] = useState([]);
+    const dayOfWeeks = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+    const hourStart = useMemo(() => [6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24], []);
+    const hourEnd = useMemo(() => [7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24], []);
     const degrees = useMemo(
         () => ['College', 'Associate Degree', 'Bachelors Degree', 'Masters Degree', 'Doctoral Degree'],
         [],
     );
 
-    console.log(item);
+    //convert day of week
+    useEffect(() => {
+        const days = item.dayOfWeek.split(' | ');
+        let dayNumbers = days.map((day) => {
+            return dayOfWeeks.indexOf(day);
+        });
+        setNumberOfWeeks(dayNumbers);
+    }, []);
 
-    const formId = item?.formId;
+    console.log(numberOfWeeks);
 
-    const [tittle, setTittle] = useState('');
-    const [gradeId, setGradeId] = useState('');
-    const [tutorGender, setTutorGender] = useState(false);
-    const [subjectGroupId, setSubjectGroupId] = useState('');
-    const [dayStart, setDayStart] = useState('1');
-    const [dayEnd, setDayEnd] = useState('1');
-    const [timeStart, setTimeStart] = useState();
-    const [timeEnd, setTimeEnd] = useState();
-    const [minHourlyRate, setMinValueRate] = useState();
-    const [maxHourlyRate, setMaxValueRate] = useState();
-    const [typeOfDegree, setTypeOfDegree] = useState('College');
-    const [describeTutor, setDescribeTutor] = useState('');
-    const [selectedDays, setSelectedDays] = useState([]);
+    //form data
+    const [formData, setFormData] = useState({
+        tittle: item.title,
+        gradeId: 'G0012',
+        subjectGroupId: item.subjectId,
+        describeTutor: item.description,
+        dayStart: item.dayStart,
+        dayEnd: item.dayEnd,
+        timeStart: item.timeStart,
+        timeEnd: item.timeEnd,
+        startDateInput: '',
+        endDateInput: '',
+        selectedDays: [],
+        minHourlyRate: item.minHourlyRate,
+        maxHourlyRate: item.maxHourlyRate,
+        typeOfDegree: 'College',
+        tutorGender: item.maxHourlyRate,
+    });
 
+    //get grade
     const [grades, setGrades] = useState([]);
+    //get subject
     const [subjects, setSubjects] = useState([]);
-
-    const [isValidForm, setIsValidForm] = useState(false);
-
+    //Check valid
+    const [isValidForm, setIsValidForm] = useState(true);
+    const [validTime, setValidTime] = useState(false);
     const [validMinHourlyRate, setValidMinHourlyRate] = useState(false);
     const [minHourlyRateFocus, setValidMinHourlyRateFocus] = useState(false);
     const [validMaxHourlyRate, setValidMaxHourlyRate] = useState(true);
@@ -69,81 +80,58 @@ function Form({ item }) {
 
     const requestsPrivate = useRequestsPrivate();
 
-    //updated
-    useEffect(() => {
-        setTittle(item.title);
-        if (item.tutorGender === false) {
-            setTutorGender(0);
-        } else {
-            setTutorGender(1);
-        }
-        let selectedGender = document.getElementById('gender');
-        selectedGender.value = tutorGender;
-
-        setSubjectGroupId(item.subjectGroupId);
-        let selectedSubjectId = document.getElementById('subjects');
-        selectedSubjectId.value = subjectGroupId;
-
-        setDayStart(item.dayStart);
-        setDayEnd(item.dayEnd);
-        // selectedDays(item.dayOfWeek);
-
-        setTimeStart(item.timeStart);
-        let selectedTimeStart = document.getElementById('timeStart');
-        console.log(timeStart);
-        selectedTimeStart.value = timeStart;
-
-        setTimeEnd(item.timeStart);
-        let selectedTimeEnd = document.getElementById('timeEnd');
-        selectedTimeEnd.value = timeEnd;
-
-        setMinValueRate(item?.minHourlyRate);
-        setMaxValueRate(item?.maxHourlyRate);
-
-        setDescribeTutor(item.description);
-    }, []);
-
-    //get date
-    useEffect(() => {
-        const startDateInput = document.getElementById('dayStart');
-        const endDateInput = document.getElementById('dayEnd');
-        if (item) {
-            let targetDate = new Date(item.dayStart);
-            let target1Date = new Date(item.dayEnd);
-            startDateInput.value = targetDate.toISOString().slice(0, 10);
-            endDateInput.value = target1Date.toISOString().slice(0, 10);
-        }
-    }, []);
-
     //check minHourlyRate
     useEffect(() => {
-        if (minHourlyRate) {
-            const result = POSITIVEREGEX.test(minHourlyRate);
+        if (formData.minHourlyRate) {
+            const result = POSITIVEREGEX.test(formData.minHourlyRate);
             setValidMinHourlyRate(result);
         }
-    }, [minHourlyRate]);
-
+    }, [formData.minHourlyRate]);
     //check maxHourlyRate
     useEffect(() => {
-        if (maxHourlyRate) {
-            const result = POSITIVEREGEX.test(maxHourlyRate);
+        if (formData.maxHourlyRate) {
+            const result = POSITIVEREGEX.test(formData.maxHourlyRate);
             setValidMaxHourlyRate(result);
         }
-    }, [maxHourlyRate]);
-
+    }, [formData.maxHourlyRate]);
     //check minHourlyRate && maxHourlyRate
-    // useEffect(() => {
-    //     if (minHourlyRate && maxHourlyRate && minHourlyRate >= maxHourlyRate) {
-    //         alert('Max hour rate must be greater than min hourly rate');
-    //     }
-    // }, [minHourlyRate, maxHourlyRate]);
+    useEffect(() => {
+        if (formData.minHourlyRate && formData.maxHourlyRate && formData.minHourlyRate >= formData.maxHourlyRate) {
+            setFormData((prev) => ({ ...prev, minHourlyRate: 0 }));
+            alert('Max hour rate must be greater than min hourly rate');
+        }
+    }, [formData.minHourlyRate, formData.maxHourlyRate]);
 
     //check time
-    // useEffect(() => {
-    //     if (timeStart >= timeEnd) {
-    //         alert('Time start must be less than time end');
-    //     }
-    // }, [timeStart, timeEnd]);
+    const checkValidTime = () => {
+        const timeStartElement = document.getElementById('timeStart');
+        const timeStart = timeStartElement.options[timeStartElement.selectedIndex].value;
+        const timeEndStartElement = document.getElementById('timeEnd');
+        const endStart = timeEndStartElement.options[timeEndStartElement.selectedIndex].value;
+        if (Number(timeStart) >= Number(endStart)) {
+            setValidTime(true);
+            timeStartElement.selectedIndex = 0;
+            alert('Time start must be less than time end');
+        }
+
+        if (Number(endStart) - Number(timeStart) >= 4) {
+            setValidTime(true);
+            timeEndStartElement.selectedIndex = 0;
+            alert('The number of study hours cannot exceed 4');
+        }
+    };
+    //disable
+    useEffect(() => {
+        if (
+            formData.tittle.length !== 0 &&
+            formData.describeTutor.length !== 0 &&
+            formData.startDateInput.length !== 0 &&
+            formData.endDateInput.length !== 0 &&
+            formData.selectedDays.length !== 0
+        ) {
+            setIsValidForm(false);
+        }
+    }, [formData]);
 
     //Get subjects
     useEffect(() => {
@@ -152,7 +140,6 @@ function Form({ item }) {
         const getSubject = async () => {
             try {
                 const response = await request.get(SUBJECT_GROUP_URL, { signal: controller.signal });
-                setSubjectGroupId(response.data[0].subjectGroupId);
                 isMounted && setSubjects(response.data);
             } catch (error) {
                 console.log(error);
@@ -167,13 +154,13 @@ function Form({ item }) {
         };
     }, []);
 
+    //Get Grade
     useEffect(() => {
         let isMounted = true;
         const controller = new AbortController();
         try {
             const getGrades = async () => {
                 const response = await request.get(GRADE_URL, { signal: controller.signal });
-                setGradeId(response.data[0].gradeId);
                 isMounted && setGrades(response.data);
             };
             getGrades();
@@ -190,99 +177,91 @@ function Form({ item }) {
     const handleSubmit = async (events) => {
         events.preventDefault();
 
+        const timeStart = Number(formData.timeStart);
+        const timeEnd = Number(formData.timeEnd);
+
+        if (formData.tittle.length === 0) {
+            window.alert('Please fill tittle');
+            return;
+        } else if (formData.describeTutor.length === 0) {
+            window.alert('Please fill description');
+            return;
+        } else if (formData.dayEnd === null) {
+            window.alert('Please choose date end course');
+            return;
+        } else if (formData.selectedDays.length === 0) {
+            window.alert('Please choose at least of week to learn');
+            return;
+        }
+
         try {
-            const response = await requestsPrivate.put(
+            const response = await requestsPrivate.post(
                 UPDATE_FROM_URL,
                 JSON.stringify({
-                    formId,
-                    dayStart,
-                    dayEnd,
-                    dayOfWeek: selectedDays.sort((a, b) => a - b).join(','),
-                    timeStart,
-                    timeEnd,
-                    tittle,
-                    minHourlyRate,
-                    maxHourlyRate,
-                    gradeId,
-                    subjectGroupId,
-                    describeTutor,
-                    tutorGender,
+                    gradeId: formData.gradeId,
+                    subjectGroupId: formData.subjectGroupId,
+                    tittle: formData.tittle,
+                    dayStart: formData.dayStart,
+                    dayEnd: formData.dayEnd,
+                    dayOfWeek: formData.selectedDays.sort((a, b) => a - b).join(','),
+                    timeStart: timeStart,
+                    timeEnd: timeEnd,
+                    minHourlyRate: formData.minHourlyRate,
+                    maxHourlyRate: formData.maxHourlyRate,
+                    typeOfDegree: formData.typeOfDegree,
+                    describeTutor: formData.describeTutor,
+                    tutorGender: formData.tutorGender,
                 }),
             );
             if (response.status === 200) {
-                alert('Successfully');
-                window.location.reload();
+                setFormData((prevData) => ({ ...prevData, tittle: '', describeTutor: '' }));
+                navigate('/success', { state: 'GENERATE CLASS' });
             }
         } catch (error) {
             console.log(error);
         }
     };
-
-    //disable btn if user had't filled all fields
-    // useEffect(() => {
-    //     const minPrice = !isNaN(minHourlyRate);
-    //     const maxPrice = !isNaN(maxHourlyRate);
-    //     const tittleEmpty = tittle.trim !== '';
-    //     const descriptionEmpty = describeTutor.trim !== '';
-    //     const dayStartEmpty = isValidDate(dayStart);
-    //     const dayEndEmpty = isValidDate(dayEnd);
-
-    //     if (minPrice && maxPrice && tittleEmpty && descriptionEmpty && dayStartEmpty && dayEndEmpty) {
-    //         setIsValidForm(true);
-    //     }
-    // }, [minHourlyRate, maxHourlyRate, tittle, dayStart, dayEnd, describeTutor]);
-
-    //check day start and day end
-    useEffect(() => {
-        // get values
-        const startDateInput = document.getElementById('dayStart');
-        const endDateInput = document.getElementById('dayEnd');
-
-        // Add event onchange to check
-        startDateInput.addEventListener('change', checkDates);
-        endDateInput.addEventListener('change', checkDates);
-
-        function checkDates() {
-            // get values of 2 inputs
-            const startDate = new Date(startDateInput.value);
-            const endDate = new Date(endDateInput.value);
-
-            // Check day start have smaller than day end
-            if (startDate >= endDate) {
-                alert('Day start must be smaller than end date ');
-                // Put input day start again
-                startDateInput.value = '';
-            }
-        }
-    }, [dayStart, dayEnd]);
-
-    const handleGender = (e) => {
-        if (e.target.value === 0) {
-            setTutorGender(false);
-        } else {
-            setTutorGender(true);
-        }
-    };
-
-    useEffect(() => {
-        let selectField = document.getElementById('subjects');
-
-        if (selectField.value === item.subjectId) {
-            selectField.value = item.subjectId;
-        }
-    });
-
+    //select day
     const handleDayClick = (day) => {
-        setSelectedDays((prevSelectedDays) => {
-            if (prevSelectedDays.includes(day)) {
-                return prevSelectedDays.filter((d) => d !== day);
-            } else {
-                return [...prevSelectedDays, day];
-            }
-        });
+        console.log(numberOfWeeks);
+        console.log(day);
+        if (numberOfWeeks?.includes(day)) {
+            setNumberOfWeeks((prev) => prev?.filter((numberDay) => numberDay !== day));
+        } else {
+            setFormData((prevData) => ({
+                ...prevData,
+                selectedDays: prevData.selectedDays.includes(day)
+                    ? prevData.selectedDays.filter((d) => d !== day)
+                    : [...prevData.selectedDays, day],
+            }));
+        }
     };
+    //change input
+    const handleInputChange = useCallback((e) => {
+        const { name, value } = e.target;
+        setFormData((prevData) => ({ ...prevData, [name]: value }));
+    }, []);
+    //select date
+    const handleSelect = useCallback((ranges) => {
+        const { selection } = ranges;
+        const startDateUTC = new Date(
+            Date.UTC(selection.startDate.getFullYear(), selection.startDate.getMonth(), selection.startDate.getDate()),
+        );
+        const endDateUTC = new Date(
+            Date.UTC(selection.endDate.getFullYear(), selection.endDate.getMonth(), selection.endDate.getDate()),
+        );
 
-    const handleClose = () => {
+        setFormData((prevData) => ({
+            ...prevData,
+            dayStart: startDateUTC,
+            dayEnd: endDateUTC,
+            startDateInput: startDateUTC ? format(startDateUTC, 'yyyy-MM-dd') : '',
+            endDateInput: endDateUTC ? format(endDateUTC, 'yyyy-MM-dd') : '',
+        }));
+    }, []);
+
+    //handle cancel update
+    const handleCancelUpdate = () => {
         setUpdateForm(false);
     };
 
@@ -290,25 +269,13 @@ function Form({ item }) {
         <Col lg="8" className={cx('requestTutor__container')}>
             <form className={cx('requestTutor__container-body')} onSubmit={handleSubmit}>
                 <div className={cx('requestTutor__container-title')}>
-                    <label htmlFor="title">Title</label>
-                    <input
-                        id="title"
-                        name="title"
-                        type="text"
-                        onChange={(e) => {
-                            const value = e.target.value;
-                            if (value.startsWith(' ')) {
-                                return;
-                            }
-                            setTittle(e.target.value);
-                        }}
-                        value={tittle}
-                    />
+                    <label htmlFor="tittle">Title</label>
+                    <input id="tittle" name="tittle" type="text" onChange={handleInputChange} value={formData.tittle} />
                 </div>
                 <div className={cx('requestTutor__container-bag')}>
                     <div className={cx('requestTutor__container-grade')}>
                         <label htmlFor="grades">Grade</label>
-                        <select id="grades" name="grades" onChange={(e) => setGradeId(e.target.value)}>
+                        <select id="grades" name="gradeId" onChange={handleInputChange}>
                             {grades.map((grade, index) => (
                                 <option key={index} value={grade.gradeId}>
                                     {grade.number}
@@ -319,9 +286,9 @@ function Form({ item }) {
 
                     <div className={cx('requestTutor__container-gender')}>
                         <label htmlFor="gender">Gender</label>
-                        <select id="gender" name="gender" onChange={handleGender}>
-                            <option value={0}>Female</option>
-                            <option value={1}>Male</option>
+                        <select id="gender" name="gender" onChange={handleInputChange}>
+                            <option value={0}>Lady</option>
+                            <option value={1}>Gentlemen</option>
                         </select>
                     </div>
                 </div>
@@ -329,7 +296,7 @@ function Form({ item }) {
                 <div className={cx('requestTutor__container-bag')}>
                     <div className={cx('requestTutor__container-subject')}>
                         <label htmlFor="subjects">Subject</label>
-                        <select id="subjects" name="subjects" onChange={(e) => setSubjectGroupId(e.target.value)}>
+                        <select id="subjects" name="subjectGroupId" onChange={handleInputChange}>
                             {subjects.map((subject, index) => (
                                 <option key={index} value={subject.subjectGroupId}>
                                     {subject.subjectName}
@@ -339,8 +306,8 @@ function Form({ item }) {
                     </div>
 
                     <div className={cx('requestTutor__container-degree')}>
-                        <label htmlFor="degree">Degree</label>
-                        <select id="degree" onChange={(e) => setTypeOfDegree(e.target.value)}>
+                        <label htmlFor="typeOfDegree">Degree</label>
+                        <select id="typeOfDegree" name="typeOfDegree" onChange={handleInputChange}>
                             {degrees.length > 0 &&
                                 degrees.map((degree, index) => {
                                     return (
@@ -355,17 +322,15 @@ function Form({ item }) {
 
                 <div className={cx('requestTutor__container-hour')}>
                     <div className={cx('requestTutor__container-hour-item')}>
-                        <label htmlFor="minPrice">Min price ($)</label>
+                        <label htmlFor="minHourlyRate">Min price ($)</label>
                         <input
                             type="number"
-                            id="minPrice"
+                            id="minHourlyRate"
                             name="minHourlyRate"
                             aria-invalid={validMinHourlyRate ? 'false' : 'true'}
                             aria-describedby="uidmin"
-                            value={minHourlyRate}
-                            onChange={(e) => {
-                                setMinValueRate(e.target.value);
-                            }}
+                            value={formData.minHourlyRate}
+                            onChange={handleInputChange}
                             onFocus={() => {
                                 setValidMinHourlyRateFocus(true);
                             }}
@@ -374,8 +339,8 @@ function Form({ item }) {
                         <p
                             id="uidmin"
                             className={cx({
-                                instructions: minHourlyRateFocus && minHourlyRate && !validMinHourlyRate,
-                                offscreen: !(minHourlyRateFocus && minHourlyRate && !validMinHourlyRate),
+                                instructions: minHourlyRateFocus && formData.minHourlyRate && !validMinHourlyRate,
+                                offscreen: !(minHourlyRateFocus && formData.minHourlyRate && !validMinHourlyRate),
                             })}
                         >
                             Cannot be negative number
@@ -387,22 +352,18 @@ function Form({ item }) {
                             type="number"
                             id="maxHourlyRate"
                             name="maxHourlyRate"
+                            value={formData.maxHourlyRate}
                             aria-invalid={validMaxHourlyRate ? 'false' : 'true'}
                             aria-describedby="uidmax"
-                            value={maxHourlyRate}
-                            onChange={(e) => {
-                                setMaxValueRate(e.target.value);
-                            }}
-                            onFocus={() => {
-                                setMaxHourlyRateFocus(true);
-                            }}
+                            onChange={handleInputChange}
+                            onFocus={handleInputChange}
                             onBlur={() => setMaxHourlyRateFocus(false)}
                         ></input>
                         <p
                             id="uidmax"
                             className={cx({
-                                instructions: maxHourlyRateFocus && maxHourlyRate && !validMaxHourlyRate,
-                                offscreen: !(maxHourlyRateFocus && maxHourlyRate && !validMaxHourlyRate),
+                                instructions: maxHourlyRateFocus && formData.maxHourlyRate && !validMaxHourlyRate,
+                                offscreen: !(maxHourlyRateFocus && formData.maxHourlyRate && !validMaxHourlyRate),
                             })}
                         >
                             Cannot be negative number
@@ -413,12 +374,21 @@ function Form({ item }) {
                 <div className={cx('requestTutor__container-hour')}>
                     <div className={cx('requestTutor__container-hour-item')}>
                         <label htmlFor="timeStart">Time Start</label>
-                        <select id="timeStart" name="timeStart" onChange={(e) => setTimeStart(e.target.value)}>
-                            {hours.length > 0 &&
-                                hours.map((hour, index) => {
+                        <select
+                            id="timeStart"
+                            name="timeStart"
+                            onChange={(e) => {
+                                checkValidTime();
+                                if (validTime) {
+                                    handleInputChange(e);
+                                }
+                            }}
+                        >
+                            {hourStart.length > 0 &&
+                                hourStart.map((hour, index) => {
                                     return (
                                         <option key={index} value={hour}>
-                                            {hour}
+                                            {hour} hour
                                         </option>
                                     );
                                 })}
@@ -430,11 +400,14 @@ function Form({ item }) {
                             id="timeEnd"
                             name="timeEnd"
                             onChange={(e) => {
-                                setTimeEnd(e.target.value);
+                                checkValidTime();
+                                if (validTime) {
+                                    handleInputChange(e);
+                                }
                             }}
                         >
-                            {hours.length > 0 &&
-                                hours.map((hour, index) => {
+                            {hourEnd.length > 0 &&
+                                hourEnd.map((hour, index) => {
                                     return (
                                         <option value={hour} key={index}>
                                             {hour} hour
@@ -444,46 +417,40 @@ function Form({ item }) {
                         </select>
                     </div>
                 </div>
-
                 <div className={cx('requestTutor__container-date')}>
-                    <div className={cx('requestTutor__container-date-item')}>
-                        <label htmlFor="hourStart">Day start</label>
-                        <input
-                            type="date"
-                            id="dayStart"
-                            name="dayStart"
-                            onChange={(e) => {
-                                setDayStart(e.target.value);
-                            }}
-                        ></input>
-                    </div>
-                    <p>
-                        <label htmlFor="hourEnd">Day end</label>
-                        <input
-                            type="date"
-                            id="dayEnd"
-                            name="dayEnd"
-                            onChange={(e) => {
-                                setDayEnd(e.target.value);
-                            }}
-                        ></input>
-                    </p>
-                </div>
+                    <DateRange
+                        editableDateInputs={true}
+                        onChange={handleSelect}
+                        moveRangeOnFirstSelection={false}
+                        ranges={[
+                            {
+                                startDate: formData.dayStart,
+                                endDate: formData.dayEnd,
+                                key: 'selection',
+                            },
+                        ]}
+                        minDate={new Date()}
+                    />
 
-                <div className={cx('requestTutor__container-dayOfWeek')}>
-                    <div>
-                        <span>Select the days you will study</span>
-                    </div>
-                    <div className={cx('requestTutor__container-dayOfWeek-item')}>
-                        {dayOfWeeks.map((day, index) => (
-                            <button
-                                key={index}
-                                onClick={() => handleDayClick(index)}
-                                className={cx({ selected: selectedDays.includes(index) })}
-                            >
-                                {day}
-                            </button>
-                        ))}
+                    <div className={cx('requestTutor__container-dayOfWeek')}>
+                        <div className={cx('requestTutor__container-dayOfWeek-label')}>
+                            <span>Select the days you will study</span>
+                        </div>
+
+                        <div className={cx('requestTutor__container-dayOfWeek-item')}>
+                            {dayOfWeeks.map((day, index) => (
+                                <div
+                                    key={index}
+                                    onClick={() => handleDayClick(index)}
+                                    className={cx('requestTutor__container-dayOfWeek-item-selected', {
+                                        selected:
+                                            formData.selectedDays.includes(index) || numberOfWeeks?.includes(index),
+                                    })}
+                                >
+                                    {day}
+                                </div>
+                            ))}
+                        </div>
                     </div>
                 </div>
 
@@ -494,17 +461,19 @@ function Form({ item }) {
                         rows="5"
                         cols="30"
                         placeholder="Enter your text here..."
-                        onChange={(e) => setDescribeTutor(e.target.value)}
-                        value={describeTutor}
+                        name="describeTutor"
+                        onChange={handleInputChange}
+                        value={formData.describeTutor}
                     ></textarea>
                 </div>
+
                 <div className={cx('requestTutor__container-btn')}>
-                    <Button className={cx('requestTutor__container-submit', { disabled: !isValidForm })}>Update</Button>
+                    <Button className={cx('requestTutor__container-cancel')} onClick={handleCancelUpdate}>
+                        Cancel
+                    </Button>
+                    <Button className={cx('requestTutor__container-submit', { disabled: isValidForm })}>Submit</Button>
                 </div>
             </form>
-            <div onClick={handleClose} className={cx('closeIcon')}>
-                <CloseIcon />
-            </div>
         </Col>
     );
 }

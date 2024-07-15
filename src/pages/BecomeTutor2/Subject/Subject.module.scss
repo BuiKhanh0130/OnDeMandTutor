@@ -15,7 +15,7 @@
 .wrapper {
     position: relative;
     background-color: var(--white);
-    height: 42%;
+    height: 52%;
     border-radius: 10px;
     width: 483px;
     display: flex;
@@ -41,7 +41,7 @@
     width: 100%;
 
     label {
-        font-size: 1.4rem;
+        font-size: 1.6rem;
     }
 
     select {
@@ -56,13 +56,19 @@
     }
 }
 
+.btn {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+}
+
 .submit {
     margin-bottom: 20px;
     margin-top: 10px;
     min-height: 40px;
     border-radius: 10px;
-    width: 100%;
-
+    min-width: 120px;
+    margin-left: 10px;
     &:hover {
         cursor: pointer;
         color: #fff;
@@ -70,12 +76,27 @@
     }
 }
 
-.closeIcon {
-    position: absolute;
-    top: 4px;
-    right: 6px;
+.container__items {
+    display: flex;
+    max-width: 100%;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.container__items-grade {
+    margin: 0 10px 10px 0;
+    padding: 10px;
+    background-color: #d5cbcb;
+    color: var(--white);
+    border-radius: 10px;
 
     &:hover {
+        background-color: var(--hover);
         cursor: pointer;
     }
+}
+
+.selected {
+    background-color: #ed6d20;
+    color: white;
 }

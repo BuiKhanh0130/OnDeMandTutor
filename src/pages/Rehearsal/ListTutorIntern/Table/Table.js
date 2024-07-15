@@ -31,6 +31,8 @@ export default function BasicTable({ name }) {
     const [rejectList, setRejectList] = useState([]);
     const requestPrivate = useRequestsPrivate();
 
+    console.log(approveList);
+
     useEffect(() => {
         let isMounted = true;
         const controller = new AbortController();
@@ -59,27 +61,26 @@ export default function BasicTable({ name }) {
     const handleApprove = (e, id) => {
         if (e.target.checked) {
             setApproveList((prev) => {
-                return [...prev, id];
+                return [...prev, { accountId: id, status: true }];
             });
         } else {
-            setApproveList(approveList.filter((itemId) => itemId !== id));
+            setApproveList(approveList.filter((itemId) => itemId.accountId !== id));
         }
     };
 
     const handleReject = (e, id) => {
         if (e.target.checked) {
             setRejectList((prev) => {
-                return [...prev, id];
+                return [...prev, { accountId: id, status: true }];
             });
         } else {
-            setRejectList(rejectList.filter((itemId) => itemId !== id));
+            setRejectList(approveList.filter((itemId) => itemId.accountId !== id));
         }
     };
 
     const handleApiApprove = async () => {
         try {
             const response = await requestPrivate.post(BROWSER_FORM_TUTOR_INTERN_URL, approveList);
-            console.log(response.status);
             if (response.status) {
                 setStatus((prev) => !prev);
             }
@@ -88,16 +89,16 @@ export default function BasicTable({ name }) {
         }
     };
 
-    // const handleApiReject = async () => {
-    //     try {
-    //         const response = await requestPrivate.put(`${BROWSER_FORM_CREATE_CLASS_URL}?action=false`, rejectList);
-    //         if (response.status) {
-    //             setStatus((prev) => !prev);
-    //         }
-    //     } catch (error) {
-    //         console.log(error);
-    //     }
-    // };
+    const handleApiReject = async () => {
+        try {
+            const response = await requestPrivate.put(BROWSER_FORM_TUTOR_INTERN_URL, rejectList);
+            if (response.status) {
+                setStatus((prev) => !prev);
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    };
 
     return (
         <div className={cx('wrapper')}>

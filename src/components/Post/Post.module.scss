@@ -30,11 +30,26 @@
 }
 
 .container__form-control-portfolio-items {
-    min-width: 280px;
+    min-width: 400px;
 }
 
 .container__form-control-btn {
     margin-left: auto;
+}
+
+.container__form-control-update {
+    height: 30px;
+    width: 120px;
+    margin-right: 4px;
+    background-color: green;
+    margin-top: 10px;
+    color: var(--white);
+
+    &:hover {
+        background-color: rgba(58, 199, 33, 0.369);
+        color: var(--white);
+        cursor: pointer;
+    }
 }
 
 .container__form-control-delete {
