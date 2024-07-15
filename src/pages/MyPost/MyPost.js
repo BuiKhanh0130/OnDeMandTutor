@@ -66,6 +66,7 @@ function MyPost() {
                 limit: response.data.limitPage,
                 total: 1,
             });
+            console.log(response.data);
             isMounted && setListResult(response.data.listResult);
         };
 
@@ -154,6 +155,7 @@ function MyPost() {
         } else if (value === 'Not approved') {
             setStatusForm(false);
             setIsActive();
+            setSyntax('Not approved');
         } else {
             setStatusForm(true);
             setIsActive(true);

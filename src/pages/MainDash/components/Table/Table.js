@@ -84,8 +84,6 @@ export default function BasicTable({ name }) {
         setRejectForm(true);
     };
 
-    console.log(reasonReject);
-
     const handleReject = async () => {
         const params = new URLSearchParams();
         params.append('action', false);
@@ -94,10 +92,12 @@ export default function BasicTable({ name }) {
         console.log(`${BROWSER_FORM_CREATE_CLASS_URL}${parameters}`);
         try {
             const response = await requestPrivate.put(`${BROWSER_FORM_CREATE_CLASS_URL}${parameters}`, [idDetails]);
+            console.log(response.status);
             if (response.status === 200) {
                 setStatus((prev) => !prev);
                 setViewDetails(false);
                 setReasonReject('');
+                setRejectForm(false);
             }
         } catch (error) {
             console.log(error);

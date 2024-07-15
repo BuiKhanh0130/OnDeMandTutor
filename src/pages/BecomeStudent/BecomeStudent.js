@@ -463,6 +463,16 @@ function BecomeStudent() {
                             </div>
                         </div>
 
+                        <div className={cx('form_row')}>
+                            <label htmlFor="myfile">Avatar</label>
+                            <input
+                                type="file"
+                                id="myfile"
+                                name="myfile"
+                                onChange={(e) => setAvatar(e.target.files[0])}
+                            />
+                        </div>
+
                         <Button className={cx('submit')}>Next</Button>
                     </form>
                 </div>

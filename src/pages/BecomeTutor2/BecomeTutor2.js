@@ -359,7 +359,7 @@ function BecomeTutor2() {
                         </div>
 
                         <div className={cx('form_row')}>
-                            <label htmlFor="myfile">Avatar</label>
+                            <label htmlFor="myfile">Certificate</label>
                             <input
                                 type="file"
                                 id="myfile"

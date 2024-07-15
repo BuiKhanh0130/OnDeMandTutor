@@ -9,6 +9,8 @@ import Paging from '../Paging';
 import { ModalContext } from '../ModalProvider';
 
 import styles from './Post.module.scss';
+import { color } from 'echarts';
+import { green } from '@mui/material/colors';
 
 const cx = classNames.bind(styles);
 
@@ -32,7 +34,6 @@ function Post({
     setcurPage,
 }) {
     const { setFormId } = useContext(ModalContext);
-    console.log(curPage);
     return (
         <Container>
             <Row className={cx('result__total')}>
@@ -86,6 +87,18 @@ function Post({
                     <Row key={index} className={cx('container__hero')}>
                         <Col lg="8" className={cx('container__card')}>
                             <div className={cx('container__form-control')}>
+                                <div
+                                    style={
+                                        classItem.status === null && classItem.isActived === null
+                                            ? { backgroundColor: 'orange' }
+                                            : classItem.status && classItem.isActived === false
+                                            ? { backgroundColor: 'yellow' }
+                                            : classItem.status === false && classItem.isActived === null
+                                            ? { backgroundColor: 'red' }
+                                            : { backgroundColor: 'green' }
+                                    }
+                                    className={cx('container__form-control-active')}
+                                ></div>
                                 <div className={cx('container__form-control-portfolio')}>
                                     <div>
                                         <strong>Tittle: </strong>
@@ -187,14 +200,7 @@ function Post({
                                                 View All Tutor
                                             </Button>
                                         ) : !classItem?.status && classItem?.isActived === null ? (
-                                            <Button
-                                                className={cx('container__form-control-submit')}
-                                                onClick={() => {
-                                                    handleViewList(classItem?.formId);
-                                                }}
-                                            >
-                                                Reason
-                                            </Button>
+                                            <Button className={cx('container__form-control-reason')}>Fail</Button>
                                         ) : (
                                             <>
                                                 <Button
@@ -267,6 +273,12 @@ function Post({
                                             </Button>
                                         </div>
                                     ))}
+                            </Col>
+                        ) : syntax === 'Not approved' ? (
+                            <Col key={index} lg="4">
+                                <div className={cx('container_tutor-reason')}>
+                                    <p>{classItem.reasonReject}</p>
+                                </div>
                             </Col>
                         ) : (
                             <Col key={index} lg="4">
