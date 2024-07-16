@@ -1,34 +1,48 @@
 import classNames from 'classnames/bind';
 import HeadlessTippy from '@tippyjs/react/headless';
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect, useContext } from 'react';
 
-import { SearchIcon, ClearIcon, LoadingIcon } from '~/components/Icons';
-import Button from '~/components/Button';
+import { ClearIcon, LoadingIcon } from '~/components/Icons';
+import requests from '~/utils/request';
 import Popper from '../Popper';
+import { ModalContext } from '../ModalProvider';
 
 import styles from './Search.module.scss';
+import useDebounce from '~/hooks/useDebounce';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 const cx = classNames.bind(styles);
-function Search({ width, className, onChangeResult, ...passProps }) {
-    const [searchValue, setSearchResult] = useState('');
+const SEARCH_URL = 'SubjectGroup/suggest';
+
+function Search({ width, className, ...passProps }) {
+    const location = useLocation();
+    const navigate = useNavigate();
+    //Value search
+    const { searchItem, setSearchItem } = useContext(ModalContext);
+    // rotate
     const [loading, setLoading] = useState(false);
+    // check have result or not
     const [showResult, setShowResult] = useState(false);
+    // result search
+    const [searchResults, setSearchResults] = useState();
 
     const inputRef = useRef();
 
+    const debouncedValue = useDebounce(searchItem, 500);
+
     const handleSearch = (e) => {
         const searchValue = e.target.value;
+        setLoading(true);
 
         if (searchValue.startsWith(' ') /* !searchValue.trim() và không có giá trị */) {
             return;
         }
 
-        setSearchResult(searchValue);
-        onChangeResult(searchValue);
+        setSearchItem(searchValue);
     };
 
     const handleClear = () => {
-        setSearchResult('');
+        setSearchItem('');
         inputRef.current.focus();
     };
 
@@ -40,25 +54,68 @@ function Search({ width, className, onChangeResult, ...passProps }) {
         setShowResult(false);
     };
 
+    useEffect(() => {
+        let isMounted = true;
+        const controller = new AbortController();
+        if (debouncedValue.trim() === '') {
+            setLoading(false);
+            setSearchResults([]);
+            return;
+        }
+
+        const getResult = async () => {
+            const response = await requests.get(
+                SEARCH_URL,
+                { params: { search: debouncedValue } },
+                {
+                    signal: controller.signal,
+                },
+            );
+            if (response.data.includes(debouncedValue)) {
+                return;
+            }
+            isMounted && setSearchResults(response.data);
+            setLoading(false);
+        };
+
+        getResult();
+
+        return () => {
+            isMounted = false;
+            controller.abort();
+        };
+    }, [debouncedValue]);
+
+    const handleSearchItem = (value) => {
+        setSearchItem(value);
+        setSearchResults([]);
+        if (location.pathname !== '/findTutor') {
+            navigate('/findTutor');
+        }
+    };
+
     return (
         <HeadlessTippy
             interactive
             appendTo={() => document.body}
-            visible={showResult}
-            offset={[-35, 1]}
+            visible={showResult && searchResults.length > 0}
+            offset={[0, 1]}
             placement="bottom"
             onClickOutside={handleHiddenResult}
             render={(attrs) => (
                 <div className={cx('search_results')} style={{ width: width }} tabIndex="-1" {...attrs}>
                     <Popper>
                         <ul className={cx('search_list')}>
-                            <li>Math</li>
-                            <li>Physics</li>
-                            <li>Geography</li>
-                            <li>Javascript</li>
-                            <li>HTML</li>
-                            <li>CSS</li>
-                            <li>Hi Chao Cau</li>
+                            {searchResults?.map((searchResult, index) => (
+                                <li
+                                    key={index}
+                                    onClick={() => {
+                                        handleSearchItem(searchResult);
+                                    }}
+                                >
+                                    {searchResult}
+                                </li>
+                            ))}
                         </ul>
                     </Popper>
                 </div>
@@ -67,14 +124,14 @@ function Search({ width, className, onChangeResult, ...passProps }) {
             <div className={cx('SearchPanel_left-search', { className })}>
                 <input
                     ref={inputRef}
-                    value={searchValue}
+                    value={searchItem}
                     type="text"
                     className={cx('SearchPanel_left-search-ip', { className })}
                     placeholder="What would you like to learn?"
                     onChange={handleSearch}
                     onFocus={handleShowResult}
                 ></input>
-                {searchValue && (
+                {!!searchItem && !loading && (
                     <div className={cx('SearchPanel_left-search-icc')} onClick={handleClear}>
                         <ClearIcon />
                     </div>
@@ -84,9 +141,6 @@ function Search({ width, className, onChangeResult, ...passProps }) {
                         <LoadingIcon />
                     </div>
                 )}
-                <Button orange small className={cx('SearchPanel_left-search-ics')}>
-                    <SearchIcon />
-                </Button>
             </div>
         </HeadlessTippy>
     );

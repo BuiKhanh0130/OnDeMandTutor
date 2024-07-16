@@ -24,6 +24,7 @@ function ModalProvider({ children }) {
     const [generateClass, setGenerateClass] = useState(false);
     const [complaintModerator, setComplaintModerator] = useState(false);
     const [responseComplaint, setResponseComplaint] = useState(false);
+    const [searchItem, setSearchItem] = useState('');
 
     const handleActive = () => {
         setActive(true);
@@ -77,8 +78,10 @@ function ModalProvider({ children }) {
         sendEmail,
         setSendEmail,
         setConnection,
+        searchItem,
         messages,
         setMessage,
+        setSearchItem,
         setFormId,
         createClass,
         setCreateClass,
