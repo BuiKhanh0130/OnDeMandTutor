@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styles from './Paging.module.scss';
 import classNames from 'classnames/bind';
 import { useState } from 'react';
@@ -8,11 +8,14 @@ const cx = classNames.bind(styles);
 const Paging = ({ pagination, curPage, setcurPage }) => {
     const { limit } = pagination;
     const PageLimit = Array.from({ length: limit });
-    const [active, setActive] = useState(0);
+    const [active, setActive] = useState(curPage);
+    useEffect(() => {
+        setActive(curPage);
+    }, [curPage]);
 
     const handleClick = (index) => {
         setActive(index);
-        setcurPage(index + 1);
+        setcurPage(index);
     };
 
     const handleUp = () => {
@@ -39,11 +42,11 @@ const Paging = ({ pagination, curPage, setcurPage }) => {
                         <li
                             key={index}
                             className={cx({
-                                'pagination-item': active !== index,
-                                'pagination-item__active': active === index,
+                                'pagination-item': active !== index + 1,
+                                'pagination-item__active': active === index + 1,
                             })}
                         >
-                            <a onClick={() => handleClick(index)} className={cx('pagination-item__link')}>
+                            <a onClick={() => handleClick(index + 1)} className={cx('pagination-item__link')}>
                                 {index + 1}
                             </a>
                         </li>

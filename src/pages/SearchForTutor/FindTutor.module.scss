@@ -42,19 +42,24 @@
     }
 }
 
+.sider__items-grade-gender {
+    display: flex;
+    justify-content: space-between;
+}
+
 .sidebar__items-grade,
 .sidebar__items-gender {
     font-size: 1.6rem;
     font-weight: 700;
-    margin: auto;
-    margin-top: 10px;
+    margin: 10px 0 0;
     select {
         border: 1px solid var(--line-border);
     }
-}
 
-.sider__items-grade-gender {
-    display: flex;
+    label {
+        font-weight: bold;
+        margin-right: 6px;
+    }
 }
 
 .sidebar__items-hours-rangeInput {
@@ -136,6 +141,10 @@
     margin-top: 20px;
     p {
         font-size: 2.2rem;
+    }
+
+    p strong {
+        margin-right: 4px;
     }
 }
 
@@ -230,6 +239,10 @@
     display: flex;
     justify-content: space-between;
     font-size: 1.6rem;
+}
+
+.result__profile-generality-valuate-ic-star {
+    margin-right: 10px;
 }
 
 .result__profile-generality-price,

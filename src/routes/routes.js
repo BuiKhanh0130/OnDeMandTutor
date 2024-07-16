@@ -35,7 +35,6 @@ import Moderator from '~/layouts/Moderator';
 import Rehearsal from '~/pages/Rehearsal';
 import Classes from '~/pages/Classes';
 import RequestForm from '~/pages/RequestForm';
-import TutorDetail from '~/pages/TutorDetail';
 import MyPost from '~/pages/MyPost';
 import RequestOfTutor from '~/pages/RequestOfTutor';
 import GenerateClass from '~/pages/GenerateClass';
@@ -74,7 +73,6 @@ const privateRoutes = [
     { path: config.routes.findTutor, component: FindTutor, role: ['Student'] },
     { path: config.routes.requestTutor, component: RequestTutor, role: ['Student'] },
     { path: config.routes.account, component: Tutor, role: ['Tutor', 'Admin', 'Student'] },
-    { path: config.routes.tutorDetail, component: TutorDetail, role: ['Tutor', 'Admin', 'Student'] },
     { path: config.routes.requestTutor, component: RequestTutor, role: ['Student'] },
     { path: config.routes.onlineTutoring, component: OnlineTutoring, role: ['Student', 'Admin'] },
     { path: config.routes.forStudent, component: ForStudent, role: ['Student', 'Tutor'] },

@@ -1,5 +1,5 @@
 import classNames from 'classnames/bind';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import MultiRangeSlider from './component/MultiRangeSliderInput';
 
@@ -11,8 +11,9 @@ import Search from '~/components/Search';
 import Image from '~/components/Image';
 import images from '~/assets/images';
 import Button from '~/components/Button';
-import { StarIcon } from '~/components/Icons';
 import request from '~/utils/request';
+import { ModalContext } from '~/components/ModalProvider';
+import { NoStarIcon, StarIcon } from '~/components/Icons';
 
 import Paging from '~/components/Paging';
 
@@ -24,9 +25,9 @@ const GRADE_URL = 'Grade';
 const TUTOR_URL = 'Tutors';
 
 function FindTutor() {
-    const [searchValue, setSearchValue] = useState('');
-    const [minValueRate, setMinValueRate] = useState();
-    const [maxValueRate, setMaxValueRate] = useState();
+    const { searchItem } = useContext(ModalContext);
+    const [minValueRate, setMinValueRate] = useState(0);
+    const [maxValueRate, setMaxValueRate] = useState(200);
     const [grade, setGrade] = useState('');
     const [gender, setGender] = useState();
     const [fetchedGrades, setFetchedGrades] = useState([]);
@@ -34,23 +35,21 @@ function FindTutor() {
     const [tutor, setTutors] = useState([]);
     const [typeOfDegree, setTypeOfDegree] = useState('');
     const [curPage, setcurPage] = useState(1);
-    const [pagination, setPagination] = useState({
-        page: 1,
-        limit: 0,
-        total: 1,
-    });
+    const [pagination, setPagination] = useState({ limit: 0 });
+    const [lengthArray, setLength] = useState(0);
+
+    useEffect(() => {
+        setcurPage(1);
+    }, [minValueRate, maxValueRate]);
 
     useEffect(() => {
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }, []);
 
     const handleInputRate = (e) => {
+        console.log(e);
         setMinValueRate(e.minValue);
         setMaxValueRate(e.maxValue);
-    };
-
-    const handleSearchChange = (newValue) => {
-        setSearchValue(newValue);
     };
 
     const handleSelectSort = (e) => {
@@ -71,15 +70,15 @@ function FindTutor() {
     };
 
     const params = {
-        Search: searchValue,
+        Search: searchItem,
         MaxRate: maxValueRate,
         MinRate: minValueRate,
         GradeId: grade,
         Gender: gender,
         TypeOfDegree: typeOfDegree,
         pageIndex: curPage,
-        'SortContent.sortTutorBy' : sort.title,
-        'SortContent.sortTutorType' : sort.sort,
+        'SortContent.sortTutorBy': sort.title,
+        'SortContent.sortTutorType': sort.sort,
     };
 
     const handleSubmit = async (event) => {
@@ -90,7 +89,6 @@ function FindTutor() {
     const handleChange = async () => {
         try {
             const response = await request.get(`${TUTOR_URL}`, { params });
-            console.log(params);
             setTutors(response.data.listResult);
             setPagination({
                 page: 1,
@@ -104,7 +102,7 @@ function FindTutor() {
 
     useEffect(() => {
         handleChange();
-    }, [maxValueRate, minValueRate, grade, gender, typeOfDegree, sort, curPage]);
+    }, [maxValueRate, minValueRate, grade, gender, typeOfDegree, sort, curPage, searchItem]);
 
     useEffect(() => {
         try {
@@ -117,6 +115,30 @@ function FindTutor() {
             console.log(error);
         }
     }, []);
+
+    //get length
+    useEffect(() => {
+        const params = {
+            Search: searchItem,
+            MaxRate: maxValueRate,
+            MinRate: minValueRate,
+            GradeId: grade,
+            Gender: gender,
+            TypeOfDegree: typeOfDegree,
+            pageIndex: pagination.limit,
+            'SortContent.sortTutorBy': sort.title,
+            'SortContent.sortTutorType': sort.sort,
+        };
+        const handleChange = async () => {
+            try {
+                const response = await request.get(`${TUTOR_URL}`, { params });
+                setLength(response.data.listResult.length);
+            } catch (error) {
+                console.log(error.message);
+            }
+        };
+        handleChange();
+    }, [pagination.limit]);
 
     return (
         <Container className={cx('wrapper')}>
@@ -131,12 +153,12 @@ function FindTutor() {
                                     {minValueRate} - {maxValueRate === 200 ? 'up' : maxValueRate}
                                 </span>
                             </span>
+
                             <MultiRangeSlider
-                                min={10}
+                                min={0}
                                 max={200}
-                                step={5}
-                                minValue={minValueRate}
-                                maxValue={maxValueRate}
+                                minValueAge={0}
+                                maxValueAge={200}
                                 onInput={(e) => {
                                     handleInputRate(e);
                                 }}
@@ -145,7 +167,7 @@ function FindTutor() {
 
                         <div className={cx('sider__items-grade-gender')}>
                             <div className={cx('sidebar__items-grade')}>
-                                <label htmlFor="grade" style={{ fontWeight: 'bold', marginRight: '10px' }}>
+                                <label htmlFor="grade">
                                     <strong>Grade:</strong>
                                 </label>
                                 <select id="grade" onChange={(e) => setGrade(e.target.value)}>
@@ -164,8 +186,13 @@ function FindTutor() {
                                 <label htmlFor="gender">
                                     <strong>Gender</strong>
                                 </label>
-                                <select id="gender" onChange={(e) => setGender(e.target.value)}>
-                                    {/* <option value={undefined}>All</option> */}
+                                <select
+                                    id="gender"
+                                    onChange={(e) => {
+                                        setcurPage(1);
+                                        setGender(e.target.value);
+                                    }}
+                                >
                                     <option value={true}>Male</option>
                                     <option value={false}>Female</option>
                                 </select>
@@ -179,7 +206,10 @@ function FindTutor() {
                             <select
                                 id="levels"
                                 className={cx('sidebar__items-role-level')}
-                                onChange={(e) => setTypeOfDegree(e.target.value)}
+                                onChange={(e) => {
+                                    setcurPage(1);
+                                    setTypeOfDegree(e.target.value);
+                                }}
                             >
                                 <option value={''}>All</option>
                                 <option value="College">College</option>
@@ -193,12 +223,19 @@ function FindTutor() {
                 </Col>
                 <Col lg="9" className={cx('result')}>
                     <div onClick={handleSubmit}>
-                        <Search width="770px" onChangeResult={handleSearchChange} />
+                        <Search width="840px" />
                     </div>
                     <Row className={cx('result__total')}>
                         <Col className={cx('result__total-number')}>
                             <p>
-                                <strong>3,335 pirates 1 tutors </strong>fit your choices
+                                <strong>
+                                    {pagination.limit > 0
+                                        ? pagination.limit === 1
+                                            ? tutor.length
+                                            : 5 * (pagination.limit - 1) + lengthArray
+                                        : 0}
+                                </strong>
+                                fit your choices
                             </p>
                         </Col>
                         <Col className={cx('result__total-sort')}>
@@ -207,11 +244,9 @@ function FindTutor() {
                                     <strong>Sort</strong>
                                 </label>
                                 <select id="sort" onChange={handleSelectSort}>
-                                    {/* <option value="best">Best match</option> */}
                                     <option value="Lowest price">Lowest price</option>
                                     <option value="Highest price">Highest price</option>
                                     <option value="Rating">Rating</option>
-                                    {/* <option value="experience">Experience</option> */}
                                 </select>
                             </form>
                         </Col>
@@ -221,9 +256,7 @@ function FindTutor() {
                             tutor.map((tutor, index) => {
                                 return (
                                     <div key={index} className={cx('result__wrapper-content')}>
-                                        <Link to={`/account/tutor/${tutor.fullName}`}
-                                            state={{ key: tutor.tutorID }}
-                                        >
+                                        <Link to={`/account/tutor/${tutor.fullName}`} state={{ key: tutor.tutorID }}>
                                             <Row className={cx('result__profile')}>
                                                 <Col lg="2" className={cx('result__profile-img')}>
                                                     <Image
@@ -243,32 +276,38 @@ function FindTutor() {
                                                     </p>
                                                 </Col>
                                                 <Col lg="4" className={cx('result__profile-generality')}>
-                                                    {/* {tutor.ratings.map((rate, index) => {
-                                                    return ( */}
-                                                    <div
-                                                        // key={index}
-                                                        className={cx('result__profile-generality-valuate')}
-                                                    >
+                                                    <div className={cx('result__profile-generality-valuate')}>
                                                         <div className={cx('result__profile-generality-valuate-ic')}>
-                                                            <StarIcon></StarIcon>
-                                                            <StarIcon></StarIcon>
-                                                            <StarIcon></StarIcon>
-                                                            <StarIcon></StarIcon>
-                                                            <StarIcon></StarIcon>
+                                                            {Array.from(
+                                                                { length: Math.round(tutor.start) },
+                                                                (_, index) => (
+                                                                    <StarIcon
+                                                                        key={index}
+                                                                        className={cx(
+                                                                            'result__profile-generality-valuate-ic-star',
+                                                                        )}
+                                                                    ></StarIcon>
+                                                                ),
+                                                            )}
+                                                            {Array.from(
+                                                                { length: 5 - Math.round(tutor.start) },
+                                                                (_, index) => (
+                                                                    <NoStarIcon
+                                                                        key={`empty-${index}`}
+                                                                        className={cx(
+                                                                            'result__profile-generality-valuate-ic-star',
+                                                                        )}
+                                                                    ></NoStarIcon>
+                                                                ),
+                                                            )}
                                                         </div>
                                                         <span
                                                             className={cx('result__profile-generality-valuate-number')}
-                                                        >
-                                                            {/* {rate.start} */}
-                                                        </span>
+                                                        ></span>
                                                         <span
                                                             className={cx('result__profile-generality-valuate-total')}
-                                                        >
-                                                            {/* ({rate.ratings}) */}
-                                                        </span>
+                                                        ></span>
                                                     </div>
-                                                    {/* ); */}
-                                                    {/* })} */}
                                                     <div className={cx('result__profile-generality-price')}>
                                                         <i className={cx('wc-clock-o', 'wc-green', 'text-center')}></i>
                                                         <span>{tutor.hourlyRate}/hour</span>
@@ -281,14 +320,8 @@ function FindTutor() {
                                                             Response Time: <strong>{5} minutes</strong>
                                                         </span>
                                                     </div>
-                                                    <Button
-                                                        orange
-                                                        className={cx('result__profile-generality-btn')}
-                                                    >
-                                                        <Link to={`/account/tutor/${tutor.fullName}`}
-                                                            state={{ key: tutor.tutorID }}>
-                                                                View {tutor.fullName} profile
-                                                        </Link>
+                                                    <Button orange className={cx('result__profile-generality-btn')}>
+                                                        View {tutor.fullName} profile
                                                     </Button>
                                                 </Col>
                                             </Row>
