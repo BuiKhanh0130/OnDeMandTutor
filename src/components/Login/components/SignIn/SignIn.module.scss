@@ -44,9 +44,6 @@
     align-items: center;
 }
 
-.forgotten-link {
-}
-
 .form-login-signup-btn-item {
     color: var(--white);
     height: 40px;
@@ -104,4 +101,8 @@
     a {
         color: var(--text-color);
     }
+}
+
+.errMsg {
+    color: red;
 }

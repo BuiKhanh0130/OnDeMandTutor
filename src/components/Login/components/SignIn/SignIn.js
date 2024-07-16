@@ -69,9 +69,9 @@ function SignIn({ item, onChangeUsername, onChangePassword }) {
             if (!err?.response) {
                 setErrMsg('No Server Response');
             } else if (err.response?.status === 400) {
-                setErrMsg('Missing Username or Password');
+                setErrMsg('Please confirm email');
             } else if (err.response?.status === 401) {
-                setErrMsg('Unauthorized');
+                setErrMsg('Missing Username or Password');
             } else {
                 setErrMsg('Login Failed');
             }
@@ -91,15 +91,32 @@ function SignIn({ item, onChangeUsername, onChangePassword }) {
                 const accessToken = response?.data?.token;
                 const user = jwtDecode(accessToken);
                 const role = user.UserRole;
+                const userID = user.UserId;
+                const avatar = user.Avatar;
+                const fullName = user.FullName;
+                setUserId(userID);
                 setAuth({ userName, role, accessToken });
+                setAvatar({ avatar, fullName });
                 //reset user
                 resetUser();
-                localStorage.setItem('accessToken', JSON.stringify(response?.data));
+                sessionStorage.setItem('accessToken', JSON.stringify(response?.data));
                 setActive(false);
                 handleUser();
-                navigate(from, { replace: true });
-            } catch (error) {
-                console.log(error.message);
+
+                if (role === 'Moderator') {
+                    navigate('/moderator');
+                }
+            } catch (err) {
+                if (!err?.response) {
+                    setErrMsg('No Server Response');
+                } else if (err.response?.status === 400) {
+                    setErrMsg('Please confirm email');
+                } else if (err.response?.status === 401) {
+                    setErrMsg('Missing Username or Password');
+                } else {
+                    setErrMsg('Login Failed');
+                }
+                errRef.current.focus();
             }
         });
     };
@@ -112,7 +129,7 @@ function SignIn({ item, onChangeUsername, onChangePassword }) {
         return (
             <Fragment key={index}>
                 <div className={cx('wrapper')}>
-                    <p ref={errRef} className={errMsg ? 'errMsg' : 'offscreen'} aria-live="assertive">
+                    <p ref={errRef} className={errMsg ? cx('errMsg') : cx('offscreen')} aria-live="assertive">
                         {errMsg}
                     </p>
                     <form className={cx('signIn-form')} onSubmit={handleSubmit}>
