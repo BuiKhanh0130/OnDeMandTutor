@@ -12,17 +12,10 @@ import useRequestsPrivate from '~/hooks/useRequestPrivate';
 
 const cx = classNames.bind(styles);
 
-const HANDLE_FORM_URL = 'FormRequestTutor/handleBrowserForm';
 
 function RequestOfStudent() {
     const [forms, setForms] = useState([]);
     const [limitPage, setLimitPage] = useState(0); 
-    const [currentPage, setCurrentPage] = useState(1);
-    const [showModal, setShowModal] = useState(false);
-    const [modalContent, setModalContent] = useState('');
-    const [form, setForm] = useState(null);
-    const [selected, setSelected] = useState('');
-    const [sameFormNum, setSameFormNum] = useState(0);
     const [filter, setFilter] = useState('pending'); 
     const requestPrivate = useRequestsPrivate();
 
@@ -52,30 +45,7 @@ function RequestOfStudent() {
         handleActionComplete();
     }, [filter, requestPrivate]);
 
-    const handleReject = (form) => {
-        setSelected('Reject');
-        setForm(form);
-        setModalContent('Are you sure you want to reject this request?');
-        setShowModal(true);
-    };
     
-    const handleApply = (form) => {
-        setSelected('Apply');
-        setForm(form);
-        setModalContent('Are you sure you want to apply for this request?');
-        setShowModal(true);
-
-        const fetchSameForm = async () => {
-            try {
-                const response = await requestPrivate.get(`${HANDLE_FORM_URL}?formId=${form.formId}&action=true`);
-                setSameFormNum(response.data);
-            } catch (error) {
-                console.error('Error:', error);
-            }
-        };
-
-        fetchSameForm();
-    };
 
     return (
         <div className={cx('wrapper')}>
@@ -140,3 +110,5 @@ function RequestOfStudent() {
 }
 
 export default RequestOfStudent;
+
+

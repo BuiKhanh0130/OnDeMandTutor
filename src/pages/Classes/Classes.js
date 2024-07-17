@@ -18,8 +18,9 @@ const CONVERSATION_URL = 'ConversationAccount';
 const CREATE_NOTIFICATION_URL = 'Notification/createNotification';
 const REQUEST_PAYMENT_URL = 'VnPay/create_payment_url';
 const RESPONSE_PAYMENT_URL = 'VnPay/payment_return';
-const WALLETID_ADMIN = '1bada450-d90c-4e14-b410-21ab37f00091';
+const WALLETID_ADMIN = 'ae4a3ebf-cf45-48a3-a947-59f22ab327d5';
 const VNPAYID = 'ce5ebcf3-d4fb-49a7-bca6-1ce10dd76d3f';
+const PAY_DESTINATION_URL = 'paymentdestination/viewlist'
 
 const Classes = () => {
     const { avatar } = useContext(ModalContext);
@@ -34,6 +35,16 @@ const Classes = () => {
     const [userId, setUserId] = useState('');
 
     const requestPrivate = useRequestsPrivate();
+
+
+    const fetchPayDestination = useCallback(async () => {
+        try {
+            const response = await requests.get(PAY_DESTINATION_URL);
+            console.log(response.data);
+        } catch (error) {
+            console.error('Error fetching PayDestination:', error);
+        }
+    },[])
 
     const handleChangeSelect = useCallback((value) => {
         let status = null;
@@ -113,22 +124,6 @@ const Classes = () => {
         }
     }, [paymentId, classID, userId, avatar.fullName, fetchClasses, requestPrivate]);
 
-    const handleReject = useCallback(async () => {
-        try {
-                await requests.put(`${STUDENT_BROWSERCLASS_URL}?classId=${classID}&action=false`);
-                await requestPrivate.post(CREATE_NOTIFICATION_URL, {
-                    title: `${avatar.fullName} has rejected your class.`,
-                    description: 'may be we are not compatible!',
-                    url: '/classTutor',
-                    accountId: userId
-                });
-                fetchClasses();
-            } 
-         catch (err) {
-            console.error('Error during payment response handling:', err);
-        }
-    }, [ classID, userId, avatar.fullName, fetchClasses, requestPrivate]);
-
     useEffect(() => {
         const urlParams = new URLSearchParams(window.location.search);
         const paramsObject = Object.fromEntries(urlParams.entries());
@@ -143,6 +138,7 @@ const Classes = () => {
             console.error('Error fetching class details:', error);
         }
     }, [requestPrivate]);
+    
 
     useEffect(() => {
         if (classID) {
@@ -152,7 +148,8 @@ const Classes = () => {
 
     useEffect(() => {
         fetchClasses();
-    }, [fetchClasses]);
+        fetchPayDestination();
+    }, [fetchClasses, fetchPayDestination]);
 
     const handleClassClick = (classs) => {
         setClassID(classs.classid);
@@ -229,7 +226,7 @@ const Classes = () => {
                                     <Row>
                                         {filterParams.status === null && filterParams.isApprove === null ? (
                                             <div className={cx('container_avatar-buttons')}>
-                                                <button className={cx('container_avatar-button', 'reject')} onClick={handleReject}>
+                                                <button className={cx('container_avatar-button', 'reject')} >
                                                     Reject
                                                 </button>
                                                 <button className={cx('container_avatar-button')} onClick={handlePayment}>
