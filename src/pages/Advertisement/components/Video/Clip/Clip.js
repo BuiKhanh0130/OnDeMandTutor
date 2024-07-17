@@ -4,14 +4,14 @@ import styles from './Clip.module.scss';
 
 const cx = classNames.bind(styles);
 
-function Clip({ width, height }) {
+function Clip({ width, height, clip }) {
     return (
         <div className={cx('container__clip')}>
             <section>
                 <iframe
                     width={width}
                     height={height}
-                    src="https://www.youtube.com/embed/abPmZCZZrFA?si=r_a2yaVe8RGKhNuK"
+                    src={clip?.video}
                     title="YouTube video player"
                     frameBorder="0"
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
