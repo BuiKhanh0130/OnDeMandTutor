@@ -88,13 +88,16 @@
 
     button {
         height: 34px;
-        width: 160px;
-        color: var(--white);
+        padding: 0 10px;
         font-size: 1.6rem;
 
         &:hover {
             background-color: var(--hover);
         }
+    }
+
+    button span a {
+        color: var(--white);
     }
 }
 

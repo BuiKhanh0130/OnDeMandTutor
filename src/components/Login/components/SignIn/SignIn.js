@@ -20,8 +20,6 @@ const cx = classNames.bind(styles);
 function SignIn({ item, onChangeUsername, onChangePassword }) {
     const { setAuth, setActive, handleUser, setUserId, setAvatar } = useContext(ModalContext);
     const navigate = useNavigate();
-    const location = useLocation();
-    const from = location.state?.from?.pathname || '/';
 
     const userRef = useRef();
     const errRef = useRef();

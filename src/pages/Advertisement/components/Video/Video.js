@@ -31,7 +31,7 @@ function Video() {
                 </Col>
                 <Col lg="2">
                     <Button orange to={'/'} className={cx('container__video-user-btn')}>
-                        Connect with Phong
+                        About Phong
                     </Button>
                 </Col>
             </Row>

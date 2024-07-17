@@ -78,7 +78,7 @@ const privateRoutes = [
     { path: config.routes.forStudent, component: ForStudent, role: ['Student', 'Tutor'] },
     { path: config.routes.customerSay, component: CustomerSay, role: ['Student', 'Tutor'] },
     { path: config.routes.blog, component: Blog, role: ['Student', 'Tutor'] },
-    { path: config.routes.advertisement, component: Advertisement, role: ['Tutor, Student'] },
+    { path: config.routes.advertisement, component: Advertisement, role: ['Tutor'] },
     { path: config.routes.howItWork, component: HowItWork, role: ['Student', 'Tutor'] },
     { path: config.routes.profileStudent, component: StudentProfile, layout: HeaderOnly, role: ['Student'] },
     { path: config.routes.profileTutor, component: TutorProfile, layout: HeaderOnly, role: ['Tutor'] },

@@ -9,8 +9,6 @@ import Paging from '../Paging';
 import { ModalContext } from '../ModalProvider';
 
 import styles from './Post.module.scss';
-import { color } from 'echarts';
-import { green } from '@mui/material/colors';
 
 const cx = classNames.bind(styles);
 
@@ -314,7 +312,7 @@ function Post({
                         )}
                     </Row>
                 ))}
-            {pagination.limit > 1 && <Paging pagination={pagination} curPage={curPage} setcurPage={setcurPage} />}
+            {pagination?.limit > 1 && <Paging pagination={pagination} curPage={curPage} setcurPage={setcurPage} />}
         </Container>
     );
 }

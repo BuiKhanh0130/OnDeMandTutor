@@ -11,10 +11,10 @@ function AccountItem({ data }) {
     return (
         <Button to={`/account/role/${data.name}`} className={cx('wrapper')}>
             <div className={cx('container')}>
-                <Image src={data.img} alt={data.name} className={cx('container__img')} />
+                <Image src={data.avatar} alt={data.fullName} className={cx('container__img')} />
                 <div className={cx('container__dsc')}>
-                    <strong>{data.name}</strong>
-                    <span>{data.subject}</span>
+                    <strong>{data.fullName}</strong>
+                    <span>Join: {data.createDay.split('T')[0]}</span>
                 </div>
             </div>
         </Button>
