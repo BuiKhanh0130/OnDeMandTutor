@@ -12,7 +12,7 @@ const routes = {
     requestTutor: '/requestTutor',
     advertisement: '/advertisement',
     onlineTutoring: '/onlineTutoring',
-    account: '/:account/:role/:accountName',
+    account: '/account/:role/:accountName',
     tutorDetail: '/:tutorId',
     registrationTutor1: '/registration/tutor/step1',
     registrationTutor2: '/registration/tutor/step2',
@@ -42,6 +42,10 @@ const routes = {
     requestOfStudent: '/requestOfStudent',
     viewComplaint: '/viewComplaint',
     success: '/success',
+    main: '/dashboard-admin',
+    ban: '/ban-account',
+    accountAdmin: '/create_account-admin',
+    accountModerator: '/create_account-moderator',
 };
 
 export default routes;

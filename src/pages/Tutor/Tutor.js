@@ -1,19 +1,18 @@
 import classNames from 'classnames/bind';
 import { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
+import useRequestsPrivate from '~/hooks/useRequestPrivate';
+import { Link } from 'react-router-dom';
 
-import Container from 'react-bootstrap/Container';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
+import { Container, Row, Col } from 'react-bootstrap';
 
 import images from '~/assets/images';
 import Image from '~/components/Image';
 import { StarIcon } from '~/components/Icons';
 import Button from '~/components/Button';
-import useRequestsPrivate from '~/hooks/useRequestPrivate';
-import { Link } from 'react-router-dom';
+import Clip from '~/components/Clip';
+
 import styles from './Tutor.module.scss';
-import Clip from '../Advertisement/components/Video/Clip';
 
 const cx = classNames.bind(styles);
 

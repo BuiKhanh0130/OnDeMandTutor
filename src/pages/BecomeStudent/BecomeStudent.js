@@ -1,8 +1,6 @@
 import classNames from 'classnames/bind';
 import { useEffect, useRef, useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCheck, faTimes } from '@fortawesome/free-solid-svg-icons';
 
 import requests from '~/utils/request';
 import { ModalContext } from '~/components/ModalProvider';
