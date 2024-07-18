@@ -11,7 +11,7 @@ function AccountAdmin() {
     return (
         <main id="main" className={cx('main')}>
             <PageTitle page="Create Account Admin" />
-            <RegistrationAccount />
+            <RegistrationAccount syntax="Administrator" />
         </main>
     );
 }
