@@ -62,6 +62,8 @@ function SignIn({ item, onChangeUsername, onChangePassword }) {
 
             if (role === 'Moderator') {
                 navigate('/moderator');
+            } else if (role === 'Administrator') {
+                navigate('/dashboard-admin');
             }
         } catch (err) {
             if (!err?.response) {
