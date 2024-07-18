@@ -14,7 +14,7 @@ import useRequestsPrivate from '~/hooks/useRequestPrivate';
 import styles from './Advertisement.module.scss';
 
 const cx = classNames.bind(styles);
-const GENERATED_ADS_URL = 'TutorAd/tutor/CreateAds';
+const GENERATED_ADS_URL = 'tutor-ad/create_ads';
 
 function Advertisement({ onHide, setAdvertisement }) {
     const requestPrivate = useRequestsPrivate();
@@ -59,7 +59,7 @@ function Advertisement({ onHide, setAdvertisement }) {
     };
 
     const handleUploadVideo = () => {
-        if (fileList[0] === null) return;
+        if (fileList[0] === undefined) return;
         const fileRef = ref(storage, `videos/${fileList[0].name}`);
         const uploadTask = uploadBytesResumable(fileRef, fileList[0]);
 
@@ -93,6 +93,10 @@ function Advertisement({ onHide, setAdvertisement }) {
 
     //handle create ad
     const handleCreateAds = async () => {
+        if (videoUrl === null) {
+            alert('Please provide a video');
+            return;
+        }
         try {
             const response = await requestPrivate.post(
                 GENERATED_ADS_URL,

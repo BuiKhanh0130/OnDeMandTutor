@@ -44,6 +44,7 @@ import ClassTutor from '~/pages/ClassTutor';
 import RequestOfStudent from '~/pages/RequestOfStudent';
 import ViewComplaint from '~/pages/ViewComplaint';
 import Successful from '~/pages/Successful';
+import AdvertisementModerator from '~/pages/AdversementModerator/AdvertisementModerator';
 
 const publicRoutes = [
     { path: config.routes.home, component: Home },
@@ -106,6 +107,12 @@ const privateRoutes = [
     { path: config.routes.requestOfStudent, component: RequestOfStudent, role: ['Student'] },
     { path: config.routes.viewComplaint, component: ViewComplaint, layout: 'null', role: ['Student', 'Tutor'] },
     { path: config.routes.success, component: Successful, layout: 'null', role: ['Student', 'Tutor'] },
+    {
+        path: config.routes.advertisementModerator,
+        component: AdvertisementModerator,
+        layout: Moderator,
+        role: ['Moderator'],
+    },
 ];
 
 export { publicRoutes, privateRoutes };

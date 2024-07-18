@@ -42,6 +42,7 @@ const routes = {
     requestOfStudent: '/requestOfStudent',
     viewComplaint: '/viewComplaint',
     success: '/success',
+    advertisementModerator: '/moderator/advertisement',
 };
 
 export default routes;
