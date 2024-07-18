@@ -1,0 +1,52 @@
+.main {
+    margin-top: 60px;
+    margin-left: 300px;
+    padding: 20px 30px;
+    transition: all 0.3s;
+}
+
+.main__text label {
+    font-size: 1.4rem;
+    margin-right: 10px;
+    font-weight: 800;
+    text-transform: uppercase;
+}
+
+.main__text input {
+    font-size: 1.4rem;
+    color: #012970;
+    border: 1px solid rgba(1, 41, 112, 0.2);
+    padding: 7px 38px 7px 8px;
+    border-radius: 3px;
+    transition: 0.3s;
+    width: 320px;
+}
+
+.btn {
+    padding: 10px;
+
+    &:hover {
+        background-color: var(--hover);
+    }
+}
+
+.btn span {
+    color: var(--white);
+}
+
+.btn-unlock {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100px;
+    height: 32px;
+}
+
+.btn-unlock :hover {
+    background-color: #c4c3c3;
+    color: var(--white);
+}
+
+.btn-unlock span {
+    color: var(--black);
+}

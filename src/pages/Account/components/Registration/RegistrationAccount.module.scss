@@ -1,0 +1,58 @@
+.container {
+    margin-top: 20px;
+}
+
+.container__profile,
+.container__profile-gender {
+    margin-bottom: 10px;
+}
+
+.container__profile label,
+.container__profile-gender label {
+    font-size: 1.4rem;
+    min-width: 120px;
+}
+
+.container__profile input,
+.container__profile-avatar input {
+    border: 1px solid #9d9d9d;
+    padding: 5px;
+    min-width: 230px;
+    border-radius: 8px;
+}
+
+.container__profile-gender {
+    display: flex;
+}
+
+.container__profile-gender p {
+    font-size: 1.4rem;
+    min-width: 120px;
+    margin-bottom: 0;
+}
+
+.container__profile-gender-items input {
+    border: 1px solid #9d9d9d;
+    padding: 5px;
+    border-radius: 8px;
+}
+
+.container__profile-avatar label {
+    font-size: 1.4rem;
+    min-width: 80px;
+}
+
+.container__profile-avatar {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.container__image {
+    margin-top: 30px;
+    border: 1px solid #000;
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+}

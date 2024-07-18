@@ -8,7 +8,7 @@ import Image from '~/components/Image';
 import Button from '~/components/Button';
 
 import styles from './Video.module.scss';
-import Clip from './Clip';
+import Clip from '../../../../components/Clip';
 
 const cx = classNames.bind(styles);
 

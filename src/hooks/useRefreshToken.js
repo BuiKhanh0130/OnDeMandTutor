@@ -17,7 +17,7 @@ const useRefreshToken = () => {
         console.log();
 
         try {
-            const response = await requests.post('auth/refresh-token', JSON.stringify({ refreshToken, userId }), {
+            const response = await requests.post('auth/refresh_token', JSON.stringify({ refreshToken, userId }), {
                 headers: { 'Content-Type': 'application/json' },
                 withCredentials: true,
             });
