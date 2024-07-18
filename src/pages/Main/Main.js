@@ -1,8 +1,8 @@
 import classNames from 'classnames/bind';
 
 import styles from './Main.module.scss';
-import PageTitle from './PageTitle';
-import Dashboard from './PageTitle/Dashboard';
+import PageTitle from '~/components/PageTitle';
+import Dashboard from './components/Dashboard';
 
 const cx = classNames.bind(styles);
 

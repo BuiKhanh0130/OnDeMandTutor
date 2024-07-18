@@ -1,46 +1,50 @@
 import classNames from 'classnames/bind';
-import { useEffect, useRef, useState, useContext } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useEffect, useRef, useState } from 'react';
+import { Container, Row, Col } from 'react-bootstrap';
+import { storage } from '~/firebase/firebase';
+import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+import { v4 } from 'uuid';
+import Modal from 'react-bootstrap/Modal';
 
-import requests from '~/utils/request';
-import { ModalContext } from '~/components/ModalProvider';
+import styles from './RegistrationAccount.module.scss';
 import Button from '~/components/Button';
-
-import styles from './BecomeStudent.module.scss';
 import { InvalidIcon, ValidIcon } from '~/components/Icons';
-
-const IMGBB = 'https://api.imgbb.com/1/upload?key=9c7d176f8c72a29fa6384fbb49cff7bc';
+import Image from '~/components/Image';
+import useRequestsPrivate from '~/hooks/useRequestPrivate';
 
 const cx = classNames.bind(styles);
+const REGISTER_URL = 'auth/moderator_signup';
+const REGISTER_ADMIN_URL = 'admin/create_user-role';
 
 const USER_REGEX = /^[a-zA-Z][a-zA-z0-9-_]{3,23}$/;
-const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9](?=.*[!@H$%])).{8,24}$/;
 const GMAIL_REGEX = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 const PHONE_REGEX = /^[0-9]{10}$/;
+const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9](?=.*[!@H$%])).{8,24}$/;
 const FULLNAME_REGEX = /^[a-zA-Z\s]+$/;
-const REGISTER_URL = '/auth/signUp';
 
-function BecomeStudent() {
-    const context = useContext(ModalContext);
-    const navigate = useNavigate();
-    let file = '';
-
-    const [avatar, setAvatar] = useState('');
-
+function RegistrationAccount({ syntax }) {
+    console.log(syntax);
+    const requestPrivate = useRequestsPrivate();
     const userRef = useRef();
     const errRef = useRef();
+    const [showModal, setShowModal] = useState(false);
+    const [gender, setGender] = useState(true);
+    const [avatar, setAvatar] = useState(null);
+    const [errMsg, setErrMsg] = useState();
+    const [nameImage, setNameImage] = useState('');
+    const [loadingImage, setLoadingImage] = useState(false);
 
-    const [user, setUser] = useState('');
-    const [validName, setValidName] = useState(false);
-    const [userFocus, setUserFocus] = useState(false);
+    useEffect(() => {
+        userRef.current.focus();
+    }, []);
+
+    const [userName, setUserName] = useState('');
+    const [validUserName, setValidUserName] = useState(false);
+    const [userNameFocus, setUserNameFocus] = useState(false);
 
     const [pwd, setPwd] = useState('');
     const [validPwd, setValidPwd] = useState(false);
     const [pwdFocus, setPwdFocus] = useState(false);
-
-    const [matchPwd, setMatchPwd] = useState();
-    const [validMatch, setValidMatch] = useState(false);
-    const [matchFocus, setMatchFocus] = useState(false);
 
     const [fullName, setFullName] = useState('');
     const [validFullName, setValidFullName] = useState(false);
@@ -54,25 +58,15 @@ function BecomeStudent() {
     const [validPhone, setValidPhone] = useState(false);
     const [phoneFocus, setPhoneFocus] = useState(false);
 
-    const [gender, setGender] = useState(true);
-
-    const [errMsg, setErrMsg] = useState();
-
     useEffect(() => {
-        userRef.current.focus();
-    }, []);
-
-    useEffect(() => {
-        const result = USER_REGEX.test(user);
-        setValidName(result);
-    }, [user]);
+        const result = USER_REGEX.test(userName);
+        setValidUserName(result);
+    }, [userName]);
 
     useEffect(() => {
         const result = PWD_REGEX.test(pwd);
         setValidPwd(result);
-        const match = pwd === matchPwd;
-        setValidMatch(match);
-    }, [pwd, matchPwd]);
+    }, [pwd]);
 
     useEffect(() => {
         const result = GMAIL_REGEX.test(gmail);
@@ -91,86 +85,92 @@ function BecomeStudent() {
 
     useEffect(() => {
         setErrMsg('');
-    }, [user, pwd, matchPwd]);
+    }, [userName, pwd]);
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
+    //handle image to firebase
+    const handleChangeImage = async () => {
+        if (avatar == null) return;
+        const imageRef = ref(storage, `images/${avatar.name + v4()}`);
+        setLoadingImage(true);
+        uploadBytes(imageRef, avatar).then((snapshot) => {
+            getDownloadURL(snapshot.ref).then((snapshot) => {
+                setNameImage(snapshot);
+                setLoadingImage(false);
+            });
+        });
+    };
 
-        const form = new FormData();
-
-        const v1 = USER_REGEX.test(user);
-        const v2 = PWD_REGEX.test(pwd);
-        const v3 = GMAIL_REGEX.test(gmail);
-        const v4 = PHONE_REGEX.test(phone);
-        const v5 = FULLNAME_REGEX.test(fullName);
-
-        if (!v1 || !v2 || !v3 || !v4 || !v5) {
-            setErrMsg('Invalid entry');
-            return;
-        }
-
+    //handle register
+    const handleBecomeModerator = async () => {
         try {
-            form.append('image', avatar);
-            const response = await requests.post(IMGBB, form);
-            console.log(response?.data);
-            if (response.status === 200) {
-                file = response?.data?.data?.display_url;
-            }
-        } catch (error) {
-            console.log(error);
-        }
-
-        try {
-            const response = await requests.post(
+            const response = await requestPrivate.post(
                 REGISTER_URL,
                 JSON.stringify({
                     fullName,
                     email: gmail,
-                    userName: user,
+                    userName,
                     password: pwd,
                     phoneNumber: phone,
                     gender,
+                    avatar: nameImage,
                     isActive: 1,
-                    isAdmin: false,
-                    avatar: file,
                 }),
-                {
-                    headers: { 'Content-Type': 'application/json' },
-                    withCredentials: true,
-                },
             );
-            context.setUserId(response?.data.userId);
-            navigate('/registration/student/step2');
-        } catch (error) {
-            if (!error?.response) {
-                setErrMsg('No server response');
-            } else if (error?.response?.status === 490) {
-                setErrMsg('Username Taken');
-            } else {
-                setErrMsg('Registration Failed');
+
+            if (syntax === 'Administrator') {
+                handleAdmin(response.data.userId);
             }
+
+            if (response.status === 200) {
+                const fileInput = document.getElementsByName('photo');
+                console.log(fileInput[0]);
+                fileInput[0].value = '';
+                setShowModal(true);
+                setUserName('');
+                setPwd('');
+                setFullName('');
+                setGender(true);
+                setPhone('');
+                setGmail('');
+                setNameImage('');
+                setAvatar(null);
+                setTimeout(() => {
+                    setShowModal(false);
+                }, 3000);
+            }
+        } catch (error) {
+            console.log(error);
+            console.log(error.response);
+        }
+    };
+
+    const handleAdmin = async (id) => {
+        try {
+            const response = await requestPrivate.post(`${REGISTER_ADMIN_URL}?userId=${id}`, ['Administrator']);
+            console.log(response.status);
+        } catch (error) {
+            console.log(error);
         }
     };
 
     return (
-        <div className={cx('wrapper')}>
-            <div className={cx('container')}>
-                <div className={cx('title')}>Register</div>
-                <div className={cx('currentForm')}>
-                    <form className={cx('currentForm_content')} onSubmit={handleSubmit}>
-                        <div className={cx('form_row')}>
-                            <p ref={errRef} className={errMsg ? 'errMsg' : 'offscreen'} aria-live="assertive">
-                                {errMsg}
-                            </p>
-                            <label htmlFor="userName">
-                                User name
-                                <span className={cx({ valid: validName, hide: !validName })}>
+        <Container className={cx('container')}>
+            <Row>
+                <Col lg="6">
+                    <form>
+                        <p ref={errRef} className={errMsg ? 'errMsg' : 'offscreen'} aria-live="assertive">
+                            {errMsg}
+                        </p>
+                        <div className={cx('container__profile')}>
+                            <label id="userName" ref={userRef}>
+                                Username
+                                <span className={cx({ valid: validUserName, hide: !validUserName })}>
                                     <ValidIcon />
                                 </span>
                                 <span
                                     className={cx({
-                                        hide: validName || !user,
-                                        invalid: !validName && user,
+                                        hide: validUserName || !userName,
+                                        invalid: !validUserName && userName,
                                     })}
                                 >
                                     <InvalidIcon />
@@ -179,27 +179,22 @@ function BecomeStudent() {
                             <input
                                 type="text"
                                 id="userName"
-                                name="txtUserName"
-                                ref={userRef}
-                                autoComplete="off"
-                                className={cx('txtUserName')}
-                                placeholder="Username"
-                                aria-invalid={validName ? 'false' : 'true'}
+                                value={userName}
+                                aria-invalid={validUserName ? 'false' : 'true'}
                                 aria-describedby="uidnote"
-                                value={user}
                                 onChange={(e) => {
-                                    setUser(e.target.value);
+                                    setUserName(e.target.value);
                                 }}
                                 onFocus={() => {
-                                    setUserFocus(true);
+                                    setUserNameFocus(true);
                                 }}
-                                onBlur={() => setUserFocus(false)}
-                            />
+                                onBlur={() => setUserNameFocus(false)}
+                            ></input>
                             <p
                                 id="uidnote"
                                 className={cx({
-                                    instructions: userFocus && user && !validName,
-                                    offscreen: !(userFocus && user && !validName),
+                                    instructions: userNameFocus && userName && !validUserName,
+                                    offscreen: !(userNameFocus && userName && !validUserName),
                                 })}
                             >
                                 <span>
@@ -208,9 +203,8 @@ function BecomeStudent() {
                                 </span>
                             </p>
                         </div>
-
-                        <div className={cx('form_row')}>
-                            <label htmlFor="password">
+                        <div className={cx('container__profile')}>
+                            <label id="password">
                                 Password
                                 <span className={cx({ valid: validPwd, hide: !validPwd })}>
                                     <ValidIcon />
@@ -224,24 +218,20 @@ function BecomeStudent() {
                                     <InvalidIcon />
                                 </span>
                             </label>
-
                             <input
                                 type="password"
                                 id="password"
-                                name="txtPassword"
-                                className={cx('txtPassword')}
                                 value={pwd}
-                                placeholder="******"
                                 autoComplete="off"
                                 aria-invalid={validPwd ? 'false' : 'true'}
                                 aria-describedby="uidpwd"
-                                onChange={(e) => {
-                                    setPwd(e.target.value);
-                                }}
                                 onFocus={() => {
                                     setPwdFocus(true);
                                 }}
                                 onBlur={() => setPwdFocus(false)}
+                                onChange={(e) => {
+                                    setPwd(e.target.value);
+                                }}
                             ></input>
                             <p
                                 id="uidpwd"
@@ -256,54 +246,9 @@ function BecomeStudent() {
                                 </span>
                             </p>
                         </div>
-
-                        <div className={cx('form_row')}>
-                            <label htmlFor="txtRePassword">
-                                Confirm Password
-                                <span className={cx({ valid: validMatch, hide: !validMatch })}>
-                                    <ValidIcon />
-                                </span>
-                                <span
-                                    className={cx({
-                                        hide: validMatch || !pwd,
-                                        invalid: !validMatch && pwd,
-                                    })}
-                                >
-                                    <InvalidIcon />
-                                </span>
-                            </label>
-                            <input
-                                type="password"
-                                id="txtRePassword"
-                                name="txtRePassword"
-                                value={matchPwd}
-                                className={cx('txtRePassword')}
-                                placeholder="******"
-                                autoComplete="off"
-                                aria-invalid={validMatch ? 'false' : 'true'}
-                                aria-describedby="uidre"
-                                onChange={(e) => {
-                                    setMatchPwd(e.target.value);
-                                }}
-                                onFocus={() => {
-                                    setMatchFocus(true);
-                                }}
-                                onBlur={() => setMatchFocus(false)}
-                            ></input>
-                            <p
-                                id="uidre"
-                                className={cx({
-                                    instructions: matchFocus && matchPwd && !validMatch,
-                                    offscreen: !(matchFocus && matchPwd && !validMatch),
-                                })}
-                            >
-                                <span>Password is not matched</span>
-                            </p>
-                        </div>
-
-                        <div className={cx('form_row')}>
-                            <label htmlFor="txtFullName">
-                                Full Name
+                        <div className={cx('container__profile')}>
+                            <label id="fullName">
+                                Full name{' '}
                                 <span className={cx({ valid: validFullName, hide: !validFullName })}>
                                     <ValidIcon />
                                 </span>
@@ -318,21 +263,18 @@ function BecomeStudent() {
                             </label>
                             <input
                                 type="text"
-                                id="txtFullName"
-                                name="txtFullName"
-                                className={cx('txtFullName')}
+                                id="fullName"
                                 value={fullName}
-                                placeholder="Justin Bieber"
                                 autoComplete="off"
                                 aria-invalid={validFullName ? 'false' : 'true'}
                                 aria-describedby="uidname"
-                                onChange={(e) => {
-                                    setFullName(e.target.value);
-                                }}
                                 onFocus={() => {
                                     setFullNameFocus(true);
                                 }}
                                 onBlur={() => setFullNameFocus(false)}
+                                onChange={(e) => {
+                                    setFullName(e.target.value);
+                                }}
                             ></input>
                             <p
                                 id="uidname"
@@ -344,9 +286,35 @@ function BecomeStudent() {
                                 <span>Full name must not be contained numbers and special characters</span>
                             </p>
                         </div>
-
-                        <div className={cx('form_row')}>
-                            <label htmlFor="email">
+                        <div className={cx('container__profile-gender')}>
+                            <p>Gender</p>
+                            <div className={cx('container__profile-gender-items')}>
+                                <input
+                                    type="radio"
+                                    id="html"
+                                    name="fav_language"
+                                    checked={gender}
+                                    value={gender}
+                                    onChange={() => {
+                                        setGender(true);
+                                    }}
+                                />
+                                <label for="html">Male</label>
+                                <input
+                                    type="radio"
+                                    id="css"
+                                    name="fav_language"
+                                    value={gender}
+                                    checked={!gender}
+                                    onChange={() => {
+                                        setGender(false);
+                                    }}
+                                />
+                                 <label for="css">Female</label>
+                            </div>
+                        </div>
+                        <div className={cx('container__profile')}>
+                            <label id="email">
                                 Email
                                 <span className={cx({ valid: validGmail, hide: !validGmail })}>
                                     <ValidIcon />
@@ -361,18 +329,15 @@ function BecomeStudent() {
                                 </span>
                             </label>
                             <input
-                                type="email"
+                                type="text"
                                 id="email"
-                                name="txtEmail"
-                                className={cx('txtEmail')}
                                 value={gmail}
-                                placeholder="user@gmail.com"
-                                autoComplete="off"
-                                aria-invalid={validGmail ? 'false' : 'true'}
-                                aria-describedby="uidemail"
                                 onChange={(e) => {
                                     setGmail(e.target.value);
                                 }}
+                                autoComplete="off"
+                                aria-invalid={validGmail ? 'false' : 'true'}
+                                aria-describedby="uidemail"
                                 onFocus={() => {
                                     setGmailFocus(true);
                                 }}
@@ -389,9 +354,9 @@ function BecomeStudent() {
                             </p>
                         </div>
 
-                        <div className={cx('form_row')}>
-                            <label htmlFor="phoneNumber">
-                                Phone
+                        <div className={cx('container__profile')}>
+                            <label id="phoneNumber">
+                                PhoneNumber
                                 <span className={cx({ valid: validPhone, hide: !validPhone })}>
                                     <ValidIcon />
                                 </span>
@@ -407,10 +372,7 @@ function BecomeStudent() {
                             <input
                                 type="number"
                                 id="phoneNumber"
-                                name="txtPhone"
-                                className={cx('txtPhone')}
                                 value={phone}
-                                placeholder="+84"
                                 autoComplete="off"
                                 aria-invalid={validPhone ? 'false' : 'true'}
                                 aria-describedby="uidphone"
@@ -432,51 +394,50 @@ function BecomeStudent() {
                                 <p>Required exactly 10 number and does not start with 0"</p>
                             </p>
                         </div>
-
-                        <div className={cx('form_row-radio')}>
-                            <p>Gender</p>
-                            <div className={cx('form_row-radio-content')}>
-                                <input
-                                    type="radio"
-                                    className={cx('gender')}
-                                    id="gentlemen"
-                                    name="gender"
-                                    value="gentlemen"
-                                    onChange={() => {
-                                        setGender(true);
-                                    }}
-                                ></input>
-                                <label htmlFor="gentlemen">Male</label>
-                                <input
-                                    type="radio"
-                                    className={cx('gender')}
-                                    id="lady"
-                                    name="gender"
-                                    value="lady"
-                                    onChange={() => {
-                                        setGender(false);
-                                    }}
-                                ></input>
-                                <label htmlFor="lady">Female</label>
-                            </div>
-                        </div>
-
-                        <div className={cx('form_row')}>
-                            <label htmlFor="myfile">Avatar</label>
+                    </form>
+                </Col>
+                <Col lg="6">
+                    <div className={cx('container__profile-avatar')}>
+                        <div>
+                            <label id="avatar">Avatar</label>
                             <input
                                 type="file"
-                                id="myfile"
-                                name="myfile"
+                                id="avatar"
+                                name="photo"
                                 onChange={(e) => setAvatar(e.target.files[0])}
-                            />
+                            ></input>
+                            {!loadingImage ? (
+                                <Button
+                                    orange
+                                    onClick={handleChangeImage}
+                                    style={{ width: '60px', height: '20px', marginLeft: '4px', color: '#fff' }}
+                                >
+                                    Upload
+                                </Button>
+                            ) : (
+                                <p>loading....</p>
+                            )}
                         </div>
 
-                        <Button className={cx('submit')}>Next</Button>
-                    </form>
-                </div>
-            </div>
-        </div>
+                        {nameImage && <Image src={nameImage} alt="avatar" className={cx('container__image')}></Image>}
+                    </div>
+                </Col>
+                <Button
+                    orange
+                    onClick={handleBecomeModerator}
+                    style={{ width: '60px', height: '20px', marginLeft: 'auto', color: '#fff' }}
+                >
+                    Create
+                </Button>
+            </Row>
+            <Modal show={showModal}>
+                <Modal.Header closeButton>
+                    <Modal.Title>Success</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>Your request has been sent successfully!</Modal.Body>
+            </Modal>
+        </Container>
     );
 }
 
-export default BecomeStudent;
+export default RegistrationAccount;

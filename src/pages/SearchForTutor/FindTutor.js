@@ -21,8 +21,8 @@ import styles from './FindTutor.module.scss';
 
 const cx = classNames.bind(styles);
 
-const GRADE_URL = 'Grade';
-const TUTOR_URL = 'Tutors';
+const GRADE_URL = 'grade';
+const TUTOR_URL = 'tutor';
 
 function FindTutor() {
     const { searchItem } = useContext(ModalContext);

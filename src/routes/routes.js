@@ -45,6 +45,10 @@ import RequestOfStudent from '~/pages/RequestOfStudent';
 import ViewComplaint from '~/pages/ViewComplaint';
 import Successful from '~/pages/Successful';
 import AdvertisementModerator from '~/pages/AdversementModerator/AdvertisementModerator';
+import Admin from '~/layouts/Admin';
+import BanAccount from '~/pages/BanAccount';
+import AccountAdmin from '~/pages/Account/AccountAdmin';
+import AccountModerator from '~/pages/Account/AccountModerator';
 
 const publicRoutes = [
     { path: config.routes.home, component: Home },
@@ -68,14 +72,14 @@ const publicRoutes = [
 
 const privateRoutes = [
     { path: config.routes.home, component: Home, role: ['Student', 'Tutor', 'Moderator'] },
-    { path: config.routes.main, component: Main, role: ['Admin'] },
+    { path: config.routes.main, component: Main, layout: Admin, role: ['Administrator'] },
     { path: config.routes.registrationTutor1, component: BecomeTutor, layout: Registration, role: ['Student'] },
     { path: config.routes.registrationTutor2, component: BecomeTutor2, layout: Registration, role: ['Student'] },
     { path: config.routes.findTutor, component: FindTutor, role: ['Student'] },
     { path: config.routes.requestTutor, component: RequestTutor, role: ['Student'] },
-    { path: config.routes.account, component: Tutor, role: ['Tutor', 'Admin', 'Student'] },
+    { path: config.routes.account, component: Tutor, role: ['Student', 'Tutor', 'Administrator'] },
     { path: config.routes.requestTutor, component: RequestTutor, role: ['Student'] },
-    { path: config.routes.onlineTutoring, component: OnlineTutoring, role: ['Student', 'Admin'] },
+    { path: config.routes.onlineTutoring, component: OnlineTutoring, role: ['Student', 'Administrator'] },
     { path: config.routes.forStudent, component: ForStudent, role: ['Student', 'Tutor'] },
     { path: config.routes.customerSay, component: CustomerSay, role: ['Student', 'Tutor'] },
     { path: config.routes.blog, component: Blog, role: ['Student', 'Tutor'] },
@@ -113,6 +117,9 @@ const privateRoutes = [
         layout: Moderator,
         role: ['Moderator'],
     },
+    { path: config.routes.ban, component: BanAccount, layout: Admin, role: ['Administrator'] },
+    { path: config.routes.accountAdmin, component: AccountAdmin, layout: Admin, role: ['Administrator'] },
+    { path: config.routes.accountModerator, component: AccountModerator, layout: Admin, role: ['Administrator'] },
 ];
 
 export { publicRoutes, privateRoutes };

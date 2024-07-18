@@ -1,0 +1,19 @@
+.container {
+    margin-top: 20px;
+}
+
+.container__student-img img {
+    width: 100px;
+    height: 100px;
+}
+
+.container__student-profile {
+    display: flex;
+}
+
+.container__student-profile p {
+    margin-right: 10px;
+    text-transform: uppercase;
+    color: #838383;
+    min-width: 120px;
+}
