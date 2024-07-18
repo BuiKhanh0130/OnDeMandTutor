@@ -8,7 +8,6 @@ import Col from 'react-bootstrap/Col';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import useRequestsPrivate from '~/hooks/useRequestPrivate';
-import { Link } from 'react-router-dom';
 import request from '~/utils/request';
 import { DateRange } from 'react-date-range';
 import { format } from 'date-fns';
@@ -40,6 +39,7 @@ const RequestForm = () => {
         startTime: '',
         endTime: '',
     });
+
     const [userDetails, setUserDetails] = useState();
     const [fetchedGrades, setFetchedGrades] = useState([]);
     const [listSubject, setListSubject] = useState([]);
@@ -68,8 +68,12 @@ const RequestForm = () => {
 
     const handleSelect = useCallback((ranges) => {
         const { selection } = ranges;
-        const startDateUTC = new Date(Date.UTC(selection.startDate.getFullYear(), selection.startDate.getMonth(), selection.startDate.getDate()));
-        const endDateUTC = new Date(Date.UTC(selection.endDate.getFullYear(), selection.endDate.getMonth(), selection.endDate.getDate()));
+        const startDateUTC = new Date(
+            Date.UTC(selection.startDate.getFullYear(), selection.startDate.getMonth(), selection.startDate.getDate()),
+        );
+        const endDateUTC = new Date(
+            Date.UTC(selection.endDate.getFullYear(), selection.endDate.getMonth(), selection.endDate.getDate()),
+        );
 
         setFormData((prevData) => ({
             ...prevData,
@@ -171,7 +175,7 @@ const RequestForm = () => {
 
             if (response.data) {
                 setShowModal(true);
-            }else{
+            } else {
                 alert('The calendar is invalid. Please try again.');
             }
         } catch (error) {
@@ -185,11 +189,14 @@ const RequestForm = () => {
         <div className={cx('wrapper')}>
             <Container className={cx('container')}>
                 <Row>
-                    <Col lg='7' className={cx('container__form')}>
+                    <Col lg="7" className={cx('container__form')}>
                         <form onSubmit={handleSubmit}>
                             <div className={cx('container__form_header')}>
                                 <h1>Send a message to {userDetails?.fullName}</h1>
-                                <img alt={userDetails?.fullName} src={userDetails?.avatar || images.avatarDefaultTutor} />
+                                <img
+                                    alt={userDetails?.fullName}
+                                    src={userDetails?.avatar || images.avatarDefaultTutor}
+                                />
                             </div>
 
                             <div>
@@ -207,7 +214,12 @@ const RequestForm = () => {
                             <div className={cx('container__form_info')}>
                                 <div className={cx('subject_grade')}>
                                     <label htmlFor="subjects">Subject: </label>
-                                    <select id="subjects" name="subject" onChange={handleInputChange} value={formData.subject}>
+                                    <select
+                                        id="subjects"
+                                        name="subject"
+                                        onChange={handleInputChange}
+                                        value={formData.subject}
+                                    >
                                         {listSubject.map((subject, index) => (
                                             <option key={index} value={subject.subjectGroupId}>
                                                 {subject.subjectName}
@@ -216,7 +228,12 @@ const RequestForm = () => {
                                     </select>
 
                                     <label htmlFor="grades">Grade: </label>
-                                    <select id="grades" name="grade" onChange={handleInputChange} value={formData.grade}>
+                                    <select
+                                        id="grades"
+                                        name="grade"
+                                        onChange={handleInputChange}
+                                        value={formData.grade}
+                                    >
                                         {fetchedGrades.map((grade, index) => (
                                             <option key={index} value={grade.gradeId}>
                                                 {grade.number}
@@ -257,7 +274,13 @@ const RequestForm = () => {
                                         editableDateInputs={true}
                                         onChange={handleSelect}
                                         moveRangeOnFirstSelection={false}
-                                        ranges={[{ startDate: formData.startDate, endDate: formData.endDate, key: 'selection' }]}
+                                        ranges={[
+                                            {
+                                                startDate: formData.startDate,
+                                                endDate: formData.endDate,
+                                                key: 'selection',
+                                            },
+                                        ]}
                                         minDate={new Date()}
                                     />
                                 </div>
@@ -265,16 +288,18 @@ const RequestForm = () => {
                                     <div>
                                         <span>Select the days you will study</span>
                                     </div>
-                                    {['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'].map((day, index) => (
-                                        <button
-                                            type="button"
-                                            key={index}
-                                            onClick={() => handleDayClick(index)}
-                                            className={cx({ selected: formData.selectedDays.includes(index) })}
-                                        >
-                                            {day}
-                                        </button>
-                                    ))}
+                                    {['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'].map(
+                                        (day, index) => (
+                                            <button
+                                                type="button"
+                                                key={index}
+                                                onClick={() => handleDayClick(index)}
+                                                className={cx({ selected: formData.selectedDays.includes(index) })}
+                                            >
+                                                {day}
+                                            </button>
+                                        ),
+                                    )}
                                 </div>
 
                                 <div className={cx('select_time')}>
@@ -282,7 +307,12 @@ const RequestForm = () => {
                                         <span>Select the start and end hour</span>
                                         <div className={cx('start_end_hour')}>
                                             <label>
-                                                <select name="startTime" value={formData.startTime} onChange={handleInputChange} className="form-select">
+                                                <select
+                                                    name="startTime"
+                                                    value={formData.startTime}
+                                                    onChange={handleInputChange}
+                                                    className="form-select"
+                                                >
                                                     <option value="">Start Hour</option>
                                                     {times.map((time) => (
                                                         <option key={time} value={time}>
@@ -292,7 +322,12 @@ const RequestForm = () => {
                                                 </select>
                                             </label>
                                             <label>
-                                                <select name="endTime" value={formData.endTime} onChange={handleInputChange} className="form-select">
+                                                <select
+                                                    name="endTime"
+                                                    value={formData.endTime}
+                                                    onChange={handleInputChange}
+                                                    className="form-select"
+                                                >
                                                     <option value="">End Hour</option>
                                                     {times
                                                         .filter((time) => time > formData.startTime)

@@ -9,6 +9,7 @@ import { ModalContext } from '~/components/ModalProvider';
 import Button from '~/components/Button';
 
 import styles from './BecomeTutor.module.scss';
+import { InvalidIcon, ValidIcon } from '~/components/Icons';
 
 const cx = classNames.bind(styles);
 
@@ -39,7 +40,7 @@ function BecomeTutor() {
     const [validPwd, setValidPwd] = useState(false);
     const [pwdFocus, setPwdFocus] = useState(false);
 
-    const [matchPwd, setMatchPwd] = useState();
+    const [matchPwd, setMatchPwd] = useState('');
     const [validMatch, setValidMatch] = useState(false);
     const [matchFocus, setMatchFocus] = useState(false);
 
@@ -144,7 +145,6 @@ function BecomeTutor() {
                     withCredentials: true,
                 },
             );
-            console.log(response?.data?.userId);
             context.setUserId(response?.data.userId);
             navigate('/registration/tutor/step2');
         } catch (error) {
@@ -171,7 +171,7 @@ function BecomeTutor() {
                             <label htmlFor="userName">
                                 User name
                                 <span className={cx({ valid: validName, hide: !validName })}>
-                                    <FontAwesomeIcon icon={faCheck}></FontAwesomeIcon>
+                                    <ValidIcon />
                                 </span>
                                 <span
                                     className={cx({
@@ -179,7 +179,7 @@ function BecomeTutor() {
                                         invalid: !validName && user,
                                     })}
                                 >
-                                    <FontAwesomeIcon icon={faTimes}></FontAwesomeIcon>
+                                    <InvalidIcon />
                                 </span>
                             </label>
                             <input
@@ -208,10 +208,10 @@ function BecomeTutor() {
                                     offscreen: !(userFocus && user && !validName),
                                 })}
                             >
-                                <p>
+                                <span>
                                     4 to 24 characters. Must begin with a letter. Letters, numbers, underscores, hyphens
                                     allowed
-                                </p>
+                                </span>
                             </p>
                         </div>
 
@@ -219,7 +219,7 @@ function BecomeTutor() {
                             <label htmlFor="password">
                                 Password
                                 <span className={cx({ valid: validPwd, hide: !validPwd })}>
-                                    <FontAwesomeIcon icon={faCheck}></FontAwesomeIcon>
+                                    <ValidIcon />
                                 </span>
                                 <span
                                     className={cx({
@@ -227,7 +227,7 @@ function BecomeTutor() {
                                         invalid: !validPwd && pwd,
                                     })}
                                 >
-                                    <FontAwesomeIcon icon={faTimes}></FontAwesomeIcon>
+                                    <InvalidIcon />
                                 </span>
                             </label>
 
@@ -238,7 +238,6 @@ function BecomeTutor() {
                                 className={cx('txtPassword')}
                                 value={pwd}
                                 placeholder="******"
-                                autoComplete="off"
                                 aria-invalid={validPwd ? 'false' : 'true'}
                                 aria-describedby="uidpwd"
                                 onChange={(e) => {
@@ -256,10 +255,10 @@ function BecomeTutor() {
                                     offscreen: !(pwdFocus && pwd && !validPwd),
                                 })}
                             >
-                                <p>
+                                <span>
                                     8 to 24 characters. Must include uppercase and lowercase letters, a number and a
                                     special character. Allowed special characters are allowed
-                                </p>
+                                </span>
                             </p>
                         </div>
 
@@ -267,7 +266,7 @@ function BecomeTutor() {
                             <label htmlFor="txtRePassword">
                                 Confirm Password
                                 <span className={cx({ valid: validMatch, hide: !validMatch })}>
-                                    <FontAwesomeIcon icon={faCheck}></FontAwesomeIcon>
+                                    <ValidIcon />
                                 </span>
                                 <span
                                     className={cx({
@@ -275,7 +274,7 @@ function BecomeTutor() {
                                         invalid: !validMatch && pwd,
                                     })}
                                 >
-                                    <FontAwesomeIcon icon={faTimes}></FontAwesomeIcon>
+                                    <InvalidIcon />
                                 </span>
                             </label>
                             <input
@@ -285,7 +284,6 @@ function BecomeTutor() {
                                 value={matchPwd}
                                 className={cx('txtRePassword')}
                                 placeholder="******"
-                                autoComplete="off"
                                 aria-invalid={validMatch ? 'false' : 'true'}
                                 aria-describedby="uidre"
                                 onChange={(e) => {
@@ -303,7 +301,7 @@ function BecomeTutor() {
                                     offscreen: !(matchFocus && matchPwd && !validMatch),
                                 })}
                             >
-                                <p>Password is not matched</p>
+                                <span>Password is not matched</span>
                             </p>
                         </div>
 
@@ -311,7 +309,7 @@ function BecomeTutor() {
                             <label htmlFor="txtFullName">
                                 Full Name
                                 <span className={cx({ valid: validFullName, hide: !validFullName })}>
-                                    <FontAwesomeIcon icon={faCheck}></FontAwesomeIcon>
+                                    <ValidIcon />
                                 </span>
                                 <span
                                     className={cx({
@@ -319,7 +317,7 @@ function BecomeTutor() {
                                         invalid: !validFullName && fullName,
                                     })}
                                 >
-                                    <FontAwesomeIcon icon={faTimes}></FontAwesomeIcon>
+                                    <InvalidIcon />
                                 </span>
                             </label>
                             <input
@@ -347,7 +345,7 @@ function BecomeTutor() {
                                     offscreen: !(FullNameFocus && !validFullName && fullName),
                                 })}
                             >
-                                <p>Full name must not be contained numbers and special characters</p>
+                                <span>Full name must not be contained numbers and special characters</span>
                             </p>
                         </div>
 
@@ -355,7 +353,7 @@ function BecomeTutor() {
                             <label htmlFor="email">
                                 Email
                                 <span className={cx({ valid: validGmail, hide: !validGmail })}>
-                                    <FontAwesomeIcon icon={faCheck}></FontAwesomeIcon>
+                                    <ValidIcon />
                                 </span>
                                 <span
                                     className={cx({
@@ -363,7 +361,7 @@ function BecomeTutor() {
                                         invalid: !validGmail && gmail,
                                     })}
                                 >
-                                    <FontAwesomeIcon icon={faTimes}></FontAwesomeIcon>
+                                    <InvalidIcon />
                                 </span>
                             </label>
                             <input
@@ -391,7 +389,7 @@ function BecomeTutor() {
                                     offscreen: !(gmailFocus && gmail && !validGmail),
                                 })}
                             >
-                                <p>Syntax: "Hello@gmail.com";</p>
+                                <span>Syntax: "Hello@gmail.com";</span>
                             </p>
                         </div>
 
@@ -399,7 +397,7 @@ function BecomeTutor() {
                             <label htmlFor="phoneNumber">
                                 Phone
                                 <span className={cx({ valid: validPhone, hide: !validPhone })}>
-                                    <FontAwesomeIcon icon={faCheck}></FontAwesomeIcon>
+                                    <ValidIcon />
                                 </span>
                                 <span
                                     className={cx({
@@ -407,7 +405,7 @@ function BecomeTutor() {
                                         invalid: !validPhone && phone,
                                     })}
                                 >
-                                    <FontAwesomeIcon icon={faTimes}></FontAwesomeIcon>
+                                    <InvalidIcon />
                                 </span>
                             </label>
                             <input
@@ -435,7 +433,7 @@ function BecomeTutor() {
                                     offscreen: !(phoneFocus && phone && !validPhone),
                                 })}
                             >
-                                <p>Required exactly 10 number and does not start with 0"</p>
+                                <span>Required exactly 10 number and does not start with 0"</span>
                             </p>
                         </div>
 
@@ -452,7 +450,7 @@ function BecomeTutor() {
                                         setGender(true);
                                     }}
                                 ></input>
-                                <label htmlFor="gentlemen">Boy</label>
+                                <label htmlFor="gentlemen">Male</label>
                                 <input
                                     type="radio"
                                     className={cx('gender')}
@@ -463,11 +461,11 @@ function BecomeTutor() {
                                         setGender(false);
                                     }}
                                 ></input>
-                                <label htmlFor="lady">Girl</label>
+                                <label htmlFor="lady">Female</label>
                             </div>
                         </div>
                         <div className={cx('form_row')}>
-                            <label htmlFor="myfile">Photo Certificate</label>
+                            <label htmlFor="myfile">Avatar</label>
                             <input
                                 type="file"
                                 id="myfile"

@@ -17,16 +17,16 @@ import Clip from '../Advertisement/components/Video/Clip';
 
 const cx = classNames.bind(styles);
 
-const PROFILETUTOR = 'Tutors/Id/';
-const FEEDBACKTUTOR = 'Feedbacks/';
+const PROFILETUTOR_URL = 'Tutors/Id/';
+const FEEDBACKTUTOR_URL = 'Feedbacks/';
+const ADVERTISEMENT_URL = 'TutorAd/';
 
 function Tutor() {
     const requestPrivate = useRequestsPrivate();
     const [userDetails, setUserDetails] = useState();
     const [userFeedbacks, setUserFeedbacks] = useState();
+    const [userAd, setUserAd] = useState([]);
     const { state } = useLocation();
-
-    console.log(`${FEEDBACKTUTOR}${state.key}`);
 
     useEffect(() => {
         window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -37,10 +37,9 @@ function Tutor() {
         const controller = new AbortController();
         const getTutor = async () => {
             try {
-                const response = await requestPrivate.get(`${PROFILETUTOR}${state.key}`, {
+                const response = await requestPrivate.get(`${PROFILETUTOR_URL}${state.key}`, {
                     signal: controller.signal,
                 });
-                console.log(response.data);
                 isMounted && setUserDetails(response.data);
             } catch (error) {
                 console.log(error);
@@ -49,10 +48,22 @@ function Tutor() {
 
         const getFeedbackTutor = async () => {
             try {
-                const response = await requestPrivate.get(`${FEEDBACKTUTOR}${state.key}`, {
+                const response = await requestPrivate.get(`${FEEDBACKTUTOR_URL}${state.key}`, {
                     signal: controller.signal,
                 });
-                console.log(response?.data.listResult);
+                isMounted && setUserFeedbacks(response.data.listResult);
+            } catch (error) {
+                console.log(error);
+            }
+        };
+
+        const getAds = async () => {
+            try {
+                const response = await requestPrivate.get(`${ADVERTISEMENT_URL}${state.key}`, {
+                    signal: controller.signal,
+                });
+                console.log(response.data);
+                setUserAd(response.data);
                 isMounted && setUserFeedbacks(response.data.listResult);
             } catch (error) {
                 console.log(error);
@@ -61,6 +72,7 @@ function Tutor() {
 
         getTutor();
         getFeedbackTutor();
+        getAds();
 
         return () => {
             isMounted = false;
@@ -111,7 +123,7 @@ function Tutor() {
                     <Col lg="8" className={cx('container__about')}>
                         <div className={cx('container__about-content')}>
                             <p className={cx('container__about-content-title')}>About {userDetails?.fullName}</p>
-                            <Clip width={'760px'} height={'356px'} />
+                            <Clip width={'760px'} height={'356px'} clip={userAd[0]} />
                         </div>
 
                         <div className={cx('container__about-content')}>

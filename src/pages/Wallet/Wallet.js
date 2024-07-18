@@ -8,9 +8,9 @@ import useRequestsPrivate from '~/hooks/useRequestPrivate';
 import { FaEdit } from 'react-icons/fa';
 
 const cx = classNames.bind(styles);
-const WALLET_URL = 'wallet/getwallet/';
+const WALLET_URL = 'wallet/get_wallet/';
 const UPDATE_WALLET_URL = 'wallet/update_wallet';
-const WITHDRAW_URL = 'wallet/withdraw/';
+const WITHDRAW_URL = 'wallet/withdraw_money/';
 
 const formatDate = (dateString) => {
     const options = { year: 'numeric', month: '2-digit', day: '2-digit' };

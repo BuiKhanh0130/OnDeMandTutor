@@ -12,7 +12,6 @@ import useRequestsPrivate from '~/hooks/useRequestPrivate';
 
 const cx = classNames.bind(styles);
 
-
 function RequestOfStudent() {
     const [forms, setForms] = useState([]);
     const [limitPage, setLimitPage] = useState(0); 
@@ -20,7 +19,7 @@ function RequestOfStudent() {
     const requestPrivate = useRequestsPrivate();
 
     const handleActionComplete = () => {
-        let FORM_REQUEST_URL = 'FormRequestTutor/viewForm';
+        let FORM_REQUEST_URL = 'formrequesttutor/get_form';
 
         if (filter === 'approved') {
             FORM_REQUEST_URL += '?status=true';

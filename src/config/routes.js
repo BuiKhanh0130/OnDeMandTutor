@@ -1,3 +1,5 @@
+import ViewComplaint from '~/pages/ViewComplaint';
+
 const routes = {
     home: '/',
     blog: '/blog',
@@ -34,9 +36,12 @@ const routes = {
     myPost: '/myblog',
     requestOfTutor: '/requestOfTutor',
     generateClass: '/generateClass',
+    myApplyFormTutor: '/myApplyFormTutor',
     wallet: '/wallet',
     classTutor: '/classTutor',
     requestOfStudent: '/requestOfStudent',
+    viewComplaint: '/viewComplaint',
+    success: '/success',
 };
 
 export default routes;

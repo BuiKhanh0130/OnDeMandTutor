@@ -2,6 +2,11 @@
     width: 100%;
 }
 
+ul {
+    padding-left: 0;
+    margin-bottom: 0;
+}
+
 .search_list > li {
     list-style-type: none;
     font-size: 1.4rem;
@@ -39,7 +44,7 @@
 .SearchPanel_left-search-icc {
     position: absolute;
     top: 12px;
-    right: 76px;
+    right: 10px;
     height: 100%;
     color: var(--line-border);
     z-index: 1;
@@ -51,7 +56,7 @@
     width: 1.6rem;
     height: 1.6rem;
     top: 50%;
-    right: 76px;
+    right: 10px;
     color: var(--line-border);
     z-index: 1;
 }

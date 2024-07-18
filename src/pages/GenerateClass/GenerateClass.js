@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import classNames from 'classnames/bind';
 import { Container, Row, Col } from 'react-bootstrap';
 
@@ -7,15 +7,16 @@ import useRequestsPrivate from '~/hooks/useRequestPrivate';
 import Introduction from '../RequestTutor/components/Introduction';
 
 import styles from './GenerateClass.module.scss';
-import { useLocation } from 'react-router-dom';
+import { ModalContext } from '~/components/ModalProvider';
+import { useNavigate } from 'react-router-dom';
 
 const cx = classNames.bind(styles);
 
-const GENERATE_CLASS_URL = 'Classes/createClass';
+const GENERATE_CLASS_URL = 'class/create_class';
 
 function CreateClass() {
-    const { state } = useLocation();
-    const formId = state.formId;
+    const { formId } = useContext(ModalContext);
+    const navigate = useNavigate();
     const requestPrivates = useRequestsPrivate();
     const [className, setClassName] = useState('');
     const [description, setDescription] = useState('');
@@ -27,7 +28,10 @@ function CreateClass() {
             JSON.stringify({ className, description, formId }),
         );
 
-        console.log(response.status);
+        if (response.status === 200) {
+            window.alert('Create class successfully');
+            navigate('/');
+        }
     };
     return (
         <Container className={cx('wrapper')}>

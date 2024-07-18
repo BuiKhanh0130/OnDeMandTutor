@@ -38,7 +38,6 @@ function HeaderTutor() {
                         <Sidebar />
                     </Col>
 
-
                     <Col lg="2" className={cx('container__login-signup')}>
                         <Link to={config.routes.notification}>
                             <Notification>
@@ -48,6 +47,7 @@ function HeaderTutor() {
                                 </div>
                             </Notification>
                         </Link>
+
                         <NavMessage />
 
                         <UserTutor>

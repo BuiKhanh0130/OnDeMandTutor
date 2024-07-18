@@ -8,8 +8,8 @@ import { Link } from 'react-router-dom';
 import useRequestsPrivate from '~/hooks/useRequestPrivate';
 
 const cx = classNames.bind(styles);
-const NOTIFICATION_DETAIL_URL = 'Notification/viewNotificationDetail'
-const NOTIFICATION_LIST_URL = 'Notification/viewNotificationList'
+const NOTIFICATION_DETAIL_URL = 'notification/get_notification-detail'
+const NOTIFICATION_LIST_URL = 'notification/get_notifications'
 
 const Notification = () => {
     const { avatar } = useContext(ModalContext);

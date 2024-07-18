@@ -59,6 +59,7 @@ const images = {
     dashboard5: require('~/assets/images/vanlam.png'),
     avatarDefault: require('~/assets/images/avatardefault.png'),
     avatarDefaultTutor: require('~/assets/images/avatarDefaultTutor.png'),
+    backgroundSuccess: require('~/assets/images/successBackground.png'),
 };
 
 export default images;

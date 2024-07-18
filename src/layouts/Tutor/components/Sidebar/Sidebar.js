@@ -28,9 +28,8 @@ function Sidebar() {
             {
                 title: 'My Business',
                 items: [
-                    { label: 'News', link: '/advertisement' },
-                    { label: 'Student\'s Post', link: '/blog' },
-                    { label: 'Advertisement', link: '/blog' },
+                    { label: "Student's Post", link: '/blog' },
+                    { label: 'Advertisement', link: '/advertisement' },
                 ],
             },
 
@@ -55,24 +54,24 @@ function Sidebar() {
         <div className={cx('wrapper')}>
             <div className={cx('container')}>
                 {sidebarItems.map((sidebarItem, index) => {
-                        if (sidebarItem.items !== undefined) {
-                            return (<Menu key={index} items={sidebarItem.items}>
-                                <div key = {index} className={cx('menu__item-title')}>
+                    if (sidebarItem.items !== undefined) {
+                        return (
+                            <Menu key={index} items={sidebarItem.items}>
+                                <div key={index} className={cx('menu__item-title')}>
                                     <span>{sidebarItem.title}</span>
                                 </div>
-                            </Menu>)
-                        } else {
-                            return(
-                                <Link to="/dashboardTutor">
-                                    <div key = {index} className={cx('notmenu__item-title')}>
-                                        <span>
-                                            {sidebarItem.title}
-                                        </span>
-                                    </div>
-                                </Link>
-                            )
-                        }   
-                    })}
+                            </Menu>
+                        );
+                    } else {
+                        return (
+                            <Link to="/dashboardTutor">
+                                <div key={index} className={cx('notmenu__item-title')}>
+                                    <span>{sidebarItem.title}</span>
+                                </div>
+                            </Link>
+                        );
+                    }
+                })}
             </div>
         </div>
     );

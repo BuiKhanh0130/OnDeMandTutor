@@ -10,6 +10,7 @@ function ModalProvider({ children }) {
     const [avatarMessage, setAvatarMessage] = useState({});
     const [active, setActive] = useState(false);
     const [roomId, setRoomId] = useState('');
+    const [formId, setFormId] = useState('');
     const [auth, setAuth] = useState({});
     const [userId, setUserId] = useState('');
     const [tutorId, setTutorId] = useState('');
@@ -18,8 +19,12 @@ function ModalProvider({ children }) {
     const [activeSignUp, setActiveSignUp] = useState(false);
     const [createClass, setCreateClass] = useState(false);
     const [updateForm, setUpdateForm] = useState(false);
+    const [complaint, setComplaint] = useState(false);
     const [chooseSubject, setChooseSubject] = useState(false);
     const [generateClass, setGenerateClass] = useState(false);
+    const [complaintModerator, setComplaintModerator] = useState(false);
+    const [responseComplaint, setResponseComplaint] = useState(false);
+    const [searchItem, setSearchItem] = useState('');
 
     const handleActive = () => {
         setActive(true);
@@ -51,23 +56,33 @@ function ModalProvider({ children }) {
         setActive,
         tutorId,
         avatar,
+        complaint,
+        setComplaint,
         generateClass,
         setAvatar,
         avatarMessage,
         setAvatarMessage,
         userId,
+        responseComplaint,
         setUserId,
+        complaintModerator,
+        setComplaintModerator,
         activeSignUp,
         roomId,
+        formId,
         setRoomId,
         conn,
         listTutor,
         setListTutor,
+        setResponseComplaint,
         sendEmail,
         setSendEmail,
         setConnection,
+        searchItem,
         messages,
         setMessage,
+        setSearchItem,
+        setFormId,
         createClass,
         setCreateClass,
         updateForm,

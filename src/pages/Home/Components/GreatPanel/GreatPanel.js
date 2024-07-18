@@ -14,7 +14,7 @@ import { Link } from 'react-router-dom';
 
 const cx = classNames.bind(styles);
 
-const TOP10_URL = 'SystemHandler/top10Tutor';
+const TOP10_URL = 'system-handler/get_top-10-tutor';
 
 function GreatPanel({ greatTutors }) {
     const nodeRef = useRef();
@@ -24,11 +24,8 @@ function GreatPanel({ greatTutors }) {
     //get top 10 tutor
     useEffect(() => {
         let isMount = true;
-        const controller = new AbortController();
         const getTop10 = async () => {
-            const response = await requests.get(TOP10_URL, {
-                signal: controller.signal,
-            });
+            const response = await requests.get(TOP10_URL);
             isMount && setTop10(response.data);
         };
 
@@ -36,7 +33,6 @@ function GreatPanel({ greatTutors }) {
 
         return () => {
             isMount = false;
-            controller.abort();
         };
     }, []);
 

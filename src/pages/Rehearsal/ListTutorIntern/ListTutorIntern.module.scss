@@ -1,0 +1,17 @@
+.wrapper {
+    position: fixed;
+    top: 80px;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    background-color: var(--white);
+    display: flex;
+    align-items: start;
+    justify-content: center;
+    height: 100%;
+    z-index: 10;
+}
+
+.Close-icon {
+    cursor: pointer;
+}

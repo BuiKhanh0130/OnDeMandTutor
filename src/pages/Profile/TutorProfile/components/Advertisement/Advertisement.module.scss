@@ -1,0 +1,242 @@
+.modal {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    z-index: 10;
+}
+
+.wrapper {
+    position: relative;
+    background-color: var(--white);
+    height: 92%;
+    border-radius: 10px;
+    width: 800px;
+    display: flex;
+    justify-content: center;
+    transition: all 300ms cubic-bezier(0.075, 0.82, 0.165, 1) 0s;
+    animation: showLoginForm 0.33s linear, hidden 0.23s linear;
+}
+
+.container {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.title {
+    text-align: center;
+    font-size: 3.2rem;
+    font-weight: 700;
+    margin: 20px;
+    height: 36px;
+}
+
+.body {
+    width: 100%;
+    padding: 0 40px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+
+    label {
+        font-size: 1.6rem;
+        font-weight: 600;
+        margin-bottom: 4px;
+    }
+
+    input {
+        font-size: 2.4rem;
+        border-radius: 10px;
+        margin-bottom: 4px;
+    }
+}
+
+.body__header,
+.body__img {
+    width: 100%;
+    display: flex;
+    margin-bottom: 20px;
+}
+
+.body__header label,
+.body__img label {
+    font-size: 1.6rem;
+    min-width: 100px;
+}
+
+.body__header input {
+    font-size: 1.6rem;
+    border: 1px solid #b4b3b3;
+    flex: 1 1;
+
+    &:hover {
+        font-size: 1.6rem;
+        border: 1px solid #000;
+        flex: 1 1;
+    }
+}
+
+.body__img input {
+    flex: 1 1;
+    font-size: 1.6rem;
+}
+
+.body__img img {
+    width: 620px;
+    height: 300px;
+}
+
+.body__img button,
+.body button {
+    width: 60px;
+    border-radius: 4px;
+    color: var(--white);
+
+    &:hover {
+        background-color: var(--hover);
+        cursor: pointer;
+    }
+}
+
+.close-icon {
+    position: absolute;
+    right: 6px;
+    top: 6px;
+    cursor: pointer;
+}
+
+.body__video {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.drop-file-input {
+    position: relative;
+    margin: 5px 0;
+    width: 400px;
+    height: 200px;
+    border: 2px dashed var(--line-border);
+    border-radius: 20px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background-color: var(--input-bg);
+}
+
+.body__video button {
+    width: 60px;
+    border-radius: 4px;
+    color: var(--white);
+
+    &:hover {
+        background-color: var(--hover);
+        cursor: pointer;
+    }
+}
+
+.drop-file-input input {
+    opacity: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+}
+
+.drop-file-input:hover,
+.drop-file-input.dragover {
+    opacity: 0.6;
+}
+
+.drop-file-input__label {
+    text-align: center;
+    color: var(--txt-second-color);
+    font-weight: 600;
+    padding: 10px;
+}
+
+.drop-file-input__label img {
+    width: 100px;
+}
+
+.drop-file-preview {
+    margin-top: 30px;
+}
+
+.drop-file-preview p {
+    font-weight: 500;
+}
+
+.drop-file-preview__title {
+    margin-bottom: 20px;
+}
+
+.drop-file-preview__item {
+    position: relative;
+    display: flex;
+    margin-bottom: 10px;
+    background-color: var(--input-bg);
+    padding: 15px;
+    border-radius: 20px;
+}
+
+.drop-file-preview__item img {
+    width: 50px;
+    margin-right: 20px;
+}
+
+.drop-file-preview__item__info {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.drop-file-preview__item__del {
+    background-color: var(--box-bg);
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    box-shadow: var(--box-shadow);
+    cursor: pointer;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.drop-file-preview__item:hover .drop-file-preview__item__del {
+    opacity: 1;
+}
+
+.create__ads {
+    margin: 0 10px 10px auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--black);
+    width: 140px;
+    padding: 10px 0;
+
+    &:hover {
+        background-color: #60ad56;
+        color: var(--white);
+    }
+}

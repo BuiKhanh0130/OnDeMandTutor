@@ -41,8 +41,14 @@ function User({ children }) {
                                     <li>Request's Student</li>
                                 </Link>
 
+
+                                <Link to="/myApplyFormTutor">
+                                    <li>My Post</li>
+                                       </Link>
+
                                 <Link to="/classTutor">
                                     <li>Your Class</li>
+
                                 </Link>
 
                                 <li>

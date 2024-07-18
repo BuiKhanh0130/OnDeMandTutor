@@ -8,7 +8,7 @@ import { ModalContext } from '~/components/ModalProvider';
 
 import styles from './AllContact.module.scss';
 
-const USERS = 'ConversationAccount';
+const USERS = 'conversation-account';
 
 const cx = classNames.bind(styles);
 

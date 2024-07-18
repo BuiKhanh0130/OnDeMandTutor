@@ -10,7 +10,7 @@ import styles from './BecomeStudent2.module.scss';
 
 const cx = classNames.bind(styles);
 
-const REGISTER_URL = '/auth/student-signUp';
+const REGISTER_URL = 'auth/student_signup';
 const CREATEWALLET_URL = 'wallet/create_wallet';
 
 function BecomeStudent2() {

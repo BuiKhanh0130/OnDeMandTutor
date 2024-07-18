@@ -242,7 +242,6 @@ export const LoadingIcon = ({ className, width = '1.6rem', height = '1.6rem' }) 
         focusable="false"
         data-prefix="fas"
         data-icon="spinner"
-        class="svg-inline--fa fa-spinner loading"
         role="img"
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 512 512"
@@ -254,6 +253,22 @@ export const LoadingIcon = ({ className, width = '1.6rem', height = '1.6rem' }) 
     </svg>
 );
 
+export const NoStarIcon = ({ className, width = '1.6rem', height = '1.6rem' }) => (
+    <svg
+        width={width}
+        height={height}
+        className={className}
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 576 512"
+        color="#000"
+    >
+        <path
+            fill="currentColor"
+            d="M316.9 18C311.6 7 300.4 0 288.1 0s-23.4 7-28.8 18L195 150.3 51.4 171.5c-12 1.8-22 10.2-25.7 21.7s-.7 24.2 7.9 32.7L137.8 329 113.2 474.7c-2 12 3 24.2 12.9 31.3s23 8 33.8 2.3l128.3-68.5 128.3 68.5c10.8 5.7 23.9 4.9 33.8-2.3s14.9-19.3 12.9-31.3L438.5 329 542.7 225.9c8.6-8.5 11.7-21.2 7.9-32.7s-13.7-19.9-25.7-21.7L381.2 150.3 316.9 18z"
+        />
+    </svg>
+);
+
 export const StarIcon = ({ className, width = '1.6rem', height = '1.6rem' }) => (
     <svg
         width={width}
@@ -261,9 +276,12 @@ export const StarIcon = ({ className, width = '1.6rem', height = '1.6rem' }) => 
         className={className}
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 576 512"
-        color="#a69014"
+        color="#ed6d20"
     >
-        <path d="M316.9 18C311.6 7 300.4 0 288.1 0s-23.4 7-28.8 18L195 150.3 51.4 171.5c-12 1.8-22 10.2-25.7 21.7s-.7 24.2 7.9 32.7L137.8 329 113.2 474.7c-2 12 3 24.2 12.9 31.3s23 8 33.8 2.3l128.3-68.5 128.3 68.5c10.8 5.7 23.9 4.9 33.8-2.3s14.9-19.3 12.9-31.3L438.5 329 542.7 225.9c8.6-8.5 11.7-21.2 7.9-32.7s-13.7-19.9-25.7-21.7L381.2 150.3 316.9 18z" />
+        <path
+            fill="currentColor"
+            d="M316.9 18C311.6 7 300.4 0 288.1 0s-23.4 7-28.8 18L195 150.3 51.4 171.5c-12 1.8-22 10.2-25.7 21.7s-.7 24.2 7.9 32.7L137.8 329 113.2 474.7c-2 12 3 24.2 12.9 31.3s23 8 33.8 2.3l128.3-68.5 128.3 68.5c10.8 5.7 23.9 4.9 33.8-2.3s14.9-19.3 12.9-31.3L438.5 329 542.7 225.9c8.6-8.5 11.7-21.2 7.9-32.7s-13.7-19.9-25.7-21.7L381.2 150.3 316.9 18z"
+        />
     </svg>
 );
 
@@ -378,5 +396,47 @@ export const LogoutIcon = ({ width = '1.8rem', height = '1.8rem', className }) =
 export const CameraIcon = ({ width = '1.8rem', height = '1.8rem', className }) => (
     <svg width={width} height={height} className={className} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
         <path d="M149.1 64.8L138.7 96H64C28.7 96 0 124.7 0 160V416c0 35.3 28.7 64 64 64H448c35.3 0 64-28.7 64-64V160c0-35.3-28.7-64-64-64H373.3L362.9 64.8C356.4 45.2 338.1 32 317.4 32H194.6c-20.7 0-39 13.2-45.5 32.8zM256 192a96 96 0 1 1 0 192 96 96 0 1 1 0-192z" />
+    </svg>
+);
+
+export const InvalidIcon = ({ width = '1.4rem', height = '1.4rem', className }) => (
+    <svg
+        width={width}
+        height={height}
+        className={className}
+        aria-hidden="true"
+        focusable="false"
+        data-prefix="fas"
+        data-icon="xmark"
+        class="svg-inline--fa fa-xmark "
+        role="img"
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 384 512"
+    >
+        <path
+            fill="red"
+            d="M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z"
+        ></path>
+    </svg>
+);
+
+export const ValidIcon = ({ width = '1.4rem', height = '1.4rem', className }) => (
+    <svg
+        width={width}
+        height={height}
+        className={className}
+        aria-hidden="true"
+        focusable="false"
+        data-prefix="fas"
+        data-icon="check"
+        class="svg-inline--fa fa-check "
+        role="img"
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 448 512"
+    >
+        <path
+            fill="green"
+            d="M438.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L160 338.7 393.4 105.4c12.5-12.5 32.8-12.5 45.3 0z"
+        ></path>
     </svg>
 );

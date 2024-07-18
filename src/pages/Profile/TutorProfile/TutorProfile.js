@@ -1,5 +1,5 @@
 import classNames from 'classnames/bind';
-import { useContext, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
@@ -8,11 +8,11 @@ import Col from 'react-bootstrap/Col';
 import Image from '~/components/Image';
 import useRequestsPrivate from '~/hooks/useRequestPrivate';
 import Button from '~/components/Button';
-import requests, { requestsPrivate } from '~/utils/request';
-import { ModalContext } from '~/components/ModalProvider';
+import { CameraIcon } from '~/components/Icons';
+import Advertisement from './components/Advertisement';
+import requests from '~/utils/request';
 
 import styles from './TutorProfile.module.scss';
-import { CameraIcon } from '~/components/Icons';
 
 const cx = classNames.bind(styles);
 
@@ -21,6 +21,7 @@ const TUTORPROFILE = 'Tutors/GetTutorCurrent';
 const UPDATEPROFILE = 'Tutors/UpdateTutor';
 
 function TutorProfile() {
+    const requestsPrivate = useRequestsPrivate();
     const imgRef = useRef();
     const [file, setFile] = useState();
     const [avatar, setAvatar] = useState();
@@ -37,6 +38,7 @@ function TutorProfile() {
     const [phoneNumber, setPhoneNumber] = useState('');
     const [address, setAddress] = useState('');
     const [photo, setPhoto] = useState('');
+    const [advertisement, setAdvertisement] = useState(false);
 
     useEffect(() => {
         const controller = new AbortController();
@@ -112,7 +114,14 @@ function TutorProfile() {
                 setFile(response?.data?.data?.display_url);
                 console.log(file);
             }
-        } catch (error) {}
+        } catch (error) {
+            console.log.log(error);
+        }
+    };
+
+    // close modal advertisement
+    const handleCloseModal = () => {
+        setAdvertisement(false);
     };
 
     return (
@@ -133,6 +142,11 @@ function TutorProfile() {
                         <div className={cx('container__profile-student')}>
                             <Image src={file ? file : avatar} alt={fullName} ref={imgRef} />
                             <p>{fullName}</p>
+                        </div>
+                        <div className={cx('container__profile-tutor-advertisement')}>
+                            <Button transparent onClick={() => setAdvertisement(true)}>
+                                Add Advertisement
+                            </Button>
                         </div>
                     </Col>
                 </Row>
@@ -166,7 +180,7 @@ function TutorProfile() {
                                             setGender(true);
                                         }}
                                     ></input>
-                                    <label htmlFor="gentlemen">Boy</label>
+                                    <label htmlFor="gentlemen">Male</label>
                                     <input
                                         type="radio"
                                         className={cx('gender')}
@@ -178,7 +192,7 @@ function TutorProfile() {
                                             setGender(false);
                                         }}
                                     ></input>
-                                    <label htmlFor="lady">Girl</label>
+                                    <label htmlFor="lady">Female</label>
                                 </div>
                             </div>
                             <div className={cx('container__user-field')}>
@@ -293,6 +307,7 @@ function TutorProfile() {
                         </div>
                     </Col>
                 </Row>
+                {advertisement && <Advertisement onHide={handleCloseModal} setAdvertisement={setAdvertisement} />}
             </Container>
         </div>
     );
