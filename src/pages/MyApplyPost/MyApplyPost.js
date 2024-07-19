@@ -7,7 +7,7 @@ import styles from './MyApplyPost.module.scss';
 
 const cx = classNames.bind(styles);
 
-const VIEW_APPLY_FORM_URL = 'FormFindTutor/tutor/viewApplyForm';
+const VIEW_APPLY_FORM_URL = 'formfindtutor/tutor_getforms';
 
 function MyApplyPost() {
     const requestPrivate = useRequestsPrivate();

@@ -8,8 +8,8 @@ import { Link } from 'react-router-dom';
 import useRequestsPrivate from '~/hooks/useRequestPrivate';
 
 const cx = classNames.bind(styles);
-const NOTIFICATION_DETAIL_URL = 'Notification/viewNotificationDetail'
-const NOTIFICATION_LIST_URL = 'Notification/viewNotificationList'
+const NOTIFICATION_DETAIL_URL = 'notification/get_notification-detail';
+const NOTIFICATION_LIST_URL = 'notification/get_notifications';
 
 const Notification = () => {
     const { avatar } = useContext(ModalContext);
@@ -51,16 +51,21 @@ const Notification = () => {
         <div className={cx('wrapper')}>
             <Container className={cx('container')}>
                 <Row>
-                    <Col lg='12' className={cx('container__title')}>
+                    <Col lg="12" className={cx('container__title')}>
                         <h1>Notifications</h1>
                     </Col>
                 </Row>
                 {notificationList.length > 0 ? (
-                <Row>
-                    <Col lg='4' className={cx('container_user')}>
-                        <Row className={cx('container_user_item')}>
-                             {   notificationList.map((noti, index) => (
-                                    <Col key={index} lg='12' className={cx('container_user_detail')} onClick={() => selectNotification(noti.notificationId)}>
+                    <Row>
+                        <Col lg="4" className={cx('container_user')}>
+                            <Row className={cx('container_user_item')}>
+                                {notificationList.map((noti, index) => (
+                                    <Col
+                                        key={index}
+                                        lg="12"
+                                        className={cx('container_user_detail')}
+                                        onClick={() => selectNotification(noti.notificationId)}
+                                    >
                                         <img alt="react" src={noti?.avatar || images.avatarDefault}></img>
                                         <Row className={cx('user_item')}>
                                             <Col className={cx('content_left')}>
@@ -77,13 +82,12 @@ const Notification = () => {
                                         </Row>
                                     </Col>
                                 ))}
-                            
-                        </Row>
-                    </Col>
-                    <Col lg='8' className={cx('container__detail')}>
+                            </Row>
+                        </Col>
+                        <Col lg="8" className={cx('container__detail')}>
                             <div className={cx('container__mess_detail')}>
                                 <Row>
-                                    <Col lg='12' className={cx('container__mess_header')}>
+                                    <Col lg="12" className={cx('container__mess_header')}>
                                         <img alt="react" src={selectedNoti?.avatar || images.avatarDefault}></img>
                                         <Row>
                                             <span>{selectedNoti?.fullName}</span>
@@ -91,11 +95,15 @@ const Notification = () => {
                                     </Col>
                                 </Row>
                                 <Row>
-                                    <Col lg='12' className={cx('container__mess_chatbox')}>
+                                    <Col lg="12" className={cx('container__mess_chatbox')}>
                                         <span className={cx('header_noti')}>Hello {avatar.fullName},</span>
                                         <div className={cx('body_noti')}>
-                                            <p>{selectedNoti?.fullName} has created a new class for you on OnDemand Tutor.</p>
-                                            <Link to={selectedNoti?.url}>Click here</Link><span>, complete the formalities to join your class!</span>
+                                            <p>
+                                                {selectedNoti?.fullName} has created a new class for you on OnDemand
+                                                Tutor.
+                                            </p>
+                                            <Link to={selectedNoti?.url}>Click here</Link>
+                                            <span>, complete the formalities to join your class!</span>
                                         </div>
                                         <div className={cx('final_noti')}>
                                             <p>Thank you for reading the announcement.</p>
@@ -104,13 +112,13 @@ const Notification = () => {
                                     </Col>
                                 </Row>
                             </div>
-                    </Col>
-                </Row>
-                        ) : (
-                                <div className={cx('container__noNoti')}>
-                                <span>There are currently no classes available.</span>
-                            </div>
-                            )}
+                        </Col>
+                    </Row>
+                ) : (
+                    <div className={cx('container__noNoti')}>
+                        <span>There are currently no classes available.</span>
+                    </div>
+                )}
             </Container>
         </div>
     );

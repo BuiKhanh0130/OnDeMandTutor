@@ -15,9 +15,9 @@ import styles from './Form.module.scss';
 const cx = classNames.bind(styles);
 
 //URL
-const SUBJECT_GROUP_URL = 'SubjectGroup';
-const GRADE_URL = 'Grade';
-const CREATE_FROM_URL = 'FormFindTutor/student/createform';
+const SUBJECT_GROUP_URL = 'subject-group';
+const GRADE_URL = 'grade';
+const CREATE_FROM_URL = 'formfindtutor/create_form';
 
 //expression regex
 const POSITIVEREGEX = /^[0-9]+$/;

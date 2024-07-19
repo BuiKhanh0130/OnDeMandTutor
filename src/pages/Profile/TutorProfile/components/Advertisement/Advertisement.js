@@ -14,7 +14,7 @@ import useRequestsPrivate from '~/hooks/useRequestPrivate';
 import styles from './Advertisement.module.scss';
 
 const cx = classNames.bind(styles);
-const GENERATED_ADS_URL = 'TutorAd/tutor/CreateAds';
+const GENERATED_ADS_URL = 'tutor-ad/create_ads';
 
 function Advertisement({ onHide, setAdvertisement }) {
     const requestPrivate = useRequestsPrivate();

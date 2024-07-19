@@ -17,8 +17,8 @@ import styles from './TutorProfile.module.scss';
 const cx = classNames.bind(styles);
 
 const IMGBB = 'https://api.imgbb.com/1/upload?key=9c7d176f8c72a29fa6384fbb49cff7bc';
-const TUTORPROFILE = 'Tutors/GetTutorCurrent';
-const UPDATEPROFILE = 'Tutors/UpdateTutor';
+const TUTORPROFILE = 'tutor/get_tutor-current';
+const UPDATEPROFILE = 'tutor/update_tutor';
 
 function TutorProfile() {
     const requestsPrivate = useRequestsPrivate();
