@@ -14,8 +14,8 @@ import Post from '~/components/Post';
 
 const cx = classNames.bind(styles);
 
-const FORM_FIND_TUTOR_URL = 'FormFindTutor/tutor/searchpost';
-const APPLY_POST_URL = 'FormFindTutor/tutor/applypost';
+const FORM_FIND_TUTOR_URL = 'formfindtutor/search_post';
+const APPLY_POST_URL = 'formfindtutor/tutor_applypost';
 
 function Blog() {
     const requestPrivate = useRequestsPrivate();

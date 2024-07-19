@@ -12,7 +12,7 @@ import styles from './NavMessage.module.scss';
 
 const cx = classNames.bind(styles);
 
-const USERS = 'ConversationAccount';
+const USERS = 'conversation-account';
 
 function NavMessage() {
     const { conn, messages, setRoomId, setConnection, setMessage, setAvatarMessage } = useContext(ModalContext);

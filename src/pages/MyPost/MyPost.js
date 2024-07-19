@@ -11,11 +11,11 @@ import styles from './MyPost.module.scss';
 
 const cx = classNames.bind(styles);
 
-const VIEW_FORM_LIST_URL = 'FormFindTutor/student/viewformlist';
-const VIEW_APLLY_LIST_URL = 'FormFindTutor/student/viewApplyList';
-const BROWSE_TUTOR_URL = 'FormFindTutor/student/browsertutor';
-const DELETE_FORM_URL = 'FormFindTutor/student/deleteform';
-const NOTIFICATION_URL = 'Notification/createNotification';
+const VIEW_FORM_LIST_URL = 'formfindtutor/student_getforms';
+const VIEW_APLLY_LIST_URL = 'formfindtutor/student_get-applylist';
+const BROWSE_TUTOR_URL = 'formfindtutor/student_browsertutor';
+const DELETE_FORM_URL = 'formfindtutor/delete_form';
+const NOTIFICATION_URL = 'notification/create_notification';
 
 function MyPost() {
     const requestPrivate = useRequestsPrivate();

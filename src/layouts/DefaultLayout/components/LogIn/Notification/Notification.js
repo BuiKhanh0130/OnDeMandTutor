@@ -10,7 +10,7 @@ import { Link } from 'react-router-dom';
 
 const cx = classNames.bind(styles);
 
-const NOTIFICATION_URl = 'Notification/viewNotificationList';
+const NOTIFICATION_URl = 'notification/get_notifications';
 
 function Notification({ children }) {
     const requestPrivate = useRequestsPrivate();
