@@ -1,6 +1,7 @@
 import classNames from 'classnames/bind';
 import { useContext, useEffect, useState } from 'react';
 import Modal from 'react-bootstrap/Modal';
+import { HubConnectionBuilder, LogLevel } from '@microsoft/signalr';
 
 import Post from '~/components/Post';
 import { ModalContext } from '~/components/ModalProvider';
@@ -11,15 +12,25 @@ import styles from './MyPost.module.scss';
 
 const cx = classNames.bind(styles);
 
-const VIEW_FORM_LIST_URL = 'FormFindTutor/student/viewformlist';
-const VIEW_APLLY_LIST_URL = 'FormFindTutor/student/viewApplyList';
-const BROWSE_TUTOR_URL = 'FormFindTutor/student/browsertutor';
-const DELETE_FORM_URL = 'FormFindTutor/student/deleteform';
-const NOTIFICATION_URL = 'Notification/createNotification';
+const VIEW_FORM_LIST_URL = 'formfindtutor/student_getforms';
+const VIEW_APLLY_LIST_URL = 'formfindtutor/student_get-applylist';
+const BROWSE_TUTOR_URL = 'formfindtutor/student_browsertutor';
+const DELETE_FORM_URL = 'formfindtutor/delete_form';
+const NOTIFICATION_URL = 'notification/create_notification';
 
 function MyPost() {
     const requestPrivate = useRequestsPrivate();
-
+    const {
+        setAuth,
+        setActive,
+        handleUser,
+        setUserId,
+        setAvatar,
+        conn,
+        notifications,
+        setConnection,
+        setNotifications,
+    } = useContext(ModalContext);
     const [curPage, setcurPage] = useState(1);
     const [pagination, setPagination] = useState({
         page: 1,
@@ -36,6 +47,15 @@ function MyPost() {
     const { updateForm, avatar, setUpdateForm } = useContext(ModalContext);
     const [showModal, setShowModal] = useState(false);
     const [syntax, setSyntax] = useState('');
+
+    const sendMessage = async (message) => {
+        try {
+            console.log(message);
+            await conn.invoke('SendNotification', message);
+        } catch (e) {
+            console.log(e);
+        }
+    };
 
     //get list tutor
     useEffect(() => {
@@ -54,8 +74,6 @@ function MyPost() {
                 params.append('pageIndex', curPage);
             }
             url += `?${params.toString()}`;
-
-            console.log(url);
         }
 
         const getAllMyPosts = async () => {
@@ -66,7 +84,6 @@ function MyPost() {
                 limit: response.data.limitPage,
                 total: 1,
             });
-            console.log(response.data);
             isMounted && setListResult(response.data.listResult);
         };
 
@@ -80,9 +97,10 @@ function MyPost() {
 
     //get list tutor apply to course
     const handleViewList = async (id) => {
+        console.log(id);
         let isMounted = true;
         const controller = new AbortController();
-        const response = await requestPrivate.get(`${VIEW_APLLY_LIST_URL}?formId=${id}/pageIndex${curPage}`, {
+        const response = await requestPrivate.get(`${VIEW_APLLY_LIST_URL}?formId=${id}`, {
             signal: controller.signal,
         });
         setIdForm(id);
@@ -99,13 +117,10 @@ function MyPost() {
         try {
             const response = await requestPrivate.put(
                 `${BROWSE_TUTOR_URL}?action=${true}&formId=${formId}&tutorId=${tutorId}`,
-                {
-                    data: {},
-                },
             );
             if (response.status === 200) {
                 setStatus(true);
-                createNotification(tutorId);
+                createNotification(tutorId, formId);
                 setShowModal(true);
                 setTimeout(() => {
                     setShowModal(false);
@@ -116,18 +131,20 @@ function MyPost() {
         }
     };
     //create notification
-    const createNotification = async (tutorId) => {
+    const createNotification = async (tutorId, formId) => {
         try {
             const response = await requestPrivate.post(
                 NOTIFICATION_URL,
                 JSON.stringify({
-                    title: 'Has been approved',
-                    description: `${avatar.fullName} has been approved you become their tutor`,
-                    url: '',
+                    title: 'has been choose you become your tutor',
+                    description: `create class to connect with${avatar.fullName}`,
+                    url: `/generateClass/${formId}`,
                     accountId: tutorId,
                 }),
             );
-            console.log(response.status);
+            if (response.status === 200) {
+                sendMessage(tutorId);
+            }
         } catch (error) {
             console.log(error);
         }

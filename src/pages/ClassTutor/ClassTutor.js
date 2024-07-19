@@ -12,8 +12,8 @@ import Complaint from '../Complaint';
 
 const cx = classNames.bind(styles);
 
-const VIEW_CLASS_LIST_URL = 'Classes/tutor/viewClassList';
-const VIEW_CLASS_DETAILS_URL = 'Classes/viewClassDetail';
+const VIEW_CLASS_LIST_URL = 'class/get_tutor-classes';
+const VIEW_CLASS_DETAILS_URL = 'class/get_class-detail';
 
 const Classes = () => {
     const { complaint, setComplaint } = useContext(ModalContext);

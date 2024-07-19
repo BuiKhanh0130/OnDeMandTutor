@@ -24,7 +24,6 @@ function Notification({ children }) {
             const response = await requestPrivate.get(NOTIFICATION_URl, {
                 signal: controller.signal,
             });
-            console.log(response.data);
             isMounted && setNotifications(response.data);
         };
 
@@ -49,11 +48,7 @@ function Notification({ children }) {
                         <Popper>
                             {notifications.length > 0 &&
                                 notifications.map((notification) => (
-                                    <Link
-                                        to="/generateClass"
-                                        state={{ formId: notification.notificationId }}
-                                        className={cx('container__tag')}
-                                    >
+                                    <Link to={notification.url} className={cx('container__tag')}>
                                         <p>{notification.title}</p>
                                         <div className={cx('container__tag-author')}>
                                             <strong>{notification.fullName}</strong>

@@ -59,6 +59,7 @@ function Post({
                                 <strong>Sort</strong>
                             </label>
                             <select id="sort" onChange={(e) => handleForm(e.target.value)}>
+                                <option value="--">--</option>
                                 <option value="Approve">Approve</option>
                                 <option value="Not Approve">Not Approve</option>
                             </select>
@@ -197,7 +198,7 @@ function Post({
                                             >
                                                 View All Tutor
                                             </Button>
-                                        ) : !classItem?.status && classItem?.isActived === null ? (
+                                        ) : !classItem?.status === false && classItem?.isActived === null ? (
                                             <Button className={cx('container__form-control-reason')}>Fail</Button>
                                         ) : (
                                             <>

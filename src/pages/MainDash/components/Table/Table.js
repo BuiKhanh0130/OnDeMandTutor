@@ -20,8 +20,8 @@ import styles from './Table.module.scss';
 
 const cx = classNames.bind(styles);
 
-const ALL_FORM_CREATE_CLASS_URL = 'FormFindTutor/moderator/viewformlist';
-const BROWSER_FORM_CREATE_CLASS_URL = 'FormFindTutor/moderator/browserform';
+const ALL_FORM_CREATE_CLASS_URL = 'formfindtutor/moderator_getforms';
+const BROWSER_FORM_CREATE_CLASS_URL = 'formfindtutor/moderator_browserform';
 
 export default function BasicTable({ name }) {
     const requestPrivate = useRequestsPrivate();

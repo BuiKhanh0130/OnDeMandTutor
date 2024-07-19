@@ -35,7 +35,7 @@ const routes = {
     requestForm: '/requestForm',
     myPost: '/myblog',
     requestOfTutor: '/requestOfTutor',
-    generateClass: '/generateClass',
+    generateClass: '/generateClass/:formId',
     myApplyFormTutor: '/myApplyFormTutor',
     wallet: '/wallet',
     classTutor: '/classTutor',

@@ -1,27 +1,32 @@
-import { useContext, useState } from 'react';
+import { useState } from 'react';
 import classNames from 'classnames/bind';
 import { Container, Row, Col } from 'react-bootstrap';
+import Modal from 'react-bootstrap/Modal';
 
 import Button from '~/components/Button';
 import useRequestsPrivate from '~/hooks/useRequestPrivate';
 import Introduction from '../RequestTutor/components/Introduction';
 
 import styles from './GenerateClass.module.scss';
-import { ModalContext } from '~/components/ModalProvider';
 import { useNavigate } from 'react-router-dom';
 
 const cx = classNames.bind(styles);
 
-const GENERATE_CLASS_URL = 'Classes/createClass';
+const GENERATE_CLASS_URL = 'class/create_class';
 
 function CreateClass() {
-    const { formId } = useContext(ModalContext);
     const navigate = useNavigate();
     const requestPrivates = useRequestsPrivate();
     const [className, setClassName] = useState('');
     const [description, setDescription] = useState('');
+    const [showModal, setShowModal] = useState(false);
 
     const handleGenerateClass = async () => {
+        const url = window.location.href;
+        console.log(url);
+        console.log(url.split('/'));
+        const formId = url.split('/')[4];
+
         console.log(JSON.stringify({ className, description, formId }));
         const response = await requestPrivates.post(
             GENERATE_CLASS_URL,
@@ -29,8 +34,11 @@ function CreateClass() {
         );
 
         if (response.status === 200) {
-            window.alert('Create class successfully');
-            navigate('/');
+            setShowModal(true);
+            setTimeout(() => {
+                setShowModal(false);
+                navigate('/classTutor');
+            }, 5000);
         }
     };
     return (
@@ -57,6 +65,12 @@ function CreateClass() {
                 </Col>
                 <Introduction />
             </Row>
+            <Modal show={showModal}>
+                <Modal.Header closeButton>
+                    <Modal.Title>Success</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>Your had applied this tutor successfully. Please tutor response</Modal.Body>
+            </Modal>
         </Container>
     );
 }

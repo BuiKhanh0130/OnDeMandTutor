@@ -11,49 +11,44 @@ import classNames from 'classnames/bind';
 import { Col, Container, Row } from 'react-bootstrap';
 
 import requests from '~/utils/request';
-import Paging from '~/components/Paging';
 import useRequestsPrivate from '~/hooks/useRequestPrivate';
 import Details from './Details';
 import Reject from './Reject';
+import Tutor from '~/components/Tutor';
 
 import styles from './Table.module.scss';
+import { CloseIcon } from '~/components/Icons';
+import Clip from '~/components/Clip';
+import Button from '~/components/Button';
 
 const cx = classNames.bind(styles);
 
-const ALL_FORM_CREATE_CLASS_URL = 'FormFindTutor/moderator/viewformlist';
-const BROWSER_FORM_CREATE_CLASS_URL = 'FormFindTutor/moderator/browserform';
+const ALL_ADS_URL = 'moderator/show_tutorAd_browse';
+const BROWSER_ADS_URL = 'moderator/changeisactivead';
+const CREATE_NOTIFICATION_URL = 'notification/create_notification';
 
 export default function BasicTable({ name }) {
     const requestPrivate = useRequestsPrivate();
-    const [viewDetails, setViewDetails] = useState(false);
-    const [idDetails, setIdDetails] = useState('');
+    const [viewVideo, setViewVideo] = useState(false);
     const [status, setStatus] = useState(false);
-    const [curPage, setcurPage] = useState(1);
-    const [formCreateClass, setFormCreateClass] = useState([]);
-    const [classes, setClasses] = useState({});
+    const [ads, setAds] = useState([]);
+    const [adCurrent, setAdCurrent] = useState({});
     const [rejectForm, setRejectForm] = useState(false);
     const [reasonReject, setReasonReject] = useState('');
-    const [pagination, setPagination] = useState({
-        page: 1,
-        limit: 0,
-        total: 1,
-    });
+    const [detailsTutor, setDetailsTutor] = useState(false);
+    const [idTutor, setIdTutor] = useState(false);
 
+    //Get all ads
     useEffect(() => {
         let isMounted = true;
         const controller = new AbortController();
         const getFormCreateClass = async () => {
             try {
-                const response = await requests.get(
-                    ALL_FORM_CREATE_CLASS_URL,
-                    { params: { pageIndex: curPage } },
-                    {
-                        signal: controller.signal,
-                    },
-                );
+                const response = await requests.get(ALL_ADS_URL, {
+                    signal: controller.signal,
+                });
                 setStatus(false);
-                isMounted && setFormCreateClass(response.data.listResult);
-                setPagination((prev) => ({ ...prev, limit: response.data.limitPage }));
+                isMounted && setAds(response.data);
             } catch (error) {
                 console.log(error);
             }
@@ -65,37 +60,44 @@ export default function BasicTable({ name }) {
             isMounted = false;
             controller.abort();
         };
-    }, [status, curPage]);
+    }, [status]);
+    //handle create notifications
+    const handleCreateNotifications = async (id) => {
+        try {
+            const response = await requestPrivate.post(CREATE_NOTIFICATION_URL, {
+                title: `Your advertisement has been approved`,
+                description: 'Please check it in your profile',
+                url: `/tutor/${id}`,
+                accountId: id,
+            });
+            console.log(response.status);
+        } catch (error) {
+            console.log(error);
+        }
+    };
 
+    //handle approve ad
     const handleApprove = async (id) => {
         try {
-            const response = await requestPrivate.put(`${BROWSER_FORM_CREATE_CLASS_URL}?action=true`, [id]);
-            if (response.status) {
+            const response = await requestPrivate.post(BROWSER_ADS_URL, JSON.stringify({ id, isActive: true }));
+            if (response.status === 200) {
+                console.log(adCurrent.tutorId);
+                handleCreateNotifications(adCurrent.tutorId);
                 setStatus((prev) => !prev);
-                setViewDetails(false);
+                setViewVideo(false);
             }
         } catch (error) {
             console.log(error);
         }
     };
 
-    const handleOpenReject = (id) => {
-        setIdDetails(id);
-        setRejectForm(true);
-    };
-
-    const handleReject = async () => {
-        const params = new URLSearchParams();
-        params.append('action', false);
-        params.append('rejectReason', reasonReject);
-        const parameters = `?${params.toString()}`;
-        console.log(`${BROWSER_FORM_CREATE_CLASS_URL}${parameters}`);
+    //handle reject ad
+    const handleReject = async (id) => {
         try {
-            const response = await requestPrivate.put(`${BROWSER_FORM_CREATE_CLASS_URL}${parameters}`, [idDetails]);
-            console.log(response.status);
+            const response = await requestPrivate.post(BROWSER_ADS_URL, JSON.stringify({ id, isActive: false }));
             if (response.status === 200) {
                 setStatus((prev) => !prev);
-                setViewDetails(false);
+                setViewVideo(false);
                 setReasonReject('');
                 setRejectForm(false);
             }
@@ -116,14 +118,26 @@ export default function BasicTable({ name }) {
     };
 
     //View detail classes
-    const handleViewClass = (classes) => {
-        setClasses(classes);
-        setViewDetails(true);
+    const handleViewVideo = (item) => {
+        setAdCurrent(item);
+        setViewVideo(true);
+    };
+    //
+    const handleCancelVideo = () => {
+        setViewVideo(false);
+    };
+    //handle close detail tutor
+    const showDetailTutor = (idTutor) => {
+        setIdTutor(idTutor);
+        setDetailsTutor(true);
+    };
+    //handle close modal detail tutor
+    const closeDetailTutor = () => {
+        setIdTutor('');
+        setDetailsTutor(false);
     };
 
-    const handleCancelClass = () => {
-        setViewDetails(false);
-    };
+    console.log(adCurrent);
 
     return (
         <div className={cx('wrapper')}>
@@ -137,26 +151,34 @@ export default function BasicTable({ name }) {
                                     <TableRow>
                                         <TableCell>Owner post</TableCell>
                                         <TableCell align="left">Title</TableCell>
-                                        <TableCell align="left">Subject Name</TableCell>
-                                        <TableCell align="left">Detail</TableCell>
+                                        <TableCell align="left">Create Day</TableCell>
+                                        <TableCell align="left">Detail Ads</TableCell>
                                     </TableRow>
                                 </TableHead>
                                 <TableBody style={{ color: 'white' }}>
-                                    {formCreateClass.length > 0 &&
-                                        formCreateClass?.map((row, index) => (
+                                    {ads?.length > 0 &&
+                                        ads?.map((row, index) => (
                                             <TableRow
                                                 key={index}
                                                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                                             >
-                                                <TableCell align="left">{row?.fullName}</TableCell>
+                                                <TableCell
+                                                    className={cx('table_body-details')}
+                                                    align="left"
+                                                    onClick={() => {
+                                                        showDetailTutor(row.tutorId);
+                                                    }}
+                                                >
+                                                    Details
+                                                </TableCell>
                                                 <TableCell align="left">{row?.title}</TableCell>
-                                                <TableCell align="left">{row?.subjectName}</TableCell>
+                                                <TableCell align="left">{row?.createDay.split('T')[0]}</TableCell>
                                                 <TableCell
                                                     align="left"
                                                     className={cx('table_body-details')}
-                                                    onClick={() => handleViewClass(row)}
+                                                    onClick={() => handleViewVideo(row)}
                                                 >
-                                                    Details
+                                                    View
                                                 </TableCell>
                                             </TableRow>
                                         ))}
@@ -165,13 +187,25 @@ export default function BasicTable({ name }) {
                         </TableContainer>
                     </Col>
                 </Row>
-                {viewDetails && (
-                    <Details
-                        classes={classes}
-                        handleApprove={handleApprove}
-                        handleReject={handleOpenReject}
-                        handleCancel={handleCancelClass}
-                    />
+                {viewVideo && (
+                    <div className={cx('modal__video')}>
+                        <div className={cx('wrapper__video-tutor')}>
+                            <div className={cx('container__video-tutor')}>
+                                <Clip width={600} height={293.667} clip={adCurrent}></Clip>
+                                <div className={cx('close')} onClick={handleCancelVideo}>
+                                    <CloseIcon className={cx('close-icon')} />
+                                </div>
+                                <Button className={cx('btn-reject')}>Reject</Button>
+                                <Button
+                                    orange
+                                    className={cx('btn-approve')}
+                                    onClick={() => handleApprove(adCurrent.adsId)}
+                                >
+                                    Approve
+                                </Button>
+                            </div>
+                        </div>
+                    </div>
                 )}
                 {rejectForm && (
                     <Reject
@@ -180,7 +214,16 @@ export default function BasicTable({ name }) {
                         handleClose={handleClose}
                     />
                 )}
-                {pagination.limit > 1 && <Paging pagination={pagination} curPage={curPage} setcurPage={setcurPage} />}
+                {detailsTutor && (
+                    <div className={cx('modal')}>
+                        <div className={cx('wrapper_detail-tutor')}>
+                            <Tutor id={idTutor}></Tutor>
+                            <div className={cx('close')} onClick={closeDetailTutor}>
+                                <CloseIcon className={cx('close-icon')} />
+                            </div>
+                        </div>
+                    </div>
+                )}
             </Container>
         </div>
     );

@@ -7,33 +7,31 @@ import styles from './MyApplyPost.module.scss';
 
 const cx = classNames.bind(styles);
 
-const VIEW_APPLY_FORM_URL = 'FormFindTutor/tutor/viewApplyForm';
+const VIEW_APPLY_FORM_URL = 'formfindtutor/tutor_getforms';
 
 function MyApplyPost() {
     const requestPrivate = useRequestsPrivate();
-    const [isApprove, setIsApprove] = useState(false);
+    const [isApprove, setIsApprove] = useState(null);
     const [listResult, setListResult] = useState([]);
 
     useEffect(() => {
+        let isMounted = true;
         const controller = new AbortController();
-        let url = VIEW_APPLY_FORM_URL;
-        if (isApprove !== undefined) {
-            const params = new URLSearchParams();
-            params.append('isApprove', isApprove);
-            url += `?${params.toString()}`;
-        }
-
         const viewApplyForm = async () => {
             try {
-                const response = await requestPrivate.get(url, { signal: controller.signal });
-                console.log(response.data.listResult);
-                setListResult(response.data.listResult);
+                const response = await requestPrivate.get(
+                    VIEW_APPLY_FORM_URL,
+                    { params: { isApprove } },
+                    { signal: controller.signal },
+                );
+                isMounted && setListResult(response.data.listResult);
             } catch (error) {}
         };
 
         viewApplyForm();
 
         return () => {
+            isMounted = false;
             controller.abort();
         };
     }, [isApprove]);
@@ -41,9 +39,11 @@ function MyApplyPost() {
     const handleForm = (value) => {
         console.log(value);
         if (value === 'Approve') {
+            setIsApprove(true);
+        } else if (value === 'Not Approve') {
             setIsApprove(false);
         } else {
-            setIsApprove(true);
+            setIsApprove();
         }
     };
 
