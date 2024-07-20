@@ -1,6 +1,5 @@
 import classNames from 'classnames/bind';
-import { useState, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useState, useEffect, useContext } from 'react';
 import useRequestsPrivate from '~/hooks/useRequestPrivate';
 import { Link } from 'react-router-dom';
 
@@ -11,21 +10,22 @@ import Image from '~/components/Image';
 import { StarIcon } from '~/components/Icons';
 import Button from '~/components/Button';
 import Clip from '~/components/Clip';
+import { ModalContext } from '~/components/ModalProvider';
 
 import styles from './Tutor.module.scss';
 
 const cx = classNames.bind(styles);
 
-const PROFILETUTOR_URL = 'Tutors/Id/';
-const FEEDBACKTUTOR_URL = 'Feedbacks/';
-const ADVERTISEMENT_URL = 'TutorAd/';
+const PROFILETUTOR_URL = 'tutor/get_tutor-detail/';
+const FEEDBACKTUTOR_URL = 'feedback/get_feedbacks/';
+const ADVERTISEMENT_URL = 'tutor-ad/';
 
 function Tutor() {
     const requestPrivate = useRequestsPrivate();
+    const { tutorId } = useContext(ModalContext);
     const [userDetails, setUserDetails] = useState();
     const [userFeedbacks, setUserFeedbacks] = useState();
     const [userAd, setUserAd] = useState([]);
-    const { state } = useLocation();
 
     useEffect(() => {
         window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -36,7 +36,7 @@ function Tutor() {
         const controller = new AbortController();
         const getTutor = async () => {
             try {
-                const response = await requestPrivate.get(`${PROFILETUTOR_URL}${state.key}`, {
+                const response = await requestPrivate.get(`${PROFILETUTOR_URL}${tutorId}`, {
                     signal: controller.signal,
                 });
                 isMounted && setUserDetails(response.data);
@@ -47,7 +47,7 @@ function Tutor() {
 
         const getFeedbackTutor = async () => {
             try {
-                const response = await requestPrivate.get(`${FEEDBACKTUTOR_URL}${state.key}`, {
+                const response = await requestPrivate.get(`${FEEDBACKTUTOR_URL}${tutorId}`, {
                     signal: controller.signal,
                 });
                 isMounted && setUserFeedbacks(response.data.listResult);
@@ -58,11 +58,11 @@ function Tutor() {
 
         const getAds = async () => {
             try {
-                const response = await requestPrivate.get(`${ADVERTISEMENT_URL}${state.key}`, {
+                const response = await requestPrivate.get(`${ADVERTISEMENT_URL}${tutorId}`, {
                     signal: controller.signal,
                 });
                 console.log(response.data);
-                setUserAd(response.data);
+                setUserAd(response.data[0].video);
                 isMounted && setUserFeedbacks(response.data.listResult);
             } catch (error) {
                 console.log(error);
@@ -77,7 +77,7 @@ function Tutor() {
             isMounted = false;
             controller.abort();
         };
-    }, [requestPrivate, state.key]);
+    }, [tutorId]);
 
     return (
         <div className={cx('wrapper')}>
@@ -108,7 +108,7 @@ function Tutor() {
                             <div className={cx('container__tag-connect')}>
                                 <strong>Hourly Rate: ${userDetails?.hourlyRate}</strong>
                                 <Button orange>
-                                    <Link to={`/requestForm`} state={{ key: state.key }}>
+                                    <Link to={`/requestForm`} state={{ key: tutorId }}>
                                         Contact {userDetails?.fullName}
                                     </Link>
                                 </Button>
@@ -122,7 +122,7 @@ function Tutor() {
                     <Col lg="8" className={cx('container__about')}>
                         <div className={cx('container__about-content')}>
                             <p className={cx('container__about-content-title')}>About {userDetails?.fullName}</p>
-                            <Clip width={'760px'} height={'356px'} clip={userAd[0]} />
+                            <Clip width={'760px'} height={'356px'} clip={userAd} />
                         </div>
 
                         <div className={cx('container__about-content')}>

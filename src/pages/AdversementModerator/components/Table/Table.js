@@ -67,7 +67,7 @@ export default function BasicTable({ name }) {
             const response = await requestPrivate.post(CREATE_NOTIFICATION_URL, {
                 title: `Your advertisement has been approved`,
                 description: 'Please check it in your profile',
-                url: `/tutor/${id}`,
+                url: `/account/tutor/${id}`,
                 accountId: id,
             });
             console.log(response.status);
@@ -75,14 +75,13 @@ export default function BasicTable({ name }) {
             console.log(error);
         }
     };
-
     //handle approve ad
     const handleApprove = async (id) => {
         try {
             const response = await requestPrivate.post(BROWSER_ADS_URL, JSON.stringify({ id, isActive: true }));
             if (response.status === 200) {
                 console.log(adCurrent.tutorId);
-                handleCreateNotifications(adCurrent.tutorId);
+                handleCreateNotifications(adCurrent.accountTutorId);
                 setStatus((prev) => !prev);
                 setViewVideo(false);
             }
@@ -90,7 +89,6 @@ export default function BasicTable({ name }) {
             console.log(error);
         }
     };
-
     //handle reject ad
     const handleReject = async (id) => {
         try {
@@ -105,12 +103,10 @@ export default function BasicTable({ name }) {
             console.log(error);
         }
     };
-
     //handle content reject
     const handleChangeContentReject = (e) => {
         setReasonReject(e.target.value);
     };
-
     //close reject form
     const handleClose = () => {
         setReasonReject('');
@@ -136,9 +132,6 @@ export default function BasicTable({ name }) {
         setIdTutor('');
         setDetailsTutor(false);
     };
-
-    console.log(adCurrent);
-
     return (
         <div className={cx('wrapper')}>
             <h3>{name}</h3>

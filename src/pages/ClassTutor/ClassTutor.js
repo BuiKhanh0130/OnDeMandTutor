@@ -181,21 +181,26 @@ const Classes = () => {
                                     </Row>
                                 </Col>
                             </Row>
+                            <Row className={cx('complaint')}>
+                                <Button
+                                    to="/viewComplaint"
+                                    state={{ classID }}
+                                    orange
+                                    className={cx('container__viewComplaint')}
+                                >
+                                    View Complaint
+                                </Button>
+                                <Button onClick={handleComplaint} transparent className={cx('container__complaint')}>
+                                    Complaint
+                                </Button>
+                                {complaint && <Complaint classId={classID} />}
+                            </Row>
                         </Col>
                     ) : (
                         <div className={cx('container__noclass')}>
                             <span>There are currently no classes available.</span>
                         </div>
                     )}
-                </Row>
-                <Row className={cx('complaint')}>
-                    <Button to="/viewComplaint" state={{ classID }} orange className={cx('container__viewComplaint')}>
-                        View Complaint
-                    </Button>
-                    <Button onClick={handleComplaint} transparent className={cx('container__complaint')}>
-                        Complaint
-                    </Button>
-                    {complaint && <Complaint classId={classID} />}
                 </Row>
             </Container>
         </div>

@@ -16,8 +16,6 @@ const useRefreshToken = () => {
         setUserId(userId);
         setAvatar({ avatar, fullName });
 
-        console.log();
-
         try {
             const response = await requests.post(REFRESH_TOKEN_URL, JSON.stringify({ refreshToken, userId }), {
                 headers: { 'Content-Type': 'application/json' },
