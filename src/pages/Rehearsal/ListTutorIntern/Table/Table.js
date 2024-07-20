@@ -19,8 +19,8 @@ import styles from './Table.module.scss';
 
 const cx = classNames.bind(styles);
 
-const LIST_TUTOR_INTERN_URL = 'Moderators/ShowListTutorInter';
-const BROWSER_FORM_TUTOR_INTERN_URL = 'Moderators/ChangeStatusTutor';
+const LIST_TUTOR_INTERN_URL = 'moderator/get_tutors';
+const BROWSER_FORM_TUTOR_INTERN_URL = 'moderator/update_status';
 
 export default function BasicTable({ name }) {
     const [status, setStatus] = useState(false);

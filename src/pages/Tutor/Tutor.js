@@ -16,9 +16,9 @@ import styles from './Tutor.module.scss';
 
 const cx = classNames.bind(styles);
 
-const PROFILETUTOR_URL = 'Tutors/Id/';
-const FEEDBACKTUTOR_URL = 'Feedbacks/';
-const ADVERTISEMENT_URL = 'TutorAd/';
+const PROFILETUTOR_URL = 'tutor/get_tutor-detail/';
+const FEEDBACKTUTOR_URL = 'feedback/get_feedbacks/';
+const ADVERTISEMENT_URL = 'tutor-ad/';
 
 function Tutor() {
     const requestPrivate = useRequestsPrivate();

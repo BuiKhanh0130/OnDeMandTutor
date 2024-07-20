@@ -9,7 +9,7 @@ import styles from './SendEmail.module.scss';
 
 const cx = classNames.bind(styles);
 
-const SEND_EMAIL_URl = 'Moderators/SendEmailInterTutor';
+const SEND_EMAIL_URl = 'moderator/create_email';
 
 function SendEmail() {
     const { setSendEmail } = useContext(ModalContext);
