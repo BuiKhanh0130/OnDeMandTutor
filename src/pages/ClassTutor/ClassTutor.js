@@ -12,8 +12,8 @@ import Complaint from '../Complaint';
 
 const cx = classNames.bind(styles);
 
-const VIEW_CLASS_LIST_URL = 'Classes/tutor/viewClassList';
-const VIEW_CLASS_DETAILS_URL = 'Classes/viewClassDetail';
+const VIEW_CLASS_LIST_URL = 'class/get_tutor-classes';
+const VIEW_CLASS_DETAILS_URL = 'class/get_class-detail';
 
 const Classes = () => {
     const { complaint, setComplaint } = useContext(ModalContext);
@@ -181,21 +181,26 @@ const Classes = () => {
                                     </Row>
                                 </Col>
                             </Row>
+                            <Row className={cx('complaint')}>
+                                <Button
+                                    to="/viewComplaint"
+                                    state={{ classID }}
+                                    orange
+                                    className={cx('container__viewComplaint')}
+                                >
+                                    View Complaint
+                                </Button>
+                                <Button onClick={handleComplaint} transparent className={cx('container__complaint')}>
+                                    Complaint
+                                </Button>
+                                {complaint && <Complaint classId={classID} />}
+                            </Row>
                         </Col>
                     ) : (
                         <div className={cx('container__noclass')}>
                             <span>There are currently no classes available.</span>
                         </div>
                     )}
-                </Row>
-                <Row className={cx('complaint')}>
-                    <Button to="/viewComplaint" state={{ classID }} orange className={cx('container__viewComplaint')}>
-                        View Complaint
-                    </Button>
-                    <Button onClick={handleComplaint} transparent className={cx('container__complaint')}>
-                        Complaint
-                    </Button>
-                    {complaint && <Complaint classId={classID} />}
                 </Row>
             </Container>
         </div>

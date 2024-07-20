@@ -186,12 +186,18 @@
     color: var(--white);
     margin-top: 20px;
     border-radius: 0;
+    background-color: transparent;
 
     &:hover {
         border: none;
         color: var(--white);
-        background-color: var(--hover);
+        background-color: #84e391;
     }
+}
+
+.container__viewComplaint span {
+    color: var(--black);
+    text-decoration: underline;
 }
 
 .container__complaint {
@@ -203,10 +209,16 @@
     margin-top: 20px;
     width: 80px;
     height: 35px;
+    background-color: transparent;
+    border: none;
 
     &:hover {
         border: none;
-        color: var(--white);
-        background-color: var(--hover);
+        background-color: #ffc7c7;
     }
+}
+
+.container__complaint span {
+    color: var(--black);
+    text-decoration: underline;
 }

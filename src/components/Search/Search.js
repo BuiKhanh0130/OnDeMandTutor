@@ -12,7 +12,7 @@ import useDebounce from '~/hooks/useDebounce';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 const cx = classNames.bind(styles);
-const SEARCH_URL = 'SubjectGroup/suggest';
+const SEARCH_URL = 'subject-group/suggest';
 
 function Search({ width, className, ...passProps }) {
     const location = useLocation();

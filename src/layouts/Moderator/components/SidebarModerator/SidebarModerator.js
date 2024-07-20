@@ -21,7 +21,8 @@ const SidebarTutor = ({ index }) => {
         },
         {
             icon: UilUsersAlt,
-            heading: 'Student',
+            heading: 'Advertisement',
+            link: '/moderator/advertisement',
         },
         {
             icon: UilPackage,

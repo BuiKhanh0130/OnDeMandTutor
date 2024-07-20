@@ -80,12 +80,14 @@ function Form({ setShowModal }) {
         }
     }, [formData.maxHourlyRate]);
     //check minHourlyRate && maxHourlyRate
-    useEffect(() => {
+    const checkValidPrice = () => {
         if (formData.minHourlyRate && formData.maxHourlyRate && formData.minHourlyRate >= formData.maxHourlyRate) {
             setFormData((prev) => ({ ...prev, minHourlyRate: 0 }));
             alert('Max hour rate must be greater than min hourly rate');
+            return false;
         }
-    }, [formData.minHourlyRate, formData.maxHourlyRate]);
+        return true;
+    };
 
     //check time
     const checkValidTime = () => {
@@ -96,14 +98,21 @@ function Form({ setShowModal }) {
         if (Number(timeStart) >= Number(endStart)) {
             setValidTime(true);
             timeStartElement.selectedIndex = 0;
+            timeEndStartElement.selectedIndex = 0;
+            setFormData((prevData) => ({ ...prevData, timeStart: 6, timeEnd: 7 }));
             alert('Time start must be less than time end');
+            return false;
         }
 
         if (Number(endStart) - Number(timeStart) >= 4) {
             setValidTime(true);
+            timeStartElement.selectedIndex = 0;
             timeEndStartElement.selectedIndex = 0;
+            setFormData((prevData) => ({ ...prevData, timeStart: 6, timeEnd: 7 }));
             alert('Our courses last a maximum of 3 hours');
+            return false;
         }
+        return true;
     };
     //disable
     useEffect(() => {
@@ -161,13 +170,9 @@ function Form({ setShowModal }) {
 
     const handleSubmit = async (events) => {
         events.preventDefault();
-        console.log(formData.timeStart);
-        console.log(typeof formData.timeEnd);
+
         const timeStart = Number(formData.timeStart);
         const timeEnd = Number(formData.timeEnd);
-
-        console.log(timeStart);
-        console.log(timeEnd);
 
         if (formData.tittle.length === 0) {
             window.alert('Please fill tittle');
@@ -183,31 +188,33 @@ function Form({ setShowModal }) {
             return;
         }
 
-        try {
-            const response = await requestsPrivate.post(
-                CREATE_FROM_URL,
-                JSON.stringify({
-                    gradeId: formData.gradeId,
-                    subjectGroupId: formData.subjectGroupId,
-                    tittle: formData.tittle,
-                    dayStart: formData.dayStart,
-                    dayEnd: formData.dayEnd,
-                    dayOfWeek: formData.selectedDays.sort((a, b) => a - b).join(','),
-                    timeStart: timeStart,
-                    timeEnd: timeEnd,
-                    minHourlyRate: formData.minHourlyRate,
-                    maxHourlyRate: formData.maxHourlyRate,
-                    typeOfDegree: formData.typeOfDegree,
-                    describeTutor: formData.describeTutor,
-                    tutorGender: formData.tutorGender,
-                }),
-            );
-            if (response.status === 200) {
-                setFormData((prevData) => ({ ...prevData, tittle: '', describeTutor: '' }));
-                navigate('/success', { state: 'GENERATE CLASS' });
+        if (checkValidTime() && checkValidPrice()) {
+            try {
+                const response = await requestsPrivate.post(
+                    CREATE_FROM_URL,
+                    JSON.stringify({
+                        gradeId: formData.gradeId,
+                        subjectGroupId: formData.subjectGroupId,
+                        tittle: formData.tittle,
+                        dayStart: formData.dayStart,
+                        dayEnd: formData.dayEnd,
+                        dayOfWeek: formData.selectedDays.sort((a, b) => a - b).join(','),
+                        timeStart: timeStart,
+                        timeEnd: timeEnd,
+                        minHourlyRate: formData.minHourlyRate,
+                        maxHourlyRate: formData.maxHourlyRate,
+                        typeOfDegree: formData.typeOfDegree,
+                        describeTutor: formData.describeTutor,
+                        tutorGender: formData.tutorGender,
+                    }),
+                );
+                if (response.status === 200) {
+                    setFormData((prevData) => ({ ...prevData, tittle: '', describeTutor: '' }));
+                    navigate('/success', { state: 'GENERATE CLASS' });
+                }
+            } catch (error) {
+                console.log(error);
             }
-        } catch (error) {
-            console.log(error);
         }
     };
     //select day
@@ -356,10 +363,7 @@ function Form({ setShowModal }) {
                             id="timeStart"
                             name="timeStart"
                             onChange={(e) => {
-                                checkValidTime();
-                                if (validTime) {
-                                    handleInputChange(e);
-                                }
+                                handleInputChange(e);
                             }}
                         >
                             {hourStart.length > 0 &&
@@ -378,10 +382,7 @@ function Form({ setShowModal }) {
                             id="timeEnd"
                             name="timeEnd"
                             onChange={(e) => {
-                                checkValidTime();
-                                if (validTime) {
-                                    handleInputChange(e);
-                                }
+                                handleInputChange(e);
                             }}
                         >
                             {hourEnd.length > 0 &&

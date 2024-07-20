@@ -1,9 +1,8 @@
 import classNames from 'classnames/bind';
 import { useEffect, useState } from 'react';
-
-import Container from 'react-bootstrap/Container';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
+import Modal from 'react-bootstrap/Modal';
+import Button from 'react-bootstrap/Button';
+import { Container, Row, Col } from 'react-bootstrap';
 
 import useDebounce from '~/hooks/useDebounce';
 import Paging from '~/components/Paging';
@@ -15,6 +14,7 @@ import Post from '~/components/Post';
 const cx = classNames.bind(styles);
 
 const FORM_FIND_TUTOR_URL = 'formfindtutor/search_post';
+const VIEW_APPLY_FORM_URL = 'formfindtutor/tutor_getforms';
 const APPLY_POST_URL = 'formfindtutor/tutor_applypost';
 
 function Blog() {
@@ -33,7 +33,11 @@ function Blog() {
     const [typeOfDegree, setTypeOfDegree] = useState('');
     const [sortPostBy, setSortPostBy] = useState(0);
     const [sortPostType, setSortPostType] = useState(1);
+    const [apply, setApply] = useState(false);
+    const [listResult, setListResult] = useState([]);
     const [curPage, setcurPage] = useState(1);
+    const [error, setError] = useState();
+    const [showModal, setShowModal] = useState(false);
     const debouncedValueSubject = useDebounce(subject, 500);
     const debouncedValueHourlyRate = useDebounce(hourlyRate, 500);
     const debouncedGradeId = useDebounce(gradeId, 500);
@@ -77,7 +81,6 @@ function Blog() {
                 params.append('pageIndex', curPage);
             }
             url += `?${params.toString()}`;
-            console.log(url);
         }
         const getFormClass = async () => {
             const response = await requestPrivate.get(url, {
@@ -104,10 +107,36 @@ function Blog() {
         requestPrivate,
     ]);
 
+    useEffect(() => {
+        let isMounted = true;
+        const controller = new AbortController();
+        const viewApplyForm = async () => {
+            try {
+                const response = await requestPrivate.get(
+                    VIEW_APPLY_FORM_URL,
+                    { params: { isApprove: null } },
+                    { signal: controller.signal },
+                );
+                isMounted && setListResult(response.data.listResult);
+                setApply(false);
+            } catch (error) {}
+        };
+
+        viewApplyForm();
+
+        return () => {
+            isMounted = false;
+            controller.abort();
+        };
+    }, [apply]);
+
     const handleApply = async (id) => {
         const response = await requestPrivate.post(APPLY_POST_URL, id);
-        if (response.status === 200) {
-            setDisable((prev) => [...prev, id]);
+        if (response.data) {
+            setError(response.data);
+            setShowModal(true);
+        } else {
+            setApply(true);
         }
     };
 
@@ -123,6 +152,10 @@ function Blog() {
                 break;
         }
     };
+
+    const commonItems = listClasses.filter(({ formId }) => !listResult.some((x) => x.formId === formId));
+
+    const handleCloseModal = () => setShowModal(false);
 
     return (
         <div className={cx('wrapper')}>
@@ -166,6 +199,7 @@ function Blog() {
                                     <strong>Gender:</strong>
                                 </label>
                                 <select id="gender" onChange={(e) => setGender(e.target.value)}>
+                                    <option value={''}>--</option>
                                     <option value={true}>Male</option>
                                     <option value={false}>Female</option>
                                 </select>
@@ -179,7 +213,7 @@ function Blog() {
                     <Col lg="9">
                         <Post
                             handleApply={handleApply}
-                            listClasses={listClasses}
+                            listClasses={commonItems}
                             handleSelectSort={handleSelectSort}
                             disable={disable}
                             syntax={'applyPost'}
@@ -189,6 +223,18 @@ function Blog() {
                         )}
                     </Col>
                 </Row>
+
+                <Modal className={cx('bg-danger')} show={showModal} onHide={handleCloseModal}>
+                    <Modal.Header closeButton>
+                        <Modal.Title>Error</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>{error}</Modal.Body>
+                    <Modal.Footer>
+                        <Button variant="secondary" onClick={handleCloseModal}>
+                            Close
+                        </Button>
+                    </Modal.Footer>
+                </Modal>
             </Container>
         </div>
     );

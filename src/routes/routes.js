@@ -44,6 +44,7 @@ import ClassTutor from '~/pages/ClassTutor';
 import RequestOfStudent from '~/pages/RequestOfStudent';
 import ViewComplaint from '~/pages/ViewComplaint';
 import Successful from '~/pages/Successful';
+import AdvertisementModerator from '~/pages/AdversementModerator/AdvertisementModerator';
 import Admin from '~/layouts/Admin';
 import BanAccount from '~/pages/BanAccount';
 import AccountAdmin from '~/pages/Account/AccountAdmin';
@@ -110,6 +111,12 @@ const privateRoutes = [
     { path: config.routes.requestOfStudent, component: RequestOfStudent, role: ['Student'] },
     { path: config.routes.viewComplaint, component: ViewComplaint, layout: 'null', role: ['Student', 'Tutor'] },
     { path: config.routes.success, component: Successful, layout: 'null', role: ['Student', 'Tutor'] },
+    {
+        path: config.routes.advertisementModerator,
+        component: AdvertisementModerator,
+        layout: Moderator,
+        role: ['Moderator'],
+    },
     { path: config.routes.ban, component: BanAccount, layout: Admin, role: ['Administrator'] },
     { path: config.routes.accountAdmin, component: AccountAdmin, layout: Admin, role: ['Administrator'] },
     { path: config.routes.accountModerator, component: AccountModerator, layout: Admin, role: ['Administrator'] },
