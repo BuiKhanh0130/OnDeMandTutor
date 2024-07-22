@@ -16,7 +16,7 @@ import styles from './ForStudent.module.scss';
 
 const cx = classNames.bind(styles);
 
-const TOP10_URL = 'SystemHandler/top10Tutor';
+const TOP10_URL = 'system-handler/get_top-10-tutor';
 
 function ForStudent() {
     const [top10, setTop10] = useState([]);

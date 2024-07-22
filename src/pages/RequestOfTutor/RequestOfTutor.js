@@ -13,7 +13,7 @@ import Popup from './Popup';
 
 const cx = classNames.bind(styles);
 
-const HANDLE_FORM_URL = 'FormRequestTutor/handleBrowserForm';
+const HANDLE_FORM_URL = 'formrequesttutor/handle_browserform';
 
 function RequestOfTutor() {
     const [forms, setForms] = useState([]);
@@ -28,7 +28,7 @@ function RequestOfTutor() {
     const requestPrivate = useRequestsPrivate();
 
     const handleActionComplete = () => {
-        let FORM_REQUEST_URL = 'FormRequestTutor/viewForm';
+        let FORM_REQUEST_URL = 'formrequesttutor/get_form';
 
         if (filter === 'approved') {
             FORM_REQUEST_URL += '?status=true';
@@ -56,20 +56,31 @@ function RequestOfTutor() {
     const handleReject = (form) => {
         setSelected('Reject');
         setForm(form);
-        setModalContent('Are you sure you want to reject this request?');
         setShowModal(true);
+        
+        const fetchSameForm = async () => {
+            try {
+                const response = await requestPrivate.get(`${HANDLE_FORM_URL}?formId=${form.formId}&action=false`);
+                console.log(response.data);
+                setModalContent(response.data);
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        };
+
+        fetchSameForm();
     };
 
     const handleApply = (form) => {
         setSelected('Apply');
         setForm(form);
-        setModalContent('Are you sure you want to apply for this request?');
         setShowModal(true);
 
         const fetchSameForm = async () => {
             try {
                 const response = await requestPrivate.get(`${HANDLE_FORM_URL}?formId=${form.formId}&action=true`);
-                setSameFormNum(response.data);
+                console.log(response.data);
+                setModalContent(response.data);
             } catch (error) {
                 console.error('Error:', error);
             }

@@ -18,7 +18,7 @@ const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9](?=.*[!@H$%])).{8,24}$/;
 const GMAIL_REGEX = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 const PHONE_REGEX = /^[0-9]{10}$/;
 const FULLNAME_REGEX = /^[a-zA-Z\s]+$/;
-const REGISTER_URL = '/auth/signUp';
+const REGISTER_URL = 'auth/signup';
 
 function BecomeStudent() {
     const context = useContext(ModalContext);

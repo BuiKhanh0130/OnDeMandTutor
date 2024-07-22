@@ -15,9 +15,9 @@ const cx = classNames.bind(styles);
 const CREATEWALLET_URL = 'wallet/create_wallet';
 
 //URL
-const SUBJECT_GROUP_URL = 'SubjectGroup';
-const GRADE_URL = 'Grade';
-const REGISTER_URL = 'Tutors/RegistrateTutorSubject';
+const SUBJECT_GROUP_URL = 'subject-group';
+const GRADE_URL = 'grade';
+const REGISTER_URL = 'tutor/registrate_tutor-subject';
 
 function Subject() {
     const navigate = useNavigate();
