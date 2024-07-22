@@ -4,9 +4,9 @@ import styles from './Popup.module.scss';
 import useRequestsPrivate from '~/hooks/useRequestPrivate';
 
 const cx = classNames.bind(styles);
-const TUTOR_BROWSER_FORM_URL = 'FormRequestTutor/tutorBrowserForm';
-const CREATE_CLASS_URL = 'Classes/createClass';
-const CREATE_NOTIFICATION_URL = 'Notification/createNotification'
+const TUTOR_BROWSER_FORM_URL = 'formrequesttutor/tutor_browserform';
+const CREATE_CLASS_URL = 'class/create_class';
+const CREATE_NOTIFICATION_URL = 'notification/create_notification'
 
 const Popup = ({ setShowModal, modalContent, selected, form, sameFormNum, onActionComplete }) => {
     const requestPrivate = useRequestsPrivate();
@@ -84,12 +84,6 @@ const Popup = ({ setShowModal, modalContent, selected, form, sameFormNum, onActi
                     <i className="bi bi-exclamation-circle"></i>
                 </div>
                 <p>{modalContent}</p>
-                
-                {(sameFormNum !== 0 && selected === 'Apply') && (
-                    <div className={cx('modal-same-form')}>
-                        <p>If you apply this form, it will simultaneously reject {sameFormNum} similar forms.</p>
-                    </div>
-                )}
                 <div className={cx('modal-buttons')}>
                     <button className={cx('modal-button', 'cancel')} onClick={handleCancel}>
                         Cancel

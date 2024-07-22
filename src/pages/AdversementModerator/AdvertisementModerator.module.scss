@@ -1,0 +1,12 @@
+.MainDash {
+    display: flex;
+    flex-direction: column;
+
+    h1 {
+        margin-bottom: 20px;
+        font-size: 30px;
+        font-weight: bold;
+        // margin-bottom: 20px;
+        text-transform: uppercase;
+    }
+}

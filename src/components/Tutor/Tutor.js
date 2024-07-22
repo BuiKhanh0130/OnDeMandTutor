@@ -10,7 +10,7 @@ import Image from '../Image';
 const cx = classNames.bind(styles);
 const GET_TUTOR_STUDENT_BY_ID_URL = 'tutor/get_tutor-detail';
 
-function Tutor({ id }) {
+function Tutor({ id, onHide }) {
     const requestPrivate = useRequestsPrivate();
     const [tutor, setTutor] = useState();
 

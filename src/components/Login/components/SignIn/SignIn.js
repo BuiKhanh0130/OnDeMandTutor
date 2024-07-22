@@ -1,7 +1,8 @@
 import classNames from 'classnames/bind';
 import { jwtDecode } from 'jwt-decode';
 import { Fragment, useContext, useEffect, useRef, useState } from 'react';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { HubConnectionBuilder, LogLevel } from '@microsoft/signalr';
 import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 import { auth as Auth } from '~/firebase/firebase';
 
@@ -18,7 +19,17 @@ const LOGIN_URL = 'auth/signin';
 const cx = classNames.bind(styles);
 
 function SignIn({ item, onChangeUsername, onChangePassword }) {
-    const { setAuth, setActive, handleUser, setUserId, setAvatar } = useContext(ModalContext);
+    const {
+        setAuth,
+        setActive,
+        handleUser,
+        setUserId,
+        setAvatar,
+        conn,
+        notifications,
+        setConnection,
+        setNotifications,
+    } = useContext(ModalContext);
     const navigate = useNavigate();
 
     const userRef = useRef();
@@ -34,6 +45,27 @@ function SignIn({ item, onChangeUsername, onChangePassword }) {
 
     const handlePassword = (e) => {
         setPassword(e.target.value);
+    };
+
+    const sendNotification = async (userId) => {
+        try {
+            const conn = new HubConnectionBuilder()
+                .withUrl('https://localhost:7262/chatHub')
+                .configureLogging(LogLevel.Information)
+                .build();
+
+            conn.on('ReceiveNotification', (noti, msg) => {
+                console.log('hi');
+                setNotifications((noti) => [...noti, { noti }]);
+                console.log(notifications, msg);
+            });
+
+            await conn.start();
+
+            setConnection(conn);
+        } catch (e) {
+            console.log(e);
+        }
     };
 
     //handle login userName and password
@@ -59,6 +91,7 @@ function SignIn({ item, onChangeUsername, onChangePassword }) {
             sessionStorage.setItem('accessToken', JSON.stringify(response?.data));
             setActive(false);
             handleUser();
+            sendNotification(userID);
 
             if (role === 'Moderator') {
                 navigate('/moderator');

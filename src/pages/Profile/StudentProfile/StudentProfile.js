@@ -1,28 +1,26 @@
 import classNames from 'classnames/bind';
 import { useEffect, useRef, useState } from 'react';
-
-import Container from 'react-bootstrap/Container';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
+import { storage } from '~/firebase/firebase';
+import { ref, uploadBytes, getDownloadURL, uploadBytesResumable } from 'firebase/storage';
+import { v4 } from 'uuid';
+import { Container, Row, Col } from 'react-bootstrap';
 
 import Image from '~/components/Image';
-import Class from '~/components/Class';
 import useRequestsPrivate from '~/hooks/useRequestPrivate';
 import Button from '~/components/Button';
 import { CameraIcon } from '~/components/Icons';
 import requests from '~/utils/request';
 
 import styles from './StudentProfile.module.scss';
+import { color } from 'echarts';
 
 const cx = classNames.bind(styles);
 
-const IMGBB = 'https://api.imgbb.com/1/upload?key=9c7d176f8c72a29fa6384fbb49cff7bc';
-const STUDENTPROFILE = 'Students/GetStudentCurrent';
-const UPDATEPROFILE = 'Students/UpdateStudent';
+const STUDENTPROFILE = 'student/get_student-current';
+const UPDATEPROFILE = 'student/update_student';
 
 function StudentProfile() {
     const imgRef = useRef();
-    let file = '';
     const axiosPrivate = useRequestsPrivate();
     const [fullName, setFullName] = useState('');
     const [age, setAge] = useState('');
@@ -30,7 +28,8 @@ function StudentProfile() {
     const [phoneNumber, setPhoneNumber] = useState('');
     const [address, setAddress] = useState('');
     const [schoolName, setSchoolName] = useState('');
-    const [avatar, setAvatar] = useState();
+    const [imageUrl, setNameImage] = useState(null);
+    const [avatar, setAvatar] = useState(null);
 
     useEffect(() => {
         const controller = new AbortController();
@@ -60,40 +59,46 @@ function StudentProfile() {
     }, []);
 
     const handleUpdate = async () => {
-        const form = new FormData();
         try {
-            form.append('image', avatar);
-            const response = await requests.post(IMGBB, form);
-            if (response.status === 200) {
-                file = response?.data?.data?.display_url;
-                console.log(file);
+            const response = await axiosPrivate.post(
+                UPDATEPROFILE,
+                JSON.stringify({
+                    fullName,
+                    gender,
+                    phoneNumber,
+                    avatar: imageUrl,
+                    schoolName,
+                    address,
+                    age,
+                    isParent: true,
+                }),
+            );
+
+            if (response.status) {
+                window.location.reload();
             }
-
-            try {
-                const response = await axiosPrivate.post(
-                    UPDATEPROFILE,
-                    JSON.stringify({
-                        fullName,
-                        gender,
-                        phoneNumber,
-                        avatar: file,
-                        schoolName,
-                        address,
-                        age,
-                        isParent: true,
-                    }),
-                );
-
-                if (response.status) {
-                    window.location.reload();
-                }
-            } catch (error) {}
         } catch (error) {}
     };
 
     const triggerFileInput = () => {
         document.getElementById('file-input').click();
     };
+
+    //up image
+    const handleChangeImage = async (e) => {
+        console.log(e.target.files[0]);
+        if (e.target.files[0] == null) return;
+        const avatar = e.target.files[0];
+        console.log(avatar);
+        const imageRef = ref(storage, `images/${avatar.name + v4()}`);
+        uploadBytes(imageRef, avatar).then((snapshot) => {
+            getDownloadURL(snapshot.ref).then((snapshot) => {
+                setNameImage(snapshot);
+            });
+        });
+    };
+
+    console.log(imageUrl);
 
     return (
         <div className={cx('wrapper')}>
@@ -102,7 +107,11 @@ function StudentProfile() {
                     <Col lg="12" className={cx('container__profile')}>
                         <div className={cx('container__profile-banner')}></div>
                         <div className={cx('container__profile-student')}>
-                            <Image src={avatar} alt={fullName} ref={imgRef} />
+                            {imageUrl ? (
+                                <Image src={imageUrl} alt={fullName} ref={imgRef} />
+                            ) : (
+                                <Image src={avatar} alt={fullName} ref={imgRef} />
+                            )}
                             <p>{fullName}</p>
                         </div>
                         <div className={cx('container__profile-student-camera')} onClick={triggerFileInput}>
@@ -111,13 +120,13 @@ function StudentProfile() {
                                 type="file"
                                 id="file-input"
                                 className={cx('container__profile-student-input')}
-                                onChange={(e) => setAvatar(e.target.files[0])}
+                                onChange={(e) => handleChangeImage(e)}
                             ></input>
                         </div>
                     </Col>
                 </Row>
                 <Row>
-                    <Col lg="8" className={cx('container__user')}>
+                    <Col lg="12" className={cx('container__user')}>
                         <h2>Profile</h2>
                         <div>
                             <div className={cx('container__user-field')}>
@@ -146,7 +155,7 @@ function StudentProfile() {
                                             setGender(true);
                                         }}
                                     ></input>
-                                    <label htmlFor="gentlemen">Boy</label>
+                                    <label htmlFor="gentlemen">Male</label>
                                     <input
                                         type="radio"
                                         className={cx('gender')}
@@ -158,7 +167,7 @@ function StudentProfile() {
                                             setGender(false);
                                         }}
                                     ></input>
-                                    <label htmlFor="lady">Girl</label>
+                                    <label htmlFor="lady">Female</label>
                                 </div>
                             </div>
                             <div className={cx('container__user-field')}>
@@ -218,15 +227,6 @@ function StudentProfile() {
                                 </Button>
                             </div>
                         </div>
-                    </Col>
-                    <Col lg="4" className={cx('container__course')}>
-                        <h2>Courses attended</h2>
-                        <Class separate />
-                        <Class separate />
-                        <Class separate />
-                        <Class separate />
-                        <Class separate />
-                        <Class separate />
                     </Col>
                 </Row>
             </Container>

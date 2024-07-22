@@ -2,6 +2,8 @@ import { useAuth } from './useAuth';
 import { jwtDecode } from 'jwt-decode';
 import requests from '~/utils/request';
 
+const REFRESH_TOKEN_URL = 'auth/refresh_token';
+
 const useRefreshToken = () => {
     const { setAvatar, setAuth, setUserId } = useAuth();
 
@@ -14,10 +16,8 @@ const useRefreshToken = () => {
         setUserId(userId);
         setAvatar({ avatar, fullName });
 
-        console.log();
-
         try {
-            const response = await requests.post('auth/refresh_token', JSON.stringify({ refreshToken, userId }), {
+            const response = await requests.post(REFRESH_TOKEN_URL, JSON.stringify({ refreshToken, userId }), {
                 headers: { 'Content-Type': 'application/json' },
                 withCredentials: true,
             });

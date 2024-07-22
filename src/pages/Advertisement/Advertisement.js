@@ -14,7 +14,7 @@ import useRequestsPrivate from '~/hooks/useRequestPrivate';
 import styles from './Advertisement.module.scss';
 
 const cx = classNames.bind(styles);
-const ACCOUNTS_URL = 'account';
+const ACCOUNTS_URL = '/account/show_tutor_have_ads';
 
 function Advertisement() {
     const [seeAll, setSeeAll] = useState(false);
@@ -54,7 +54,7 @@ function Advertisement() {
                         </div>
 
                         <div className={cx('container__sidebar-search')}>
-                            <Search className={cx('container__sidebar-search-input')} width="300px" />
+                            <Search className={cx('container__sidebar-search-input')} width="420px" />
                         </div>
 
                         <div className={cx('container__sidebar-suggested')}>
@@ -87,11 +87,22 @@ function Advertisement() {
                         </div>
                     </Col>
                     <Col lg="8">
-                        <Video />
-                        <Video />
-                        <Video />
-                        <Video />
-                        <Video />
+                        {accounts?.length > 0 &&
+                            accounts.map((account) => {
+                                console.log(account.tutorAds[0].videoUrl);
+                                return (
+                                    <Video
+                                        key={account.accountId}
+                                        accountId={account.accountId}
+                                        tutorId={account.tutorId}
+                                        avatar={account.avatar}
+                                        name={account.fullName}
+                                        headline={account.headline}
+                                        clip={account?.tutorAds[0].videoUrl}
+                                        description={account.description}
+                                    />
+                                );
+                            })}
                     </Col>
                 </Row>
             </Container>

@@ -8,7 +8,6 @@ import { ModalContext } from '~/components/ModalProvider';
 import { ScrollToTop } from '~/components/ScrollToTop';
 
 import styles from './DefaultLayout.module.scss';
-import CreateClass from '~/pages/GenerateClass/GenerateClass';
 
 const cx = classNames.bind(styles);
 

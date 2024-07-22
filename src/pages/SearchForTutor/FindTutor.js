@@ -25,7 +25,7 @@ const GRADE_URL = 'grade';
 const TUTOR_URL = 'tutor';
 
 function FindTutor() {
-    const { searchItem } = useContext(ModalContext);
+    const { searchItem, setTutorId } = useContext(ModalContext);
     const [minValueRate, setMinValueRate] = useState(20000);
     const [maxValueRate, setMaxValueRate] = useState(200000);
     const [grade, setGrade] = useState('');
@@ -47,7 +47,6 @@ function FindTutor() {
     }, []);
 
     const handleInputRate = (e) => {
-        console.log(e);
         setMinValueRate(e.minValue);
         setMaxValueRate(e.maxValue);
     };
@@ -89,6 +88,7 @@ function FindTutor() {
     const handleChange = async () => {
         try {
             const response = await request.get(`${TUTOR_URL}`, { params });
+            console.log(response.data.listResult);
             setTutors(response.data.listResult);
             setPagination({
                 page: 1,
@@ -256,7 +256,7 @@ function FindTutor() {
                             tutor.map((tutor, index) => {
                                 return (
                                     <div key={index} className={cx('result__wrapper-content')}>
-                                        <Link to={`/account/tutor/${tutor.fullName}`} state={{ key: tutor.tutorID }}>
+                                        <Link to={`/account/tutor/${tutor.fullName}`} onClick={() => setTutorId(tutor.tutorID)}>
                                             <Row className={cx('result__profile')}>
                                                 <Col lg="2" className={cx('result__profile-img')}>
                                                     <Image
@@ -320,7 +320,7 @@ function FindTutor() {
                                                             Response Time: <strong>{5} minutes</strong>
                                                         </span>
                                                     </div>
-                                                    <Button orange className={cx('result__profile-generality-btn')}>
+                                                    <Button orange className={cx('result__profile-generality-btn')} >
                                                         View {tutor.fullName} profile
                                                     </Button>
                                                 </Col>

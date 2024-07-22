@@ -13,7 +13,7 @@ const UPDATE_WALLET_URL = 'wallet/update_wallet';
 const WITHDRAW_URL = 'wallet/withdraw_money/';
 
 const formatDate = (dateString) => {
-    const options = { year: 'numeric', month: '2-digit', day: '2-digit' };
+    const options = { year: 'numeric', month: '2-digit', day: '2-digit'};
     const date = new Date(dateString);
     return date.toLocaleDateString('en-CA', options);
 };
@@ -47,7 +47,7 @@ const Wallet = () => {
 
         const fetchTransaction = async () =>{
             try {
-                const response = await requestPrivate.get('transaction/get_transaction');
+                const response = await requestPrivate.get('transaction/view_transactionlist');
                 console.log(response.data);
                 setTransactionData(response.data)
             } catch (error) {
@@ -60,7 +60,7 @@ const Wallet = () => {
 
     const handleUpdate = async () => {
         try {
-            const response = await requestPrivate.put(`${UPDATE_WALLET_URL}?BankName=${bankName}&BankNumber=${bankNumber}`);
+            const response = await requestPrivate.put(`${UPDATE_WALLET_URL}?bankname=${bankName}&banknumber=${bankNumber}`);
             console.log(response.data);
             setWalletData(response.data);
             setIsEditingBankName(false);
@@ -152,8 +152,6 @@ const Wallet = () => {
                                                 <th>Date</th>
                                                 <th>Amount</th>
                                                 <th>Description</th>
-                                                <th>Card Type</th>
-                                                <th>Bank Transaction No</th>
                                                 <th>Status</th>
                                             </tr>
                                         </thead>
@@ -163,8 +161,6 @@ const Wallet = () => {
                                                     <td>{formatDate(transaction.tranDate)}</td>
                                                     <td>{transaction.amount > 0 ? `+${transaction.amount}` : transaction.amount}</td>
                                                     <td>{transaction.description}</td>
-                                                    <td>{transaction.cardType}</td>
-                                                    <td>{transaction.bankTranNo}</td>
                                                     <td>{transaction.isValid === true ? 'Success' : 'Fail'}</td>
                                                 </tr>
                                             ))}

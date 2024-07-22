@@ -6,7 +6,6 @@ import styles from './Messages.module.scss';
 import AllContact from './conponents/AllContact';
 import { ModalContext } from '~/components/ModalProvider';
 import ContainerChat from './conponents/ContainerChat';
-import CreateClass from '~/pages/PopUp/Class';
 import Header from '~/layouts/components/Header';
 import HeaderTutor from '~/layouts/Tutor/components/HeaderTutor';
 
@@ -14,7 +13,7 @@ const cx = classNames.bind(styles);
 
 const Messages = () => {
     const { roomId, conn, auth } = useContext(ModalContext);
-    const Layer = auth.role === 'Tutor' ? HeaderTutor : Header
+    const Layer = auth.role === 'Tutor' ? HeaderTutor : Header;
     const sendMessage = async (message) => {
         try {
             console.log(message);

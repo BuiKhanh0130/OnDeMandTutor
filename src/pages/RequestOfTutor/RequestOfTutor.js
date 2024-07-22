@@ -56,20 +56,31 @@ function RequestOfTutor() {
     const handleReject = (form) => {
         setSelected('Reject');
         setForm(form);
-        setModalContent('Are you sure you want to reject this request?');
         setShowModal(true);
+        
+        const fetchSameForm = async () => {
+            try {
+                const response = await requestPrivate.get(`${HANDLE_FORM_URL}?formId=${form.formId}&action=false`);
+                console.log(response.data);
+                setModalContent(response.data);
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        };
+
+        fetchSameForm();
     };
 
     const handleApply = (form) => {
         setSelected('Apply');
         setForm(form);
-        setModalContent('Are you sure you want to apply for this request?');
         setShowModal(true);
 
         const fetchSameForm = async () => {
             try {
                 const response = await requestPrivate.get(`${HANDLE_FORM_URL}?formId=${form.formId}&action=true`);
-                setSameFormNum(response.data);
+                console.log(response.data);
+                setModalContent(response.data);
             } catch (error) {
                 console.error('Error:', error);
             }

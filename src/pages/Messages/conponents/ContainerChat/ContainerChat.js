@@ -8,7 +8,6 @@ import MessageContainer from './MessageContainer';
 import { SendIcon } from '~/components/Icons';
 
 import styles from './ContainerChat.module.scss';
-import Button from '~/components/Button';
 
 const cx = classNames.bind(styles);
 
@@ -21,8 +20,6 @@ function ContainerChat({ sendMessage }) {
     const [content, setContent] = useState('');
     const inputRef = useRef();
     const chatContainerRef = useRef(null);
-
-    console.log(messages);
 
     useEffect(() => {
         if (chatContainerRef.current) {

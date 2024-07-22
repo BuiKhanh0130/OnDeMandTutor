@@ -14,6 +14,7 @@ import useRequestsPrivate from '~/hooks/useRequestPrivate';
 
 const cx = classNames.bind(styles);
 const REGISTER_URL = 'auth/moderator_signup';
+const REGISTER_ADMIN_URL = 'admin/create_user-role';
 
 const USER_REGEX = /^[a-zA-Z][a-zA-z0-9-_]{3,23}$/;
 const GMAIL_REGEX = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
@@ -21,7 +22,8 @@ const PHONE_REGEX = /^[0-9]{10}$/;
 const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9](?=.*[!@H$%])).{8,24}$/;
 const FULLNAME_REGEX = /^[a-zA-Z\s]+$/;
 
-function RegistrationAccount() {
+function RegistrationAccount({ syntax }) {
+    console.log(syntax);
     const requestPrivate = useRequestsPrivate();
     const userRef = useRef();
     const errRef = useRef();
@@ -100,31 +102,54 @@ function RegistrationAccount() {
 
     //handle register
     const handleBecomeModerator = async () => {
-        const response = await requestPrivate.post(
-            REGISTER_URL,
-            JSON.stringify({
-                fullName,
-                email: gmail,
-                userName,
-                password: pwd,
-                phoneNumber: phone,
-                gender,
-                avatar: nameImage,
-                isActive: 1,
-            }),
-        );
-        if (response.status === 200) {
-            setShowModal(true);
-            setUserName('');
-            setPwd('');
-            setFullName('');
-            setGender(true);
-            setPhone();
-            setNameImage('');
-            setAvatar(null);
-            setTimeout(() => {
-                setShowModal(false);
-            }, 3000);
+        try {
+            const response = await requestPrivate.post(
+                REGISTER_URL,
+                JSON.stringify({
+                    fullName,
+                    email: gmail,
+                    userName,
+                    password: pwd,
+                    phoneNumber: phone,
+                    gender,
+                    avatar: nameImage,
+                    isActive: 1,
+                }),
+            );
+
+            if (syntax === 'Administrator') {
+                handleAdmin(response.data.userId);
+            }
+
+            if (response.status === 200) {
+                const fileInput = document.getElementsByName('photo');
+                console.log(fileInput[0]);
+                fileInput[0].value = '';
+                setShowModal(true);
+                setUserName('');
+                setPwd('');
+                setFullName('');
+                setGender(true);
+                setPhone('');
+                setGmail('');
+                setNameImage('');
+                setAvatar(null);
+                setTimeout(() => {
+                    setShowModal(false);
+                }, 3000);
+            }
+        } catch (error) {
+            console.log(error);
+            console.log(error.response);
+        }
+    };
+
+    const handleAdmin = async (id) => {
+        try {
+            const response = await requestPrivate.post(`${REGISTER_ADMIN_URL}?userId=${id}`, ['Administrator']);
+            console.log(response.status);
+        } catch (error) {
+            console.log(error);
         }
     };
 
@@ -268,7 +293,8 @@ function RegistrationAccount() {
                                     type="radio"
                                     id="html"
                                     name="fav_language"
-                                    value="Male"
+                                    checked={gender}
+                                    value={gender}
                                     onChange={() => {
                                         setGender(true);
                                     }}
@@ -278,7 +304,8 @@ function RegistrationAccount() {
                                     type="radio"
                                     id="css"
                                     name="fav_language"
-                                    value="Female"
+                                    value={gender}
+                                    checked={!gender}
                                     onChange={() => {
                                         setGender(false);
                                     }}
@@ -288,7 +315,7 @@ function RegistrationAccount() {
                         </div>
                         <div className={cx('container__profile')}>
                             <label id="email">
-                                Email{' '}
+                                Email
                                 <span className={cx({ valid: validGmail, hide: !validGmail })}>
                                     <ValidIcon />
                                 </span>
@@ -373,8 +400,13 @@ function RegistrationAccount() {
                     <div className={cx('container__profile-avatar')}>
                         <div>
                             <label id="avatar">Avatar</label>
-                            <input type="file" id="avatar" onChange={(e) => setAvatar(e.target.files[0])}></input>
-                            {!loadingImage && (
+                            <input
+                                type="file"
+                                id="avatar"
+                                name="photo"
+                                onChange={(e) => setAvatar(e.target.files[0])}
+                            ></input>
+                            {!loadingImage ? (
                                 <Button
                                     orange
                                     onClick={handleChangeImage}
@@ -382,6 +414,8 @@ function RegistrationAccount() {
                                 >
                                     Upload
                                 </Button>
+                            ) : (
+                                <p>loading....</p>
                             )}
                         </div>
 

@@ -5,6 +5,8 @@ import { useAuth } from './useAuth';
 import { auth } from '~/firebase/firebase';
 import { ModalContext } from '~/components/ModalProvider';
 
+const SIGNOUT_URL = '/auth/signout';
+
 const useLogout = () => {
     const { setAuth } = useAuth();
     const { handleHiddenUser } = useContext(ModalContext);
@@ -12,7 +14,7 @@ const useLogout = () => {
 
     const logout = async () => {
         try {
-            const response = await requestsPrivate.delete('/auth/signOut', {
+            const response = await requestsPrivate.delete(SIGNOUT_URL, {
                 withCredentials: true,
             });
             await auth.signOut();
