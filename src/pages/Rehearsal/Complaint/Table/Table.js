@@ -20,15 +20,15 @@ import ResponseComplaint from '../ResponseComplaint';
 
 const cx = classNames.bind(styles);
 
-const COMPLAINT_URL = '/Complaints';
+const COMPLAINT_URL = '/complaint';
 
 export default function BasicTable({ name }) {
     const { responseComplaint, setResponseComplaint } = React.useContext(ModalContext);
     const [status, setStatus] = useState(false);
     const [complaint, setComplaint] = useState([]);
-    const [pageIndex, setPageIndex] = useState(1);
+    const [curPage, setcurPage] = useState(1);
     const [complaintId, setComplaintId] = useState('');
-    const [limitPageIndex, setLimitPageIndex] = useState(0);
+    const [pagination, setPagination] = useState({ limit: 0 });
 
     useEffect(() => {
         let isMounted = true;
@@ -43,9 +43,8 @@ export default function BasicTable({ name }) {
             const response = await requests.get(COMPLAINT_URL, {
                 signal: controller.signal,
             });
-            console.log(response.data);
             setStatus(false);
-            isMounted && setComplaint(response.data) && setLimitPageIndex(response.data.limitPage);
+            isMounted && setComplaint(response.data) && setPagination({ limit: response.data.limitPage });
         };
 
         getComplaint();
@@ -104,7 +103,7 @@ export default function BasicTable({ name }) {
                     </Col>
                 </Row>
                 {responseComplaint && <ResponseComplaint complaintId={complaintId} />}
-                <Paging pagination={limitPageIndex} curPage={pageIndex} setcurPage={setPageIndex} />
+                {pagination.limit > 1 && <Paging pagination={pagination} curPage={curPage} setcurPage={setcurPage} />}
             </Container>
         </div>
     );

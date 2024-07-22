@@ -6,9 +6,9 @@ import Button from 'react-bootstrap/Button';
 
 import requests from '~/utils/request';
 import { ModalContext } from '~/components/ModalProvider';
+import ModalLoading from '~/components/ModalLoading';
 
 import styles from './Subject.module.scss';
-import { type } from '@testing-library/user-event/dist/type';
 
 const cx = classNames.bind(styles);
 
@@ -22,6 +22,7 @@ const REGISTER_URL = 'tutor/registrate_tutor-subject';
 function Subject() {
     const navigate = useNavigate();
     const { userId, setChooseSubject, tutorId, setActive } = useContext(ModalContext);
+    const [completed, setCompleted] = useState(true);
     const [subjectGroupId, setSubjectGroupId] = useState([]);
     const [subjects, setSubjects] = useState([]);
     const [gradeId, setGradeId] = useState([]);
@@ -60,6 +61,7 @@ function Subject() {
 
             if (response.status === 200) {
                 setActive(true);
+                setCompleted(true);
                 navigate('/');
             }
         } catch (error) {}
@@ -97,10 +99,9 @@ function Subject() {
         setGradeId((prev) => [...prev, e.target.getAttribute('value')]);
     };
 
-    console.log(gradeId);
-
     const handleSubmit = async () => {
         try {
+            setCompleted(false);
             const response = await requests.post(
                 REGISTER_URL,
                 JSON.stringify({ tutorId: tutorId, subjectGroupId, gradeId }),
@@ -112,6 +113,9 @@ function Subject() {
 
             if (response.status === 200) {
                 setGradeId([]);
+                console.log(subjects);
+                setSubjectGroupId(subjects[0].subjectGroupId);
+                setCompleted(true);
                 setShowModal(true);
                 setTimeout(() => {
                     setShowModal(false);
@@ -124,6 +128,7 @@ function Subject() {
 
     //handle finished
     const handleFinished = () => {
+        setCompleted(false);
         if (!gradeValid) {
             alert('Please choose at least one subject as well as one grade to finished the registration');
             return;
@@ -135,67 +140,77 @@ function Subject() {
     //handle close message
     const handleCloseModal = () => setShowModal(false);
     return (
-        <div className={cx('modal')}>
-            <div className={cx('wrapper')}>
-                <div className={cx('container')}>
-                    <div className={cx('tutor__subject')}>
-                        <label id="subject">Subject</label>
-                        <select id="subject">
-                            {subjects.map((subject) => (
-                                <option
-                                    key={subject.subjectGroupId}
-                                    value={subject.subjectGroupId}
-                                    onChange={(e) => {
-                                        setSubjectGroupId(e.target.value);
-                                    }}
-                                >
-                                    {subject.subjectName}
-                                </option>
-                            ))}
-                        </select>
+        <p>
+            {!completed && (
+                <ModalLoading>
+                    <div className={cx('spinner')}>
+                        <span>Loading...</span>
+                        <div className={cx('half-spinner')}></div>
                     </div>
-                    <div className={cx('tutor__grade')}>
-                        <h3 id="grade">Grade</h3>
-                        <div className={cx('container__items')}>
-                            {grades.map((grade) => (
-                                <span
-                                    key={grade.gradeId}
-                                    value={grade.gradeId}
-                                    onClick={handleGrade}
-                                    className={cx('container__items-grade', {
-                                        selected: gradeId.includes(grade.gradeId),
-                                    })}
-                                >
-                                    {grade.number}
-                                </span>
-                            ))}
+                </ModalLoading>
+            )}
+            <div className={cx('modal')}>
+                <div className={cx('wrapper')}>
+                    <div className={cx('container')}>
+                        <div className={cx('tutor__subject')}>
+                            <label id="subject">Subject</label>
+                            <select id="subject">
+                                {subjects.map((subject) => (
+                                    <option
+                                        key={subject.subjectGroupId}
+                                        value={subject.subjectGroupId}
+                                        onChange={(e) => {
+                                            setSubjectGroupId(e.target.value);
+                                        }}
+                                    >
+                                        {subject.subjectName}
+                                    </option>
+                                ))}
+                            </select>
+                        </div>
+                        <div className={cx('tutor__grade')}>
+                            <h3 id="grade">Grade</h3>
+                            <div className={cx('container__items')}>
+                                {grades.map((grade) => (
+                                    <span
+                                        key={grade.gradeId}
+                                        value={grade.gradeId}
+                                        onClick={handleGrade}
+                                        className={cx('container__items-grade', {
+                                            selected: gradeId.includes(grade.gradeId),
+                                        })}
+                                    >
+                                        {grade.number}
+                                    </span>
+                                ))}
+                            </div>
+                        </div>
+                        <div className={cx('btn')}>
+                            <button className={cx('submit')} onClick={handleSubmit}>
+                                Send
+                            </button>
+                            <button className={cx('submit')} onClick={handleFinished}>
+                                Finished
+                            </button>
                         </div>
                     </div>
-                    <div className={cx('btn')}>
-                        <button className={cx('submit')} onClick={handleSubmit}>
-                            Send
-                        </button>
-                        <button className={cx('submit')} onClick={handleFinished}>
-                            Finished
-                        </button>
-                    </div>
                 </div>
+                <Modal show={showModal} onHide={handleCloseModal}>
+                    <Modal.Header closeButton>
+                        <Modal.Title>Success</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        Your request has been save successfully! Please choose more subject and grade if you want or
+                        finished if you had finished your choose
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button variant="secondary" onClick={handleCloseModal}>
+                            Close
+                        </Button>
+                    </Modal.Footer>
+                </Modal>
             </div>
-            <Modal show={showModal} onHide={handleCloseModal}>
-                <Modal.Header closeButton>
-                    <Modal.Title>Success</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                    Your request has been save successfully! Please choose more subject and grade if you want or
-                    finished if you had finished your choose
-                </Modal.Body>
-                <Modal.Footer>
-                    <Button variant="secondary" onClick={handleCloseModal}>
-                        Close
-                    </Button>
-                </Modal.Footer>
-            </Modal>
-        </div>
+        </p>
     );
 }
 

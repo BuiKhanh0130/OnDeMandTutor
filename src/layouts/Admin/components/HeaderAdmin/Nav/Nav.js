@@ -1,7 +1,7 @@
 import classNames from 'classnames/bind';
 
 import NavAvatar from './NavAvatar';
-import NavMessage from './NavMessage';
+import NavMessage from '../../../../../components/NavMessage';
 import NavNotification from './NavNotification';
 
 import styles from './Nav.module.scss';

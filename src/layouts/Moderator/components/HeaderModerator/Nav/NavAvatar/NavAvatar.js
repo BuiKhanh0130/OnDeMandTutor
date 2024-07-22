@@ -27,20 +27,6 @@ function NavAvatar() {
             render={(attrs) => (
                 <Popper>
                     <ul className={cx('profile')}>
-                        <li className={cx('profile-item')}>
-                            <i className={cx('bi bi-person')}></i>
-                            <span>My profile</span>
-                        </li>
-                        <li>
-                            <hr className={cx('dropdown-divider')}></hr>
-                        </li>
-                        <li className={cx('profile-item')}>
-                            <i className={cx('bi bi-person')}></i>
-                            <span>My profile</span>
-                        </li>
-                        <li>
-                            <hr className={cx('dropdown-divider')}></hr>
-                        </li>
                         <li className={cx('profile-item')} onClick={signOut}>
                             <LogoutIcon className={cx('logout-item')} />
                             <span>Log out</span>

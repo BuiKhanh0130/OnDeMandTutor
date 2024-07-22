@@ -13,12 +13,12 @@ import Sidebar from './components/Sidebar';
 import images from '~/assets/images';
 import Button from '~/components/Button';
 import User from './components/LogIn/User';
-import Notification from './components/LogIn/Notification';
+import Notification from '~/components/Notification';
 import { ModalContext } from '~/components/ModalProvider';
 import { NotificationIcon } from '~/components/Icons';
 
 import styles from './Header.module.scss';
-import NavMessage from '~/layouts/Admin/components/HeaderAdmin/Nav/NavMessage';
+import NavMessage from '~/components/NavMessage';
 
 const cx = classNames.bind(styles);
 

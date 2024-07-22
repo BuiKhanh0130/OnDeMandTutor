@@ -69,7 +69,7 @@ function CreateClass() {
                 <Modal.Header closeButton>
                     <Modal.Title>Success</Modal.Title>
                 </Modal.Header>
-                <Modal.Body>Your had applied this tutor successfully. Please tutor response</Modal.Body>
+                <Modal.Body>Create class successfully!</Modal.Body>
             </Modal>
         </Container>
     );

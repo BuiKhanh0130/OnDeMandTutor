@@ -5,7 +5,7 @@ import { Container, Row, Col } from 'react-bootstrap';
 import useRequestsPrivate from '~/hooks/useRequestPrivate';
 import PageTitle from '~/components/PageTitle';
 import Student from '~/components/Student';
-import Modal from '~/components/Modal';
+import { ModalConfirm } from '~/components/Modal';
 
 import styles from './BanAccount.module.scss';
 import useDebounce from '~/hooks/useDebounce';
@@ -79,7 +79,7 @@ function BanAccount() {
                 </Col>
             </Row>
             {showModal && isActive && (
-                <Modal
+                <ModalConfirm
                     handleConfirm={handleBanAccount}
                     handleCancel={handleCancel}
                     content="Are you sure ban this account?"
@@ -87,7 +87,7 @@ function BanAccount() {
             )}
 
             {showModal && !isActive && (
-                <Modal
+                <ModalConfirm
                     handleConfirm={handleBanAccount}
                     handleCancel={handleCancel}
                     content="Are you sure unlock this account?"

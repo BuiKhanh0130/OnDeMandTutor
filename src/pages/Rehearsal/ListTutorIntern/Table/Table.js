@@ -12,26 +12,46 @@ import { Col, Container, Row } from 'react-bootstrap';
 
 import Button from '~/components/Button';
 import requests from '~/utils/request';
-import Paging from '~/components/Paging';
+import { ModalContext } from '~/components/ModalProvider';
 import useRequestsPrivate from '~/hooks/useRequestPrivate';
 
 import styles from './Table.module.scss';
+import SendEmail from '../SendEmail';
 
 const cx = classNames.bind(styles);
 
 const LIST_TUTOR_INTERN_URL = 'moderator/get_tutors';
 const BROWSER_FORM_TUTOR_INTERN_URL = 'moderator/update_status';
+const HAD_SEND_MAIL = 'moderator/show_list_tutor_apply';
 
 export default function BasicTable({ name }) {
+    const { sendEmail, setSendEmail, setEmail, setTutorId } = React.useContext(ModalContext);
     const [status, setStatus] = useState(false);
     const [listTutor, setListTutor] = useState([]);
-    const [pageIndex, setPageIndex] = useState(1);
-    const [limitPageIndex, setLimitPageIndex] = useState(0);
-    const [approveList, setApproveList] = useState([]);
-    const [rejectList, setRejectList] = useState([]);
+    const [success, setSuccess] = useState(false);
+    const [tutorHadSendEmail, setTutorHadSendEmail] = useState([]);
     const requestPrivate = useRequestsPrivate();
 
-    console.log(approveList);
+    useEffect(() => {
+        let isMounted = true;
+        const controller = new AbortController();
+        const getSendEmail = async () => {
+            try {
+                const response = await requestPrivate.get(HAD_SEND_MAIL, { signal: controller.signal });
+                console.log(response.data);
+                isMounted && setTutorHadSendEmail(response.data);
+            } catch (error) {
+                console.log(error);
+            }
+        };
+        setSuccess(false);
+        getSendEmail();
+
+        return () => {
+            isMounted = false;
+            controller.abort();
+        };
+    }, [success]);
 
     useEffect(() => {
         let isMounted = true;
@@ -46,8 +66,9 @@ export default function BasicTable({ name }) {
             const response = await requests.get(LIST_TUTOR_INTERN_URL, {
                 signal: controller.signal,
             });
+            console.log(response.data);
             setStatus(false);
-            isMounted && setListTutor(response.data) && setLimitPageIndex(response.data.limitPage);
+            isMounted && setListTutor(response.data);
         };
 
         getListTutorIntern();
@@ -58,30 +79,16 @@ export default function BasicTable({ name }) {
         };
     }, [status]);
 
-    const handleApprove = (e, id) => {
-        if (e.target.checked) {
-            setApproveList((prev) => {
-                return [...prev, { accountId: id, status: true }];
-            });
-        } else {
-            setApproveList(approveList.filter((itemId) => itemId.accountId !== id));
-        }
-    };
-
-    const handleReject = (e, id) => {
-        if (e.target.checked) {
-            setRejectList((prev) => {
-                return [...prev, { accountId: id, status: true }];
-            });
-        } else {
-            setRejectList(approveList.filter((itemId) => itemId.accountId !== id));
-        }
-    };
-
-    const handleApiApprove = async () => {
+    const handleApiApprove = async (id) => {
+        console.log(id);
+        console.log(JSON.stringify([{ accountId: id, status: true }]));
         try {
-            const response = await requestPrivate.post(BROWSER_FORM_TUTOR_INTERN_URL, approveList);
-            if (response.status) {
+            const response = await requestPrivate.post(
+                BROWSER_FORM_TUTOR_INTERN_URL,
+                JSON.stringify([{ accountId: id, status: true }]),
+            );
+            if (response.status === 200) {
+                setSuccess(true);
                 setStatus((prev) => !prev);
             }
         } catch (error) {
@@ -89,16 +96,22 @@ export default function BasicTable({ name }) {
         }
     };
 
-    const handleApiReject = async () => {
+    const handleApiReject = async (id) => {
         try {
-            const response = await requestPrivate.put(BROWSER_FORM_TUTOR_INTERN_URL, rejectList);
+            const response = await requestPrivate.post(
+                BROWSER_FORM_TUTOR_INTERN_URL,
+                JSON.stringify([{ accountId: id, status: false }]),
+            );
             if (response.status) {
+                setSuccess(true);
                 setStatus((prev) => !prev);
             }
         } catch (error) {
             console.log(error);
         }
     };
+
+    const commonItems = listTutor.filter(({ tutorId }) => !tutorHadSendEmail.some((x) => x.tutorId === tutorId));
 
     return (
         <div className={cx('wrapper')}>
@@ -119,19 +132,14 @@ export default function BasicTable({ name }) {
                                         <TableCell align="left">Description</TableCell>
                                         <TableCell align="left">Type Of Degree</TableCell>
                                         <TableCell align="left">Education</TableCell>
-                                        <TableCell align="left">
-                                            <Button orange className={cx('approve')} onClick={handleApiApprove}>
-                                                Approve
-                                            </Button>
-                                        </TableCell>
-                                        <TableCell align="left">
-                                            <Button className={cx('reject')}>Reject</Button>
-                                        </TableCell>
+                                        <TableCell align="left"></TableCell>
+                                        <TableCell align="left"></TableCell>
+                                        <TableCell align="left"></TableCell>
                                     </TableRow>
                                 </TableHead>
                                 <TableBody style={{ color: 'white' }}>
-                                    {listTutor.length > 0 &&
-                                        listTutor?.map((row, index) => (
+                                    {commonItems.length > 0 &&
+                                        commonItems?.map((row, index) => (
                                             <TableRow
                                                 key={index}
                                                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
@@ -148,18 +156,40 @@ export default function BasicTable({ name }) {
                                                 <TableCell align="left">{row?.typeOfDegree}</TableCell>
                                                 <TableCell align="left">{row?.education}</TableCell>
                                                 <TableCell align="left" className="Details">
-                                                    <input
-                                                        type="checkbox"
-                                                        value={row?.accountId}
-                                                        onChange={(e) => handleApprove(e, row?.accountId)}
-                                                    ></input>
+                                                    <Button
+                                                        orange
+                                                        className={cx('approve')}
+                                                        onClick={() => handleApiApprove(row.accountId)}
+                                                    >
+                                                        Approve
+                                                    </Button>
                                                 </TableCell>
                                                 <TableCell align="left" className="Details">
-                                                    <input
-                                                        type="checkbox"
-                                                        value={row?.accountId}
-                                                        onChange={(e) => handleReject(e, row?.accountId)}
-                                                    ></input>
+                                                    <Button
+                                                        className={cx('reject')}
+                                                        onClick={() => {
+                                                            handleApiReject(row.accountId);
+                                                        }}
+                                                    >
+                                                        Reject
+                                                    </Button>
+                                                </TableCell>
+                                                <TableCell
+                                                    align="left"
+                                                    className="Details"
+                                                    onClick={() => {
+                                                        setTutorId(row?.tutorId);
+                                                        setEmail(row?.email);
+                                                    }}
+                                                >
+                                                    <Button
+                                                        className={cx('sendEmail')}
+                                                        onClick={() => {
+                                                            setSendEmail(true);
+                                                        }}
+                                                    >
+                                                        Send Email
+                                                    </Button>
                                                 </TableCell>
                                             </TableRow>
                                         ))}
@@ -168,7 +198,7 @@ export default function BasicTable({ name }) {
                         </TableContainer>
                     </Col>
                 </Row>
-                <Paging pagination={limitPageIndex} curPage={pageIndex} setcurPage={setPageIndex} />
+                {sendEmail && <SendEmail />}
             </Container>
         </div>
     );

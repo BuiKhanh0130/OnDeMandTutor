@@ -1,7 +1,7 @@
 import classNames from 'classnames/bind';
 import { useContext, useEffect, useState } from 'react';
 import Modal from 'react-bootstrap/Modal';
-import { HubConnectionBuilder, LogLevel } from '@microsoft/signalr';
+// import { HubConnectionBuilder, LogLevel } from '@microsoft/signalr';
 
 import Post from '~/components/Post';
 import { ModalContext } from '~/components/ModalProvider';
@@ -20,17 +20,7 @@ const NOTIFICATION_URL = 'notification/create_notification';
 
 function MyPost() {
     const requestPrivate = useRequestsPrivate();
-    const {
-        setAuth,
-        setActive,
-        handleUser,
-        setUserId,
-        setAvatar,
-        conn,
-        notifications,
-        setConnection,
-        setNotifications,
-    } = useContext(ModalContext);
+    // const { conn } = useContext(ModalContext);
     const [curPage, setcurPage] = useState(1);
     const [pagination, setPagination] = useState({
         page: 1,
@@ -48,14 +38,46 @@ function MyPost() {
     const [showModal, setShowModal] = useState(false);
     const [syntax, setSyntax] = useState('');
 
-    const sendMessage = async (message) => {
-        try {
-            console.log(message);
-            await conn.invoke('SendNotification', message);
-        } catch (e) {
-            console.log(e);
-        }
-    };
+    // const joinNotificationRoom = async (fullName, userID) => {
+    //     console.log(fullName, userID);
+    //     try {
+    //         const conn = new HubConnectionBuilder()
+    //             .withUrl('https://localhost:7262/chatHub')
+    //             .configureLogging(LogLevel.Information)
+    //             .build();
+
+    //         conn.on('JoinSpecificNotification', (fullName, userID) => {
+    //             console.log(fullName, userID);
+    //         });
+
+    //         conn.on('ReceiveNotification', (userID, noti) => {
+    //             console.log('hi');
+    //             setNotifications((noti) => [...noti, { noti }]);
+    //             console.log(notifications, noti);
+    //         });
+
+    //         await conn.start();
+    //         await conn.invoke('JoinSpecificNotification', { fullName, userID });
+
+    //         setConnection(conn);
+    //     } catch (e) {
+    //         console.log(e);
+    //     }
+    // };
+
+    // const sendNotification = async (receiverId) => {
+    //     try {
+    //         console.log(receiverId);
+    //         await conn.invoke('SendNotification', receiverId);
+    //     } catch (e) {
+    //         console.log(e);
+    //     }
+    // };
+
+    // const stopChatRoom = async () => {
+    //     await conn.stop();
+    //     setConnection('');
+    // };
 
     //get list tutor
     useEffect(() => {
@@ -97,7 +119,6 @@ function MyPost() {
 
     //get list tutor apply to course
     const handleViewList = async (id) => {
-        console.log(id);
         let isMounted = true;
         const controller = new AbortController();
         const response = await requestPrivate.get(`${VIEW_APLLY_LIST_URL}?formId=${id}`, {
@@ -124,7 +145,7 @@ function MyPost() {
                 setShowModal(true);
                 setTimeout(() => {
                     setShowModal(false);
-                }, 3000);
+                }, 4000);
             }
         } catch (error) {
             console.log(error);
@@ -136,14 +157,13 @@ function MyPost() {
             const response = await requestPrivate.post(
                 NOTIFICATION_URL,
                 JSON.stringify({
-                    title: 'has been choose you become your tutor',
-                    description: `create class to connect with${avatar.fullName}`,
+                    title: 'has been choose you become their tutor',
+                    description: `create class to connect with ${avatar.fullName}`,
                     url: `/generateClass/${formId}`,
                     accountId: tutorId,
                 }),
             );
             if (response.status === 200) {
-                sendMessage(tutorId);
             }
         } catch (error) {
             console.log(error);
@@ -207,7 +227,7 @@ function MyPost() {
                 <Modal.Header closeButton>
                     <Modal.Title>Success</Modal.Title>
                 </Modal.Header>
-                <Modal.Body>Your had applied this tutor successfully. Please tutor response</Modal.Body>
+                <Modal.Body>Your had connected this tutor successfully. Please wait for tutor response!</Modal.Body>
             </Modal>
         </div>
     );

@@ -16,7 +16,6 @@ const Messages = () => {
     const Layer = auth.role === 'Tutor' ? HeaderTutor : Header;
     const sendMessage = async (message) => {
         try {
-            console.log(message);
             await conn.invoke('SendMessage', message);
         } catch (e) {
             console.log(e);

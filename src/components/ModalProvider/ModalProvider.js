@@ -26,6 +26,7 @@ function ModalProvider({ children }) {
     const [responseComplaint, setResponseComplaint] = useState(false);
     const [searchItem, setSearchItem] = useState('');
     const [notifications, setNotifications] = useState('');
+    const [email, setEmail] = useState('');
 
     const handleActive = () => {
         setActive(true);
@@ -76,6 +77,7 @@ function ModalProvider({ children }) {
         listTutor,
         setListTutor,
         setResponseComplaint,
+        email,
         sendEmail,
         setSendEmail,
         setConnection,
@@ -89,6 +91,7 @@ function ModalProvider({ children }) {
         updateForm,
         notifications,
         setNotifications,
+        setEmail,
         setUpdateForm,
         setChooseSubject,
         setGenerateClass,

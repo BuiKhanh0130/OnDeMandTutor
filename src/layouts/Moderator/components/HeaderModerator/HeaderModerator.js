@@ -16,7 +16,7 @@ function HeaderModerator() {
                     {/* logo */}
                     <Logo />
                     {/* search bar */}
-                    <SearchBar />
+                    {/* <SearchBar /> */}
                     {/* nav */}
                     <Nav />
                 </header>

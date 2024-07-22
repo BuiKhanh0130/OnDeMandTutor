@@ -85,7 +85,7 @@ const Notification = () => {
                 </Row>
                 {notificationList.length > 0 ? (
                     notificationList.map((noti, index) => (
-                        <Row>
+                        <Row style={{ marginBottom: '10px' }}>
                             <Col lg="4" className={cx('container_user')}>
                                 <Row className={cx('container_user_item')}>
                                     <Col

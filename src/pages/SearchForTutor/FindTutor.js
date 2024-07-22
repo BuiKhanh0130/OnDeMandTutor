@@ -256,7 +256,10 @@ function FindTutor() {
                             tutor.map((tutor, index) => {
                                 return (
                                     <div key={index} className={cx('result__wrapper-content')}>
-                                        <Link to={`/account/tutor/${tutor.fullName}`} onClick={() => setTutorId(tutor.tutorID)}>
+                                        <Link
+                                            to={`/account/tutor/${tutor.fullName}`}
+                                            onClick={() => setTutorId(tutor.tutorID)}
+                                        >
                                             <Row className={cx('result__profile')}>
                                                 <Col lg="2" className={cx('result__profile-img')}>
                                                     <Image
@@ -320,7 +323,7 @@ function FindTutor() {
                                                             Response Time: <strong>{5} minutes</strong>
                                                         </span>
                                                     </div>
-                                                    <Button orange className={cx('result__profile-generality-btn')} >
+                                                    <Button orange className={cx('result__profile-generality-btn')}>
                                                         View {tutor.fullName} profile
                                                     </Button>
                                                 </Col>

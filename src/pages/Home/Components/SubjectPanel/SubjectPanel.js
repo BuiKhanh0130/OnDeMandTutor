@@ -1,5 +1,5 @@
 import classNames from 'classnames/bind';
-
+import Tippy from '@tippyjs/react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
@@ -21,10 +21,15 @@ function LessonPanel({ subjects }) {
                             <div className={cx('subjectPanel__container-items')}>
                                 {subjectChildren.items.map((subject, index) => {
                                     return (
-                                        <div key={index} className={cx('subjectPanel__container-item')}>
-                                            <Image src={subject.icon} alt={subject.label} />
-                                            <span>{subject.label}</span>
-                                        </div>
+                                        <Tippy
+                                            content={subject.content}
+                                            className={cx('tippy-tooltip tomato-theme', { theme: 'tomato' })}
+                                        >
+                                            <div key={index} className={cx('subjectPanel__container-item')}>
+                                                <Image src={subject.icon} alt={subject.label} />
+                                                <span>{subject.label}</span>
+                                            </div>
+                                        </Tippy>
                                     );
                                 })}
                             </div>

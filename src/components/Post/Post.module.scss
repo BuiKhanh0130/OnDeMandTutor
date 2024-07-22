@@ -45,6 +45,7 @@
 }
 
 .container__form-control-btn {
+    display: flex;
     margin-left: auto;
 }
 
@@ -66,10 +67,10 @@
 .container__form-control-delete {
     height: 30px;
     width: 120px;
-    margin-right: 4px;
     background-color: red;
     margin-top: 10px;
     color: var(--white);
+    margin-right: auto;
 
     &:hover {
         background-color: rgba(206, 17, 17, 0.8);

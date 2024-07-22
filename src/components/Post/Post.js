@@ -210,22 +210,24 @@ function Post({
                                                 >
                                                     Delete
                                                 </Button>
-                                                <Button
-                                                    className={cx('container__form-control-update')}
-                                                    onClick={() => {
-                                                        handleUpdateForm(classItem);
-                                                    }}
-                                                >
-                                                    Update
-                                                </Button>
-                                                <Button
-                                                    className={cx('container__form-control-submit')}
-                                                    onClick={() => {
-                                                        handleViewList(classItem?.formId);
-                                                    }}
-                                                >
-                                                    View All Tutor
-                                                </Button>
+                                                <div>
+                                                    <Button
+                                                        className={cx('container__form-control-update')}
+                                                        onClick={() => {
+                                                            handleUpdateForm(classItem);
+                                                        }}
+                                                    >
+                                                        Update
+                                                    </Button>
+                                                    <Button
+                                                        className={cx('container__form-control-submit')}
+                                                        onClick={() => {
+                                                            handleViewList(classItem?.formId);
+                                                        }}
+                                                    >
+                                                        View All Tutor
+                                                    </Button>
+                                                </div>
                                             </>
                                         )}
                                     </div>
