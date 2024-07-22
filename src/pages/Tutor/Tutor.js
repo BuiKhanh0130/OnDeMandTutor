@@ -39,6 +39,7 @@ function Tutor() {
                 const response = await requestPrivate.get(`${PROFILETUTOR_URL}${tutorId}`, {
                     signal: controller.signal,
                 });
+                console.log(response.data);
                 isMounted && setUserDetails(response.data);
             } catch (error) {
                 console.log(error);
@@ -106,15 +107,13 @@ function Tutor() {
                                 </div>
                             </div>
                             <div className={cx('container__tag-connect')}>
-                                <strong>Hourly Rate: ${userDetails?.hourlyRate}</strong>
+                                <strong>Hourly Rate: {userDetails?.hourlyRate}VNĐ</strong>
                                 <Button orange>
                                     <Link to={`/requestForm`} state={{ key: tutorId }}>
-                                        Contact {userDetails?.fullName}
+                                        Request {userDetails?.fullName}
                                     </Link>
                                 </Button>
-                                <span className={cx('container__tag-connect-respond')}>
-                                    Respond time: <strong>7 minutes minutes</strong>
-                                </span>
+                        
                             </div>
                         </div>
                     </Col>
