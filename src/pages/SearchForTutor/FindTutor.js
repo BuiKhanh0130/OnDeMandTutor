@@ -25,7 +25,7 @@ const GRADE_URL = 'grade';
 const TUTOR_URL = 'tutor';
 
 function FindTutor() {
-    const { searchItem } = useContext(ModalContext);
+    const { searchItem, setTutorId } = useContext(ModalContext);
     const [minValueRate, setMinValueRate] = useState(0);
     const [maxValueRate, setMaxValueRate] = useState(200);
     const [grade, setGrade] = useState('');
@@ -256,7 +256,12 @@ function FindTutor() {
                             tutor.map((tutor, index) => {
                                 return (
                                     <div key={index} className={cx('result__wrapper-content')}>
-                                        <Link to={`/account/tutor/${tutor.fullName}`} state={{ key: tutor.tutorID }}>
+                                        <Link
+                                            to={`/account/tutor/${tutor.fullName}`}
+                                            onClick={() => {
+                                                setTutorId(tutor.tutorID);
+                                            }}
+                                        >
                                             <Row className={cx('result__profile')}>
                                                 <Col lg="2" className={cx('result__profile-img')}>
                                                     <Image

@@ -1,10 +1,13 @@
 import classNames from 'classnames/bind';
 
+import Button from 'react-bootstrap/Button';
+import Modal from 'react-bootstrap/Modal';
+
 import styles from './Modal.module.scss';
 
 const cx = classNames.bind(styles);
 
-function Modal({ handleCancel, handleConfirm, content }) {
+export function ModalConfirm({ handleCancel, handleConfirm, content }) {
     return (
         <div className={cx('modal')}>
             <div className={cx('modal-content')}>
@@ -29,4 +32,18 @@ function Modal({ handleCancel, handleConfirm, content }) {
     );
 }
 
-export default Modal;
+export function ModalNotConfirm({ showModal, handleCancel, content, typeError }) {
+    return (
+        <Modal show={showModal} onClick={handleCancel}>
+            <Modal.Header closeButton>
+                <Modal.Title>{typeError}</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>{content}</Modal.Body>
+            <Modal.Footer>
+                <Button variant="secondary" onClick={handleCancel}>
+                    Close
+                </Button>
+            </Modal.Footer>
+        </Modal>
+    );
+}

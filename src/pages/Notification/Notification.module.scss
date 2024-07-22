@@ -25,33 +25,32 @@
 }
 
 .container_user {
-    border-right: 1px solid #e0e0e0;
+    border-right: 1px solid #ebe7e7;
     padding-right: 20px;
 }
 
-.user_item{
+.user_item {
     width: 300px;
 }
 
 .container_user_item {
     max-height: 330px;
-    overflow-y: auto;
-    .content_left{
+    .content_left {
         margin-left: 10px;
         margin-top: 10px;
     }
 }
 
-.container__detail{
-    border: 1px solid rgb(85, 84, 84);
+.container__detail {
+    border: 1px solid rgb(202, 202, 202);
     padding: 10px;
+    border-radius: 10px;
 }
 
 .container_user_detail {
     display: flex;
     align-items: center;
     border: 1px solid rgb(85, 84, 84);
-    margin-top: 10px;
     border-radius: 5px;
     width: 320px;
     height: 68px;
@@ -64,11 +63,10 @@
     }
 }
 
-.container_user_detail:hover{
+.container_user_detail:hover {
     background-color: #f0f0f0;
     cursor: pointer;
 }
-
 
 .content_left {
     display: flex;
@@ -80,12 +78,11 @@
         font-size: 15px;
     }
 
-    .content_day{
+    .content_day {
         display: flex;
         text-align: end;
         color: #666;
     }
-
 }
 
 .container__mess_detail {
@@ -111,16 +108,16 @@
     }
 }
 
-.container_user{
-    .container_user_item{
+.container_user {
+    .container_user_item {
         display: flex;
         justify-content: center;
     }
 }
 
-.container__mess_header{
+.container__mess_header {
     display: flex;
-    span{
+    span {
         margin-left: 20px;
         font-size: 25px;
         font-weight: bold;
@@ -131,32 +128,36 @@
     border-radius: 5px;
 }
 
-.container__mess_chatbox{
+.container__mess_chatbox {
     width: 800px;
     margin: auto;
     margin-top: 20px;
-    .header_noti{
+    .header_noti {
         font-weight: bold;
         font-size: 15px;
-        margin-bottom: 5px
-        }
-    p{
-        margin: 0; 
+        margin-bottom: 5px;
+    }
+    p {
+        margin: 0;
         line-height: 1.5;
     }
-    a{
+    a {
         color: #337ab7;
         text-decoration: underline;
     }
 
-    .body_noti{
+    .body_noti {
         height: 100px;
         font-size: 15px;
     }
 
-    .final_noti{
+    .body_noti p,
+    .body_noti span {
+        text-transform: lowercase;
+    }
+
+    .final_noti {
         text-align: end;
         font-size: 15px;
     }
 }
-

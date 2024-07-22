@@ -21,18 +21,12 @@ function Sidebar() {
 
             {
                 title: 'How It Works',
-                items: [
-                    { label: 'For Student', link: '/forStudent' },
-                    { label: 'What Customers Say', link: '/customerSay' },
-                ],
+                items: [{ label: 'For Student', link: '/forStudent' }],
             },
 
             {
                 title: 'Resources',
-                items: [
-                    { label: 'News', link: '/advertisement' },
-                    { label: 'Blog', link: '/blog' },
-                ],
+                items: [{ label: 'News', link: '/advertisement' }],
             },
 
             {

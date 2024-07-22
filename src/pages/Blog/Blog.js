@@ -1,7 +1,5 @@
 import classNames from 'classnames/bind';
 import { useEffect, useState } from 'react';
-import Modal from 'react-bootstrap/Modal';
-import Button from 'react-bootstrap/Button';
 import { Container, Row, Col } from 'react-bootstrap';
 
 import useDebounce from '~/hooks/useDebounce';
@@ -10,6 +8,7 @@ import useRequestsPrivate from '~/hooks/useRequestPrivate';
 
 import styles from './Blog.module.scss';
 import Post from '~/components/Post';
+import ModalNotification from '~/components/ModalNotification';
 
 const cx = classNames.bind(styles);
 
@@ -36,7 +35,7 @@ function Blog() {
     const [apply, setApply] = useState(false);
     const [listResult, setListResult] = useState([]);
     const [curPage, setcurPage] = useState(1);
-    const [error, setError] = useState();
+    const [error, setError] = useState('');
     const [showModal, setShowModal] = useState(false);
     const debouncedValueSubject = useDebounce(subject, 500);
     const debouncedValueHourlyRate = useDebounce(hourlyRate, 500);
@@ -131,12 +130,24 @@ function Blog() {
     }, [apply]);
 
     const handleApply = async (id) => {
-        const response = await requestPrivate.post(APPLY_POST_URL, id);
-        if (response.data) {
-            setError(response.data);
+        try {
+            const response = await requestPrivate.post(APPLY_POST_URL, id);
+            console.log(response.data);
+            console.log(typeof response.data);
+            if (typeof response.data === 'string') {
+                setError(response.data);
+            } else {
+                setError('You are applied successfully');
+                setApply(true);
+            }
+
             setShowModal(true);
-        } else {
-            setApply(true);
+        } catch (error) {
+            console.log(error);
+            console.log(error.response);
+            if (error?.response?.status === 400) {
+                setError(error);
+            }
         }
     };
 
@@ -223,18 +234,7 @@ function Blog() {
                         )}
                     </Col>
                 </Row>
-
-                <Modal className={cx('bg-danger')} show={showModal} onHide={handleCloseModal}>
-                    <Modal.Header closeButton>
-                        <Modal.Title>Error</Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body>{error}</Modal.Body>
-                    <Modal.Footer>
-                        <Button variant="secondary" onClick={handleCloseModal}>
-                            Close
-                        </Button>
-                    </Modal.Footer>
-                </Modal>
+                <ModalNotification showModal={showModal} handleCloseModal={handleCloseModal} error={error} />
             </Container>
         </div>
     );

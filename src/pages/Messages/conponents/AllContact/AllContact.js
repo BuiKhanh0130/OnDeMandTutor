@@ -7,6 +7,7 @@ import useRequestsPrivate from '~/hooks/useRequestPrivate';
 import { ModalContext } from '~/components/ModalProvider';
 
 import styles from './AllContact.module.scss';
+import Image from '~/components/Image';
 
 const USERS = 'ConversationAccount';
 
@@ -94,7 +95,7 @@ function AllContact() {
                                     setAvatarMessage({ avatar: user.avatar, name: user.name });
                                 }}
                             >
-                                <img alt="react" src={user.avatar}></img>
+                                <Image alt={user.name} src={user.avatar}></Image>
                                 <Row className={cx('user_item')}>
                                     <Col className={cx('content-left')}>
                                         <span className={cx('content-left-user')}>{user.name}</span>

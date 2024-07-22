@@ -12,8 +12,8 @@ function Nav() {
     return (
         <nav className={cx('header-nav', 'ms-auto')}>
             <ul className={cx('d-flex', 'align-items-center')}>
-                <NavNotification />
-                <NavMessage />
+                {/* <NavNotification />
+                <NavMessage /> */}
                 <NavAvatar />
             </ul>
         </nav>

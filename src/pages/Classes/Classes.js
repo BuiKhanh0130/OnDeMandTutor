@@ -11,13 +11,13 @@ import { ModalContext } from '~/components/ModalProvider';
 
 const cx = classNames.bind(styles);
 
-const VIEW_CLASS_LIST_URL = 'Classes/student/viewClassList';
-const VIEW_CLASS_DETAILS_URL = 'Classes/viewClassDetail';
-const STUDENT_BROWSERCLASS_URL = 'Classes/student/browseClass';
-const CONVERSATION_URL = 'ConversationAccount';
+const VIEW_CLASS_LIST_URL = 'class/get_student-classes';
+const VIEW_CLASS_DETAILS_URL = 'class/get_class-detail';
+const STUDENT_BROWSERCLASS_URL = 'class/student_browse-class';
+const CONVERSATION_URL = 'conversation-account';
 const CREATE_NOTIFICATION_URL = 'notification/create_notification';
-const REQUEST_PAYMENT_URL = 'VnPay/create_payment_url';
-const RESPONSE_PAYMENT_URL = 'VnPay/payment_return';
+const REQUEST_PAYMENT_URL = 'vnpay/create_payment_url';
+const RESPONSE_PAYMENT_URL = 'vnpay/payment_return';
 const WALLETID_ADMIN = '8ee95b26-10f3-420d-97fc-69707124e1c8';
 const VNPAYID = '2eb657de-2fd4-425e-8a21-bf786372bb60';
 

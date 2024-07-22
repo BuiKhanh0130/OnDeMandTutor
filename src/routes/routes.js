@@ -49,6 +49,7 @@ import Admin from '~/layouts/Admin';
 import BanAccount from '~/pages/BanAccount';
 import AccountAdmin from '~/pages/Account/AccountAdmin';
 import AccountModerator from '~/pages/Account/AccountModerator';
+import Feedback from '~/pages/Feedback';
 
 const publicRoutes = [
     { path: config.routes.home, component: Home },
@@ -67,7 +68,6 @@ const publicRoutes = [
     { path: config.routes.aboutUs, component: AboutUs },
     { path: config.routes.learnMore, component: LearnMore },
     { path: config.routes.tipSuccess, component: TipSuccess },
-    { path: config.routes.messages, component: Messages },
 ];
 
 const privateRoutes = [
@@ -82,8 +82,8 @@ const privateRoutes = [
     { path: config.routes.onlineTutoring, component: OnlineTutoring, role: ['Student', 'Administrator'] },
     { path: config.routes.forStudent, component: ForStudent, role: ['Student', 'Tutor'] },
     { path: config.routes.customerSay, component: CustomerSay, role: ['Student', 'Tutor'] },
-    { path: config.routes.blog, component: Blog, role: ['Student', 'Tutor'] },
-    { path: config.routes.advertisement, component: Advertisement, role: ['Tutor'] },
+    { path: config.routes.blog, component: Blog, role: ['Tutor'] },
+    { path: config.routes.advertisement, component: Advertisement, role: ['Tutor', 'Student'] },
     { path: config.routes.howItWork, component: HowItWork, role: ['Student', 'Tutor'] },
     { path: config.routes.profileStudent, component: StudentProfile, layout: HeaderOnly, role: ['Student'] },
     { path: config.routes.profileTutor, component: TutorProfile, layout: HeaderOnly, role: ['Tutor'] },
@@ -111,6 +111,7 @@ const privateRoutes = [
     { path: config.routes.requestOfStudent, component: RequestOfStudent, role: ['Student'] },
     { path: config.routes.viewComplaint, component: ViewComplaint, layout: 'null', role: ['Student', 'Tutor'] },
     { path: config.routes.success, component: Successful, layout: 'null', role: ['Student', 'Tutor'] },
+    { path: config.routes.feedback, component: Feedback, role: ['Student'] },
     {
         path: config.routes.advertisementModerator,
         component: AdvertisementModerator,

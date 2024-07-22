@@ -7,11 +7,11 @@ import { HubConnectionBuilder, LogLevel } from '@microsoft/signalr';
 import Popper from '~/components/Popper';
 import { ModalContext } from '~/components/ModalProvider';
 import useRequestsPrivate from '~/hooks/useRequestPrivate';
+import { MessageIcon } from '../Icons';
 
 import styles from './NavMessage.module.scss';
 
 const cx = classNames.bind(styles);
-
 const USERS = 'conversation-account';
 
 function NavMessage() {
@@ -79,15 +79,22 @@ function NavMessage() {
             render={(attrs) => (
                 <Popper>
                     <ul className={cx('messages')}>
-                        <li className={cx('dropdown-header')}>
-                            You have {users.length} messages
-                            <Link to="/messages">
-                                <span className={cx('badge rounded-pill bg-primary p-2 ms-2')}>View all</span>
-                            </Link>
-                        </li>
-                        <li>
-                            <hr className={cx('dropdown-divider')}></hr>
-                        </li>
+                        {users.length > 0 ? (
+                            <>
+                                <li className={cx('dropdown-header')}>
+                                    You have {users.length} messages
+                                    <Link to="/messages">
+                                        <span className={cx('badge rounded-pill bg-primary p-2 ms-2')}>View all</span>
+                                    </Link>
+                                </li>
+                                <li>
+                                    <hr className={cx('dropdown-divider')}></hr>
+                                </li>
+                            </>
+                        ) : (
+                            <></>
+                        )}
+
                         {users.map((user, index) => {
                             return (
                                 <li className={cx('message-item')}>
@@ -114,10 +121,15 @@ function NavMessage() {
                 </Popper>
             )}
         >
-            <Link className={cx('nav-link', 'nav-icon')} to="/" data-bs-toggle="dropdown">
-                <i className={cx('bi bi-chat-left-text')}></i>
-                {/* <span className={cx('badge', 'bg-danger', 'badge-number')}>4</span> */}
-            </Link>
+            {users.length > 0 ? (
+                <Link to="/messages" className={cx('container__message')}>
+                    <MessageIcon />
+                </Link>
+            ) : (
+                <div className={cx('container__message')}>
+                    <MessageIcon />
+                </div>
+            )}
         </HeadlessTippy>
     );
 }

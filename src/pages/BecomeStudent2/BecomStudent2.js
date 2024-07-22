@@ -5,12 +5,13 @@ import { useNavigate } from 'react-router-dom';
 import requests from '~/utils/request';
 import { ModalContext } from '~/components/ModalProvider';
 import Button from '~/components/Button';
+import ModalLoading from '~/components/ModalLoading';
 
 import styles from './BecomeStudent2.module.scss';
 
 const cx = classNames.bind(styles);
 
-const REGISTER_URL = '/auth/student-signUp';
+const REGISTER_URL = 'auth/student_signup';
 const CREATEWALLET_URL = 'wallet/create_wallet';
 
 function BecomeStudent2() {
@@ -18,6 +19,7 @@ function BecomeStudent2() {
     const navigate = useNavigate();
     const errRef = useRef();
     const [isParent, setIsParent] = useState(false);
+    const [completed, setCompleted] = useState(true);
 
     const [schoolName, setSchoolName] = useState('');
     const [schoolNameFocus, setSchoolNameFocus] = useState(false);
@@ -35,7 +37,7 @@ function BecomeStudent2() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-
+        setCompleted(false);
         try {
             const response = await requests.post(
                 REGISTER_URL,
@@ -51,11 +53,12 @@ function BecomeStudent2() {
                     withCredentials: true,
                 },
             );
-            console.log(response.status);
             if (response.status === 200) {
+                setCompleted(true);
                 handleCreateWallet();
             }
         } catch (error) {
+            setCompleted(true);
             if (!error?.response) {
                 setErrMsg('No server response');
             } else if (error?.response?.status === 490) {
@@ -81,138 +84,148 @@ function BecomeStudent2() {
     };
 
     return (
-        <div className={cx('wrapper')}>
-            <div className={cx('container')}>
-                <div className={cx('title')}>Register</div>
-                <div className={cx('currentForm')}>
-                    <form className={cx('currentForm_content')} onSubmit={handleSubmit}>
-                        <div className={cx('form_row')}>
-                            <p ref={errRef} className={errMsg ? 'errMsg' : 'offscreen'} aria-live="assertive">
-                                {errMsg}
-                            </p>
-                        </div>
+        <>
+            {!completed && (
+                <ModalLoading>
+                    <div className={cx('spinner')}>
+                        <span>Loading...</span>
+                        <div className={cx('half-spinner')}></div>
+                    </div>
+                </ModalLoading>
+            )}
+            <div className={cx('wrapper')}>
+                <div className={cx('container')}>
+                    <div className={cx('title')}>Register</div>
+                    <div className={cx('currentForm')}>
+                        <form className={cx('currentForm_content')} onSubmit={handleSubmit}>
+                            <div className={cx('form_row')}>
+                                <p ref={errRef} className={errMsg ? 'errMsg' : 'offscreen'} aria-live="assertive">
+                                    {errMsg}
+                                </p>
+                            </div>
 
-                        <div className={cx('form_row')}>
-                            <label htmlFor="txtShoolName">School name</label>
-                            <input
-                                type="text"
-                                id="txtShoolName"
-                                name="txtShoolName"
-                                className={cx('txtEducation')}
-                                placeholder="Graduate FPT University"
-                                value={schoolName}
-                                onChange={(e) => {
-                                    const schoolName = e.target.value;
-                                    if (schoolName.startsWith(' ')) {
-                                        return;
-                                    }
-                                    setSchoolName(e.target.value);
-                                }}
-                                onFocus={() => {
-                                    setSchoolNameFocus(true);
-                                }}
-                                onBlur={() => {
-                                    setSchoolNameFocus(false);
-                                }}
-                            ></input>
-                        </div>
-
-                        <div className={cx('form_row')}>
-                            <label htmlFor="txtEducation">Education</label>
-                            <input
-                                type="text"
-                                id="txtEducation"
-                                name="txtEducation"
-                                className={cx('txtEducation')}
-                                placeholder="Link"
-                                value={education}
-                                onChange={(e) => {
-                                    const typeOfDegreeValue = e.target.value;
-                                    if (typeOfDegreeValue.startsWith(' ')) {
-                                        return;
-                                    }
-                                    setEducation(e.target.value);
-                                }}
-                                onFocus={() => {
-                                    setEducationFocus(true);
-                                }}
-                                onBlur={() => {
-                                    setEducationFocus(false);
-                                }}
-                            ></input>
-                        </div>
-
-                        <div className={cx('form_row')}>
-                            <label htmlFor="age">Age</label>
-                            <input
-                                type="number"
-                                id="age"
-                                name="age"
-                                className={cx('txtPassword')}
-                                autoComplete="off"
-                                placeholder="0"
-                                // aria-invalid={validPwd ? 'false' : 'true'}
-                                value={age}
-                                onChange={(e) => {
-                                    const headlineValue = e.target.value;
-                                    if (headlineValue.startsWith(' ')) {
-                                        return;
-                                    }
-                                    setAge(headlineValue);
-                                }}
-                                onFocus={() => {
-                                    setAgeFocus(true);
-                                }}
-                                onBlur={() => setAgeFocus(false)}
-                            ></input>
-                        </div>
-
-                        <div className={cx('form_row')}>
-                            <label htmlFor="txtAddress">Address</label>
-                            <input
-                                type="text"
-                                id="txtAddress"
-                                name="txtAddress"
-                                className={cx('txtAddress')}
-                                placeholder="Lô E2a-7, Đường D1, Đ. D1, Long Thạnh Mỹ, Thành Phố Thủ Đức, Thành phố Hồ Chí Minh 700000"
-                                value={address}
-                                onChange={(e) => {
-                                    const addressValue = e.target.value;
-                                    if (addressValue.startsWith(' ')) {
-                                        return;
-                                    }
-                                    setAddress(e.target.value);
-                                }}
-                                onFocus={() => {
-                                    setAddressFocus(true);
-                                }}
-                                onBlur={() => {
-                                    setAddressFocus(false);
-                                }}
-                            ></input>
-                        </div>
-
-                        <div className={cx('form_row-radio')}>
-                            <p>Is Parent</p>
-                            <div className={cx('form_row-radio-content')}>
+                            <div className={cx('form_row')}>
+                                <label htmlFor="txtShoolName">School name</label>
                                 <input
-                                    type="radio"
-                                    className={cx('gender')}
-                                    id="gentlemen"
-                                    name="gender"
-                                    value="gentlemen"
-                                    onChange={() => {
-                                        setIsParent(true);
+                                    type="text"
+                                    id="txtShoolName"
+                                    name="txtShoolName"
+                                    className={cx('txtEducation')}
+                                    placeholder="Graduate FPT University"
+                                    value={schoolName}
+                                    onChange={(e) => {
+                                        const schoolName = e.target.value;
+                                        if (schoolName.startsWith(' ')) {
+                                            return;
+                                        }
+                                        setSchoolName(e.target.value);
+                                    }}
+                                    onFocus={() => {
+                                        setSchoolNameFocus(true);
+                                    }}
+                                    onBlur={() => {
+                                        setSchoolNameFocus(false);
                                     }}
                                 ></input>
                             </div>
-                        </div>
 
-                        <Button className={cx('submit')}>Submit</Button>
-                    </form>
+                            <div className={cx('form_row')}>
+                                <label htmlFor="txtEducation">Education</label>
+                                <input
+                                    type="text"
+                                    id="txtEducation"
+                                    name="txtEducation"
+                                    className={cx('txtEducation')}
+                                    placeholder="Link"
+                                    value={education}
+                                    onChange={(e) => {
+                                        const typeOfDegreeValue = e.target.value;
+                                        if (typeOfDegreeValue.startsWith(' ')) {
+                                            return;
+                                        }
+                                        setEducation(e.target.value);
+                                    }}
+                                    onFocus={() => {
+                                        setEducationFocus(true);
+                                    }}
+                                    onBlur={() => {
+                                        setEducationFocus(false);
+                                    }}
+                                ></input>
+                            </div>
+
+                            <div className={cx('form_row')}>
+                                <label htmlFor="age">Age</label>
+                                <input
+                                    type="number"
+                                    id="age"
+                                    name="age"
+                                    className={cx('txtPassword')}
+                                    autoComplete="off"
+                                    placeholder="0"
+                                    // aria-invalid={validPwd ? 'false' : 'true'}
+                                    value={age}
+                                    onChange={(e) => {
+                                        const headlineValue = e.target.value;
+                                        if (headlineValue.startsWith(' ')) {
+                                            return;
+                                        }
+                                        setAge(headlineValue);
+                                    }}
+                                    onFocus={() => {
+                                        setAgeFocus(true);
+                                    }}
+                                    onBlur={() => setAgeFocus(false)}
+                                ></input>
+                            </div>
+
+                            <div className={cx('form_row')}>
+                                <label htmlFor="txtAddress">Address</label>
+                                <input
+                                    type="text"
+                                    id="txtAddress"
+                                    name="txtAddress"
+                                    className={cx('txtAddress')}
+                                    placeholder="Lô E2a-7, Đường D1, Đ. D1, Long Thạnh Mỹ, Thành Phố Thủ Đức, Thành phố Hồ Chí Minh 700000"
+                                    value={address}
+                                    onChange={(e) => {
+                                        const addressValue = e.target.value;
+                                        if (addressValue.startsWith(' ')) {
+                                            return;
+                                        }
+                                        setAddress(e.target.value);
+                                    }}
+                                    onFocus={() => {
+                                        setAddressFocus(true);
+                                    }}
+                                    onBlur={() => {
+                                        setAddressFocus(false);
+                                    }}
+                                ></input>
+                            </div>
+
+                            <div className={cx('form_row-radio')}>
+                                <p>Is Parent</p>
+                                <div className={cx('form_row-radio-content')}>
+                                    <input
+                                        type="radio"
+                                        className={cx('gender')}
+                                        id="gentlemen"
+                                        name="gender"
+                                        value="gentlemen"
+                                        onChange={() => {
+                                            setIsParent(true);
+                                        }}
+                                    ></input>
+                                </div>
+                            </div>
+
+                            <Button className={cx('submit')}>Submit</Button>
+                        </form>
+                    </div>
                 </div>
             </div>
-        </div>
+        </>
     );
 }
 

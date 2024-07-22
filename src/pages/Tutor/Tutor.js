@@ -13,6 +13,7 @@ import Clip from '~/components/Clip';
 import { ModalContext } from '~/components/ModalProvider';
 
 import styles from './Tutor.module.scss';
+import Paging from '~/components/Paging';
 
 const cx = classNames.bind(styles);
 
@@ -25,6 +26,8 @@ function Tutor() {
     const { tutorId } = useContext(ModalContext);
     const [userDetails, setUserDetails] = useState();
     const [userFeedbacks, setUserFeedbacks] = useState();
+    const [curPage, setcurPage] = useState(1);
+    const [pagination, setPagination] = useState({ limit: 0 });
     const [userAd, setUserAd] = useState([]);
 
     useEffect(() => {
@@ -51,6 +54,9 @@ function Tutor() {
                     signal: controller.signal,
                 });
                 isMounted && setUserFeedbacks(response.data.listResult);
+                setPagination({
+                    limit: response.data.limitPage,
+                });
             } catch (error) {
                 console.log(error);
             }
@@ -61,7 +67,6 @@ function Tutor() {
                 const response = await requestPrivate.get(`${ADVERTISEMENT_URL}${tutorId}`, {
                     signal: controller.signal,
                 });
-                console.log(response.data);
                 setUserAd(response.data[0].video);
                 isMounted && setUserFeedbacks(response.data.listResult);
             } catch (error) {
@@ -120,10 +125,14 @@ function Tutor() {
                     </Col>
 
                     <Col lg="8" className={cx('container__about')}>
-                        <div className={cx('container__about-content')}>
-                            <p className={cx('container__about-content-title')}>About {userDetails?.fullName}</p>
-                            <Clip width={'760px'} height={'356px'} clip={userAd} />
-                        </div>
+                        {userAd?.length > 0 ? (
+                            <div className={cx('container__about-content')}>
+                                <p className={cx('container__about-content-title')}>About {userDetails?.fullName}</p>
+                                <Clip width={'760px'} height={'356px'} clip={userAd} />
+                            </div>
+                        ) : (
+                            <></>
+                        )}
 
                         <div className={cx('container__about-content')}>
                             <p className={cx('container__about-content-title')}>About {userDetails?.fullName}</p>
@@ -153,31 +162,38 @@ function Tutor() {
                             </Row>
                         </div>
 
-                        <div className={cx('container__about-rating')}>
-                            <p className={cx('container__about-rating-title')}>Reviews</p>
-                            <div>
-                                <Row className={cx('container__about-rating-review')}>
-                                    <Col lg="4" className={cx('container__about-rating-review-title')}>
-                                        <span>Reviews</span>
-                                    </Col>
-                                    <Col lg="8" className={cx('container__about-rating-review-content')}>
-                                        {userFeedbacks &&
-                                            userFeedbacks.map((review, index) => {
-                                                return (
-                                                    <div className={cx('container__about-rating-review-item')}>
-                                                        <p>{review?.title}</p>
-                                                        <p>{review?.description}</p>
-                                                        <p className={cx('review-info')}>
-                                                            By
-                                                            <strong>{review?.fullName}</strong>
-                                                        </p>
-                                                    </div>
-                                                );
-                                            })}
-                                    </Col>
-                                </Row>
+                        {userFeedbacks?.length > 0 ? (
+                            <div className={cx('container__about-rating')}>
+                                <p className={cx('container__about-rating-title')}>Reviews</p>
+                                <div>
+                                    <Row className={cx('container__about-rating-review')}>
+                                        <Col lg="4" className={cx('container__about-rating-review-title')}>
+                                            <span>Reviews</span>
+                                        </Col>
+                                        <Col lg="8" className={cx('container__about-rating-review-content')}>
+                                            {userFeedbacks &&
+                                                userFeedbacks.map((review, index) => {
+                                                    return (
+                                                        <div className={cx('container__about-rating-review-item')}>
+                                                            <p>{review?.title}</p>
+                                                            <p>{review?.description}</p>
+                                                            <p className={cx('review-info')}>
+                                                                By
+                                                                <strong>{review?.fullName}</strong>
+                                                            </p>
+                                                        </div>
+                                                    );
+                                                })}
+                                        </Col>
+                                        {pagination.limit > 1 && (
+                                            <Paging pagination={pagination} curPage={curPage} setcurPage={setcurPage} />
+                                        )}
+                                    </Row>
+                                </div>
                             </div>
-                        </div>
+                        ) : (
+                            <></>
+                        )}
                     </Col>
                 </Row>
             </Container>
