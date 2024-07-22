@@ -18,8 +18,9 @@ const CONVERSATION_URL = 'conversation-account';
 const CREATE_NOTIFICATION_URL = 'notification/create_notification';
 const REQUEST_PAYMENT_URL = 'vnpay/create_payment_url';
 const RESPONSE_PAYMENT_URL = 'vnpay/payment_return';
-const WALLETID_ADMIN = '8ee95b26-10f3-420d-97fc-69707124e1c8';
-const VNPAYID = '2eb657de-2fd4-425e-8a21-bf786372bb60';
+const WALLETID_ADMIN = 'b6632c5a-a172-4213-b691-1137e0b693ac';
+const VNPAYID = 'bfe1bf69-e0c0-4db7-b8b5-face17be1272';
+const PAY_DESTINATION_URL = 'paymentdestination/viewlist';
 
 const Classes = () => {
     const { avatar } = useContext(ModalContext);
@@ -30,10 +31,23 @@ const Classes = () => {
     const [filterParams, setFilterParams] = useState({ status: null, isApprove: true });
     const [message, setMessage] = useState('Vuilongthanhtoan');
     const [paymentId, setPaymentId] = useState(localStorage.getItem('paymentid'));
-    const [price, setPrice] = useState(200000);
+    const [price, setPrice] = useState(0);
     const [userId, setUserId] = useState('');
+    const [listDesPay, setListDesPay] = useState([]);
 
     const requestPrivate = useRequestsPrivate();
+
+    console.log(price);
+
+    const fetchPayDestination = useCallback(async () => {
+        try {
+            const response = await requests.get(PAY_DESTINATION_URL);
+            console.log(response.data);
+            setListDesPay(response.data);
+        } catch (error) {
+            console.error('Error fetching PayDestination:', error);
+        }
+    }, []);
 
     const handleChangeSelect = useCallback((value) => {
         let status = null;
@@ -54,6 +68,7 @@ const Classes = () => {
             const response = await requests.post(REQUEST_PAYMENT_URL, {
                 walletId: WALLETID_ADMIN,
                 paymentDestinationId: VNPAYID,
+                type: 1,
                 amount: price,
                 description: encodeURIComponent(message),
             });
@@ -78,6 +93,8 @@ const Classes = () => {
             }
 
             const response = await requestPrivate.get(API_URL);
+            console.log(response.data.listResult);
+            setPrice(response.data.listResult[0].price);
             setClasses(response.data.listResult);
             setSize(response.data.listResult.length);
             if (response.data.listResult.length > 0) {
@@ -116,21 +133,6 @@ const Classes = () => {
         [paymentId, classID, userId, avatar.fullName, fetchClasses, requestPrivate],
     );
 
-    const handleReject = useCallback(async () => {
-        try {
-            await requests.put(`${STUDENT_BROWSERCLASS_URL}?classId=${classID}&action=false`);
-            await requestPrivate.post(CREATE_NOTIFICATION_URL, {
-                title: `${avatar.fullName} has rejected your class.`,
-                description: 'may be we are not compatible!',
-                url: '/classTutor',
-                accountId: userId,
-            });
-            fetchClasses();
-        } catch (err) {
-            console.error('Error during payment response handling:', err);
-        }
-    }, [classID, userId, avatar.fullName, fetchClasses, requestPrivate]);
-
     useEffect(() => {
         const urlParams = new URLSearchParams(window.location.search);
         const paramsObject = Object.fromEntries(urlParams.entries());
@@ -157,7 +159,8 @@ const Classes = () => {
 
     useEffect(() => {
         fetchClasses();
-    }, [fetchClasses]);
+        fetchPayDestination();
+    }, [fetchClasses, fetchPayDestination]);
 
     const handleClassClick = (classs) => {
         setClassID(classs.classid);
@@ -253,10 +256,7 @@ const Classes = () => {
                                     <Row>
                                         {filterParams.status === null && filterParams.isApprove === null ? (
                                             <div className={cx('container_avatar-buttons')}>
-                                                <button
-                                                    className={cx('container_avatar-button', 'reject')}
-                                                    onClick={handleReject}
-                                                >
+                                                <button className={cx('container_avatar-button', 'reject')}>
                                                     Reject
                                                 </button>
                                                 <button

@@ -15,7 +15,7 @@ import useInput from '~/hooks/useInput';
 import styles from './SignIn.module.scss';
 import { useNoti } from '~/hooks/useNoti';
 
-const LOGIN_URL = 'auth/signIn';
+const LOGIN_URL = 'auth/signin';
 
 const cx = classNames.bind(styles);
 

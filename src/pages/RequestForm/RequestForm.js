@@ -16,11 +16,10 @@ import 'react-date-range/dist/theme/default.css';
 import Calendar from '~/components/Calendar/Calendar';
 import images from '~/assets/images';
 
-const GRADE_URL = 'Grade';
-const PROFILE_TUTOR_URL = 'Tutors/Id/';
-const SUBJECTGROUP_URL = 'SubjectGroup';
-const TUTOR_CALENDAR_URL = 'Classes/showTutorCalender?tutorId=';
-const CREATE_REQUEST_URL = 'FormRequestTutor/createForm';
+
+const PROFILE_TUTOR_URL = 'tutor/get_tutor-detail/';
+const TUTOR_CALENDAR_URL = 'class/get_tutor-calenders?tutorId=';
+const CREATE_REQUEST_URL = 'formrequesttutor/create_form';
 
 const cx = classNames.bind(styles);
 
@@ -42,9 +41,13 @@ const RequestForm = () => {
 
     const [userDetails, setUserDetails] = useState();
     const [fetchedGrades, setFetchedGrades] = useState([]);
+    const [selectedGrade, setSelectedGrade] = useState(null);
     const [listSubject, setListSubject] = useState([]);
+    const [selectedSubject, setSelectedSubject] = useState(null);
     const [events, setEvents] = useState([]);
     const [showModal, setShowModal] = useState(false);
+
+    console.log(selectedGrade, selectedSubject);
 
     useEffect(() => {
         window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -55,6 +58,12 @@ const RequestForm = () => {
     const handleInputChange = useCallback((e) => {
         const { name, value } = e.target;
         setFormData((prevData) => ({ ...prevData, [name]: value }));
+
+        if (name === 'subject') {
+            setSelectedSubject(value);
+        } else if (name === 'grade') {
+            setSelectedGrade(value);
+        }
     }, []);
 
     const handleDayClick = useCallback((day) => {
@@ -87,26 +96,36 @@ const RequestForm = () => {
     useEffect(() => {
         const fetchGrades = async () => {
             try {
+                let GRADE_URL = 'grade';
+                if (selectedGrade !== null) {
+                    GRADE_URL+="?subjectGroupId="+selectedSubject;
+                }
                 const response = await request.get(GRADE_URL);
+                console.log(response.data);
                 setFetchedGrades(response.data);
             } catch (error) {
                 console.log(error);
             }
         };
         fetchGrades();
-    }, []);
+    }, [selectedSubject]);
 
     useEffect(() => {
         const fetchSubjects = async () => {
             try {
+                let SUBJECTGROUP_URL = 'subject-group';
+                if(selectedSubject !== null) {
+                    SUBJECTGROUP_URL+="?gradeId="+selectedGrade;
+                }
                 const response = await request.get(SUBJECTGROUP_URL);
+                console.log(response.data);
                 setListSubject(response.data);
             } catch (error) {
                 console.log(error);
             }
         };
         fetchSubjects();
-    }, []);
+    }, [selectedGrade]);
 
     useEffect(() => {
         let isMounted = true;
@@ -207,7 +226,7 @@ const RequestForm = () => {
                                 <h2>Tell {userDetails?.fullName} about your goals for tutoring</h2>
                                 <p>
                                     <span>Lesson type: Online</span>
-                                    <span>Hourly rate: ${userDetails?.hourlyRate}</span>
+                                    <span>Hourly rate: {userDetails?.hourlyRate} VNĐ</span>
                                 </p>
                             </div>
 

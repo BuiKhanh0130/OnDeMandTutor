@@ -11,7 +11,7 @@ import styles from './Complaint.module.scss';
 
 const cx = classNames.bind(styles);
 
-const CREATE_COMPLAINT_URL = 'Complaints/CreateComplaint';
+const CREATE_COMPLAINT_URL = 'complaint/create_complaint';
 
 function Complaint({ classId }) {
     const requestPrivate = useRequestsPrivate();

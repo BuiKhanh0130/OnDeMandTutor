@@ -26,8 +26,8 @@ const TUTOR_URL = 'tutor';
 
 function FindTutor() {
     const { searchItem, setTutorId } = useContext(ModalContext);
-    const [minValueRate, setMinValueRate] = useState(0);
-    const [maxValueRate, setMaxValueRate] = useState(200);
+    const [minValueRate, setMinValueRate] = useState(20000);
+    const [maxValueRate, setMaxValueRate] = useState(200000);
     const [grade, setGrade] = useState('');
     const [gender, setGender] = useState();
     const [fetchedGrades, setFetchedGrades] = useState([]);
@@ -47,7 +47,6 @@ function FindTutor() {
     }, []);
 
     const handleInputRate = (e) => {
-        console.log(e);
         setMinValueRate(e.minValue);
         setMaxValueRate(e.maxValue);
     };
@@ -89,6 +88,7 @@ function FindTutor() {
     const handleChange = async () => {
         try {
             const response = await request.get(`${TUTOR_URL}`, { params });
+            console.log(response.data.listResult);
             setTutors(response.data.listResult);
             setPagination({
                 page: 1,
@@ -138,7 +138,7 @@ function FindTutor() {
             }
         };
         handleChange();
-    }, [pagination.limit]);
+    }, [pagination.limit, gender, grade, typeOfDegree, searchItem]);
 
     return (
         <Container className={cx('wrapper')}>
@@ -155,10 +155,10 @@ function FindTutor() {
                             </span>
 
                             <MultiRangeSlider
-                                min={0}
-                                max={200}
-                                minValueAge={0}
-                                maxValueAge={200}
+                                min={10000}
+                                max={200000}
+                                minValueAge={10000}
+                                maxValueAge={200000}
                                 onInput={(e) => {
                                     handleInputRate(e);
                                 }}
@@ -258,9 +258,7 @@ function FindTutor() {
                                     <div key={index} className={cx('result__wrapper-content')}>
                                         <Link
                                             to={`/account/tutor/${tutor.fullName}`}
-                                            onClick={() => {
-                                                setTutorId(tutor.tutorID);
-                                            }}
+                                            onClick={() => setTutorId(tutor.tutorID)}
                                         >
                                             <Row className={cx('result__profile')}>
                                                 <Col lg="2" className={cx('result__profile-img')}>

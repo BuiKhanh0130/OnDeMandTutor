@@ -11,7 +11,7 @@ import styles from './ContainerChat.module.scss';
 
 const cx = classNames.bind(styles);
 
-const MESSAGES_URL = 'Message';
+const MESSAGES_URL = 'message';
 
 function ContainerChat({ sendMessage }) {
     const { messages, avatarMessage, roomId } = useContext(ModalContext);

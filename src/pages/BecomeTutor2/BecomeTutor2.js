@@ -15,10 +15,9 @@ import useDebounce from '~/hooks/useDebounce';
 import Image from '~/components/Image';
 
 const cx = classNames.bind(styles);
-
 const CARD_REGEX = /^[0-9]{10}$/;
 const HOURLYRATE_REGEX = /^[1-9][0-9]*$/;
-const REGISTER_URL = '/auth/tutor_signup';
+const REGISTER_URL = 'auth/tutor_signup';
 
 function BecomeTutor2() {
     const { chooseSubject, setChooseSubject, userId, setTutorId } = useContext(ModalContext);
