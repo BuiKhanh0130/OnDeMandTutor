@@ -20,7 +20,7 @@ const HOURLYRATE_REGEX = /^[1-9][0-9]*$/;
 const REGISTER_URL = 'auth/tutor_signup';
 
 function BecomeTutor2() {
-    const { chooseSubject, setChooseSubject, userId, setTutorId } = useContext(ModalContext);
+    const { chooseSubject, setChooseSubject, userId, setTutorId, setUserId } = useContext(ModalContext);
     const errRef = useRef();
 
     const [errMsg, setErrMsg] = useState();
@@ -114,6 +114,7 @@ function BecomeTutor2() {
             );
             setTutorId(response.data);
             if (response.status === 200) {
+                setUserId('');
                 setChooseSubject(true);
             }
         } catch (error) {

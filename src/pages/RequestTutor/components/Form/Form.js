@@ -45,8 +45,8 @@ function Form({ setShowModal }) {
         startDateInput: '',
         endDateInput: '',
         selectedDays: [],
-        minHourlyRate: 1,
-        maxHourlyRate: 10,
+        minHourlyRate: 20000,
+        maxHourlyRate: 100000,
         typeOfDegree: 'College',
         tutorGender: false,
     });
@@ -307,7 +307,7 @@ function Form({ setShowModal }) {
 
                 <div className={cx('requestTutor__container-hour')}>
                     <div className={cx('requestTutor__container-hour-item')}>
-                        <label htmlFor="minHourlyRate">Min price ($)</label>
+                        <label htmlFor="minHourlyRate">Min price (VNĐ)</label>
                         <input
                             type="number"
                             id="minHourlyRate"
@@ -332,7 +332,7 @@ function Form({ setShowModal }) {
                         </p>
                     </div>
                     <div>
-                        <label htmlFor="maxHourlyRate">Max price ($)</label>
+                        <label htmlFor="maxHourlyRate">Max price (VNĐ)</label>
                         <input
                             type="number"
                             id="maxHourlyRate"

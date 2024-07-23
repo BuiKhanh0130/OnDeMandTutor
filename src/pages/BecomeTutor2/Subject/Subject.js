@@ -21,7 +21,7 @@ const REGISTER_URL = 'tutor/registrate_tutor-subject';
 
 function Subject() {
     const navigate = useNavigate();
-    const { userId, setChooseSubject, tutorId, setActive } = useContext(ModalContext);
+    const { userId, setChooseSubject, tutorId, setActive , setTutorId} = useContext(ModalContext);
     const [completed, setCompleted] = useState(true);
     const [subjectGroupId, setSubjectGroupId] = useState([]);
     const [subjects, setSubjects] = useState([]);
@@ -29,6 +29,9 @@ function Subject() {
     const [gradeValid, setGradeValid] = useState(false);
     const [grades, setGrades] = useState([]);
     const [showModal, setShowModal] = useState(false);
+    const [error, setError] = useState();
+
+    console.log(tutorId);
 
     //Get subjects
     useEffect(() => {
@@ -111,9 +114,12 @@ function Subject() {
                 },
             );
 
+            console.log(response.data);
+            setError(response.data);
+
             if (response.status === 200) {
+                setTutorId(tutorId);
                 setGradeId([]);
-                console.log(subjects);
                 setSubjectGroupId(subjects[0].subjectGroupId);
                 setCompleted(true);
                 setShowModal(true);
@@ -200,8 +206,7 @@ function Subject() {
                         <Modal.Title>Success</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
-                        Your request has been save successfully! Please choose more subject and grade if you want or
-                        finished if you had finished your choose
+                        {error ? error : 'Your request has been save successfully! Please choose more subject and grade if you want or finished if you had finished your choose'}
                     </Modal.Body>
                     <Modal.Footer>
                         <Button variant="secondary" onClick={handleCloseModal}>

@@ -2,7 +2,7 @@ import classNames from 'classnames/bind';
 import { jwtDecode } from 'jwt-decode';
 import { Fragment, useContext, useEffect, useRef, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { HubConnectionBuilder, LogLevel } from '@microsoft/signalr';
+// import { HubConnectionBuilder, LogLevel } from '@microsoft/signalr';
 import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 import { auth as Auth } from '~/firebase/firebase';
 
