@@ -46,6 +46,7 @@ const RequestForm = () => {
     const [selectedSubject, setSelectedSubject] = useState(null);
     const [events, setEvents] = useState([]);
     const [showModal, setShowModal] = useState(false);
+    const [modalContent, setModalContent] = useState('');
 
     console.log(selectedGrade, selectedSubject);
 
@@ -190,13 +191,9 @@ const RequestForm = () => {
                     'Content-Type': 'application/json',
                 },
             });
-            console.log(response.data);
-
-            if (response.data) {
+            setModalContent(response.data);
                 setShowModal(true);
-            } else {
-                alert('The calendar is invalid. Please try again.');
-            }
+          
         } catch (error) {
             console.log(error);
         }
@@ -372,9 +369,9 @@ const RequestForm = () => {
 
             <Modal show={showModal} onHide={handleCloseModal}>
                 <Modal.Header closeButton>
-                    <Modal.Title>Success</Modal.Title>
+                    <Modal.Title>Notification</Modal.Title>
                 </Modal.Header>
-                <Modal.Body>Your request has been sent successfully!</Modal.Body>
+                <Modal.Body>{modalContent}</Modal.Body>
                 <Modal.Footer>
                     <Button variant="secondary" onClick={handleCloseModal}>
                         Close

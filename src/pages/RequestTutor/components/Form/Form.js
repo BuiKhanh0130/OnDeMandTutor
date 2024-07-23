@@ -49,8 +49,8 @@ function Form() {
         startDateInput: '',
         endDateInput: '',
         selectedDays: [],
-        minHourlyRate: 1,
-        maxHourlyRate: 2,
+        minHourlyRate: 20000,
+        maxHourlyRate: 100000,
         typeOfDegree: 'College',
         tutorGender: false,
     });
@@ -354,7 +354,7 @@ function Form() {
 
                 <div className={cx('requestTutor__container-hour')}>
                     <div className={cx('requestTutor__container-hour-item')}>
-                        <label htmlFor="minHourlyRate">Min price (VND)</label>
+                        <label htmlFor="minHourlyRate">Min price (VNĐ)</label>
                         <input
                             type="number"
                             id="minHourlyRate"
@@ -379,7 +379,7 @@ function Form() {
                         </p>
                     </div>
                     <div>
-                        <label htmlFor="maxHourlyRate">Max price (VND)</label>
+                        <label htmlFor="maxHourlyRate">Max price (VNĐ)</label>
                         <input
                             type="number"
                             id="maxHourlyRate"

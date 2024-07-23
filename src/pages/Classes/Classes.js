@@ -20,7 +20,7 @@ const CONVERSATION_URL = 'conversation-account';
 const CREATE_NOTIFICATION_URL = 'notification/create_notification';
 const REQUEST_PAYMENT_URL = 'vnpay/create_payment_url';
 const RESPONSE_PAYMENT_URL = 'vnpay/payment_return';
-const WALLETID_ADMIN = 'b6632c5a-a172-4213-b691-1137e0b693ac';
+const WALLETID_ADMIN = '0c89931d-6cf2-4f24-8a22-80579c909b6c';
 const VNPAYID = 'bfe1bf69-e0c0-4db7-b8b5-face17be1272';
 const PAY_DESTINATION_URL = 'paymentdestination/viewlist';
 
@@ -33,13 +33,12 @@ const Classes = () => {
     const [filterParams, setFilterParams] = useState({ status: null, isApprove: true });
     const [message, setMessage] = useState('Vuilongthanhtoan');
     const [paymentId, setPaymentId] = useState(localStorage.getItem('paymentid'));
-    const [price, setPrice] = useState(0);
+    const [price, setPrice] = useState(200000);
     const [userId, setUserId] = useState('');
     const [listDesPay, setListDesPay] = useState([]);
 
     const requestPrivate = useRequestsPrivate();
 
-    console.log(price);
 
     const fetchPayDestination = useCallback(async () => {
         try {
@@ -96,7 +95,6 @@ const Classes = () => {
 
             const response = await requestPrivate.get(API_URL);
             console.log(response.data.listResult);
-            setPrice(response.data.listResult[0].price);
             setClasses(response.data.listResult);
             setSize(response.data.listResult.length);
             if (response.data.listResult.length > 0) {
@@ -115,7 +113,7 @@ const Classes = () => {
             try {
                 const response = await requests.post(`${RESPONSE_PAYMENT_URL}/${paymentId}`, paramsObject);
                 localStorage.removeItem('paymentid');
-                if (response.data === '00') {
+                if (response.data === true) {
                     await requests.put(`${STUDENT_BROWSERCLASS_URL}?classId=${classID}&action=true`);
                     await requestPrivate.post(`${CONVERSATION_URL}?userId=${userId}`);
                     await requestPrivate.post(CREATE_NOTIFICATION_URL, {
@@ -172,7 +170,6 @@ const Classes = () => {
     };
 
     const selectedClass = useMemo(() => classes.find((classs) => classs.classid === classID), [classes, classID]);
-
     const handleComplaint = () => {
         setComplaint(true);
     };
