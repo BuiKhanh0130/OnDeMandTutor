@@ -17,10 +17,11 @@ import { ModalContext } from '~/components/ModalProvider';
 
 import styles from './Table.module.scss';
 import ResponseComplaint from '../ResponseComplaint';
+import ClassDetail from '../ClassDetail/ClassDetail';
 
 const cx = classNames.bind(styles);
 
-const COMPLAINT_URL = '/complaint';
+const COMPLAINT_URL = '/moderator/get_complaints';
 
 export default function BasicTable({ name }) {
     const { responseComplaint, setResponseComplaint } = React.useContext(ModalContext);
@@ -29,6 +30,8 @@ export default function BasicTable({ name }) {
     const [curPage, setcurPage] = useState(1);
     const [complaintId, setComplaintId] = useState('');
     const [pagination, setPagination] = useState({ limit: 0 });
+    const [classId, setClassId] = useState('');
+    const [showDetails, setShowDetails] = useState(false);
 
     useEffect(() => {
         let isMounted = true;
@@ -53,16 +56,27 @@ export default function BasicTable({ name }) {
             isMounted = false;
             controller.abort();
         };
-    }, [status]);
+    }, [status, showDetails]);
 
     const handleBrowseComplaint = (id) => {
         setComplaintId(id);
         setResponseComplaint(true);
     };
 
+    const handleShowDetails = (classId) => {
+        console.log(classId);
+        setShowDetails(true);
+        setClassId(classId);
+    };
+
+    const handleHiddenShowDetails = () => {
+        setShowDetails(false);
+        setClassId('');
+    };
+
     return (
         <div className={cx('wrapper')}>
-            <h3>TUTOR INTERN</h3>
+            <h3>COMPLAINTS</h3>
             <Container>
                 <Row>
                     <Col lg="12">
@@ -73,7 +87,8 @@ export default function BasicTable({ name }) {
                                         <TableCell align="left">Class Id</TableCell>
                                         <TableCell align="left">Description</TableCell>
                                         <TableCell align="left">createDay</TableCell>
-                                        <TableCell align="left"></TableCell>
+                                        <TableCell align="left">Response</TableCell>
+                                        <TableCell align="left">Class</TableCell>
                                     </TableRow>
                                 </TableHead>
                                 <TableBody style={{ color: 'white' }}>
@@ -83,16 +98,35 @@ export default function BasicTable({ name }) {
                                                 key={index}
                                                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                                             >
-                                                <TableCell align="left">{row?.classId}</TableCell>
-                                                <TableCell align="left">{row?.description}</TableCell>
-                                                <TableCell align="left">{row?.createDay}</TableCell>
-                                                <TableCell align="left" className="Details">
+                                                <TableCell style={{ fontSize: '1.2rem' }} align="left">
+                                                    {row?.classId}
+                                                </TableCell>
+                                                <TableCell style={{ fontSize: '1.2rem' }} align="left">
+                                                    {row?.description}
+                                                </TableCell>
+                                                <TableCell style={{ fontSize: '1.2rem' }} align="left">
+                                                    {row?.createDay}
+                                                </TableCell>
+                                                <TableCell
+                                                    style={{ fontSize: '1.2rem' }}
+                                                    align="left"
+                                                    className="Details"
+                                                >
                                                     <Button
                                                         orange
                                                         className={cx('btn-reply')}
                                                         onClick={() => handleBrowseComplaint(row?.complaintId)}
                                                     >
                                                         Reply
+                                                    </Button>
+                                                </TableCell>
+                                                <TableCell align="left">
+                                                    <Button
+                                                        orange
+                                                        className={cx('btn-reply')}
+                                                        onClick={() => handleShowDetails(row?.classId)}
+                                                    >
+                                                        Details
                                                     </Button>
                                                 </TableCell>
                                             </TableRow>
@@ -102,6 +136,7 @@ export default function BasicTable({ name }) {
                         </TableContainer>
                     </Col>
                 </Row>
+                {showDetails && <ClassDetail classID={classId} handleHiddenShowDetails={handleHiddenShowDetails} />}
                 {responseComplaint && <ResponseComplaint complaintId={complaintId} />}
                 {pagination.limit > 1 && <Paging pagination={pagination} curPage={curPage} setcurPage={setcurPage} />}
             </Container>

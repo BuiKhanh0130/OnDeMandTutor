@@ -2,7 +2,6 @@ import React, { useContext, useState, useEffect } from 'react';
 import classNames from 'classnames/bind';
 import { Container, Row, Col } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import { HubConnectionBuilder, LogLevel } from '@microsoft/signalr';
 
 import useRequestsPrivate from '~/hooks/useRequestPrivate';
 import { ModalContext } from '~/components/ModalProvider';
@@ -15,41 +14,16 @@ const NOTIFICATION_DETAIL_URL = 'notification/get_notification-detail';
 const NOTIFICATION_LIST_URL = 'notification/get_notifications';
 
 const Notification = () => {
-    const { conn, avatar, setFormId, notifications, setNotifications, setConnection } = useContext(ModalContext);
+    const { avatar, setFormId } = useContext(ModalContext);
     const [notificationList, setNotificationList] = useState([]);
     const [selectedNoti, setSelectedNoti] = useState(null);
+    const [active, setActive] = useState('');
     const requestPrivate = useRequestsPrivate();
-
-    const sendNotification = async (username, chatRoom) => {
-        try {
-            const conn = new HubConnectionBuilder()
-                .withUrl('https://localhost:7262/chatHub')
-                .configureLogging(LogLevel.Information)
-                .build();
-
-            conn.on('ReceiveNotification', (msg) => {
-                setNotifications((noti) => [...noti, { msg }]);
-            });
-
-            await conn.start();
-            await conn.invoke('JoinSpecificChatRoom', { username, chatRoom });
-
-            setConnection(conn);
-        } catch (e) {
-            console.log(e);
-        }
-    };
-
-    const stopChatRoom = async () => {
-        await conn.stop();
-        setConnection('');
-    };
 
     const fetchNotificationDetail = async (id) => {
         try {
             const response = await requestPrivate.get(`${NOTIFICATION_DETAIL_URL}?id=${id}`);
             setSelectedNoti(response.data);
-            console.log(response.data);
         } catch (error) {
             console.error(error);
         }
@@ -61,6 +35,7 @@ const Notification = () => {
                 const response = await requestPrivate.get(NOTIFICATION_LIST_URL);
                 setNotificationList(response.data);
                 if (response.data.length > 0) {
+                    setActive(response.data[0].notificationId);
                     fetchNotificationDetail(response.data[0].notificationId);
                 }
             } catch (error) {
@@ -69,11 +44,17 @@ const Notification = () => {
         };
 
         fetchNotifications();
-    }, [requestPrivate]);
+    }, []);
 
     const selectNotification = (id) => {
         fetchNotificationDetail(id);
+        setActive(id);
+        console.log(id);
+        console.log(typeof id);
+        setFormId();
     };
+
+    console.log(notificationList);
 
     return (
         <div className={cx('wrapper')}>
@@ -84,14 +65,17 @@ const Notification = () => {
                     </Col>
                 </Row>
                 {notificationList.length > 0 ? (
-                    notificationList.map((noti, index) => (
-                        <Row style={{ marginBottom: '10px' }}>
-                            <Col lg="4" className={cx('container_user')}>
+                    <Row style={{ marginBottom: '10px' }}>
+                        <Col lg="4" className={cx('container_user')}>
+                            {notificationList.map((noti, index) => (
                                 <Row className={cx('container_user_item')}>
                                     <Col
-                                        key={index}
+                                        key={noti.notificationId}
                                         lg="12"
-                                        className={cx('container_user_detail')}
+                                        className={cx('container_user_detail', {
+                                            active: noti.notificationId === active,
+                                            read: !noti.isRead,
+                                        })}
                                         onClick={() => selectNotification(noti.notificationId)}
                                     >
                                         <img alt="react" src={noti?.avatar || images.avatarDefault}></img>
@@ -110,44 +94,38 @@ const Notification = () => {
                                         </div>
                                     </Col>
                                 </Row>
-                            </Col>
-                            <Col lg="8" className={cx('container__detail')}>
-                                <div className={cx('container__mess_detail')}>
-                                    <Row>
-                                        <Col lg="12" className={cx('container__mess_header')}>
-                                            <img alt="react" src={selectedNoti?.avatar || images.avatarDefault}></img>
-                                            <Row>
-                                                <span>{selectedNoti?.fullName}</span>
-                                            </Row>
-                                        </Col>
-                                    </Row>
-                                    <Row>
-                                        <Col lg="12" className={cx('container__mess_chatbox')}>
-                                            <span className={cx('header_noti')}>Hello {avatar.fullName},</span>
-                                            <div className={cx('body_noti')}>
-                                                <p>
-                                                    {selectedNoti?.fullName} {selectedNoti?.title}
-                                                </p>
-                                                <Link
-                                                    to={selectedNoti?.url}
-                                                    onClick={() => {
-                                                        setFormId(noti.notificationId);
-                                                    }}
-                                                >
-                                                    Click here
-                                                </Link>
-                                                <span>, {selectedNoti?.description}</span>
-                                            </div>
-                                            <div className={cx('final_noti')}>
-                                                <p>Thank you for reading the announcement.</p>
-                                                <p>Best regards.</p>
-                                            </div>
-                                        </Col>
-                                    </Row>
-                                </div>
-                            </Col>
-                        </Row>
-                    ))
+                            ))}
+                        </Col>
+
+                        <Col lg="8" className={cx('container__detail')}>
+                            <div className={cx('container__mess_detail')}>
+                                <Row>
+                                    <Col lg="12" className={cx('container__mess_header')}>
+                                        <img alt="react" src={selectedNoti?.avatar || images.avatarDefault}></img>
+                                        <Row>
+                                            <span>{selectedNoti?.fullName}</span>
+                                        </Row>
+                                    </Col>
+                                </Row>
+                                <Row>
+                                    <Col lg="12" className={cx('container__mess_chatbox')}>
+                                        <span className={cx('header_noti')}>Hello {avatar.fullName},</span>
+                                        <div className={cx('body_noti')}>
+                                            <p>
+                                                {selectedNoti?.fullName} {selectedNoti?.title}
+                                            </p>
+                                            <Link to={selectedNoti?.url}>Click here</Link>
+                                            <span>, {selectedNoti?.description}</span>
+                                        </div>
+                                        <div className={cx('final_noti')}>
+                                            <p>Thank you for reading the announcement.</p>
+                                            <p>Best regards.</p>
+                                        </div>
+                                    </Col>
+                                </Row>
+                            </div>
+                        </Col>
+                    </Row>
                 ) : (
                     <div className={cx('container__noNoti')}>
                         <span>There are currently no classes available.</span>

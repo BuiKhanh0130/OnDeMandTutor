@@ -9,7 +9,7 @@ import Button from '~/components/Button';
 
 const cx = classNames.bind(styles);
 
-const BROWSER_COMPLAINT_URL = 'Moderators/ModerComplaint';
+const BROWSER_COMPLAINT_URL = 'moderator/get_complaint-detail';
 
 function ResponseComplaint({ complaintId }) {
     const requestPrivate = useRequestsPrivate();

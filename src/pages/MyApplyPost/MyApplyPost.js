@@ -39,9 +39,9 @@ function MyApplyPost() {
     const handleForm = (value) => {
         console.log(value);
         if (value === 'Approve') {
-            setIsApprove(true);
-        } else if (value === 'Not Approve') {
             setIsApprove(false);
+        } else if (value === 'Not Approve') {
+            setIsApprove(true);
         } else {
             setIsApprove();
         }

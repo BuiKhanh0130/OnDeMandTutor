@@ -19,18 +19,18 @@ function CreateClass() {
     const requestPrivates = useRequestsPrivate();
     const [className, setClassName] = useState('');
     const [description, setDescription] = useState('');
+    const [urlClass, setLink] = useState('');
     const [showModal, setShowModal] = useState(false);
 
     const handleGenerateClass = async () => {
         const url = window.location.href;
-        console.log(url);
         console.log(url.split('/'));
         const formId = url.split('/')[4];
 
         console.log(JSON.stringify({ className, description, formId }));
         const response = await requestPrivates.post(
             GENERATE_CLASS_URL,
-            JSON.stringify({ className, description, formId }),
+            JSON.stringify({ className, description, formId, urlClass }),
         );
 
         if (response.status === 200) {
@@ -49,6 +49,10 @@ function CreateClass() {
                         <div className={cx('tutor__subject')}>
                             <label id="className">Name class</label>
                             <input type="text" id="className" onChange={(e) => setClassName(e.target.value)}></input>
+                        </div>
+                        <div className={cx('tutor__subject')}>
+                            <label id="link">URL Class</label>
+                            <input type="text" id="link" onChange={(e) => setLink(e.target.value)}></input>
                         </div>
                         <div className={cx('tutor__grade')}>
                             <textarea
