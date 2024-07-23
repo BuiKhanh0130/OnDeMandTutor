@@ -8,6 +8,8 @@ import Image from '~/components/Image';
 import images from '~/assets/images';
 import requests from '~/utils/request';
 import { ModalContext } from '~/components/ModalProvider';
+import Button from '~/components/Button';
+import Complaint from '../Complaint';
 
 const cx = classNames.bind(styles);
 
@@ -23,7 +25,7 @@ const VNPAYID = 'bfe1bf69-e0c0-4db7-b8b5-face17be1272';
 const PAY_DESTINATION_URL = 'paymentdestination/viewlist';
 
 const Classes = () => {
-    const { avatar } = useContext(ModalContext);
+    const { complaint, setComplaint, avatar } = useContext(ModalContext);
     const [classes, setClasses] = useState([]);
     const [calendar, setCalendar] = useState([]);
     const [size, setSize] = useState(0);
@@ -171,6 +173,10 @@ const Classes = () => {
 
     const selectedClass = useMemo(() => classes.find((classs) => classs.classid === classID), [classes, classID]);
 
+    const handleComplaint = () => {
+        setComplaint(true);
+    };
+
     return (
         <div className={cx('wrapper')}>
             <Container className={cx('container')}>
@@ -271,6 +277,27 @@ const Classes = () => {
                                         )}
                                     </Row>
                                 </Col>
+                            </Row>
+                            <Row className={cx('complaint')}>
+                                <Button
+                                    to="/viewComplaint"
+                                    state={{ classID }}
+                                    orange
+                                    className={cx('container__viewComplaint')}
+                                >
+                                    View Complaint
+                                </Button>
+                                {filterParams.isApprove && filterParams.status === null && (
+                                    <Button
+                                        onClick={handleComplaint}
+                                        transparent
+                                        className={cx('container__complaint')}
+                                    >
+                                        Complaint
+                                    </Button>
+                                )}
+
+                                {complaint && <Complaint classId={classID} />}
                             </Row>
                         </Col>
                     ) : (

@@ -11,6 +11,7 @@ import request from '~/utils/request';
 import useRequestsPrivate from '~/hooks/useRequestPrivate';
 
 import styles from './Form.module.scss';
+import { ModalConfirm } from '~/components/Modal';
 
 const cx = classNames.bind(styles);
 
@@ -18,16 +19,19 @@ const cx = classNames.bind(styles);
 const SUBJECT_GROUP_URL = 'subject-group';
 const GRADE_URL = 'grade';
 const CREATE_FROM_URL = 'formfindtutor/create_form';
-
+const CONCISE_URL = 'formrequesttutor/handle_createform';
 //expression regex
 const POSITIVEREGEX = /^[0-9]+$/;
 
-function Form({ setShowModal }) {
+function Form() {
     const navigate = useNavigate();
+    const [content, setContent] = useState('');
+    const [showModal, setShowModal] = useState(false);
+    const [accept, setAccept] = useState(false);
+
+    const times = useMemo(() => Array.from({ length: 24 }, (_, i) => i + 1), []);
     //hard data
     const dayOfWeeks = useMemo(() => ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thurday', 'Friday', 'Saturday'], []);
-    const hourStart = useMemo(() => [6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24], []);
-    const hourEnd = useMemo(() => [7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24], []);
     const degrees = useMemo(
         () => ['College', 'Associate Degree', 'Bachelors Degree', 'Masters Degree', 'Doctoral Degree'],
         [],
@@ -40,13 +44,13 @@ function Form({ setShowModal }) {
         describeTutor: '',
         dayStart: new Date(),
         dayEnd: null,
-        timeStart: 6,
-        timeEnd: 7,
+        timeStart: '',
+        timeEnd: '',
         startDateInput: '',
         endDateInput: '',
         selectedDays: [],
         minHourlyRate: 1,
-        maxHourlyRate: 10,
+        maxHourlyRate: 2,
         typeOfDegree: 'College',
         tutorGender: false,
     });
@@ -81,8 +85,9 @@ function Form({ setShowModal }) {
     }, [formData.maxHourlyRate]);
     //check minHourlyRate && maxHourlyRate
     const checkValidPrice = () => {
-        if (formData.minHourlyRate && formData.maxHourlyRate && formData.minHourlyRate >= formData.maxHourlyRate) {
+        if (formData.minHourlyRate && formData.maxHourlyRate && formData.minHourlyRate > formData.maxHourlyRate) {
             setFormData((prev) => ({ ...prev, minHourlyRate: 0 }));
+            setAccept(false);
             alert('Max hour rate must be greater than min hourly rate');
             return false;
         }
@@ -101,6 +106,7 @@ function Form({ setShowModal }) {
             timeEndStartElement.selectedIndex = 0;
             setFormData((prevData) => ({ ...prevData, timeStart: 6, timeEnd: 7 }));
             alert('Time start must be less than time end');
+            setAccept(false);
             return false;
         }
 
@@ -167,7 +173,22 @@ function Form({ setShowModal }) {
             console.log(error);
         }
     }, []);
+    //handle coincide
+    const handleCoincide = async (timeStart, timeEnd) => {
+        const response = await requestsPrivate.post(
+            CONCISE_URL,
+            JSON.stringify({
+                dayOfWeek: formData.dayOfWeek,
+                dayStart: formData.dayStart,
+                dayEnd: formData.dayEnd,
+                timeStart: timeStart,
+                timeEnd: timeEnd,
+            }),
+        );
+        setContent(response.data);
+    };
 
+    //handle create form
     const handleSubmit = async (events) => {
         events.preventDefault();
 
@@ -187,7 +208,19 @@ function Form({ setShowModal }) {
             window.alert('Please choose at least of week to learn');
             return;
         }
+        handleCoincide(timeStart, timeEnd);
+        setShowModal(true);
+    };
 
+    useEffect(() => {
+        const timeStart = Number(formData.timeStart);
+        const timeEnd = Number(formData.timeEnd);
+        if (accept) {
+            handleSubmit2(timeStart, timeEnd);
+        }
+    }, [accept]);
+
+    const handleSubmit2 = async (timeStart, timeEnd) => {
         if (checkValidTime() && checkValidPrice()) {
             try {
                 const response = await requestsPrivate.post(
@@ -210,6 +243,8 @@ function Form({ setShowModal }) {
                 );
                 if (response.status === 200) {
                     setFormData((prevData) => ({ ...prevData, tittle: '', describeTutor: '' }));
+                    setAccept(false);
+                    handleCancel();
                     navigate('/success', { state: 'GENERATE CLASS' });
                 }
             } catch (error) {
@@ -217,6 +252,7 @@ function Form({ setShowModal }) {
             }
         }
     };
+
     //select day
     const handleDayClick = useCallback((day) => {
         setFormData((prevData) => ({
@@ -249,6 +285,17 @@ function Form({ setShowModal }) {
             endDateInput: endDateUTC ? format(endDateUTC, 'yyyy-MM-dd') : '',
         }));
     }, []);
+
+    //handleSubmit
+    const handleAccept = () => {
+        setAccept(true);
+        setShowModal(false);
+    };
+    //handle cancel
+    const handleCancel = () => {
+        setAccept(false);
+        setShowModal(false);
+    };
 
     return (
         <Col lg="8" className={cx('requestTutor__container')}>
@@ -307,7 +354,7 @@ function Form({ setShowModal }) {
 
                 <div className={cx('requestTutor__container-hour')}>
                     <div className={cx('requestTutor__container-hour-item')}>
-                        <label htmlFor="minHourlyRate">Min price ($)</label>
+                        <label htmlFor="minHourlyRate">Min price (VND)</label>
                         <input
                             type="number"
                             id="minHourlyRate"
@@ -332,7 +379,7 @@ function Form({ setShowModal }) {
                         </p>
                     </div>
                     <div>
-                        <label htmlFor="maxHourlyRate">Max price ($)</label>
+                        <label htmlFor="maxHourlyRate">Max price (VND)</label>
                         <input
                             type="number"
                             id="maxHourlyRate"
@@ -362,18 +409,17 @@ function Form({ setShowModal }) {
                         <select
                             id="timeStart"
                             name="timeStart"
+                            value={formData.timeStart}
                             onChange={(e) => {
                                 handleInputChange(e);
                             }}
                         >
-                            {hourStart.length > 0 &&
-                                hourStart.map((hour, index) => {
-                                    return (
-                                        <option key={index} value={hour}>
-                                            {hour} hour
-                                        </option>
-                                    );
-                                })}
+                            <option value="">Start Hour</option>
+                            {times.map((time) => (
+                                <option key={time} value={time}>
+                                    {time}h
+                                </option>
+                            ))}
                         </select>
                     </div>
                     <div>
@@ -381,18 +427,19 @@ function Form({ setShowModal }) {
                         <select
                             id="timeEnd"
                             name="timeEnd"
+                            value={formData.timeEnd}
                             onChange={(e) => {
                                 handleInputChange(e);
                             }}
                         >
-                            {hourEnd.length > 0 &&
-                                hourEnd.map((hour, index) => {
-                                    return (
-                                        <option value={hour} key={index}>
-                                            {hour} hour
-                                        </option>
-                                    );
-                                })}
+                            <option value="">End Hour</option>
+                            {times
+                                .filter((time) => time > formData.timeStart)
+                                .map((time) => (
+                                    <option key={time} value={time}>
+                                        {time}h
+                                    </option>
+                                ))}
                         </select>
                     </div>
                 </div>
@@ -449,6 +496,9 @@ function Form({ setShowModal }) {
                     <Button className={cx('requestTutor__container-submit', { disabled: isValidForm })}>Submit</Button>
                 </div>
             </form>
+            {showModal && (
+                <ModalConfirm content={content} handleConfirm={handleAccept} handleCancel={handleCancel}></ModalConfirm>
+            )}
         </Col>
     );
 }

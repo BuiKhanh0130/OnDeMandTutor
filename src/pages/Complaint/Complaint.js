@@ -1,10 +1,9 @@
 import classNames from 'classnames/bind';
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useState } from 'react';
 
 import { ModalContext } from '~/components/ModalProvider';
 import { CloseIcon } from '~/components/Icons';
 import useRequestsPrivate from '~/hooks/useRequestPrivate';
-import Button from '~/components/Button';
 import { SendIcon } from '~/components/Icons';
 
 import styles from './Complaint.module.scss';

@@ -251,3 +251,11 @@
         }
     }
 }
+
+.container__noclass {
+    text-align: center;
+    font-size: 3rem;
+    color: #fd9c9c;
+    margin-top: var(--default-layout-height);
+    min-height: 100vh;
+}

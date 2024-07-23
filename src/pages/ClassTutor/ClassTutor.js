@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useCallback, useMemo, useContext } from 'react';
+import { jwtDecode } from 'jwt-decode';
 import classNames from 'classnames/bind';
 import styles from './ClassTutor.module.scss';
 import { Container, Row, Col } from 'react-bootstrap';
@@ -9,24 +10,37 @@ import images from '~/assets/images';
 import Button from '~/components/Button';
 import { ModalContext } from '~/components/ModalProvider';
 import Complaint from '../Complaint';
+import UpdateUrl from './components/UpdateUrl';
+import { ModalNotConfirm } from '~/components/Modal';
 
 const cx = classNames.bind(styles);
 
 const VIEW_CLASS_LIST_URL = 'class/get_tutor-classes';
 const VIEW_CLASS_DETAILS_URL = 'class/get_class-detail';
+const END_CLASS_URL = 'class/submit_class';
+const NOTIFICATION_URL = 'notification/create_notification';
+const UPDATE_CLASS_URL = 'class/update_class-url/';
 
 const Classes = () => {
     const { complaint, setComplaint } = useContext(ModalContext);
+    const accessToken = sessionStorage.getItem('accessToken');
+    const user = jwtDecode(accessToken);
+    const requestPrivate = useRequestsPrivate();
     const [classes, setClasses] = useState([]);
     const [calendar, setCalendar] = useState([]);
     const [size, setSize] = useState(0);
     const [classID, setClassID] = useState('');
     const [filterParams, setFilterParams] = useState({ status: null, isApprove: true });
-
-    const requestPrivate = useRequestsPrivate();
-
-    console.log(classes);
-
+    const [dateEnd, setDateEnd] = useState();
+    const [subject, setSubject] = useState();
+    const [userId, setUserId] = useState();
+    const [urlClass, setUrlClass] = useState();
+    const [showModal, setShowModal] = useState(false);
+    const [showNotification, setShowNotification] = useState('');
+    const [typeOfNoti, setTypeOfNoti] = useState('');
+    const [updateUrl, setUpdateUrl] = useState(false);
+    const [contentUrl, setContentUrl] = useState('');
+    //handle filter
     const handleChangeSelect = useCallback((value) => {
         let status = null;
         let isApprove = null;
@@ -40,7 +54,7 @@ const Classes = () => {
 
         setFilterParams({ status, isApprove });
     }, []);
-
+    //get class
     const fetchClasses = useCallback(async () => {
         try {
             const { status, isApprove } = filterParams;
@@ -54,17 +68,21 @@ const Classes = () => {
             }
 
             const response = await requestPrivate.get(API_URL);
-            setClasses(response.data.listResult);
             console.log(response.data.listResult);
+            setClasses(response.data.listResult);
             setSize(response.data.listResult.length);
             if (response.data.listResult.length > 0) {
                 setClassID(response.data.listResult[0].classid);
+                setDateEnd(response.data.listResult[0].dayEnd);
+                setSubject(response.data.listResult[0].subjectName);
+                setUserId(response.data.listResult[0].userId);
+                setUrlClass(response.data.listResult[0].urlClass);
             }
         } catch (error) {
             console.error('Error fetching classes:', error);
         }
-    }, [filterParams, requestPrivate]);
-
+    }, [filterParams, requestPrivate, showModal]);
+    //get class detail
     const fetchClassesDetail = useCallback(
         async (classID) => {
             try {
@@ -76,26 +94,97 @@ const Classes = () => {
         },
         [requestPrivate],
     );
-
     useEffect(() => {
         if (classID) {
             fetchClassesDetail(classID);
         }
     }, [classID, fetchClassesDetail]);
+    //update class url
+    const handleUpdateClassUrl = async () => {
+        if (contentUrl === '') {
+            setShowNotification('Please fill new url!');
+            setTypeOfNoti('Warning');
+            setShowModal(true);
+            return;
+        }
+        const response = await requestPrivate.put(`${UPDATE_CLASS_URL}${classID}?newUrl=${contentUrl}`);
+        if (response.status === 200) {
+            handleHiddenUpdateUrl();
+            setShowNotification('Update successfully!');
+            setTypeOfNoti('Success');
+            setShowModal(true);
+        }
+    };
 
     useEffect(() => {
         fetchClasses();
     }, [fetchClasses]);
-
+    //handle show detail class respectively
     const handleClassClick = (classs) => {
+        console.log(classs);
+        setSubject(classs.subjectName);
+        setDateEnd(classs.dayEnd);
+        setUserId(classs.userId);
         setClassID(classs.classid);
         fetchClassesDetail(classs.classid);
+        setUrlClass(classs.urlClass);
     };
-
+    //handle end class
+    const handleClass = async () => {
+        const response = await requestPrivate.put(`${END_CLASS_URL}/${classID}`);
+        if (response.status === 200) {
+            setShowNotification('Class has been close. Thank for support this class!');
+            setTypeOfNoti('Success');
+            setShowModal(true);
+            createNotification(userId);
+        }
+    };
+    //const create notification
+    const createNotification = async () => {
+        try {
+            const response = await requestPrivate.post(
+                NOTIFICATION_URL,
+                JSON.stringify({
+                    title: `The class ${subject} has been ended`,
+                    description: `please fill feedback for me`,
+                    url: `/feedback/${user.UserId}/${classID}`,
+                    accountId: userId,
+                }),
+            );
+            if (response.status === 200) {
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    };
     const selectedClass = useMemo(() => classes.find((classs) => classs.classid === classID), [classes, classID]);
-
+    //handle show complaint
     const handleComplaint = () => {
         setComplaint(true);
+    };
+    //handle check class expire
+    const checkExpire = (endDate) => {
+        const inPutDate = new Date(endDate);
+        const currentDate = new Date();
+        return inPutDate > currentDate;
+    };
+    //handle close modal
+    const handleCloseModal = () => {
+        setShowModal(false);
+    };
+    //show update url
+    const handleUpdateUrl = () => {
+        setUpdateUrl(true);
+    };
+    const handleHiddenUpdateUrl = () => {
+        setContentUrl('');
+        setUpdateUrl(false);
+    };
+    const handleChangeNewUrl = (e) => {
+        if (e.target.value === ' ') {
+            return;
+        }
+        setContentUrl(e.target.value);
     };
 
     return (
@@ -171,29 +260,45 @@ const Classes = () => {
                                             <span>{selectedClass.subjectName}</span>
                                         </div>
                                     </Row>
+
                                     <Row>
                                         <div className={cx('class_name')}>
                                             <span>{selectedClass.className}</span>
                                         </div>
                                     </Row>
                                     <Row>
-                                        <Calendar events={calendar} />
+                                        <Calendar events={calendar} urlClass={urlClass} />
                                     </Row>
                                 </Col>
                             </Row>
                             <Row className={cx('complaint')}>
+                                {checkExpire(dateEnd) && filterParams.isApprove && filterParams.status === null && (
+                                    <Button orange className={cx('container__endClass')} onClick={handleClass}>
+                                        End Class
+                                    </Button>
+                                )}
+                                <Button onClick={handleUpdateUrl} orange className={cx('container__viewComplaint')}>
+                                    New Link Class
+                                </Button>
                                 <Button
                                     to="/viewComplaint"
-                                    state={{ classID }}
+                                    state={{ classID, syntax: 'tutor' }}
                                     orange
                                     className={cx('container__viewComplaint')}
                                 >
                                     View Complaint
                                 </Button>
-                                <Button onClick={handleComplaint} transparent className={cx('container__complaint')}>
-                                    Complaint
-                                </Button>
-                                {complaint && <Complaint classId={classID} />}
+                                {filterParams.isApprove && filterParams.status === null && (
+                                    <Button
+                                        onClick={handleComplaint}
+                                        transparent
+                                        className={cx('container__complaint')}
+                                    >
+                                        Complaint
+                                    </Button>
+                                )}
+
+                                {complaint && <Complaint classId={classID} syntax={'tutor'} />}
                             </Row>
                         </Col>
                     ) : (
@@ -202,6 +307,20 @@ const Classes = () => {
                         </div>
                     )}
                 </Row>
+                {updateUrl && (
+                    <UpdateUrl
+                        contentUrl={contentUrl}
+                        onHide={handleHiddenUpdateUrl}
+                        handleUpdateClassUrl={handleUpdateClassUrl}
+                        handleChangeNewUrl={handleChangeNewUrl}
+                    ></UpdateUrl>
+                )}
+                <ModalNotConfirm
+                    showModal={showModal}
+                    handleCancel={handleCloseModal}
+                    content={showNotification}
+                    typeError={typeOfNoti}
+                />
             </Container>
         </div>
     );
