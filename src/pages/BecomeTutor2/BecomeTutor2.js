@@ -1,7 +1,8 @@
 import classNames from 'classnames/bind';
 import { useEffect, useRef, useState, useContext } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCheck, faTimes } from '@fortawesome/free-solid-svg-icons';
+import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+import { storage } from '~/firebase/firebase';
+import { v4 } from 'uuid';
 
 import requests from '~/utils/request';
 import Subject from '~/pages/BecomeTutor2/Subject';
@@ -11,21 +12,18 @@ import { InvalidIcon, ValidIcon } from '~/components/Icons';
 
 import styles from './BecomeTutor2.module.scss';
 import useDebounce from '~/hooks/useDebounce';
-
-const IMGBB = 'https://api.imgbb.com/1/upload?key=9c7d176f8c72a29fa6384fbb49cff7bc';
+import Image from '~/components/Image';
 
 const cx = classNames.bind(styles);
-
 const CARD_REGEX = /^[0-9]{10}$/;
 const HOURLYRATE_REGEX = /^[1-9][0-9]*$/;
 const REGISTER_URL = 'auth/tutor_signup';
 
 function BecomeTutor2() {
-    const { chooseSubject, setChooseSubject, userId, setTutorId } = useContext(ModalContext);
+    const { chooseSubject, setChooseSubject, userId, setTutorId, setUserId } = useContext(ModalContext);
     const errRef = useRef();
-    let file = '';
 
-    const [image, setImage] = useState(null);
+    const [errMsg, setErrMsg] = useState();
     const [date, setDate] = useState('');
 
     const [cardId, setCardId] = useState('');
@@ -37,8 +35,6 @@ function BecomeTutor2() {
     const [hourlyRateFocus, setHourlyRateFocus] = useState(false);
 
     const deboundedHourlyRate = useDebounce(hourlyRate, 500);
-
-    console.log(deboundedHourlyRate);
 
     const [typeOfDegree, setTypeOfDegree] = useState('');
     const [typeOfDegreeFocus, setTypeOfDegreeFocus] = useState(false);
@@ -55,7 +51,9 @@ function BecomeTutor2() {
     const [address, setAddress] = useState('');
     const [addressFocus, setAddressFocus] = useState(false);
 
-    const [errMsg, setErrMsg] = useState();
+    const [nameImage, setNameImage] = useState('');
+    const [loadingImage, setLoadingImage] = useState(false);
+    const [image, setImage] = useState('');
 
     useEffect(() => {
         const result = CARD_REGEX.test(cardId);
@@ -71,60 +69,62 @@ function BecomeTutor2() {
         setErrMsg('');
     }, [cardId, deboundedHourlyRate]);
 
+    //handle image to firebase
+    const handleChangeImage = async () => {
+        if (image == null) return;
+        const imageRef = ref(storage, `images/${image.name + v4()}`);
+        setLoadingImage(true);
+        uploadBytes(imageRef, image).then((snapshot) => {
+            getDownloadURL(snapshot.ref).then((snapshot) => {
+                setNameImage(snapshot);
+                setLoadingImage(false);
+            });
+        });
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         const v = CARD_REGEX.test(cardId);
         const v1 = HOURLYRATE_REGEX.test(hourlyRate);
-        console.log(hourlyRate);
-        console.log(v, v1);
-        const form = new FormData();
         if (!v && !v1) {
             setErrMsg('Invalid entry');
             return;
         }
-        try {
-            form.append('image', image);
-            const response = await requests.post(IMGBB, form);
-            if (response.status === 200) {
-                file = response?.data?.data?.display_url;
-            }
 
-            try {
-                const response = await requests.post(
-                    REGISTER_URL,
-                    JSON.stringify({
-                        dob: date,
-                        education: education,
-                        typeOfDegree: typeOfDegree,
-                        cardId: cardId,
-                        hourlyRate,
-                        photo: file,
-                        headline: headline,
-                        description: description,
-                        address: address,
-                        isActive: false,
-                        accountId: userId,
-                    }),
-                    {
-                        headers: { 'Content-Type': 'application/json' },
-                        withCredentials: true,
-                    },
-                );
-                setTutorId(response.data);
-                if (response.status === 200) {
-                    setChooseSubject(true);
-                }
-            } catch (error) {
-                if (!error?.response) {
-                    setErrMsg('No server response');
-                } else if (error?.response?.status === 490) {
-                    setErrMsg('Username Taken');
-                } else {
-                    setErrMsg('Registration Failed');
-                }
+        try {
+            const response = await requests.post(
+                REGISTER_URL,
+                JSON.stringify({
+                    dob: date,
+                    education: education,
+                    typeOfDegree: typeOfDegree,
+                    cardId,
+                    hourlyRate,
+                    photo: nameImage,
+                    headline: headline,
+                    description: description,
+                    address: address,
+                    isActive: null,
+                    accountId: userId,
+                }),
+                {
+                    headers: { 'Content-Type': 'application/json' },
+                    withCredentials: true,
+                },
+            );
+            setTutorId(response.data);
+            if (response.status === 200) {
+                setUserId('');
+                setChooseSubject(true);
             }
         } catch (error) {
-            console.log(error);
+            if (!error?.response) {
+                setErrMsg('No server response');
+            } else if (error?.response?.status === 490) {
+                setErrMsg('Username Taken');
+            } else {
+                setErrMsg('Registration Failed');
+            }
         }
     };
 
@@ -366,6 +366,20 @@ function BecomeTutor2() {
                                 name="myfile"
                                 onChange={(e) => setImage(e.target.files[0])}
                             />
+                            {!loadingImage ? (
+                                <Button
+                                    orange
+                                    onClick={handleChangeImage}
+                                    style={{ width: '60px', height: '20px', marginLeft: '4px', color: '#fff' }}
+                                >
+                                    Upload
+                                </Button>
+                            ) : (
+                                <p>loading....</p>
+                            )}
+                            {nameImage && (
+                                <Image src={nameImage} alt="avatar" className={cx('container__image')}></Image>
+                            )}
                         </div>
 
                         {chooseSubject && <Subject />}

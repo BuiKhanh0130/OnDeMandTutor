@@ -90,7 +90,7 @@ function Details({ classes, handleApprove, handleReject, handleCancel }) {
                                         {classes.timeEnd} HOUR
                                     </StyledTableCell>
                                     <StyledTableCell className={cx('class-items')} align="right">
-                                        {classes.description} HOUR
+                                        {classes.description}
                                     </StyledTableCell>
                                 </StyledTableRow>
                             </TableBody>

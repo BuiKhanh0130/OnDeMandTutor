@@ -12,11 +12,9 @@ import Image from '~/components/Image';
 import Sidebar from './components/Sidebar';
 import images from '~/assets/images';
 import Button from '~/components/Button';
-import User from '~/layouts/DefaultLayout/components/LogIn/User';
-import Notification from '~/layouts/DefaultLayout/components/LogIn/Notification';
+import User from '~/components/User';
+import Notification from '~/components/Notification';
 import { ModalContext } from '~/components/ModalProvider';
-// import { faBell } from '@fortawesome/free-solid-svg-icons';
-// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { NotificationIcon } from '~/components/Icons';
 
 import styles from './Header.module.scss';

@@ -1,9 +1,7 @@
 import classNames from 'classnames/bind';
 import { useEffect, useState } from 'react';
 
-import Container from 'react-bootstrap/Container';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
+import { Container, Row, Col } from 'react-bootstrap';
 
 import Search from '~/components/Search';
 import Video from './components/Video';
@@ -15,10 +13,12 @@ import styles from './Advertisement.module.scss';
 
 const cx = classNames.bind(styles);
 const ACCOUNTS_URL = '/account/show_tutor_have_ads';
+const ALL_ADVERSTISEMENT_URL = '/account/show_tutor_have_ads';
 
 function Advertisement() {
     const [seeAll, setSeeAll] = useState(false);
     const [accountNumber, setAccountNumber] = useState(5);
+    const [advertisements, setAdvertisements] = useState();
 
     const requestsPrivate = useRequestsPrivate();
     const [accounts, setAccounts] = useState([]);
@@ -27,9 +27,26 @@ function Advertisement() {
         let isMounted = true;
         const controller = new AbortController();
         const getAccount = async () => {
-            const response = await requestsPrivate.get(ACCOUNTS_URL, { signal: controller.signal });
+            const response = await requestsPrivate.get(ALL_ADVERSTISEMENT_URL, { signal: controller.signal });
             console.log(response.data);
             isMounted && setAccounts(response.data);
+        };
+
+        getAccount();
+
+        return () => {
+            isMounted = false;
+            controller.abort();
+        };
+    }, []);
+
+    useEffect(() => {
+        let isMounted = true;
+        const controller = new AbortController();
+        const getAccount = async () => {
+            const response = await requestsPrivate.get(ACCOUNTS_URL, { signal: controller.signal });
+            console.log(response.data);
+            isMounted && setAdvertisements(response.data);
         };
 
         getAccount();
@@ -87,19 +104,19 @@ function Advertisement() {
                         </div>
                     </Col>
                     <Col lg="8">
-                        {accounts?.length > 0 &&
-                            accounts.map((account) => {
-                                console.log(account.tutorAds[0].videoUrl);
+                        {advertisements?.length > 0 &&
+                            advertisements.map((advertisement) => {
+                                console.log(advertisement);
                                 return (
                                     <Video
-                                        key={account.accountId}
-                                        accountId={account.accountId}
-                                        tutorId={account.tutorId}
-                                        avatar={account.avatar}
-                                        name={account.fullName}
-                                        headline={account.headline}
-                                        clip={account?.tutorAds[0].videoUrl}
-                                        description={account.description}
+                                        key={advertisement.accountId}
+                                        accountId={advertisement.accountId}
+                                        tutorId={advertisement.tutorId}
+                                        avatar={advertisement.avatar}
+                                        name={advertisement.fullName}
+                                        headline={advertisement.headline}
+                                        clip={advertisement?.tutorAds[0].videoUrl}
+                                        description={advertisement.description}
                                     />
                                 );
                             })}

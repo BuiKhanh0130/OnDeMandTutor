@@ -106,6 +106,9 @@ export default function BasicTable({ name }) {
 
     //handle content reject
     const handleChangeContentReject = (e) => {
+        if (e.target.value === ' ') {
+            return;
+        }
         setReasonReject(e.target.value);
     };
 
@@ -128,22 +131,22 @@ export default function BasicTable({ name }) {
     return (
         <div className={cx('wrapper')}>
             <h3>{name}</h3>
-            <Container>
-                <Row>
-                    <Col lg="12">
-                        <TableContainer component={Paper} style={{ boxShadow: '0px 13px 20px 0px #80808029' }}>
-                            <Table sx={{ minWidth: 650, maxWidth: 988 }} aria-label="simple table">
-                                <TableHead>
-                                    <TableRow>
-                                        <TableCell>Owner post</TableCell>
-                                        <TableCell align="left">Title</TableCell>
-                                        <TableCell align="left">Subject Name</TableCell>
-                                        <TableCell align="left">Detail</TableCell>
-                                    </TableRow>
-                                </TableHead>
-                                <TableBody style={{ color: 'white' }}>
-                                    {formCreateClass.length > 0 &&
-                                        formCreateClass?.map((row, index) => (
+            {formCreateClass?.length > 0 ? (
+                <Container>
+                    <Row>
+                        <Col lg="12">
+                            <TableContainer component={Paper} style={{ boxShadow: '0px 13px 20px 0px #80808029' }}>
+                                <Table sx={{ minWidth: 650 }} aria-label="simple table">
+                                    <TableHead>
+                                        <TableRow>
+                                            <TableCell>Owner post</TableCell>
+                                            <TableCell align="left">Title</TableCell>
+                                            <TableCell align="left">Subject Name</TableCell>
+                                            <TableCell align="left">Detail</TableCell>
+                                        </TableRow>
+                                    </TableHead>
+                                    <TableBody style={{ color: 'white' }}>
+                                        {formCreateClass?.map((row, index) => (
                                             <TableRow
                                                 key={index}
                                                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
@@ -160,28 +163,33 @@ export default function BasicTable({ name }) {
                                                 </TableCell>
                                             </TableRow>
                                         ))}
-                                </TableBody>
-                            </Table>
-                        </TableContainer>
-                    </Col>
-                </Row>
-                {viewDetails && (
-                    <Details
-                        classes={classes}
-                        handleApprove={handleApprove}
-                        handleReject={handleOpenReject}
-                        handleCancel={handleCancelClass}
-                    />
-                )}
-                {rejectForm && (
-                    <Reject
-                        handleReject={handleReject}
-                        handleChangeContentReject={handleChangeContentReject}
-                        handleClose={handleClose}
-                    />
-                )}
-                {pagination.limit > 1 && <Paging pagination={pagination} curPage={curPage} setcurPage={setcurPage} />}
-            </Container>
+                                    </TableBody>
+                                </Table>
+                            </TableContainer>
+                        </Col>
+                    </Row>
+                    {viewDetails && (
+                        <Details
+                            classes={classes}
+                            handleApprove={handleApprove}
+                            handleReject={handleOpenReject}
+                            handleCancel={handleCancelClass}
+                        />
+                    )}
+                    {rejectForm && (
+                        <Reject
+                            handleReject={handleReject}
+                            handleChangeContentReject={handleChangeContentReject}
+                            handleClose={handleClose}
+                        />
+                    )}
+                    {pagination.limit > 1 && (
+                        <Paging pagination={pagination} curPage={curPage} setcurPage={setcurPage} />
+                    )}
+                </Container>
+            ) : (
+                <p style={{ fontSize: '3rem', color: 'red' }}>There no advertisement need browsed</p>
+            )}
         </div>
     );
 }

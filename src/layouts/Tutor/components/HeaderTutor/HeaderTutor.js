@@ -12,10 +12,10 @@ import Image from '~/components/Image';
 import Sidebar from '../Sidebar/Sidebar';
 import images from '~/assets/images';
 import UserTutor from './UserTutor';
-import Notification from '~/layouts/DefaultLayout/components/LogIn/Notification';
+import Notification from '~/components/Notification';
 import { ModalContext } from '~/components/ModalProvider';
 import { NotificationIcon } from '~/components/Icons';
-import NavMessage from '~/layouts/Admin/components/HeaderAdmin/Nav/NavMessage';
+import NavMessage from '~/components/NavMessage';
 
 import styles from './HeaderTutor.module.scss';
 
@@ -39,7 +39,7 @@ function HeaderTutor() {
                     </Col>
 
                     <Col lg="2" className={cx('container__login-signup')}>
-                        <Link to={config.routes.notification}>
+                        <Link to="/notifications">
                             <Notification>
                                 <div className={cx('container__login-signup-noti')}>
                                     <NotificationIcon />

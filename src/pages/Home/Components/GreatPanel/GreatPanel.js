@@ -1,6 +1,6 @@
 import classNames from 'classnames/bind';
 import { Link } from 'react-router-dom';
-import { useEffect, useRef, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Container, Row, Col } from 'react-bootstrap';
@@ -8,6 +8,7 @@ import { Container, Row, Col } from 'react-bootstrap';
 import Image from '~/components/Image';
 import requests from '~/utils/request';
 import images from '~/assets/images';
+import { ModalContext } from '~/components/ModalProvider';
 
 import styles from './GreatPanel.module.scss';
 
@@ -62,6 +63,8 @@ function GreatPanel({ greatTutors }) {
         }
     }, []);
 
+    console.log(top10);
+
     return (
         <Container className={cx('wrapper')}>
             <Row>
@@ -79,7 +82,7 @@ function GreatPanel({ greatTutors }) {
                                         return (
                                             <Link
                                                 to={`/account/tutor/${subject.fullName}`}
-                                                state={{ key: `${subject.tutorId}` }}
+                                               
                                                 key={index}
                                                 className={cx('greatTutorPanel__container-subjects')}
                                             >
@@ -121,7 +124,7 @@ function GreatPanel({ greatTutors }) {
                                         return (
                                             <Link
                                                 to={`/account/tutor/${subject.fullName}`}
-                                                state={{ key: `${subject.tutorId}` }}
+                                               
                                                 key={index}
                                                 className={cx('greatTutorPanel__container-subjects')}
                                             >

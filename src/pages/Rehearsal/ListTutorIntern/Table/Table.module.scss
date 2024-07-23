@@ -79,3 +79,12 @@ th {
         background-color: var(--hover);
     }
 }
+
+.sendEmail {
+    padding: 10px;
+    border-radius: 10px;
+
+    &:hover {
+        color: var(--white);
+    }
+}

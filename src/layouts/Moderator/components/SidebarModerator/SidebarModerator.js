@@ -24,15 +24,6 @@ const SidebarTutor = ({ index }) => {
             heading: 'Advertisement',
             link: '/moderator/advertisement',
         },
-        {
-            icon: UilPackage,
-            heading: 'Feedback',
-            link: '/feedbackHistory',
-        },
-        {
-            icon: UilChart,
-            heading: 'Transaction',
-        },
     ];
 
     const [selected, setSelected] = useState(index ? index : 0);

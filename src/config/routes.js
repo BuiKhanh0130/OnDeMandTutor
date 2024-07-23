@@ -45,6 +45,7 @@ const routes = {
     advertisementModerator: '/moderator/advertisement',
     main: '/dashboard-admin',
     ban: '/ban-account',
+    feedback: '/feedback',
     accountAdmin: '/create_account-admin',
     accountModerator: '/create_account-moderator',
 };

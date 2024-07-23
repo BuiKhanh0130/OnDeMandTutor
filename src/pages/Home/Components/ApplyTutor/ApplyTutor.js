@@ -19,7 +19,11 @@ function ApplyTutor({ applyTutor }) {
                         <div key={index} className={cx('applyTutor__container-content')}>
                             <div className={cx('applyTutor__container-title')}>{apply.title}</div>
                             <div className={cx('applyTutor__container-summary')}>{apply.summary}</div>
-                            <Button transparent className={cx('applyTutor__container-btn')}>
+                            <Button
+                                to="/registration/tutor/step1"
+                                transparent
+                                className={cx('applyTutor__container-btn')}
+                            >
                                 {apply.button}
                             </Button>
                         </div>

@@ -20,7 +20,7 @@ const REQUEST_PAYMENT_URL = 'vnpay/create_payment_url';
 const RESPONSE_PAYMENT_URL = 'vnpay/payment_return';
 const WALLETID_ADMIN = '0c89931d-6cf2-4f24-8a22-80579c909b6c';
 const VNPAYID = 'bfe1bf69-e0c0-4db7-b8b5-face17be1272';
-const PAY_DESTINATION_URL = 'paymentdestination/viewlist'
+const PAY_DESTINATION_URL = 'paymentdestination/viewlist';
 
 const Classes = () => {
     const { avatar } = useContext(ModalContext);
@@ -33,6 +33,7 @@ const Classes = () => {
     const [paymentId, setPaymentId] = useState(localStorage.getItem('paymentid'));
     const [price, setPrice] = useState(200000);
     const [userId, setUserId] = useState('');
+    const [listDesPay, setListDesPay] = useState([]);
 
     const requestPrivate = useRequestsPrivate();
 
@@ -41,10 +42,11 @@ const Classes = () => {
         try {
             const response = await requests.get(PAY_DESTINATION_URL);
             console.log(response.data);
+            setListDesPay(response.data);
         } catch (error) {
             console.error('Error fetching PayDestination:', error);
         }
-    },[])
+    }, []);
 
     const handleChangeSelect = useCallback((value) => {
         let status = null;
@@ -106,27 +108,28 @@ const Classes = () => {
         async (paramsObject) => {
             if (!paymentId) return;
 
-        try {
-            const response = await requests.post(`${RESPONSE_PAYMENT_URL}/${paymentId}`, paramsObject);
-            localStorage.removeItem('paymentid');
-            if (response.data === true) {
-                await requests.put(`${STUDENT_BROWSERCLASS_URL}?classId=${classID}&action=true`);
-                console.log(userId, classID);
-                await requestPrivate.post(`${CONVERSATION_URL}?userId=${userId}`);
-                await requestPrivate.post(CREATE_NOTIFICATION_URL, {
-                    title: `${avatar.fullName} has accepted your class.`,
-                    description: 'follow them and start your lesson!',
-                    url: '/classTutor',
-                    accountId: userId
-                });
-                fetchClasses();
-            } else {
-                console.error('Payment was not successful:', response.data);
+            try {
+                const response = await requests.post(`${RESPONSE_PAYMENT_URL}/${paymentId}`, paramsObject);
+                localStorage.removeItem('paymentid');
+                if (response.data === true) {
+                    await requests.put(`${STUDENT_BROWSERCLASS_URL}?classId=${classID}&action=true`);
+                    await requestPrivate.post(`${CONVERSATION_URL}?userId=${userId}`);
+                    await requestPrivate.post(CREATE_NOTIFICATION_URL, {
+                        title: `${avatar.fullName} has accepted your class.`,
+                        description: 'follow them and start your lesson!',
+                        url: '/classTutor',
+                        accountId: userId,
+                    });
+                    fetchClasses();
+                } else {
+                    console.error('Payment was not successful:', response.data);
+                }
+            } catch (err) {
+                console.error('Error during payment response handling:', err);
             }
-        } catch (err) {
-            console.error('Error during payment response handling:', err);
-        }
-    }, [paymentId, classID, userId, avatar.fullName, fetchClasses, requestPrivate]);
+        },
+        [paymentId, classID, userId, avatar.fullName, fetchClasses, requestPrivate],
+    );
 
     useEffect(() => {
         const urlParams = new URLSearchParams(window.location.search);
@@ -134,15 +137,17 @@ const Classes = () => {
         handlePaymentResponse(paramsObject);
     }, [handlePaymentResponse]);
 
-    const fetchClassesDetail = useCallback(async (classID) => {
-        try {
-            const response = await requestPrivate.get(`${VIEW_CLASS_DETAILS_URL}?classid=${classID}`);
-            setCalendar(response.data.calenders);
-        } catch (error) {
-            console.error('Error fetching class details:', error);
-        }
-    }, [requestPrivate]);
-    
+    const fetchClassesDetail = useCallback(
+        async (classID) => {
+            try {
+                const response = await requestPrivate.get(`${VIEW_CLASS_DETAILS_URL}?classid=${classID}`);
+                setCalendar(response.data.calenders);
+            } catch (error) {
+                console.error('Error fetching class details:', error);
+            }
+        },
+        [requestPrivate],
+    );
 
     useEffect(() => {
         if (classID) {
@@ -251,7 +256,7 @@ const Classes = () => {
                                     <Row>
                                         {filterParams.status === null && filterParams.isApprove === null ? (
                                             <div className={cx('container_avatar-buttons')}>
-                                                <button className={cx('container_avatar-button', 'reject')} >
+                                                <button className={cx('container_avatar-button', 'reject')}>
                                                     Reject
                                                 </button>
                                                 <button
