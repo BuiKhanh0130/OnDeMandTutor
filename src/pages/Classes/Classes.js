@@ -23,7 +23,6 @@ const VNPAY_RESPONSE_PAYMENT_URL = 'vnpay/payment_return';
 const MOMO_RESQUEST_PAYMENT_URL = 'momo/create_url';
 const MOMO_RESPONSE_PAYMENT_URL = 'momo/payment_return';
 const WALLETID_ADMIN = 'b6632c5a-a172-4213-b691-1137e0b693ac';
-const VNPAYID = 'bfe1bf69-e0c0-4db7-b8b5-face17be1272';
 const PAY_DESTINATION_URL = 'paymentdestination/viewlist';
 
 const Classes = () => {
@@ -33,8 +32,9 @@ const Classes = () => {
     const [size, setSize] = useState(0);
     const [classID, setClassID] = useState('');
     const [filterParams, setFilterParams] = useState({ status: null, isApprove: true, isCancel: false });
-    const [message, setMessage] = useState('Vuilongthanhtoan');
+    const [message, setMessage] = useState('Payforthecourse');
     const [transactionId, setTransactionId] = useState(localStorage.getItem('transactionId'));
+    const [selectedClassId, setSelectedClassID] = useState(localStorage.getItem('selectedClassId'))
     const [price, setPrice] = useState(200000);
     const [userId, setUserId] = useState('');
     const [vnpayId, setVnPayId] = useState('');
@@ -76,16 +76,16 @@ const Classes = () => {
     }, []);
 
     const handlePayment = useCallback(() => {
-        setShowPaymentModal(true); // Show the payment modal
+        setShowPaymentModal(true);
     }, []);
 
     const handleSelectPaymentMethod = useCallback(
         async (method) => {
-            setShowPaymentModal(false); // Hide the payment modal
-
+            setShowPaymentModal(false);
             try {
                 let paymentUrl = '';
-                const response = '';
+                let response = null;
+
                 if (method === 'VNPAY') {
                     response = await requests.post(VNPAY_REQUEST_PAYMENT_URL, {
                         walletId: WALLETID_ADMIN,
@@ -102,6 +102,7 @@ const Classes = () => {
                         type: 1,
                         amount: price,
                         description: encodeURIComponent(message),
+                        orderId: 'payment123'
                     });
                     paymentUrl = response.data.paymentUrl;
                 }
@@ -114,7 +115,7 @@ const Classes = () => {
                 console.error('Error during payment request:', error);
             }
         },
-        [price, message, classID, momoId]
+        [price, message, classID, vnpayId, momoId]
     );
 
     const handleCancle = useCallback(async () => {
@@ -158,12 +159,11 @@ const Classes = () => {
             console.error('Error fetching classes:', error);
         }
     }, [filterParams, requestPrivate]);
+    console.log(transactionId, selectedClassId, userId);
 
     const handlePaymentResponse = useCallback(
         async (paramsObject) => {
             if (!transactionId) return;
-
-            const selectedClassId = localStorage.getItem('selectedClassId');
 
             try {
                 const response = await requests.post(`${VNPAY_RESPONSE_PAYMENT_URL}/${transactionId}`, paramsObject);
