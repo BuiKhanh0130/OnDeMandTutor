@@ -12,7 +12,8 @@ import { ModalContext } from '~/components/ModalProvider';
 import Complaint from '../Complaint';
 import UpdateUrl from './components/UpdateUrl';
 import { ModalNotConfirm } from '~/components/Modal';
-import Calendar from '~/components/Calendar/Calendar';
+import ConfirmPopup from '~/components/ConfirmPopup/ConfirmPopup';
+import requests from '~/utils/request';
 
 const cx = classNames.bind(styles);
 
@@ -21,8 +22,9 @@ const VIEW_CLASS_DETAILS_URL = 'class/get_class-detail';
 const END_CLASS_URL = 'class/submit_class';
 const NOTIFICATION_URL = 'notification/create_notification';
 const UPDATE_CLASS_URL = 'class/update_class-url/';
+const CHECK_ATTENDENCE_URL = 'class/student_checking-day'
 
-const Classes = () => {
+const ClassTutor = () => {
     const { complaint, setComplaint } = useContext(ModalContext);
     const accessToken = sessionStorage.getItem('accessToken');
     const user = jwtDecode(accessToken);
@@ -31,7 +33,7 @@ const Classes = () => {
     const [calendar, setCalendar] = useState([]);
     const [size, setSize] = useState(0);
     const [classID, setClassID] = useState('');
-    const [filterParams, setFilterParams] = useState({ status: null, isApprove: true });
+    const [filterParams, setFilterParams] = useState({ status: null, isApprove: true, isCancel: false });
     const [dateEnd, setDateEnd] = useState();
     const [subject, setSubject] = useState();
     const [userId, setUserId] = useState();
@@ -41,31 +43,38 @@ const Classes = () => {
     const [typeOfNoti, setTypeOfNoti] = useState('');
     const [updateUrl, setUpdateUrl] = useState(false);
     const [contentUrl, setContentUrl] = useState('');
-    //handle filter
+    const [popUp, setPopUp] = useState(false);
+    const [calendarId, setCalendarId] = useState('');
+
     const handleChangeSelect = useCallback((value) => {
         let status = null;
         let isApprove = null;
+        let isCancel = false;
 
         if (value === 'In Process') {
             isApprove = true;
         } else if (value === 'Well Done') {
             status = true;
             isApprove = true;
+        } else if (value === "Cancled Class") {
+            isCancel = true;
         }
 
-        setFilterParams({ status, isApprove });
+        setFilterParams({ status, isApprove, isCancel });
     }, []);
-    //get class
+
     const fetchClasses = useCallback(async () => {
         try {
-            const { status, isApprove } = filterParams;
+            const { status, isApprove, isCancel } = filterParams;
             let API_URL = `${VIEW_CLASS_LIST_URL}`;
 
-            if (status !== null || isApprove !== null) {
+            if (status !== null || isApprove !== null || isCancel !== null) {
                 const params = new URLSearchParams();
                 if (status !== null) params.append('status', status);
                 if (isApprove !== null) params.append('isApprove', isApprove);
+                params.append('isCancel', isCancel);
                 API_URL += `?${params.toString()}`;
+                console.log(API_URL);
             }
 
             const response = await requestPrivate.get(API_URL);
@@ -83,7 +92,7 @@ const Classes = () => {
             console.error('Error fetching classes:', error);
         }
     }, [filterParams, requestPrivate, showModal]);
-    //get class detail
+
     const fetchClassesDetail = useCallback(
         async (classID) => {
             try {
@@ -95,12 +104,13 @@ const Classes = () => {
         },
         [requestPrivate],
     );
+
     useEffect(() => {
         if (classID) {
             fetchClassesDetail(classID);
         }
     }, [classID, fetchClassesDetail]);
-    //update class url
+
     const handleUpdateClassUrl = async () => {
         if (contentUrl === '') {
             setShowNotification('Please fill new url!');
@@ -120,7 +130,7 @@ const Classes = () => {
     useEffect(() => {
         fetchClasses();
     }, [fetchClasses]);
-    //handle show detail class respectively
+
     const handleClassClick = (classs) => {
         console.log(classs);
         setSubject(classs.subjectName);
@@ -130,7 +140,7 @@ const Classes = () => {
         fetchClassesDetail(classs.classid);
         setUrlClass(classs.urlClass);
     };
-    //handle end class
+
     const handleClass = async () => {
         const response = await requestPrivate.put(`${END_CLASS_URL}/${classID}`);
         if (response.status === 200) {
@@ -140,7 +150,7 @@ const Classes = () => {
             createNotification(userId);
         }
     };
-    //const create notification
+
     const createNotification = async () => {
         try {
             const response = await requestPrivate.post(
@@ -158,34 +168,50 @@ const Classes = () => {
             console.log(error);
         }
     };
+
     const selectedClass = useMemo(() => classes.find((classs) => classs.classid === classID), [classes, classID]);
-    //handle show complaint
+
     const handleComplaint = () => {
         setComplaint(true);
     };
-    //handle check class expire
+
     const checkExpire = (endDate) => {
         const inPutDate = new Date(endDate);
         const currentDate = new Date();
         return inPutDate > currentDate;
     };
-    //handle close modal
+
     const handleCloseModal = () => {
         setShowModal(false);
     };
-    //show update url
+
     const handleUpdateUrl = () => {
         setUpdateUrl(true);
     };
+
     const handleHiddenUpdateUrl = () => {
         setContentUrl('');
         setUpdateUrl(false);
     };
+
     const handleChangeNewUrl = (e) => {
         if (e.target.value === ' ') {
             return;
         }
         setContentUrl(e.target.value);
+    };
+
+    const handleConfirmAttendance = () => {
+        const handleAttendanceChange = async () => {
+            try {
+                await requests.put(`${CHECK_ATTENDENCE_URL}?calenderId=${calendarId}`);
+                setPopUp(false);
+            } catch (error) {
+                console.error(`Error updating attendance`, error);
+            }
+        }
+        handleAttendanceChange();
+        setPopUp(false);
     };
 
     return (
@@ -268,7 +294,7 @@ const Classes = () => {
                                         </div>
                                     </Row>
                                     <Row>
-                                        <Calendar events={calendar} urlClass={urlClass} />
+                                        <CalendarClass events={calendar} setModal={setPopUp} setCalendarId={setCalendarId} />
                                     </Row>
                                 </Col>
                             </Row>
@@ -316,15 +342,24 @@ const Classes = () => {
                         handleChangeNewUrl={handleChangeNewUrl}
                     ></UpdateUrl>
                 )}
+
                 <ModalNotConfirm
                     showModal={showModal}
                     handleCancel={handleCloseModal}
                     content={showNotification}
                     typeError={typeOfNoti}
                 />
+
+                {popUp && (
+                    <ConfirmPopup
+                        show={popUp}
+                        onHide={() => setPopUp(false)}
+                        onConfirm={handleConfirmAttendance}
+                    />
+                )}
             </Container>
         </div>
     );
 };
 
-export default Classes;
+export default ClassTutor;

@@ -1,15 +1,15 @@
 import React, { useEffect, useState, useCallback, useMemo, useContext } from 'react';
 import classNames from 'classnames/bind';
 import styles from './Classes.module.scss';
-import { Container, Row, Col } from 'react-bootstrap';
+import { Container, Row, Col, Modal, Button } from 'react-bootstrap';
 import useRequestsPrivate from '~/hooks/useRequestPrivate';
 import Calendar from '~/components/Calendar/Calendar';
 import Image from '~/components/Image';
 import images from '~/assets/images';
 import requests from '~/utils/request';
 import { ModalContext } from '~/components/ModalProvider';
-import Button from '~/components/Button';
 import Complaint from '../Complaint';
+import PaymentModal from './PaymentModal/PaymentModal';
 
 const cx = classNames.bind(styles);
 
@@ -18,8 +18,10 @@ const VIEW_CLASS_DETAILS_URL = 'class/get_class-detail';
 const STUDENT_BROWSERCLASS_URL = 'class/student_browse-class';
 const CONVERSATION_URL = 'conversation-account';
 const CREATE_NOTIFICATION_URL = 'notification/create_notification';
-const REQUEST_PAYMENT_URL = 'vnpay/create_payment_url';
-const RESPONSE_PAYMENT_URL = 'vnpay/payment_return';
+const VNPAY_REQUEST_PAYMENT_URL = 'vnpay/create_payment_url';
+const VNPAY_RESPONSE_PAYMENT_URL = 'vnpay/payment_return';
+const MOMO_RESQUEST_PAYMENT_URL = 'momo/create_url';
+const MOMO_RESPONSE_PAYMENT_URL = 'momo/payment_return';
 const WALLETID_ADMIN = 'b6632c5a-a172-4213-b691-1137e0b693ac';
 const VNPAYID = 'bfe1bf69-e0c0-4db7-b8b5-face17be1272';
 const PAY_DESTINATION_URL = 'paymentdestination/viewlist';
@@ -30,12 +32,16 @@ const Classes = () => {
     const [calendar, setCalendar] = useState([]);
     const [size, setSize] = useState(0);
     const [classID, setClassID] = useState('');
-    const [filterParams, setFilterParams] = useState({ status: null, isApprove: true });
+    const [filterParams, setFilterParams] = useState({ status: null, isApprove: true, isCancel: false });
     const [message, setMessage] = useState('Vuilongthanhtoan');
     const [transactionId, setTransactionId] = useState(localStorage.getItem('transactionId'));
     const [price, setPrice] = useState(200000);
     const [userId, setUserId] = useState('');
-    const [listDesPay, setListDesPay] = useState([]);
+    const [vnpayId, setVnPayId] = useState('');
+    const [momoId, setMomoId] = useState('');
+    const [vnpayIMG, setVnPayIMG] = useState('');
+    const [momoIMG, setMomoIMG] = useState('');
+    const [showPaymentModal, setShowPaymentModal] = useState(false);
 
     const requestPrivate = useRequestsPrivate();
 
@@ -43,7 +49,10 @@ const Classes = () => {
         try {
             const response = await requests.get(PAY_DESTINATION_URL);
             console.log(response.data);
-            setListDesPay(response.data);
+            setVnPayId(response.data[0].id);
+            setMomoId(response.data[1].id);
+            setVnPayIMG(response.data[0].bankLogo);
+            setMomoIMG(response.data[1].bankLogo);
         } catch (error) {
             console.error('Error fetching PayDestination:', error);
         }
@@ -52,34 +61,61 @@ const Classes = () => {
     const handleChangeSelect = useCallback((value) => {
         let status = null;
         let isApprove = null;
+        let isCancel = false;
 
         if (value === 'In Process') {
             isApprove = true;
         } else if (value === 'Well Done') {
             status = true;
             isApprove = true;
+        } else if (value === 'Cancled Class') {
+            isCancel = true;
         }
 
-        setFilterParams({ status, isApprove });
+        setFilterParams({ status, isApprove, isCancel });
     }, []);
 
-    const handlePayment = useCallback(async () => {
-        try {
-            const response = await requests.post(REQUEST_PAYMENT_URL, {
-                walletId: WALLETID_ADMIN,
-                paymentDestinationId: VNPAYID,
-                type: 1,
-                amount: price,
-                description: encodeURIComponent(message),
-            });
-            localStorage.setItem('transactionId', response.data.transactionId);
-            localStorage.setItem('selectedClassId', classID);
-            setTransactionId(response.data.transactionId);
-            window.location.href = response.data.paymentUrl;
-        } catch (error) {
-            console.error('Error during payment request:', error);
-        }
-    }, [price, message, classID]);
+    const handlePayment = useCallback(() => {
+        setShowPaymentModal(true); // Show the payment modal
+    }, []);
+
+    const handleSelectPaymentMethod = useCallback(
+        async (method) => {
+            setShowPaymentModal(false); // Hide the payment modal
+
+            try {
+                let paymentUrl = '';
+                const response = '';
+                if (method === 'VNPAY') {
+                    response = await requests.post(VNPAY_REQUEST_PAYMENT_URL, {
+                        walletId: WALLETID_ADMIN,
+                        paymentDestinationId: vnpayId,
+                        type: 1,
+                        amount: price,
+                        description: encodeURIComponent(message),
+                    });
+                    paymentUrl = response.data.paymentUrl;
+                } else if (method === 'MOMO') {
+                    response = await requests.post(MOMO_RESQUEST_PAYMENT_URL, {
+                        walletId: WALLETID_ADMIN,
+                        paymentDestinationId: momoId,
+                        type: 1,
+                        amount: price,
+                        description: encodeURIComponent(message),
+                    });
+                    paymentUrl = response.data.paymentUrl;
+                }
+
+                localStorage.setItem('transactionId', response.data.transactionId);
+                localStorage.setItem('selectedClassId', classID);
+                setTransactionId(response.data.transactionId);
+                window.location.href = paymentUrl;
+            } catch (error) {
+                console.error('Error during payment request:', error);
+            }
+        },
+        [price, message, classID, momoId]
+    );
 
     const handleCancle = useCallback(async () => {
         try {
@@ -97,14 +133,16 @@ const Classes = () => {
 
     const fetchClasses = useCallback(async () => {
         try {
-            const { status, isApprove } = filterParams;
+            const { status, isApprove, isCancel } = filterParams;
             let API_URL = `${VIEW_CLASS_LIST_URL}`;
 
-            if (status !== null || isApprove !== null) {
+            if (status !== null || isApprove !== null || isCancel !== null) {
                 const params = new URLSearchParams();
                 if (status !== null) params.append('status', status);
                 if (isApprove !== null) params.append('isApprove', isApprove);
+                params.append('isCancel', isCancel);
                 API_URL += `?${params.toString()}`;
+                console.log(API_URL);
             }
 
             const response = await requestPrivate.get(API_URL);
@@ -112,7 +150,7 @@ const Classes = () => {
             setClasses(response.data.listResult);
             setSize(response.data.listResult.length);
             if (response.data.listResult.length > 0) {
-                setPrice(response.data.listResult[0].price)
+                setPrice(response.data.listResult[0].price);
                 setClassID(response.data.listResult[0].classid);
                 setUserId(response.data.listResult[0].userId);
             }
@@ -128,7 +166,7 @@ const Classes = () => {
             const selectedClassId = localStorage.getItem('selectedClassId');
 
             try {
-                const response = await requests.post(`${RESPONSE_PAYMENT_URL}/${transactionId}`, paramsObject);
+                const response = await requests.post(`${VNPAY_RESPONSE_PAYMENT_URL}/${transactionId}`, paramsObject);
                 localStorage.removeItem('transactionId');
                 localStorage.removeItem('selectedClassId');
                 if (response.data === true) {
@@ -150,7 +188,7 @@ const Classes = () => {
                 window.history.replaceState({}, document.title, window.location.pathname);
             }
         },
-        [transactionId, userId, avatar.fullName, fetchClasses, requestPrivate],
+        [transactionId, userId, avatar.fullName, fetchClasses, requestPrivate]
     );
 
     useEffect(() => {
@@ -168,7 +206,7 @@ const Classes = () => {
                 console.error('Error fetching class details:', error);
             }
         },
-        [requestPrivate],
+        [requestPrivate]
     );
 
     useEffect(() => {
@@ -213,6 +251,7 @@ const Classes = () => {
                             <option value="In Process">In Process</option>
                             <option value="NotComplete">Unpaid Class</option>
                             <option value="Well Done">Well Done</option>
+                            <option value="Cancled Class">Cancled Class</option>
                         </select>
                         <span>Total: {size}</span>
                     </Col>
@@ -325,6 +364,15 @@ const Classes = () => {
                     )}
                 </Row>
             </Container>
+
+            {/* Payment Modal */}
+            <PaymentModal
+                show={showPaymentModal}
+                onHide={() => setShowPaymentModal(false)}
+                onSelectPaymentMethod={handleSelectPaymentMethod}
+                vnpayIMG={vnpayIMG}
+                momoIMG={momoIMG}
+            />
         </div>
     );
 };

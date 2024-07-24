@@ -1,11 +1,8 @@
 import React, { useState } from 'react';
 import dayjs from 'dayjs';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import axios from 'axios';
 
-const CHECK_ATTENDENCE_URL = 'your_api_endpoint_here';
-
-const CalendarClass = ({ events = [] }) => {
+const CalendarClass = ({ events = [], setModal, setCalendarId }) => {
     const [currentDate, setCurrentDate] = useState(dayjs());
     const [attendance, setAttendance] = useState({});
 
@@ -14,6 +11,7 @@ const CalendarClass = ({ events = [] }) => {
     const startOfWeek = startOfMonth.startOf('week');
     const endOfWeek = endOfMonth.endOf('week');
 
+    console.log(events);
     const days = [];
     let day = startOfWeek;
 
@@ -48,16 +46,16 @@ const CalendarClass = ({ events = [] }) => {
         return events.some((event) => dayjs(event.bookDay).isSame(day, 'day'));
     };
 
-    const handleAttendanceChange = async (day) => {
+    const handleAttendanceChange = (day) => {
         const dateStr = day.format('YYYY-MM-DD');
         const newAttendance = { ...attendance, [dateStr]: !attendance[dateStr] };
         setAttendance(newAttendance);
 
-        try {
-            await axios.post(CHECK_ATTENDENCE_URL, { date: dateStr, attended: newAttendance[dateStr] });
-            console.log(`Attendance for ${dateStr} updated successfully.`);
-        } catch (error) {
-            console.error(`Error updating attendance for ${dateStr}:`, error);
+        const event = events.find((event) => dayjs(event.bookDay).isSame(day, 'day'));
+
+        if (event) {
+            setCalendarId(event.id);
+            setModal(true);
         }
     };
 
@@ -118,11 +116,13 @@ const CalendarClass = ({ events = [] }) => {
                                     <div>{day.date()}</div>
                                     <div>{events ? getEventForDay(day) : ''}</div>
                                     <div>
-                                        <input
-                                            type="checkbox"
-                                            checked={attendance[day.format('YYYY-MM-DD')] || false}
-                                            onChange={() => handleAttendanceChange(day)}
-                                        />
+                                        {day.isSame(dayjs(), 'day') && hasEvent(day) && (
+                                            <input
+                                                type="checkbox"
+                                                checked={attendance[day.format('YYYY-MM-DD')] || false}
+                                                onChange={() => handleAttendanceChange(day)}
+                                            />
+                                        )}
                                     </div>
                                 </td>
                             ))}
