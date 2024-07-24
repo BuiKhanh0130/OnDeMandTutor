@@ -21,7 +21,7 @@ const REGISTER_URL = 'auth/tutor_signup';
 
 function BecomeTutor2() {
 
-    const { chooseSubject, setChooseSubject, userId, setTutorId } = useContext(ModalContext);
+    const { chooseSubject, setChooseSubject, userId, setTutorId, setUserId } = useContext(ModalContext);
     const degrees = useMemo(
         () => ['College', 'Associate Degree', 'Bachelors Degree', 'Masters Degree', 'Doctoral Degree'],
         [],

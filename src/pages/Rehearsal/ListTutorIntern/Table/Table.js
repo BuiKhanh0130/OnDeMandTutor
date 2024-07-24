@@ -66,7 +66,6 @@ export default function BasicTable({ name }) {
             const response = await requests.get(LIST_TUTOR_INTERN_URL, {
                 signal: controller.signal,
             });
-            console.log(response.data);
             setStatus(false);
             isMounted && setListTutor(response.data);
         };
@@ -118,7 +117,7 @@ export default function BasicTable({ name }) {
             <h3>TUTOR INTERN</h3>
             <Container>
                 <Row>
-                    <Col lg="12">
+                    {commonItems.length > 0 ? (<Col lg="12">
                         <TableContainer component={Paper} style={{ boxShadow: '0px 13px 20px 0px #80808029' }}>
                             <Table sx={{ minWidth: 650 }} aria-label="simple table">
                                 <TableHead>
@@ -196,7 +195,8 @@ export default function BasicTable({ name }) {
                                 </TableBody>
                             </Table>
                         </TableContainer>
-                    </Col>
+                    </Col>) : <p style={{ fontSize: '3rem', color: 'red' }}>There no tutor inter need interviewed</p>}
+
                 </Row>
                 {sendEmail && <SendEmail />}
             </Container>

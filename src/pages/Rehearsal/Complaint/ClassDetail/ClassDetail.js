@@ -18,7 +18,7 @@ const NOTIFICATION_URL = 'notification/create_notification';
 const END_CLASS_URL = 'class/submit_class';
 const REFUND_URL = 'wallet/refund_money';
 
-function ClassDetail({ classID, handleHiddenShowDetails }) {
+function ClassDetail({ classID, handleHiddenShowDetails, setStatus }) {
     const requestPrivate = useRequestsPrivate();
     const [classes, setClasses] = useState([]);
     const [showModal, setShowModal] = useState(false);
@@ -34,7 +34,6 @@ function ClassDetail({ classID, handleHiddenShowDetails }) {
                 const response = await requestPrivate.get(`${VIEW_CLASS_DETAILS_URL}?classid=${classID}`, {
                     signal: controller.signal,
                 });
-                console.log(response.data);
                 isMounted && setClasses(response.data);
             } catch (error) {
                 console.error('Error fetching class details:', error);
@@ -56,6 +55,7 @@ function ClassDetail({ classID, handleHiddenShowDetails }) {
             setShowModal(true);
             handleRefund();
             handleHiddenShowDetails();
+            setStatus(true);
         }
     };
 

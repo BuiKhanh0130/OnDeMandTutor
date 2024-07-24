@@ -27,7 +27,7 @@ const SidebarTutor = ({ index }) => {
         {
             icon: UilPackage,
             heading: 'Withdrawal request',
-            link: '/withdrawal',
+            link: '/moderator/withdrawal',
         }
     ];
 
