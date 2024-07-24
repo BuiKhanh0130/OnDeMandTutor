@@ -29,7 +29,6 @@ function ForStudent() {
             const response = await requests.get(TOP10_URL, {
                 signal: controller.signal,
             });
-            console.log(response.data);
             isMount && setTop10(response.data);
         };
 
@@ -67,6 +66,7 @@ function ForStudent() {
                                 return (
                                     <ExcellentTutor
                                         key={index}
+                                        avatar={subject.avatar}
                                         fullName={subject.fullName}
                                         headline={subject.headline}
                                         subject={subject.subjectTutors}

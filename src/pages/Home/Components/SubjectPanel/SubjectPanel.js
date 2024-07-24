@@ -22,6 +22,7 @@ function LessonPanel({ subjects }) {
                                 {subjectChildren.items.map((subject, index) => {
                                     return (
                                         <Tippy
+                                            key={index}
                                             content={subject.content}
                                             className={cx('tippy-tooltip tomato-theme', { theme: 'tomato' })}
                                         >

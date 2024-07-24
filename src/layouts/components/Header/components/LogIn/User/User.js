@@ -39,7 +39,7 @@ function User({ children }) {
                                 </li>
 
                                 <Link to="/classes">
-                                    <li>Your Classes</li>
+                                    <li>My Classes</li>
                                 </Link>
 
                                 <Link to="/requestOfStudent">

@@ -8,11 +8,11 @@ import styles from './ExcellentTutor.module.scss';
 
 const cx = classNames.bind(styles);
 
-function ExcellentTutor({ fullName, headline, subject, hour }) {
+function ExcellentTutor({ avatar, fullName, headline, subject, hour }) {
     return (
         <div className={cx('slide')}>
             <div className={cx('container__tutors-card')}>
-                <Image src={images.avatar} alt="ntp"></Image>
+                <Image src={avatar} alt="ntp"></Image>
 
                 <strong>{fullName}</strong>
 

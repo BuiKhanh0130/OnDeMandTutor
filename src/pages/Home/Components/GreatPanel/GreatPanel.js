@@ -27,7 +27,6 @@ function GreatPanel({ greatTutors }) {
         let isMount = true;
         const getTop10 = async () => {
             const response = await requests.get(TOP10_URL);
-            console.log(response.data)
             isMount && setTop10(response.data);
         };
 
@@ -89,7 +88,7 @@ function GreatPanel({ greatTutors }) {
                                                 className={cx('greatTutorPanel__container-subjects')}
                                             >
                                                 <div className={cx('greatTutorPanel__container-subjects-left')}>
-                                                    <Image src={images.avatar} alt={subject.fullName}></Image>
+                                                    <Image src={subject.avatar} alt={subject.fullName}></Image>
                                                 </div>
                                                 <div className={cx('greatTutorPanel__container-subjects-right')}>
                                                     <p
@@ -131,7 +130,7 @@ function GreatPanel({ greatTutors }) {
                                                 className={cx('greatTutorPanel__container-subjects')}
                                             >
                                                 <div className={cx('greatTutorPanel__container-subjects-left')}>
-                                                    <Image src={images.avatar} alt={subject.fullName}></Image>
+                                                    <Image src={subject.avatar} alt={subject.fullName}></Image>
                                                 </div>
                                                 <div className={cx('greatTutorPanel__container-subjects-right')}>
                                                     <p

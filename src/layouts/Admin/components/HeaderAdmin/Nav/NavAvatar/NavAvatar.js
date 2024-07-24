@@ -5,10 +5,18 @@ import Popper from '~/components/Popper';
 import images from '~/assets/images';
 
 import styles from './NavAvatar.module.scss';
+import useLogout from '~/hooks/useLogout';
+import { useNavigate } from 'react-router-dom';
 
 const cx = classNames.bind(styles);
 
 function NavAvatar() {
+    const logout = useLogout();
+    const navigate = useNavigate();
+    const signOut = async () => {
+        await logout();
+        navigate('/');
+    };
     return (
         <HeadlessTippy
             interactive
@@ -25,32 +33,12 @@ function NavAvatar() {
                             <hr className={cx('dropdown-divider')}></hr>
                         </li>
                         <li className={cx('profile-item')}>
-                            <a className={cx('dropdown-item')} href="/">
+                            <a className={cx('dropdown-item')} href="/" onClick={signOut}>
                                 <i className={cx('bi bi-person')}></i>
-                                <span>My profile</span>
+                                <span>Sign Out</span>
                             </a>
                         </li>
-                        <li>
-                            <hr className={cx('dropdown-divider')}></hr>
-                        </li>
-                        <li className={cx('profile-item')}>
-                            <a className={cx('dropdown-item')} href="/">
-                                <i className={cx('bi bi-person')}></i>
-                                <span>My profile</span>
-                            </a>
-                        </li>
-                        <li>
-                            <hr className={cx('dropdown-divider')}></hr>
-                        </li>
-                        <li className={cx('profile-item')}>
-                            <a className={cx('dropdown-item')} href="/">
-                                <i className={cx('bi bi-person')}></i>
-                                <span>My profile</span>
-                            </a>
-                        </li>
-                        <li>
-                            <hr className={cx('dropdown-divider')}></hr>
-                        </li>
+
                     </ul>
                 </Popper>
             )}

@@ -103,7 +103,7 @@ function Advertisement() {
                         </div>
                     </Col>
                     <Col lg="8">
-                        {advertisements?.length === 0 ? (<p style={{ fontSize: '3rem', color: 'red' }}>There no advertisement</p>) :
+                        {advertisements?.length > 0 ?
                             advertisements.map((advertisement) => {
                                 return (
                                     <Video
@@ -117,7 +117,7 @@ function Advertisement() {
                                         description={advertisement.description}
                                     />
                                 );
-                            })
+                            }) : (<p style={{ fontSize: '3rem', color: 'red' }}>There no advertisement</p>)
                         }
 
                     </Col>
