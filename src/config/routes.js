@@ -48,6 +48,8 @@ const routes = {
     feedback: '/feedback',
     accountAdmin: '/create_account-admin',
     accountModerator: '/create_account-moderator',
+    walletStudent: '/walletstudent',
+    withdrawalRequest: '/withdrawal',
 };
 
 export default routes;

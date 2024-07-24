@@ -50,6 +50,8 @@ import BanAccount from '~/pages/BanAccount';
 import AccountAdmin from '~/pages/Account/AccountAdmin';
 import AccountModerator from '~/pages/Account/AccountModerator';
 import Feedback from '~/pages/Feedback';
+import WalletStudent from '~/pages/WalletStudent';
+import WithdrawalRequest from '~/pages/WithdrawalRequest';
 
 const publicRoutes = [
     { path: config.routes.home, component: Home },
@@ -112,9 +114,16 @@ const privateRoutes = [
     { path: config.routes.viewComplaint, component: ViewComplaint, layout: 'null', role: ['Student', 'Tutor'] },
     { path: config.routes.success, component: Successful, layout: 'null', role: ['Student', 'Tutor'] },
     { path: config.routes.feedback, component: Feedback, role: ['Student'] },
+    { path: config.routes.walletStudent, component: WalletStudent, role: ['Student'] },
     {
         path: config.routes.advertisementModerator,
         component: AdvertisementModerator,
+        layout: Moderator,
+        role: ['Moderator'],
+    },
+    {
+        path: config.routes.withdrawalRequest,
+        component: WithdrawalRequest,
         layout: Moderator,
         role: ['Moderator'],
     },

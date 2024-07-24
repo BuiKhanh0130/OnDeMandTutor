@@ -24,6 +24,11 @@ const SidebarTutor = ({ index }) => {
             heading: 'Advertisement',
             link: '/moderator/advertisement',
         },
+        {
+            icon: UilPackage,
+            heading: 'Withdrawal request',
+            link: '/withdrawal',
+        }
     ];
 
     const [selected, setSelected] = useState(index ? index : 0);

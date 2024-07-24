@@ -3,7 +3,7 @@ import classNames from 'classnames/bind';
 import styles from './ClassTutor.module.scss';
 import { Container, Row, Col } from 'react-bootstrap';
 import useRequestsPrivate from '~/hooks/useRequestPrivate';
-import Calendar from '~/components/Calendar/Calendar';
+import CalendarClass from '~/components/CalendarClass/CalendarClass';
 import Image from '~/components/Image';
 import images from '~/assets/images';
 import Button from '~/components/Button';
@@ -177,7 +177,7 @@ const Classes = () => {
                                         </div>
                                     </Row>
                                     <Row>
-                                        <Calendar events={calendar} />
+                                        <CalendarClass events={calendar} />
                                     </Row>
                                 </Col>
                             </Row>

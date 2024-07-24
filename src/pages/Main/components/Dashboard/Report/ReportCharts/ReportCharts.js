@@ -1,18 +1,15 @@
-import classNames from 'classnames/bind';
-import { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Chart from 'react-apexcharts';
-
 import styles from './ReportCharts.module.scss';
+import useRequestsPrivate from '~/hooks/useRequestPrivate';
 
-// const cx = classNames.bind(styles);
+const MONEY_DATA_URL = 'dashboard/admin_dashboard'
 
 function ReportCharts() {
+    const RequestPrivate = useRequestsPrivate();
+
     const [data, setData] = useState({
-        series: [
-            { name: 'Sales', data: [31, 40, 28, 51, 42, 82, 56] },
-            { name: 'Revenue', data: [11, 32, 45, 34, 52, 41, 32] },
-            { name: 'Customer', data: [15, 11, 32, 18, 9, 24, 11] },
-        ],
+        series: [],
         options: {
             chart: {
                 height: 350,
@@ -37,21 +34,13 @@ function ReportCharts() {
             dataLabels: {
                 enabled: false,
             },
-            stoke: {
+            stroke: {
                 curve: 'smooth',
                 width: 2,
             },
             xaxis: {
                 type: 'datetime',
-                categories: [
-                    '2018-09-19T00:00:00.000Z',
-                    '2018-09-19T01:00:00.000Z',
-                    '2018-09-19T02:00:00.000Z',
-                    '2018-09-19T03:00:00.000Z',
-                    '2018-09-19T04:00:00.000Z',
-                    '2018-09-19T05:00:00.000Z',
-                    '2018-09-19T06:00:00.000Z',
-                ],
+                categories: [],
             },
             tooltip: {
                 x: {
@@ -60,13 +49,44 @@ function ReportCharts() {
             },
         },
     });
+
+    useEffect(() => {
+        const fetchData = async () => {
+            const response = await RequestPrivate.get(MONEY_DATA_URL);
+
+            const series = response.data.map(item => ({
+                name: item.title,
+                data: item.dates.map((date, index) => ({
+                    x: new Date(date).toISOString(),
+                    y: item.data[index]
+                }))
+            }));
+
+            const categories = response.data[0].dates.map(date => new Date(date).toISOString());
+
+            setData(prevData => ({
+                ...prevData,
+                series: series,
+                options: {
+                    ...prevData.options,
+                    xaxis: {
+                        ...prevData.options.xaxis,
+                        categories: categories
+                    }
+                }
+            }));
+        };
+
+        fetchData();
+    }, []);
+
     return (
         <Chart
             options={data.options}
             series={data.series}
             type={data.options.chart.type}
             height={data.options.chart.height}
-        ></Chart>
+        />
     );
 }
 

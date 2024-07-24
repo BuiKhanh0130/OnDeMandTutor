@@ -20,6 +20,7 @@ import images from '~/assets/images';
 const PROFILE_TUTOR_URL = 'tutor/get_tutor-detail/';
 const TUTOR_CALENDAR_URL = 'class/get_tutor-calenders?tutorId=';
 const CREATE_REQUEST_URL = 'formrequesttutor/create_form';
+const HANDLE_CREATE_FORM_URL = 'formrequesttutor/handle_createform';
 
 const cx = classNames.bind(styles);
 
@@ -371,7 +372,7 @@ const RequestForm = () => {
                 <Modal.Header closeButton>
                     <Modal.Title>Notification</Modal.Title>
                 </Modal.Header>
-                <Modal.Body>{modalContent}</Modal.Body>
+                <Modal.Body>{modalContent === true ? 'This teaching request form created successfully!': modalContent}</Modal.Body>
                 <Modal.Footer>
                     <Button variant="secondary" onClick={handleCloseModal}>
                         Close
