@@ -47,7 +47,7 @@ const routes = {
     accountAdmin: '/create_account-admin',
     accountModerator: '/create_account-moderator',
     walletStudent: '/walletstudent',
-    withdrawalRequest: '/withdrawal',
+    withdrawalRequest: '/moderator/withdrawal',
 };
 
 export default routes;

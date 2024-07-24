@@ -19,6 +19,7 @@ const TOP10_URL = 'system-handler/get_top-10-tutor';
 function GreatPanel({ greatTutors }) {
     const nodeRef = useRef();
     const nodeRef2 = useRef();
+    const { setTutorId } = useContext(ModalContext);
     const [top10, setTop10] = useState([]);
 
     //get top 10 tutor
@@ -26,6 +27,7 @@ function GreatPanel({ greatTutors }) {
         let isMount = true;
         const getTop10 = async () => {
             const response = await requests.get(TOP10_URL);
+            console.log(response.data)
             isMount && setTop10(response.data);
         };
 
@@ -80,7 +82,9 @@ function GreatPanel({ greatTutors }) {
                                         return (
                                             <Link
                                                 to={`/account/tutor/${subject.fullName}`}
-
+                                                onClick={() => {
+                                                    setTutorId(subject.tutorId)
+                                                }}
                                                 key={index}
                                                 className={cx('greatTutorPanel__container-subjects')}
                                             >

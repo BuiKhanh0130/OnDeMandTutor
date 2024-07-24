@@ -11,6 +11,7 @@ const CalendarClass = ({ events = [], setModal, setCalendarId }) => {
     const startOfWeek = startOfMonth.startOf('week');
     const endOfWeek = endOfMonth.endOf('week');
 
+    console.log(events);
     const days = [];
     let day = startOfWeek;
 
@@ -51,8 +52,9 @@ const CalendarClass = ({ events = [], setModal, setCalendarId }) => {
         setAttendance(newAttendance);
 
         const event = events.find((event) => dayjs(event.bookDay).isSame(day, 'day'));
+
         if (event) {
-            setCalendarId(event.calendarId);
+            setCalendarId(event.id);
             setModal(true);
         }
     };

@@ -12,7 +12,6 @@ import { Col, Container, Row } from 'react-bootstrap';
 
 import Button from '~/components/Button';
 import requests from '~/utils/request';
-import Paging from '~/components/Paging';
 import { ModalContext } from '~/components/ModalProvider';
 
 import styles from './Table.module.scss';
@@ -27,27 +26,21 @@ export default function BasicTable({ name }) {
     const { responseComplaint, setResponseComplaint } = React.useContext(ModalContext);
     const [status, setStatus] = useState(false);
     const [complaint, setComplaint] = useState([]);
-    const [curPage, setcurPage] = useState(1);
     const [complaintId, setComplaintId] = useState('');
-    const [pagination, setPagination] = useState({ limit: 0 });
     const [classId, setClassId] = useState('');
     const [showDetails, setShowDetails] = useState(false);
 
     useEffect(() => {
         let isMounted = true;
         const controller = new AbortController();
-        //get all checkbox elements
-        const checkboxes = document.querySelectorAll('input[type="checkbox"]');
-        //loop each element and reset checked
-        checkboxes.forEach((checkbox) => {
-            checkbox.checked = false;
-        });
+
         const getComplaint = async () => {
             const response = await requests.get(COMPLAINT_URL, {
                 signal: controller.signal,
             });
+            console.log(response.data);
             setStatus(false);
-            isMounted && setComplaint(response.data) && setPagination({ limit: response.data.limitPage });
+            isMounted && setComplaint(response.data);
         };
 
         getComplaint();
@@ -64,7 +57,6 @@ export default function BasicTable({ name }) {
     };
 
     const handleShowDetails = (classId) => {
-        console.log(classId);
         setShowDetails(true);
         setClassId(classId);
     };
@@ -85,7 +77,7 @@ export default function BasicTable({ name }) {
                                 <TableHead>
                                     <TableRow>
                                         <TableCell align="left">Class Id</TableCell>
-                                        <TableCell align="left">Description</TableCell>
+                                        <TableCell align="left">Complainer</TableCell>
                                         <TableCell align="left">createDay</TableCell>
                                         <TableCell align="left">Response</TableCell>
                                         <TableCell align="left">Class</TableCell>
@@ -102,10 +94,10 @@ export default function BasicTable({ name }) {
                                                     {row?.classId}
                                                 </TableCell>
                                                 <TableCell style={{ fontSize: '1.2rem' }} align="left">
-                                                    {row?.description}
+                                                    {row?.nameAccount}
                                                 </TableCell>
                                                 <TableCell style={{ fontSize: '1.2rem' }} align="left">
-                                                    {row?.createDay}
+                                                    {row?.dateCreate}
                                                 </TableCell>
                                                 <TableCell
                                                     style={{ fontSize: '1.2rem' }}
@@ -136,9 +128,8 @@ export default function BasicTable({ name }) {
                         </TableContainer>
                     </Col>
                 </Row>
-                {showDetails && <ClassDetail classID={classId} handleHiddenShowDetails={handleHiddenShowDetails} />}
-                {responseComplaint && <ResponseComplaint complaintId={complaintId} />}
-                {pagination.limit > 1 && <Paging pagination={pagination} curPage={curPage} setcurPage={setcurPage} />}
+                {showDetails && <ClassDetail classID={classId} handleHiddenShowDetails={handleHiddenShowDetails} setStatus={setStatus} />}
+                {responseComplaint && <ResponseComplaint complaintId={complaintId} setStatus={setStatus} />}
             </Container>
         </div>
     );

@@ -33,7 +33,7 @@ const ClassTutor = () => {
     const [calendar, setCalendar] = useState([]);
     const [size, setSize] = useState(0);
     const [classID, setClassID] = useState('');
-    const [filterParams, setFilterParams] = useState({ status: null, isApprove: true });
+    const [filterParams, setFilterParams] = useState({ status: null, isApprove: true, isCancel: false });
     const [dateEnd, setDateEnd] = useState();
     const [subject, setSubject] = useState();
     const [userId, setUserId] = useState();
@@ -49,27 +49,32 @@ const ClassTutor = () => {
     const handleChangeSelect = useCallback((value) => {
         let status = null;
         let isApprove = null;
+        let isCancel = false;
 
         if (value === 'In Process') {
             isApprove = true;
         } else if (value === 'Well Done') {
             status = true;
             isApprove = true;
+        } else if (value === "Cancled Class") {
+            isCancel = true;
         }
 
-        setFilterParams({ status, isApprove });
+        setFilterParams({ status, isApprove, isCancel });
     }, []);
 
     const fetchClasses = useCallback(async () => {
         try {
-            const { status, isApprove } = filterParams;
+            const { status, isApprove, isCancel } = filterParams;
             let API_URL = `${VIEW_CLASS_LIST_URL}`;
 
-            if (status !== null || isApprove !== null) {
+            if (status !== null || isApprove !== null || isCancel !== null) {
                 const params = new URLSearchParams();
                 if (status !== null) params.append('status', status);
                 if (isApprove !== null) params.append('isApprove', isApprove);
+                params.append('isCancel', isCancel);
                 API_URL += `?${params.toString()}`;
+                console.log(API_URL);
             }
 
             const response = await requestPrivate.get(API_URL);
