@@ -27,6 +27,7 @@ function ModalProvider({ children }) {
     const [searchItem, setSearchItem] = useState('');
     const [notifications, setNotifications] = useState('');
     const [email, setEmail] = useState('');
+    const [isRead, setIsReadNoti] = useState([]);
 
     const handleActive = () => {
         setActive(true);
@@ -91,6 +92,8 @@ function ModalProvider({ children }) {
         updateForm,
         notifications,
         setNotifications,
+        setIsReadNoti,
+        isRead,
         setEmail,
         setUpdateForm,
         setChooseSubject,

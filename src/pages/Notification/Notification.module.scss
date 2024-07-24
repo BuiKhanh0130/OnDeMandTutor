@@ -27,6 +27,7 @@
 .container_user {
     border-right: 1px solid #ebe7e7;
     padding-right: 20px;
+    overflow-y: scroll;
 }
 
 .user_item {
@@ -35,6 +36,7 @@
 
 .container_user_item {
     max-height: 330px;
+    margin-bottom: 10px;
     .content_left {
         margin-left: 10px;
         margin-top: 10px;
@@ -170,4 +172,12 @@
     font-size: 20px;
     color: #666;
     margin-top: 20px;
+}
+
+.active {
+    background-color: #a5a8fe;
+}
+
+.read {
+    background-color: #b7b7b7;
 }

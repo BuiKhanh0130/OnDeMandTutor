@@ -63,8 +63,6 @@ function GreatPanel({ greatTutors }) {
         }
     }, []);
 
-    console.log(top10);
-
     return (
         <Container className={cx('wrapper')}>
             <Row>
@@ -82,7 +80,7 @@ function GreatPanel({ greatTutors }) {
                                         return (
                                             <Link
                                                 to={`/account/tutor/${subject.fullName}`}
-                                               
+
                                                 key={index}
                                                 className={cx('greatTutorPanel__container-subjects')}
                                             >
@@ -124,7 +122,7 @@ function GreatPanel({ greatTutors }) {
                                         return (
                                             <Link
                                                 to={`/account/tutor/${subject.fullName}`}
-                                               
+
                                                 key={index}
                                                 className={cx('greatTutorPanel__container-subjects')}
                                             >

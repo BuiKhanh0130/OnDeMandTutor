@@ -1,5 +1,5 @@
 import classNames from 'classnames/bind';
-import { useEffect, useRef, useState, useContext } from 'react';
+import { useEffect, useRef, useState, useContext, useMemo } from 'react';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { storage } from '~/firebase/firebase';
 import { v4 } from 'uuid';
@@ -20,7 +20,12 @@ const HOURLYRATE_REGEX = /^[1-9][0-9]*$/;
 const REGISTER_URL = 'auth/tutor_signup';
 
 function BecomeTutor2() {
+
     const { chooseSubject, setChooseSubject, userId, setTutorId, setUserId } = useContext(ModalContext);
+    const degrees = useMemo(
+        () => ['College', 'Associate Degree', 'Bachelors Degree', 'Masters Degree', 'Doctoral Degree'],
+        [],
+    );
     const errRef = useRef();
 
     const [errMsg, setErrMsg] = useState();
@@ -197,28 +202,21 @@ function BecomeTutor2() {
                         </div>
 
                         <div className={cx('form_row')}>
-                            <label htmlFor="txtDegree">Type of degree</label>
-                            <input
-                                type="text"
-                                id="txtDegree"
-                                name="txtDegree"
-                                className={cx('txtEducation')}
-                                placeholder="Graduate FPT University"
-                                value={typeOfDegree}
-                                onChange={(e) => {
-                                    const typeOfDegreeValue = e.target.value;
-                                    if (typeOfDegreeValue.startsWith(' ')) {
-                                        return;
-                                    }
-                                    setTypeOfDegree(e.target.value);
-                                }}
-                                onFocus={() => {
-                                    setTypeOfDegreeFocus(true);
-                                }}
-                                onBlur={() => {
-                                    setTypeOfDegreeFocus(false);
-                                }}
-                            ></input>
+                            <label htmlFor="typeOfDegree">Degree</label>
+                            <select
+                                id="typeOfDegree"
+                                name="typeOfDegree"
+                                onChange={(e) => setTypeOfDegree(e.target.value)}
+                            >
+                                {degrees.length > 0 &&
+                                    degrees.map((degree, index) => {
+                                        return (
+                                            <option key={index} value={degree}>
+                                                {degree}
+                                            </option>
+                                        );
+                                    })}
+                            </select>
                         </div>
 
                         <div className={cx('form_row')}>

@@ -17,7 +17,7 @@ function Complaint() {
     };
     return (
         <div className={cx('wrapper')}>
-            <Table />
+            <Table name="Complaint" />
             <div className={cx('Close-icon')} onClick={handleClose}>
                 <CloseIcon />
             </div>

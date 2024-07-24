@@ -14,16 +14,14 @@ import styles from './AboutTutor.module.scss';
 const cx = classNames.bind(styles);
 const GET_TUTOR_BY_ID_URL = 'tutor/get_tutor-detail';
 
-function AboutTutor() {
+function AboutTutor({ tutorId }) {
     const requestPrivates = useRequestsPrivate();
     const [userDetails, setUserDetails] = useState();
 
     useEffect(() => {
         const getTutor = async () => {
             try {
-                const response = await requestPrivates.get(
-                    `${GET_TUTOR_BY_ID_URL}/a1ae08d4-4afe-4f90-b950-3696c0473395`,
-                );
+                const response = await requestPrivates.get(`${GET_TUTOR_BY_ID_URL}/${tutorId}`);
                 console.log(response.data);
                 setUserDetails(response.data);
             } catch (error) {
@@ -31,7 +29,7 @@ function AboutTutor() {
             }
         };
         getTutor();
-    }, []);
+    }, [tutorId]);
 
     return (
         <Col lg="4">

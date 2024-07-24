@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import dayjs from 'dayjs';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import Button from '../Button';
+import { color } from 'echarts';
 
-const Calendar = ({ events = [] }) => {
+const Calendar = ({ events = [], urlClass }) => {
     const [currentDate, setCurrentDate] = useState(dayjs());
 
     const startOfMonth = currentDate.startOf('month');
@@ -90,6 +92,7 @@ const Calendar = ({ events = [] }) => {
                                     key={day.format('yyyy-MM-dd')}
                                     className={day.month() !== currentDate.month() ? 'text-muted' : ''}
                                     style={{
+                                        position: 'relative',
                                         backgroundColor: day.isSame(dayjs(), 'day')
                                             ? '#ed6d20'
                                             : hasEvent(day)
@@ -100,6 +103,28 @@ const Calendar = ({ events = [] }) => {
                                 >
                                     <div>{day.date()}</div>
                                     <div>{events ? getEventForDay(day) : ''}</div>
+                                    {getEventForDay(day) ? (
+                                        <Button
+                                            style={{
+                                                backgroundColor: 'rgb(226 114 114)',
+                                                display: 'flex',
+                                                alignItems: 'center',
+                                                justifyContent: 'center',
+                                                padding: '4px',
+                                                position: 'absolute',
+                                                top: '2px',
+                                                right: '10px',
+                                                color: '#fff',
+                                                borderRadius: '10px',
+                                                border: '1px solid #fff',
+                                            }}
+                                            to={urlClass}
+                                        >
+                                            Meet
+                                        </Button>
+                                    ) : (
+                                        <></>
+                                    )}
                                 </td>
                             ))}
                         </tr>
