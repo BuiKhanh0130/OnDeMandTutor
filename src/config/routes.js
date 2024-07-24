@@ -1,5 +1,3 @@
-import ViewComplaint from '~/pages/ViewComplaint';
-
 const routes = {
     home: '/',
     blog: '/blog',
@@ -45,7 +43,7 @@ const routes = {
     advertisementModerator: '/moderator/advertisement',
     main: '/dashboard-admin',
     ban: '/ban-account',
-    feedback: '/feedback',
+    feedback: '/feedback/:tutorid/:classid',
     accountAdmin: '/create_account-admin',
     accountModerator: '/create_account-moderator',
     walletStudent: '/walletstudent',

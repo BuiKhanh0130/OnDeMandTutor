@@ -22,7 +22,7 @@ import styles from './HeaderTutor.module.scss';
 const cx = classNames.bind(styles);
 
 function HeaderTutor() {
-    const { avatar } = useContext(ModalContext);
+    const { isRead, avatar } = useContext(ModalContext);
 
     return (
         <div className={cx('wrapper')}>
@@ -43,7 +43,9 @@ function HeaderTutor() {
                             <Notification>
                                 <div className={cx('container__login-signup-noti')}>
                                     <NotificationIcon />
-                                    <span className={cx('container__login-signup-number')}>2</span>
+                                    <span className={cx('container__login-signup-number')}>
+                                        {isRead ? isRead.length : 0}
+                                    </span>
                                 </div>
                             </Notification>
                         </Link>

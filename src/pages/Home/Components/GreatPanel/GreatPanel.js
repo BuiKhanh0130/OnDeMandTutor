@@ -63,8 +63,6 @@ function GreatPanel({ greatTutors }) {
         }
     }, []);
 
-    console.log(top10);
-
     return (
         <Container className={cx('wrapper')}>
             <Row>

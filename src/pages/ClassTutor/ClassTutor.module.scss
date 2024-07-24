@@ -175,16 +175,38 @@
     display: flex;
     align-items: center;
     justify-content: flex-end;
+    margin-bottom: 4px;
+}
+
+.container__endClass {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 92px;
+    padding: 10px;
+    border-radius: 0;
+    background-color: #ea3434;
+    margin-right: auto;
+
+    &:hover {
+        background-color: #e98b8b;
+    }
+}
+
+.container__endClass span {
+    color: var(--white);
+    text-decoration: underline;
 }
 
 .container__viewComplaint {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 92px;
+
+    width: 120px;
+    height: 35px;
     padding: 10px;
     color: var(--white);
-    margin-top: 20px;
     border-radius: 0;
     background-color: transparent;
 
@@ -196,6 +218,7 @@
 }
 
 .container__viewComplaint span {
+    font-size: 1.2rem;
     color: var(--black);
     text-decoration: underline;
 }
@@ -206,7 +229,6 @@
     justify-content: center;
     padding: 10px;
     color: var(--black);
-    margin-top: 20px;
     width: 80px;
     height: 35px;
     background-color: transparent;
@@ -214,11 +236,12 @@
 
     &:hover {
         border: none;
-        background-color: #ffc7c7;
+        background-color: #ffd392;
     }
 }
 
 .container__complaint span {
+    font-size: 1.2rem;
     color: var(--black);
     text-decoration: underline;
 }

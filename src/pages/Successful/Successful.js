@@ -12,7 +12,6 @@ function Successfully() {
     const location = useLocation();
     const { state } = location;
     const goBack = () => navigate(-1);
-    console.log(state);
     return (
         <div className={cx('wrapper')}>
             <div className={cx('container')}>
