@@ -38,7 +38,7 @@ const Popup = ({ setShowModal, modalContent, selected, form, sameFormNum, onActi
 
             const CreateClass = async () => {
                 const params = {
-                    className: form.subjectName,
+                    className: `${form.subjectName} - ${form.fullName}`,
                     formId: form.formId,
                     description: form.description
                 };

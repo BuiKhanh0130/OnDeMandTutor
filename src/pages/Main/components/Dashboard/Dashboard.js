@@ -23,19 +23,19 @@ function Dashboard() {
                         <div className={cx('col-12')}>
                             <Report />
                         </div>
-                        <div className={cx('col-12', 'recent-sale')}>
+                        {/* <div className={cx('col-12', 'recent-sale')}>
                             <RecentSell />
                         </div>
                         <div className={cx('col-12', 'recent-sale')}>
                             <TopSelling />
-                        </div>
+                        </div> */}
                     </div>
                 </div>
                 <div className={cx('col-lg-4')}>
                     <RecentActivity />
-                    <BudgetReport />
-                    <WebTraffic />
-                    <News />
+                    {/* <BudgetReport /> */}
+                    {/* <WebTraffic /> */}
+                    {/* <News /> */}
                 </div>
             </div>
         </section>

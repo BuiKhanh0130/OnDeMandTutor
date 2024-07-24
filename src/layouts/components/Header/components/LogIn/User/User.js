@@ -50,7 +50,7 @@ function User({ children }) {
                                     <li>My Post</li>
                                 </Link>
 
-                                <Link to="/wallet">
+                                <Link to="/walletstudent">
                                     <li>Wallet</li>
                                 </Link>
 

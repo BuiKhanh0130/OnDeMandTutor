@@ -46,6 +46,8 @@ const routes = {
     feedback: '/feedback/:tutorid/:classid',
     accountAdmin: '/create_account-admin',
     accountModerator: '/create_account-moderator',
+    walletStudent: '/walletstudent',
+    withdrawalRequest: '/withdrawal',
 };
 
 export default routes;

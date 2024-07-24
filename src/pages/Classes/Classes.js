@@ -20,7 +20,7 @@ const CONVERSATION_URL = 'conversation-account';
 const CREATE_NOTIFICATION_URL = 'notification/create_notification';
 const REQUEST_PAYMENT_URL = 'vnpay/create_payment_url';
 const RESPONSE_PAYMENT_URL = 'vnpay/payment_return';
-const WALLETID_ADMIN = '0c89931d-6cf2-4f24-8a22-80579c909b6c';
+const WALLETID_ADMIN = 'b6632c5a-a172-4213-b691-1137e0b693ac';
 const VNPAYID = 'bfe1bf69-e0c0-4db7-b8b5-face17be1272';
 const PAY_DESTINATION_URL = 'paymentdestination/viewlist';
 
@@ -32,13 +32,12 @@ const Classes = () => {
     const [classID, setClassID] = useState('');
     const [filterParams, setFilterParams] = useState({ status: null, isApprove: true });
     const [message, setMessage] = useState('Vuilongthanhtoan');
-    const [paymentId, setPaymentId] = useState(localStorage.getItem('paymentid'));
+    const [transactionId, setTransactionId] = useState(localStorage.getItem('transactionId'));
     const [price, setPrice] = useState(200000);
     const [userId, setUserId] = useState('');
     const [listDesPay, setListDesPay] = useState([]);
 
     const requestPrivate = useRequestsPrivate();
-
 
     const fetchPayDestination = useCallback(async () => {
         try {
@@ -73,13 +72,28 @@ const Classes = () => {
                 amount: price,
                 description: encodeURIComponent(message),
             });
-            localStorage.setItem('paymentid', response.data.paymentId);
-            setPaymentId(response.data.paymentId);
+            localStorage.setItem('transactionId', response.data.transactionId);
+            localStorage.setItem('selectedClassId', classID);
+            setTransactionId(response.data.transactionId);
             window.location.href = response.data.paymentUrl;
         } catch (error) {
             console.error('Error during payment request:', error);
         }
-    }, [price, message]);
+    }, [price, message, classID]);
+
+    const handleCancle = useCallback(async () => {
+        try {
+            const selectedClassId = localStorage.getItem('selectedClassId');
+            const response = await requests.post(`${STUDENT_BROWSERCLASS_URL}/cancel_class`, { classid: selectedClassId });
+            if (response.data === true) {
+                const newClasses = classes.filter((item) => item.classid !== selectedClassId);
+                setClasses(newClasses);
+                localStorage.removeItem('selectedClassId');
+            }
+        } catch (error) {
+            console.error('Error cancelling class:', error);
+        }
+    });
 
     const fetchClasses = useCallback(async () => {
         try {
@@ -98,6 +112,7 @@ const Classes = () => {
             setClasses(response.data.listResult);
             setSize(response.data.listResult.length);
             if (response.data.listResult.length > 0) {
+                setPrice(response.data.listResult[0].price)
                 setClassID(response.data.listResult[0].classid);
                 setUserId(response.data.listResult[0].userId);
             }
@@ -108,17 +123,20 @@ const Classes = () => {
 
     const handlePaymentResponse = useCallback(
         async (paramsObject) => {
-            if (!paymentId) return;
+            if (!transactionId) return;
+
+            const selectedClassId = localStorage.getItem('selectedClassId');
 
             try {
-                const response = await requests.post(`${RESPONSE_PAYMENT_URL}/${paymentId}`, paramsObject);
-                localStorage.removeItem('paymentid');
+                const response = await requests.post(`${RESPONSE_PAYMENT_URL}/${transactionId}`, paramsObject);
+                localStorage.removeItem('transactionId');
+                localStorage.removeItem('selectedClassId');
                 if (response.data === true) {
-                    await requests.put(`${STUDENT_BROWSERCLASS_URL}?classId=${classID}&action=true`);
+                    await requests.put(`${STUDENT_BROWSERCLASS_URL}?classId=${selectedClassId}&action=true`);
                     await requestPrivate.post(`${CONVERSATION_URL}?userId=${userId}`);
                     await requestPrivate.post(CREATE_NOTIFICATION_URL, {
                         title: `${avatar.fullName} has accepted your class.`,
-                        description: 'follow them and start your lesson!',
+                        description: 'Follow them and start your lesson!',
                         url: '/classTutor',
                         accountId: userId,
                     });
@@ -128,9 +146,11 @@ const Classes = () => {
                 }
             } catch (err) {
                 console.error('Error during payment response handling:', err);
+            } finally {
+                window.history.replaceState({}, document.title, window.location.pathname);
             }
         },
-        [paymentId, classID, userId, avatar.fullName, fetchClasses, requestPrivate],
+        [transactionId, userId, avatar.fullName, fetchClasses, requestPrivate],
     );
 
     useEffect(() => {
@@ -259,7 +279,8 @@ const Classes = () => {
                                     <Row>
                                         {filterParams.status === null && filterParams.isApprove === null ? (
                                             <div className={cx('container_avatar-buttons')}>
-                                                <button className={cx('container_avatar-button', 'reject')}>
+                                                <button className={cx('container_avatar-button', 'reject')}
+                                                    onClick={handleCancle}>
                                                     Reject
                                                 </button>
                                                 <button

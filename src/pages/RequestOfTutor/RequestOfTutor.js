@@ -1,5 +1,5 @@
 import classNames from 'classnames/bind';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
@@ -10,7 +10,6 @@ import Image from '~/components/Image';
 import styles from './RequestOfTutor.module.scss';
 import useRequestsPrivate from '~/hooks/useRequestPrivate';
 import Popup from './Popup';
-
 const cx = classNames.bind(styles);
 
 const HANDLE_FORM_URL = 'formrequesttutor/handle_browserform';
@@ -88,6 +87,7 @@ function RequestOfTutor() {
 
         fetchSameForm();
     };
+    console.log(forms);
 
     return (
         <div className={cx('wrapper')}>

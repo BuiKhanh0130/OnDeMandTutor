@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import dayjs from 'dayjs';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import Button from '../Button';
-import { color } from 'echarts';
+import axios from 'axios';
 
-const Calendar = ({ events = [], urlClass }) => {
+const CHECK_ATTENDENCE_URL = 'your_api_endpoint_here';
+
+const CalendarClass = ({ events = [] }) => {
     const [currentDate, setCurrentDate] = useState(dayjs());
+    const [attendance, setAttendance] = useState({});
 
     const startOfMonth = currentDate.startOf('month');
     const endOfMonth = currentDate.endOf('month');
@@ -44,6 +46,19 @@ const Calendar = ({ events = [], urlClass }) => {
 
     const hasEvent = (day) => {
         return events.some((event) => dayjs(event.bookDay).isSame(day, 'day'));
+    };
+
+    const handleAttendanceChange = async (day) => {
+        const dateStr = day.format('YYYY-MM-DD');
+        const newAttendance = { ...attendance, [dateStr]: !attendance[dateStr] };
+        setAttendance(newAttendance);
+
+        try {
+            await axios.post(CHECK_ATTENDENCE_URL, { date: dateStr, attended: newAttendance[dateStr] });
+            console.log(`Attendance for ${dateStr} updated successfully.`);
+        } catch (error) {
+            console.error(`Error updating attendance for ${dateStr}:`, error);
+        }
     };
 
     return (
@@ -92,7 +107,6 @@ const Calendar = ({ events = [], urlClass }) => {
                                     key={day.format('yyyy-MM-dd')}
                                     className={day.month() !== currentDate.month() ? 'text-muted' : ''}
                                     style={{
-                                        position: 'relative',
                                         backgroundColor: day.isSame(dayjs(), 'day')
                                             ? '#ed6d20'
                                             : hasEvent(day)
@@ -103,28 +117,13 @@ const Calendar = ({ events = [], urlClass }) => {
                                 >
                                     <div>{day.date()}</div>
                                     <div>{events ? getEventForDay(day) : ''}</div>
-                                    {getEventForDay(day) ? (
-                                        <Button
-                                            style={{
-                                                backgroundColor: 'rgb(226 114 114)',
-                                                display: 'flex',
-                                                alignItems: 'center',
-                                                justifyContent: 'center',
-                                                padding: '4px',
-                                                position: 'absolute',
-                                                top: '2px',
-                                                right: '10px',
-                                                color: '#fff',
-                                                borderRadius: '10px',
-                                                border: '1px solid #fff',
-                                            }}
-                                            to={urlClass}
-                                        >
-                                            Meet
-                                        </Button>
-                                    ) : (
-                                        <></>
-                                    )}
+                                    <div>
+                                        <input
+                                            type="checkbox"
+                                            checked={attendance[day.format('YYYY-MM-DD')] || false}
+                                            onChange={() => handleAttendanceChange(day)}
+                                        />
+                                    </div>
                                 </td>
                             ))}
                         </tr>
@@ -135,4 +134,4 @@ const Calendar = ({ events = [], urlClass }) => {
     );
 };
 
-export default Calendar;
+export default CalendarClass;
