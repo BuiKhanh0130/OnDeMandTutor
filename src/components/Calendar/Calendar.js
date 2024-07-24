@@ -4,13 +4,15 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import Button from '../Button';
 import { color } from 'echarts';
 
-const Calendar = ({ events = [], urlClass }) => {
+const Calendar = ({ events = [], urlClass, isApprove, status }) => {
     const [currentDate, setCurrentDate] = useState(dayjs());
 
     const startOfMonth = currentDate.startOf('month');
     const endOfMonth = currentDate.endOf('month');
     const startOfWeek = startOfMonth.startOf('week');
     const endOfWeek = endOfMonth.endOf('week');
+
+    console.log(urlClass);
 
     const days = [];
     let day = startOfWeek;
@@ -103,7 +105,7 @@ const Calendar = ({ events = [], urlClass }) => {
                                 >
                                     <div>{day.date()}</div>
                                     <div>{events ? getEventForDay(day) : ''}</div>
-                                    {getEventForDay(day) ? (
+                                    {getEventForDay(day) && isApprove && status === null ? (
                                         <Button
                                             style={{
                                                 backgroundColor: 'rgb(226 114 114)',
@@ -119,6 +121,7 @@ const Calendar = ({ events = [], urlClass }) => {
                                                 border: '1px solid #fff',
                                             }}
                                             to={urlClass}
+                                            target="_blank"
                                         >
                                             Meet
                                         </Button>

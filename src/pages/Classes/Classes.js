@@ -228,6 +228,7 @@ const Classes = () => {
     };
 
     const selectedClass = useMemo(() => classes.find((classs) => classs.classid === classID), [classes, classID]);
+    console.log(selectedClass);
     const handleComplaint = () => {
         setComplaint(true);
     };
@@ -312,7 +313,7 @@ const Classes = () => {
                                         </div>
                                     </Row>
                                     <Row>
-                                        <Calendar events={calendar} />
+                                        <Calendar events={calendar} urlClass={selectedClass.urlClass} isApprove={filterParams.isApprove} status={filterParams.status} />
                                     </Row>
 
                                     <Row>

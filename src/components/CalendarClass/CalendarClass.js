@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import dayjs from 'dayjs';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import Button from '../Button';
 
-const CalendarClass = ({ events = [], setModal, setCalendarId }) => {
+const CalendarClass = ({ events = [], setModal, setCalendarId, isApprove, status, urlClass }) => {
     const [currentDate, setCurrentDate] = useState(dayjs());
     const [attendance, setAttendance] = useState({});
 
@@ -11,7 +12,10 @@ const CalendarClass = ({ events = [], setModal, setCalendarId }) => {
     const startOfWeek = startOfMonth.startOf('week');
     const endOfWeek = endOfMonth.endOf('week');
 
-    console.log(events);
+    console.log(isApprove)
+    console.log(status)
+
+    console.log(urlClass);
     const days = [];
     let day = startOfWeek;
 
@@ -105,6 +109,7 @@ const CalendarClass = ({ events = [], setModal, setCalendarId }) => {
                                     key={day.format('yyyy-MM-dd')}
                                     className={day.month() !== currentDate.month() ? 'text-muted' : ''}
                                     style={{
+                                        position: 'relative',
                                         backgroundColor: day.isSame(dayjs(), 'day')
                                             ? '#ed6d20'
                                             : hasEvent(day)
@@ -124,6 +129,25 @@ const CalendarClass = ({ events = [], setModal, setCalendarId }) => {
                                             />
                                         )}
                                     </div>
+                                    {getEventForDay(day) && isApprove && status === null && (<Button
+                                        style={{
+                                            backgroundColor: 'rgb(226 114 114)',
+                                            display: 'flex',
+                                            alignItems: 'center',
+                                            justifyContent: 'center',
+                                            padding: '4px',
+                                            position: 'absolute',
+                                            top: '2px',
+                                            right: '10px',
+                                            color: '#fff',
+                                            borderRadius: '10px',
+                                            border: '1px solid #fff',
+                                        }}
+                                        to={urlClass}
+                                        target="_blank"
+                                    >
+                                        Meet
+                                    </Button>)}
                                 </td>
                             ))}
                         </tr>

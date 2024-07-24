@@ -294,7 +294,7 @@ const ClassTutor = () => {
                                         </div>
                                     </Row>
                                     <Row>
-                                        <CalendarClass events={calendar} setModal={setPopUp} setCalendarId={setCalendarId} />
+                                        <CalendarClass events={calendar} urlClass={selectedClass.urlClass} isApprove={filterParams.isApprove} status={filterParams.status} setModal={setPopUp} setCalendarId={setCalendarId} />
                                     </Row>
                                 </Col>
                             </Row>
