@@ -38,7 +38,6 @@ export default function BasicTable({ name }) {
         const getSendEmail = async () => {
             try {
                 const response = await requestPrivate.get(HAD_SEND_MAIL, { signal: controller.signal });
-                console.log(response.data);
                 isMounted && setTutorHadSendEmail(response.data);
             } catch (error) {
                 console.log(error);

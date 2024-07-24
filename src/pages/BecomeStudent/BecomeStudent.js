@@ -502,7 +502,7 @@ function BecomeStudent() {
                                 )}
                             </div>
 
-                            <Button className={cx('submit')}>Next</Button>
+                            <Button className={cx('submit', { hidden: nameImage === '' })}>Next</Button>
                         </form>
                     </div>
                 </div>

@@ -33,11 +33,7 @@ export default function BasicTable({ name }) {
     const [classes, setClasses] = useState({});
     const [rejectForm, setRejectForm] = useState(false);
     const [reasonReject, setReasonReject] = useState('');
-    const [pagination, setPagination] = useState({
-        page: 1,
-        limit: 0,
-        total: 1,
-    });
+    const [pagination, setPagination] = useState({ limit: 0 });
 
     useEffect(() => {
         let isMounted = true;

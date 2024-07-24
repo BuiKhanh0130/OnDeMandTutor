@@ -25,6 +25,8 @@ function ClassDetail({ classID, handleHiddenShowDetails, setStatus }) {
     const [showNotification, setShowNotification] = useState('');
     const [typeOfNoti, setTypeOfNoti] = useState('');
 
+    console.log(classes);
+
     //get class detail
     useEffect(() => {
         let isMounted = true;
@@ -81,7 +83,7 @@ function ClassDetail({ classID, handleHiddenShowDetails, setStatus }) {
                     title: `The class been ended and return the money to your wallet`,
                     description: `check your balance`,
                     url: `/wallet`,
-                    accountId: `${classes.studentId}`,
+                    accountId: `${classes.accountId}`,
                 }),
             );
             if (response.status === 200) {

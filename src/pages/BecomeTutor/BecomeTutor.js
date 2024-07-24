@@ -21,7 +21,8 @@ const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9](?=.*[!@H$%])).{8,24}$/;
 const GMAIL_REGEX = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 const PHONE_REGEX = /^[0-9]{10}$/;
 const FULLNAME_REGEX = /^[a-zA-Z\s]+$/;
-const REGISTER_URL = '/auth/signUp';
+const REGISTER_URL = '/auth/signup';
+const CREATEWALLET_URL = 'wallet/create_wallet';
 
 function BecomeTutor() {
     const context = useContext(ModalContext);
@@ -144,7 +145,8 @@ function BecomeTutor() {
                 },
             );
             if (response.status === 200) {
-                context.setUserId(response?.data.userId);
+                context.setUserId(response.data.userId);
+                handleCreateWallet(response.data.userId)
                 navigate('/registration/tutor/step2');
                 setCompleted(true);
             }
@@ -156,6 +158,18 @@ function BecomeTutor() {
             } else {
                 setErrMsg('Registration Failed');
             }
+        }
+    };
+
+    const handleCreateWallet = async (userId) => {
+        try {
+            const response = await requests.post(CREATEWALLET_URL, JSON.stringify({ id: userId }), {
+                headers: { 'Content-Type': 'application/json' },
+                withCredentials: true,
+            });
+            console.log(response.status);
+        } catch (error) {
+            console.log(error);
         }
     };
 
@@ -497,7 +511,7 @@ function BecomeTutor() {
                                     <Image src={nameImage} alt="avatar" className={cx('container__image')}></Image>
                                 )}
                             </div>
-                            <Button className={cx('submit')}>Next</Button>
+                            <Button className={cx('submit', { hidden: nameImage === '' })}>Next</Button>
                         </form>
                     </div>
                 </div>

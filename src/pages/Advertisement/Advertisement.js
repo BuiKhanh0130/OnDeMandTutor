@@ -28,7 +28,6 @@ function Advertisement() {
         const controller = new AbortController();
         const getAccount = async () => {
             const response = await requestsPrivate.get(ALL_ADVERSTISEMENT_URL, { signal: controller.signal });
-            console.log(response.data);
             isMounted && setAccounts(response.data);
         };
 
@@ -104,9 +103,8 @@ function Advertisement() {
                         </div>
                     </Col>
                     <Col lg="8">
-                        {advertisements?.length > 0 &&
+                        {advertisements?.length === 0 ? (<p style={{ fontSize: '3rem', color: 'red' }}>There no advertisement</p>) :
                             advertisements.map((advertisement) => {
-                                console.log(advertisement);
                                 return (
                                     <Video
                                         key={advertisement.accountId}
@@ -119,7 +117,9 @@ function Advertisement() {
                                         description={advertisement.description}
                                     />
                                 );
-                            })}
+                            })
+                        }
+
                     </Col>
                 </Row>
             </Container>

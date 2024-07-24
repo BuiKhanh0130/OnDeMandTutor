@@ -23,7 +23,7 @@ import NavMessage from '~/components/NavMessage';
 const cx = classNames.bind(styles);
 
 function Header() {
-    const { user, avatar, handleActive, handleActiveSignUp } = useContext(ModalContext);
+    const { isRead, user, avatar, handleActive, handleActiveSignUp } = useContext(ModalContext);
     const alreadyLogin = user;
 
     return (
@@ -42,11 +42,13 @@ function Header() {
 
                     {alreadyLogin ? (
                         <Col lg="2" className={cx('container__login-signup')}>
-                            <Link to={config.routes.notification}>
+                            <Link to="/notifications">
                                 <Notification>
                                     <div className={cx('container__login-signup-noti')}>
                                         <NotificationIcon />
-                                        <span className={cx('container__login-signup-number')}>2</span>
+                                        <span className={cx('container__login-signup-number')}>
+                                            {isRead ? isRead.length : 0}
+                                        </span>
                                     </div>
                                 </Notification>
                             </Link>

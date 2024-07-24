@@ -11,9 +11,6 @@ import ModalLoading from '~/components/ModalLoading';
 import styles from './Subject.module.scss';
 
 const cx = classNames.bind(styles);
-
-const CREATEWALLET_URL = 'wallet/create_wallet';
-
 //URL
 const SUBJECT_GROUP_URL = 'subject-group';
 const GRADE_URL = 'grade';
@@ -21,7 +18,7 @@ const REGISTER_URL = 'tutor/registrate_tutor-subject';
 
 function Subject() {
     const navigate = useNavigate();
-    const { userId, setChooseSubject, tutorId, setActive , setTutorId} = useContext(ModalContext);
+    const { setChooseSubject, tutorId, setActive, setTutorId } = useContext(ModalContext);
     const [completed, setCompleted] = useState(true);
     const [subjectGroupId, setSubjectGroupId] = useState([]);
     const [subjects, setSubjects] = useState([]);
@@ -54,21 +51,6 @@ function Subject() {
             controller.abort();
         };
     }, []);
-
-    const handleCreateWallet = async () => {
-        try {
-            const response = await requests.post(CREATEWALLET_URL, JSON.stringify({ id: userId }), {
-                headers: { 'Content-Type': 'application/json' },
-                withCredentials: true,
-            });
-
-            if (response.status === 200) {
-                setActive(true);
-                setCompleted(true);
-                navigate('/');
-            }
-        } catch (error) {}
-    };
 
     //Get Grade
     useEffect(() => {
@@ -140,7 +122,9 @@ function Subject() {
             return;
         }
         setChooseSubject(false);
-        handleCreateWallet();
+        setActive(true);
+        setCompleted(true);
+        navigate('/');
     };
 
     //handle close message

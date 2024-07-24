@@ -88,12 +88,11 @@ function FindTutor() {
     const handleChange = async () => {
         try {
             const response = await request.get(`${TUTOR_URL}`, { params });
-            console.log(response.data.listResult);
             setTutors(response.data.listResult);
             setPagination({
-                page: 1,
+
                 limit: response.data.limitPage,
-                total: 1,
+
             });
         } catch (error) {
             console.log(error.message);

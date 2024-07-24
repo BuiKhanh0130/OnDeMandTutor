@@ -382,7 +382,7 @@ function BecomeTutor2() {
 
                         {chooseSubject && <Subject />}
 
-                        <Button className={cx('submit')}>Submit</Button>
+                        <Button className={cx('submit', { hidden: nameImage === '' })}>Submit</Button>
                     </form>
                 </div>
             </div>

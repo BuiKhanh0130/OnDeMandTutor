@@ -14,7 +14,6 @@ const WithdrawalRequest = () => {
   const requestPrivate = useRequestsPrivate();
   const [status, setStatus] = useState(false);
   const [listWithDraw, setListWithDraw] = useState([]);
-  console.log(status);
 
   useEffect(() => {
     let isMounted = true;
@@ -47,7 +46,12 @@ const WithdrawalRequest = () => {
 
   return (
     <div className={cx('container')}>
-      <h1>Withdrawal Request Form</h1>
+      <h1 style={{
+        marginBottom: '20px',
+        fontSize: '30px',
+        fontWeight: 'bold',
+        textTransform: 'uppercase'
+      }}>Dashboard</h1>
       {listWithDraw.length > 0 ? (<table className={cx('table')}>
         <thead>
           <tr>

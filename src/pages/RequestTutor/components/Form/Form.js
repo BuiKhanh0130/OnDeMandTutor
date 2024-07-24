@@ -178,7 +178,7 @@ function Form() {
         const response = await requestsPrivate.post(
             CONCISE_URL,
             JSON.stringify({
-                dayOfWeek: formData.dayOfWeek,
+                dayOfWeek: formData.selectedDays.sort((a, b) => a - b).join(','),
                 dayStart: formData.dayStart,
                 dayEnd: formData.dayEnd,
                 timeStart: timeStart,
